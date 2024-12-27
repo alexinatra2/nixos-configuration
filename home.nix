@@ -36,6 +36,29 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+    extraLuaConfig = ''
+      vim.wo.relativenumber = true
+      require("lspconfig").nixd.setup({
+      	cmd = { "nixd" },
+      	settings = {
+      		nixd = {
+      			nixpkgs = {
+      				expr = "import <nixpkgs> { }",
+      			},
+      			formatting = {
+      				command = { "nixfmt" }
+      			},
+      		},
+      	},
+      })
+    '';
+    plugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
+      comment-nvim
+      gruvbox-nvim
+      nvim-cmp
+      telescope-nvim
+    ];
   };
 
   programs.tmux = {
