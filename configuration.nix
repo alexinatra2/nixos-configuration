@@ -103,16 +103,21 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    alacritty
-    nh
-    nix-output-monitor
-    nixd
-    nixfmt-rfc-style
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      vim
+      git
+      wget
+      alacritty
+      nh
+      nix-output-monitor
+      nixd
+      nixfmt-rfc-style
+    ];
+    sessionVariables = {
+      FLAKE = "/home/alexander/nixos-configuration";
+    };
+  };
 
   nix = {
     settings = {
