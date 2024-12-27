@@ -2,16 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, lib, ... }:
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+{
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
-  
+
   # Enable GRUB
   # boot.loader.grub = {
   #   enable = true;
@@ -106,17 +110,19 @@
     alacritty
     nh
     nix-output-monitor
+    nixd
+    nixfmt-rfc-style
   ];
-
-  environment.sessionVariables = {
-    FLAKE = "/etc/nixos";
-  };
 
   nix = {
     settings = {
       auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
   # Set Alacritty as the default terminal emulator

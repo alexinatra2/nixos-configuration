@@ -1,9 +1,10 @@
-{ config, pkgs, lib, ... }:
 {
-  imports = [
-    ./nixvim.nix
-  ];
- 
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     gcc
@@ -28,7 +29,7 @@
   programs.fzf = {
     enable = true;
   };
-  
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -47,10 +48,10 @@
       set-option -g status-bg colour237
       set-option -g status-right '#[bg=colour236] #[bg=colour235]#[fg=colour185] %a %R #[bg=colour236]#[fg=colour3] #[bg=colour237] #[bg=colour72] #[]'
       set-option -g status-interval 60
-      
+
       set-option -g pane-active-border-style fg=colour246
       set-option -g pane-border-style fg=colour238
-      
+
       set-window-option -g window-status-format '#[bg=colour238]#[fg=colour107] #I #[bg=colour239]#[fg=colour110] #[bg=colour240]#W#[bg=colour239]#[fg=colour195]#F#[bg=colour238] '
       set-window-option -g window-status-current-format '#[bg=colour236]#[fg=colour215] #I #[bg=colour235]#[fg=colour167] #[bg=colour234]#W#[bg=colour235]#[fg=colour195]#F#[bg=colour236] '
     '';
@@ -75,7 +76,7 @@
       # tat: tmux attach
       function tat {
         name=$(basename `pwd` | sed -e 's/\.//g')
-      
+
         if tmux ls 2>&1 | grep "$name"; then
           tmux attach -t "$name"
         elif [ -f .envrc ]; then
