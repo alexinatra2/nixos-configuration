@@ -14,14 +14,14 @@
   ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
 
   # Enable GRUB
-  # boot.loader.grub = {
-  #   enable = true;
-  #   efiSupport = true;
-  #   device = "nodev";
-  # };
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev";
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -97,6 +97,7 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+  programs.thunderbird.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -109,6 +110,7 @@
       git
       wget
       alacritty
+      keepassxc
       nh
       nix-output-monitor
       nixd
@@ -141,6 +143,15 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
+
+  programs = {
+    nix-ld = {
+      enable = true;
+      libraries = [
+        # add dynamic libraries here
+      ];
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
