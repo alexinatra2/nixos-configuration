@@ -2,9 +2,18 @@
   config,
   pkgs,
   lib,
+  username,
+  nixvim,
   ...
 }:
 {
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}"; 
+ 
+  imports = [
+    nixvim.homeManagerModules.nixvim
+  ];
+  
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     gcc
@@ -13,6 +22,33 @@
     lazygit
     lazydocker
   ];
+
+  programs.nixvim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    extraPlugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
+    ];
+    extraConfigLua = ''
+      vim.wo.relativenumber = true
+      require("lspconfig").nixd.setup({
+      	cmd = { "nixd" },
+      	settings = {
+      		nixd = {
+      			nixpkgs = {
+      				expr = "import <nixpkgs> { }",
+      			},
+      			formatting = {
+      				command = { "nixfmt" }
+      			},
+      		},
+      	},
+      })
+    '';
+  };
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -30,36 +66,13 @@
     enable = true;
   };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    extraLuaConfig = ''
-      vim.wo.relativenumber = true
-      require("lspconfig").nixd.setup({
-      	cmd = { "nixd" },
-      	settings = {
-      		nixd = {
-      			nixpkgs = {
-      				expr = "import <nixpkgs> { }",
-      			},
-      			formatting = {
-      				command = { "nixfmt" }
-      			},
-      		},
-      	},
-      })
-    '';
-    plugins = with pkgs.vimPlugins; [
-      nvim-lspconfig
-      comment-nvim
-      gruvbox-nvim
-      nvim-cmp
-      telescope-nvim
-    ];
-  };
+#  programs.neovim = {
+#    enable = true;
+#    plugins = with pkgs.vimPlugins; [
+#      nvim-lspconfig
+#      lualine-nvim
+#    ];
+#  };
 
   programs.tmux = {
     enable = true;

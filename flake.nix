@@ -22,26 +22,31 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }@inputs:
+    { nixpkgs, home-manager, nixvim, ... }@inputs:
+    let
+      system   = "x86_64-linux";
+      pkgs     = nixpkgs.legacyPackages.${system};
+      username = "alexander";
+      hostname = "nixos";
+    in
     {
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; inherit hostname; inherit username; };
           modules = [
             ./configuration.nix
-
-            # make home-manager as a module of nixos
-            # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.users.alexander = import ./home.nix;
-
-              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
-            }
+          ];
+        };
+      };
+      homeConfigurations = {
+        alexander = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit username; inherit hostname; inherit nixvim;
+          };
+          modules = [
+            ./home.nix
           ];
         };
       };
