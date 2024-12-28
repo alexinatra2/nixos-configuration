@@ -274,6 +274,9 @@
         enable = true;
         settings.user_default_options.names = false;
       };
+
+      tmux-navigator.enable = true;
+      diffview.enable = true;
     };
 
     keymaps =
@@ -302,19 +305,9 @@
               # save by Space+s or Ctrl+s
               "<C-s>" = ":w<CR>";
 
-              # navigate to left/right window
-              "<leader>h" = "<C-w>h";
-              "<leader>l" = "<C-w>l";
-
               # Press 'H', 'L' to jump to start/end of a line (first/last character)
               L = "$";
               H = "^";
-
-              # resize with arrows
-              "<C-Up>" = ":resize -2<CR>";
-              "<C-Down>" = ":resize +2<CR>";
-              "<C-Left>" = ":vertical resize +2<CR>";
-              "<C-Right>" = ":vertical resize -2<CR>";
 
               # move current line up/down
               # M = Alt key
@@ -351,6 +344,8 @@
             })
             {
               "<C-s>" = "<esc>:w<CR>";
+
+              "jj" = "<esc>";
             };
       in
       config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
@@ -376,9 +371,41 @@
     enable = true;
     prefix = "C-Space";
     extraConfig = ''
+      set -g base-index 1
+      setw -g pane-base-index 1
+
+      set -g renumber-windows on
+
+      # Use emacs keybindings in the status line
+      set-option -g status-keys emacs
+
+      # Use vim keybindings in copy mode
+      setw -g mode-keys vi
+
+      # Fix ESC delay in vim
+      set -g escape-time 10
+
+      unbind-key -T copy-mode-vi v
+
+      bind-key -T copy-mode-vi v \
+        send-keys -X begin-selection
+
+      bind-key -T copy-mode-vi 'C-v' \
+        send-keys -X rectangle-toggle
+
+      bind-key -T copy-mode-vi y \
+        send-keys -X copy-pipe-and-cancel "pbcopy"
+
+      bind-key -T copy-mode-vi MouseDragEnd1Pane \
+        send-keys -X copy-pipe-and-cancel "pbcopy"
+
+      bind c new-window -c '#{pane_current_path}'
+      bind '\' split-window -h -c '#{pane_current_path}'
+      bind - split-window -v -c '#{pane_current_path}'
+
       set-option -g status-justify left
-      set-option -g status-left '#[bg=colour72] #[bg=colour237] #[bg=colour236] #[bg=colour235]#[fg=colour185] #S #[bg=colour236] '
       set-option -g status-left-length 16
+      set-option -g status-left '#[bg=colour72] #[bg=colour237] #[bg=colour236] #[bg=colour235]#[fg=colour185] #S #[bg=colour236] '
       set-option -g status-bg colour237
       set-option -g status-right '#[bg=colour236] #[bg=colour235]#[fg=colour185] %a %R #[bg=colour236]#[fg=colour3] #[bg=colour237] #[bg=colour72] #[]'
       set-option -g status-interval 60
