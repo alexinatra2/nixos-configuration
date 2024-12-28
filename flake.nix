@@ -22,10 +22,15 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, nixvim, ... }@inputs:
+    {
+      nixpkgs,
+      home-manager,
+      nixvim,
+      ...
+    }@inputs:
     let
-      system   = "x86_64-linux";
-      pkgs     = nixpkgs.legacyPackages.${system};
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
       username = "alexander";
       hostname = "nixos";
     in
@@ -33,7 +38,11 @@
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; inherit hostname; inherit username; };
+          specialArgs = {
+            inherit inputs;
+            inherit hostname;
+            inherit username;
+          };
           modules = [
             ./configuration.nix
           ];
@@ -43,7 +52,9 @@
         alexander = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {
-            inherit username; inherit hostname; inherit nixvim;
+            inherit username;
+            inherit hostname;
+            inherit nixvim;
           };
           modules = [
             ./home.nix

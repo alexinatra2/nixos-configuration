@@ -8,17 +8,16 @@
 }:
 {
   home.username = "${username}";
-  home.homeDirectory = "/home/${username}"; 
- 
+  home.homeDirectory = "/home/${username}";
+
   imports = [
     nixvim.homeManagerModules.nixvim
   ];
-  
+
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     gcc
     ripgrep
-    jetbrains-mono
     lazygit
     lazydocker
   ];
@@ -95,6 +94,8 @@
     colorschemes.gruvbox.enable = true;
 
     plugins = {
+      lz-n.enable = true;
+
       lualine.enable = true;
       which-key.enable = true;
 
@@ -102,7 +103,30 @@
         enable = true;
         lspServersToEnable = "all";
       };
-      
+
+      mini = {
+        enable = true;
+        modules.icons = { };
+        mockDevIcons = true;
+      };
+
+      oil = {
+        enable = true;
+        lazyLoad.settings.cmd = "Oil";
+      };
+
+      neo-tree = {
+        enable = true;
+
+        closeIfLastWindow = true;
+        window = {
+          width = 30;
+          autoExpandWidth = true;
+        };
+      };
+
+      web-devicons.enable = true;
+
       lsp = {
         enable = true;
         servers = {
@@ -115,7 +139,154 @@
           };
         };
       };
+
+      treesitter = {
+        enable = true;
+
+        nixvimInjections = true;
+
+        settings = {
+          highlight.enable = true;
+          indent.enable = true;
+        };
+        folding = true;
+      };
+
+      treesitter-refactor = {
+        enable = true;
+        highlightDefinitions = {
+          enable = true;
+          # Set to false if you have an `updatetime` of ~100.
+          clearOnCursorMove = false;
+        };
+      };
+
+      telescope = {
+        enable = true;
+
+        keymaps = {
+          # Find files using Telescope command-line sugar.
+          "<leader>ff" = "find_files";
+          "<leader>fg" = "live_grep";
+          "<leader>b" = "buffers";
+          "<leader>fh" = "help_tags";
+          "<leader>fd" = "diagnostics";
+
+          # FZF like bindings
+          "<C-p>" = "git_files";
+          "<leader>p" = "oldfiles";
+          "<C-f>" = "live_grep";
+        };
+
+        settings.defaults = {
+          file_ignore_patterns = [
+            "^.git/"
+            "^.mypy_cache/"
+            "^__pycache__/"
+            "^output/"
+            "^data/"
+            "%.ipynb"
+          ];
+          set_env.COLORTERM = "truecolor";
+        };
+      };
+
+      harpoon = {
+        enable = true;
+
+        keymapsSilent = true;
+
+        keymaps = {
+          addFile = "<leader>a";
+          toggleQuickMenu = "<C-e>";
+          navFile = {
+            "1" = "<C-j>";
+            "2" = "<C-k>";
+            "3" = "<C-l>";
+            "4" = "<C-m>";
+          };
+        };
+      };
     };
+
+    keymaps =
+      let
+        normal =
+          lib.mapAttrsToList
+            (key: action: {
+              mode = "n";
+              inherit action key;
+            })
+            {
+              "<Space>" = "<NOP>";
+
+              # Esc to clear search results
+              "<esc>" = ":noh<CR>";
+
+              # fix Y behaviour
+              Y = "y$";
+
+              # back and fourth between the two most recent files
+              "<C-c>" = ":b#<CR>";
+
+              # close by Ctrl+x
+              "<C-x>" = ":close<CR>";
+
+              # save by Space+s or Ctrl+s
+              "<C-s>" = ":w<CR>";
+
+              # navigate to left/right window
+              "<leader>h" = "<C-w>h";
+              "<leader>l" = "<C-w>l";
+
+              # Press 'H', 'L' to jump to start/end of a line (first/last character)
+              L = "$";
+              H = "^";
+
+              # resize with arrows
+              "<C-Up>" = ":resize -2<CR>";
+              "<C-Down>" = ":resize +2<CR>";
+              "<C-Left>" = ":vertical resize +2<CR>";
+              "<C-Right>" = ":vertical resize -2<CR>";
+
+              # move current line up/down
+              # M = Alt key
+              "<M-k>" = ":move-2<CR>";
+              "<M-j>" = ":move+<CR>";
+
+              "<leader>e" = ":Neotree action=focus reveal toggle<CR>";
+            };
+        visual =
+          lib.mapAttrsToList
+            (key: action: {
+              mode = "v";
+              inherit action key;
+            })
+            {
+              # better indenting
+              ">" = ">gv";
+              "<" = "<gv";
+              "<TAB>" = ">gv";
+              "<S-TAB>" = "<gv";
+
+              # move selected line / block of text in visual mode
+              "K" = ":m '<-2<CR>gv=gv";
+              "J" = ":m '>+1<CR>gv=gv";
+
+              # sort
+              "<leader>s" = ":sort<CR>";
+            };
+        insert =
+          lib.mapAttrsToList
+            (key: action: {
+              mode = "i";
+              inherit action key;
+            })
+            {
+              "<C-s>" = "<esc>:w<CR>";
+            };
+      in
+      config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
   };
 
   # basic configuration of git, please change to your own
