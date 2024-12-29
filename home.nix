@@ -268,6 +268,10 @@
         };
       };
 
+      lazygit = {
+        enable = true;
+      };
+
       nvim-autopairs.enable = true;
 
       colorizer = {
@@ -314,7 +318,9 @@
               "<M-k>" = ":move-2<CR>";
               "<M-j>" = ":move+<CR>";
 
+              # plugins
               "<leader>e" = ":Neotree action=focus reveal toggle<CR>";
+              "<leader>g" = ":LazyGit<CR>";
             };
         visual =
           lib.mapAttrsToList
