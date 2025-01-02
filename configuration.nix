@@ -4,7 +4,6 @@
 
 {
   pkgs,
-  lib,
   inputs,
   ...
 }:
@@ -14,13 +13,14 @@
   ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = false;
-
-  # Enable GRUB
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = true;
-    device = "nodev";
+  boot.loader = {
+    systemd-boot.enable = false;
+    # Enable GRUB
+    grub = {
+      enable = true;
+      efiSupport = true;
+      device = "nodev";
+    };
   };
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -52,44 +52,36 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+      xkb = {
+        layout = "gb";
+        variant = "";
+      };
+    };
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "gb";
-    variant = "";
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    udev.packages = with pkgs; [ gnome-settings-daemon ];
   };
 
   # Configure console keymap
   console.keyMap = "uk";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alexander = {
@@ -98,8 +90,17 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
-  programs.thunderbird.enable = true;
+  programs = {
+    firefox.enable = true;
+    thunderbird.enable = true;
+    dconf.enable = true;
+    nix-ld = {
+      enable = true;
+      libraries = [
+        # add dynamic libraries here
+      ];
+    };
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -114,8 +115,6 @@
       alacritty
       keepassxc
       nh
-      nixd
-      nixfmt-rfc-style 
       gnomeExtensions.appindicator
     ];
     sessionVariables = {
@@ -139,29 +138,9 @@
     "x-scheme-handler/terminal" = "alacritty.desktop";
   };
 
-  # This uses dconf to modify GNOME settings
-  programs.dconf.enable = true;
-
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
-
-  programs = {
-    nix-ld = {
-      enable = true;
-      libraries = [
-        # add dynamic libraries here
-      ];
-    };
-  };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # List services that you want to enable:
 

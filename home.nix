@@ -11,14 +11,15 @@
     username = "${username}";
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
-      gcc
-      ripgrep
-      lazygit
-      lazydocker
-      obsidian
       discord
+      gcc
+      lazydocker
+      lazygit
+      obsidian
+      ripgrep
       slack
       teams-for-linux
+      nixfmt-rfc-style
     ];
   };
 
@@ -137,6 +138,7 @@
       lsp = {
         enable = true;
         servers = {
+          nixd.enable = true;
           ts_ls.enable = true;
           rust_analyzer = {
             enable = true;
@@ -476,6 +478,12 @@
         ];
       };
     };
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true; # see note on other shells below
+    nix-direnv.enable = true;
   };
 
   # This value determines the home Manager release that your
