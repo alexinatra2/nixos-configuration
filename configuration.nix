@@ -112,7 +112,6 @@
       alacritty
       keepassxc
       nh
-      nix-output-monitor
       nixd
       nixfmt-rfc-style
     ];

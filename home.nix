@@ -20,7 +20,15 @@
     ripgrep
     lazygit
     lazydocker
+    obsidian
   ];
+
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
 
   programs.nixvim = {
     enable = true;
@@ -126,7 +134,6 @@
       lsp = {
         enable = true;
         servers = {
-          nixd.enable = true;
           ts_ls.enable = true;
           rust_analyzer = {
             enable = true;
