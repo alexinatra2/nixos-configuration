@@ -16,6 +16,7 @@
       lazygit
       lazydocker
       obsidian
+      discord
     ];
   };
 
