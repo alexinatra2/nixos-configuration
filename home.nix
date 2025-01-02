@@ -123,7 +123,18 @@
 
       web-devicons.enable = true;
 
-      startify.enable = true;
+      startify = {
+        enable = true;
+        custom_header = ''
+              _    _          __     ___           
+             / \  | | _____  _\ \   / (_)_ __ ___  
+            / _ \ | |/ _ \ \/ /\ \ / /| | '_ ` _ \ 
+           / ___ \| |  __/>  <  \ V / | | | | | | |
+          /_/   \_\_|\___/_/\_\  \_/  |_|_| |_| |_|
+        '';
+        change_to_dir = true;
+        use_unicode = true;
+      };
 
       auto-session.enable = true;
 
