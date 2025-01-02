@@ -125,6 +125,8 @@
 
       startify.enable = true;
 
+      auto-session.enable = true;
+
       neo-tree = {
         enable = true;
 
