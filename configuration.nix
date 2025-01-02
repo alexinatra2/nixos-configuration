@@ -86,6 +86,8 @@
     #media-session.enable = true;
   };
 
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -113,7 +115,8 @@
       keepassxc
       nh
       nixd
-      nixfmt-rfc-style
+      nixfmt-rfc-style 
+      gnomeExtensions.appindicator
     ];
     sessionVariables = {
       FLAKE = "/home/alexander/nixos-configuration";
