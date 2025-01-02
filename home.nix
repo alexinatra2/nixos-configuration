@@ -17,6 +17,8 @@
       lazydocker
       obsidian
       discord
+      slack
+      teams-for-linux
     ];
   };
 
