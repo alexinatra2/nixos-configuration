@@ -7,20 +7,20 @@
   ...
 }:
 {
-  home.username = "${username}";
-  home.homeDirectory = "/home/${username}";
+  home = {
+    username = "${username}";
+    homeDirectory = "/home/${username}";
+    packages = with pkgs; [
+      gcc
+      ripgrep
+      lazygit
+      lazydocker
+      obsidian
+    ];
+  };
 
   imports = [
     nixvim.homeManagerModules.nixvim
-  ];
-
-  # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
-    gcc
-    ripgrep
-    lazygit
-    lazydocker
-    obsidian
   ];
 
   nixpkgs = {
