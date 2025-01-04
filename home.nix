@@ -235,6 +235,8 @@
         };
       };
 
+      # show lines that help with indentation
+      indent-blankline.enable = true;
       # edit the file explorer as if it were a file
       oil.enable = true;
       # show the color of hex strings as background of the color
@@ -256,6 +258,8 @@
       luasnip.enable = true;
       # tmux navigation within nvim (e.g. C-h to go to the buffer on the left)
       tmux-navigator.enable = true;
+      # improve the ui for code actions etc. to look like telescope
+      dressing.enable = true;
     };
 
     keymaps =
@@ -295,6 +299,7 @@
 
               # plugins
               "-" = ":Oil<CR>";
+              "<M-CR>" = ":lua vim.lsp.buf.code_action()<CR>";
             };
         visual =
           lib.mapAttrsToList
@@ -327,6 +332,7 @@
 
               "jj" = "<esc>";
               "<M-BS>" = "<C-w>";
+              "<M-CR>" = ":lua vim.lsp.buf.code_action()<CR>";
             };
       in
       config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
