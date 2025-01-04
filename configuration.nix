@@ -142,6 +142,24 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  stylix = {
+    base16Scheme = "${pkgs.base16-schemes}/share/theme/gruvbox-dark-pale.yaml";
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+        name = "JetBrainsMono Nerd Font Mono";
+      };
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Sans";
+      };
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Serif";
+      };
+    };
+  };
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
