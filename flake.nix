@@ -19,6 +19,9 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:danth/stylix";
+    };
   };
 
   outputs =
@@ -45,6 +48,7 @@
           };
           modules = [
             ./configuration.nix
+            inputs.stylix.nixosModules.stylix
           ];
         };
       };
