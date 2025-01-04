@@ -77,14 +77,14 @@
       incsearch = true; # Incremental search: show match for partly typed search command
       inccommand = "split"; # Search and replace: preview changes in quickfix list
       ignorecase = true; # When the search query is lower-case, match both lower and upper-case
-      #   patterns
+      # patterns
       smartcase = true; # Override the 'ignorecase' option if the search pattern contains upper
-      #   case characters
+      # case characters
       scrolloff = 8; # Number of screen lines to show around the cursor
       cursorline = false; # Highlight the screen line of the cursor
       cursorcolumn = false; # Highlight the screen column of the cursor
       signcolumn = "yes"; # Whether to show the signcolumn
-      colorcolumn = "80"; # Columns to highlight
+      # colorcolumn = "80"; # Columns to highlight
       laststatus = 3; # When to use a status line for the last window
       fileencoding = "utf-8"; # File-content encoding for the current buffer
       termguicolors = true; # Enables 24-bit RGB color in the |TUI|
@@ -107,16 +107,6 @@
     colorschemes.gruvbox.enable = true;
 
     plugins = {
-      lsp-format = {
-        enable = true;
-        lspServersToEnable = "all";
-      };
-
-      oil = {
-        enable = true;
-        lazyLoad.settings.cmd = "Oil";
-      };
-
       lsp = {
         enable = true;
         servers = {
@@ -130,6 +120,12 @@
         };
       };
 
+      lsp-format = {
+        enable = true;
+        lspServersToEnable = "all";
+      };
+
+      # highlighting
       treesitter = {
         enable = true;
 
@@ -139,14 +135,15 @@
           highlight.enable = true;
           indent.enable = true;
         };
+
         folding = true;
       };
 
+      # fuzzy finding popup
       telescope = {
         enable = true;
 
         keymaps = {
-          # Find files using Telescope command-line sugar.
           "<leader>f" = "find_files";
           "<leader>/" = "live_grep";
           "<leader>b" = "buffers";
@@ -231,21 +228,22 @@
 
       gitsigns = {
         enable = true;
+
         settings.signs = {
           add.text = "+";
           change.text = "~";
         };
       };
 
-      colorizer = {
-        enable = true;
-        settings.user_default_options.names = false;
-      };
-
+      # edit the file explorer as if it were a file
+      oil.enable = true;
+      # show the color of hex strings as background of the color
+      colorizer.enable = true;
+      # enable lazy loading of plugins
       lz-n.enable = true;
       # the line indicating vim mode, branch, file, etc.
       lualine.enable = true;
-      # the popup that shows available keybindings 
+      # the popup that shows available keybindings
       which-key.enable = true;
       # enable icons for nixvim
       web-devicons.enable = true;
@@ -296,8 +294,7 @@
               "<M-j>" = ":move+<CR>";
 
               # plugins
-              "<leader>e" = ":Neotree action=focus reveal toggle<CR>";
-              "<leader>g" = ":LazyGit<CR>";
+              "-" = ":Oil<CR>";
             };
         visual =
           lib.mapAttrsToList
@@ -329,6 +326,7 @@
               "<C-s>" = "<esc>:w<CR>";
 
               "jj" = "<esc>";
+              "<M-BS>" = "<C-w>";
             };
       in
       config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
