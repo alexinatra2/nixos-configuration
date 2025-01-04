@@ -144,6 +144,10 @@
 
   stylix = {
     base16Scheme = "${pkgs.base16-schemes}/share/theme/gruvbox-dark-pale.yaml";
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+    };
     fonts = {
       monospace = {
         package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
