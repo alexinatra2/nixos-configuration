@@ -235,6 +235,16 @@
         };
       };
 
+      # integrated floating terminal
+      floaterm = {
+        enable = true;
+
+        settings = {
+          title = "";
+          keymap_toggle = "<leader>,";
+        };
+      };
+
       # show lines that help with indentation
       indent-blankline.enable = true;
       # edit the file explorer as if it were a file
