@@ -109,6 +109,13 @@
     plugins = {
       lsp = {
         enable = true;
+        keymaps.lspBuf = {
+          K = "hover";
+          gD = "references";
+          gd = "definition";
+          gi = "implementation";
+          gt = "type_definition";
+        };
         servers = {
           nixd.enable = true;
           ts_ls.enable = true;
@@ -293,7 +300,7 @@
               "<C-c>" = ":b#<CR>";
 
               # close by Ctrl+x
-              "<C-x>" = ":close<CR>";
+              "<C-w>" = ":close<CR>";
 
               # save by Space+s or Ctrl+s
               "<C-s>" = ":w<CR>";
