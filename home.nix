@@ -18,6 +18,7 @@
       obsidian
       ripgrep
       slack
+      synology-drive-client
       teams-for-linux
       nixfmt-rfc-style
     ];
@@ -106,11 +107,6 @@
     colorschemes.gruvbox.enable = true;
 
     plugins = {
-      lz-n.enable = true;
-
-      lualine.enable = true;
-      which-key.enable = true;
-
       lsp-format = {
         enable = true;
         lspServersToEnable = "all";
@@ -121,41 +117,10 @@
         lazyLoad.settings.cmd = "Oil";
       };
 
-      web-devicons.enable = true;
-
-      startify = {
-        enable = true;
-        settings = {
-          custom_header = [
-            ""
-            "      _    _          __     ___           "
-            "     / \\  | | _____  _\\ \\   / (_)_ __ ___  "
-            "    / _ \\ | |/ _ \\ \\/ /\\ \\ / /| | '_ ` _ \\ "
-            "   / ___ \\| |  __/>  <  \\ V / | | | | | | |"
-            "  /_/   \\_\\_|\\___/_/\\_\\  \\_/  |_|_| |_| |_|"
-            ""
-          ];
-          change_to_dir = true;
-          use_unicode = true;
-        };
-      };
-
-      auto-session.enable = true;
-
-      neo-tree = {
-        enable = true;
-
-        closeIfLastWindow = true;
-        window = {
-          width = 30;
-          autoExpandWidth = true;
-        };
-      };
-
       lsp = {
         enable = true;
         servers = {
-          nil_ls.enable = true;
+          nixd.enable = true;
           ts_ls.enable = true;
           rust_analyzer = {
             enable = true;
@@ -182,16 +147,10 @@
 
         keymaps = {
           # Find files using Telescope command-line sugar.
-          "<leader>ff" = "find_files";
-          "<leader>fg" = "live_grep";
+          "<leader>f" = "find_files";
+          "<leader>/" = "live_grep";
           "<leader>b" = "buffers";
-          "<leader>fh" = "help_tags";
-          "<leader>fd" = "diagnostics";
-
-          # FZF like bindings
-          "<C-p>" = "git_files";
-          "<leader>p" = "oldfiles";
-          "<C-f>" = "live_grep";
+          "<leader>d" = "diagnostics";
         };
 
         settings.defaults = {
@@ -223,8 +182,6 @@
           };
         };
       };
-
-      luasnip.enable = true;
 
       lspkind = {
         enable = true;
@@ -280,19 +237,27 @@
         };
       };
 
-      lazygit = {
-        enable = true;
-      };
-
-      nvim-autopairs.enable = true;
-
       colorizer = {
         enable = true;
         settings.user_default_options.names = false;
       };
 
+      lz-n.enable = true;
+      # the line indicating vim mode, branch, file, etc.
+      lualine.enable = true;
+      # the popup that shows available keybindings 
+      which-key.enable = true;
+      # enable icons for nixvim
+      web-devicons.enable = true;
+      # generate a startmenu
+      startify.enable = true;
+      # automatically store sessions of nvim which get reactivated when accessing
+      # a new session in the same directory
+      auto-session.enable = true;
+      # snippets
+      luasnip.enable = true;
+      # tmux navigation within nvim (e.g. C-h to go to the buffer on the left)
       tmux-navigator.enable = true;
-      diffview.enable = true;
     };
 
     keymaps =
