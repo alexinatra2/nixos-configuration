@@ -177,15 +177,6 @@
         folding = true;
       };
 
-      treesitter-refactor = {
-        enable = true;
-        highlightDefinitions = {
-          enable = true;
-          # Set to false if you have an `updatetime` of ~100.
-          clearOnCursorMove = false;
-        };
-      };
-
       telescope = {
         enable = true;
 
@@ -233,12 +224,6 @@
         };
       };
 
-      floaterm = {
-        enable = true;
-
-        settings.keymap_toggle = "<leader>,";
-      };
-
       luasnip.enable = true;
 
       lspkind = {
@@ -252,7 +237,6 @@
             path = "[path]";
             luasnip = "[snip]";
             buffer = "[buffer]";
-            neorg = "[neorg]";
             nixpkgs_maintainers = "[nixpkgs]";
           };
         };
@@ -283,7 +267,6 @@
               # Words from other open buffers can also be suggested.
               option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
             }
-            { name = "neorg"; }
             { name = "nixpkgs_maintainers"; }
           ];
         };
