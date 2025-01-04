@@ -155,7 +155,7 @@
       lsp = {
         enable = true;
         servers = {
-          nixd.enable = true;
+          nil_ls.enable = true;
           ts_ls.enable = true;
           rust_analyzer = {
             enable = true;
@@ -467,6 +467,8 @@
     shellAliases = {
       lg = "lazygit";
       ld = "lazydocker";
+      open = "xdg-open";
+      cd = "z";
     };
     initExtra = ''
       # tat: tmux attach
@@ -482,6 +484,10 @@
         fi
       }
     '';
+  };
+
+  programs.zoxide = {
+    enable = true;
   };
 
   dconf = {
