@@ -5,11 +5,13 @@
 {
   pkgs,
   inputs,
+  username,
   ...
 }:
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.sops-nix.nixosModules.sops
   ];
 
   # Bootloader.
@@ -57,6 +59,7 @@
       enable = true;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
+      videoDriver = "nvidia";
       xkb = {
         layout = "gb";
         variant = "";
@@ -99,6 +102,11 @@
       libraries = [
         # add dynamic libraries here
       ];
+    };
+
+    steam = {
+      enable = true;
+      gamescopeSession = true;
     };
   };
 
@@ -160,6 +168,27 @@
       serif = {
         package = pkgs.dejavu_fonts;
         name = "DejaVu Serif";
+      };
+    };
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
+  };
+
+  hardware = {
+    graphics.enable = true;
+    nvidia = {
+      open = true;
+      modesetting.enable = true;
+      prime = {
+        sync.enable = true;
+        # integrated
+        amdgpuBusId = "PCI:5:0:0";
+        # dedicated
+        nvidiaBusId = "PCI:1:0:0";
       };
     };
   };

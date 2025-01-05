@@ -252,10 +252,18 @@
         };
       };
 
+      # edit the file explorer as if it were a file
+      oil = {
+        enable = true;
+        settings = {
+          view_options = {
+            show_hidden = true;
+          };
+        };
+      };
+
       # show lines that help with indentation
       indent-blankline.enable = true;
-      # edit the file explorer as if it were a file
-      oil.enable = true;
       # show the color of hex strings as background of the color
       colorizer.enable = true;
       # enable lazy loading of plugins
