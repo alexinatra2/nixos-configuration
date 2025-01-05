@@ -97,6 +97,7 @@
     firefox.enable = true;
     thunderbird.enable = true;
     dconf.enable = true;
+
     nix-ld = {
       enable = true;
       libraries = [
@@ -106,8 +107,9 @@
 
     steam = {
       enable = true;
-      gamescopeSession = true;
+      gamescopeSession.enable = true;
     };
+    gamemode.enable = true;
   };
 
   # Allow unfree packages
@@ -123,10 +125,23 @@
       alacritty
       keepassxc
       nh
+
+      # for games
+      mangohud
+      protonup
+
+      # game launchers
+      heroic
+      lutris
+
+      # run EXE files
+      bottles
+
       gnomeExtensions.appindicator
     ];
     sessionVariables = {
       FLAKE = "/home/alexander/nixos-configuration";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
     };
   };
 
