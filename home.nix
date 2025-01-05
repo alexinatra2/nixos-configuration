@@ -15,12 +15,13 @@
       gcc
       lazydocker
       lazygit
+      libreoffice-qt6-fresh
+      nixfmt-rfc-style
       obsidian
       ripgrep
       slack
       synology-drive-client
       teams-for-linux
-      nixfmt-rfc-style
     ];
   };
 
