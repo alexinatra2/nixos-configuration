@@ -131,11 +131,11 @@
       protonup
 
       # game launchers
-      heroic
-      lutris
+      # heroic
+      # lutris
 
       # run EXE files
-      bottles
+      # bottles
 
       gnomeExtensions.appindicator
     ];
