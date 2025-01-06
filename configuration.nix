@@ -4,6 +4,7 @@
 
 {
   pkgs,
+  config,
   inputs,
   username,
   ...
@@ -109,7 +110,17 @@
       enable = true;
       gamescopeSession.enable = true;
     };
+
     gamemode.enable = true;
+
+    hyprland = {
+      enable = true;
+      # set the flake package
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      # make sure to also set the portal package, so that they are in sync
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    };
   };
 
   # Allow unfree packages
@@ -138,6 +149,8 @@
       # bottles
 
       gnomeExtensions.appindicator
+
+      egl-wayland
     ];
     sessionVariables = {
       FLAKE = "/home/alexander/nixos-configuration";
@@ -152,6 +165,8 @@
         "nix-command"
         "flakes"
       ];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     };
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
@@ -194,10 +209,13 @@
   };
 
   hardware = {
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+    };
     nvidia = {
       open = true;
       modesetting.enable = true;
+      nvidiaSettings = true;
       prime = {
         sync.enable = true;
         # integrated
@@ -205,6 +223,7 @@
         # dedicated
         nvidiaBusId = "PCI:1:0:0";
       };
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 
