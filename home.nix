@@ -19,7 +19,9 @@
       lazygit
       libreoffice-qt6-fresh
       nixfmt-rfc-style
+      nodejs
       obsidian
+      pnpm
       ripgrep
       slack
       synology-drive-client
