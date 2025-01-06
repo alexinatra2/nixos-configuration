@@ -77,7 +77,10 @@
     # Enable CUPS to print documents.
     printing.enable = true;
 
-    udev.packages = with pkgs; [ gnome-settings-daemon ];
+    udev.packages = with pkgs; [
+      gnome-settings-daemon
+      android-udev-rules
+    ];
   };
 
   # Configure console keymap
@@ -90,7 +93,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alexander = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "kvm"
+      "adbusers"
+    ];
   };
 
   # Install firefox.
@@ -98,6 +105,7 @@
     firefox.enable = true;
     thunderbird.enable = true;
     dconf.enable = true;
+    adb.enable = true;
 
     nix-ld = {
       enable = true;

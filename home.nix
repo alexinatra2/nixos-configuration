@@ -11,6 +11,7 @@
     username = "${username}";
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
+      android-studio
       discord
       gcc
       jetbrains-toolbox
