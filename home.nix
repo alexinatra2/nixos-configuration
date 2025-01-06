@@ -493,6 +493,9 @@
 
   programs.kitty = {
     enable = true;
+    settings = {
+      cursor_trail = 2;
+    };
   };
 
   wayland.windowManager.hyprland = {
