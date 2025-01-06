@@ -74,6 +74,8 @@
       pulse.enable = true;
     };
 
+    pulseaudio.enable = false;
+
     # Enable CUPS to print documents.
     printing.enable = true;
 
@@ -86,8 +88,6 @@
   # Configure console keymap
   console.keyMap = "uk";
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -188,29 +188,16 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  # styling consistently across entire system
   stylix = {
-    base16Scheme = "${pkgs.base16-schemes}/share/theme/gruvbox-dark-pale.yaml";
-    cursor = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
-    };
-    fonts = {
-      monospace = {
-        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
-        name = "JetBrainsMono Nerd Font Mono";
-      };
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
-      serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
-      };
-    };
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    polarity = "dark";
   };
 
+  # manage secrets
   sops = {
+    # put secrets in this directory
     defaultSopsFile = ./secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
