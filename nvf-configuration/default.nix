@@ -10,6 +10,7 @@
     ./telescope.nix
     ./toggleterm.nix
     ./ui.nix
+    ./keymaps.nix
   ];
 
   programs.nvf = {
@@ -29,11 +30,6 @@
       autocomplete.nvim-cmp.enable = true;
 
       git.enable = true;
-
-      dashboard.startify = {
-        sessionAutoload = true;
-        sessionPersistence = true;
-      };
     };
   };
 }
