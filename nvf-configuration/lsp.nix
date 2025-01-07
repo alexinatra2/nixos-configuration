@@ -29,6 +29,7 @@
 
     lsp = {
       formatOnSave = true;
+      lightbulb.enable = true;
       mappings = {
         goToDefinition = "gd";
         codeAction = "<M-cr>";
