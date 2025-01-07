@@ -29,7 +29,11 @@
       autocomplete.nvim-cmp.enable = true;
 
       git.enable = true;
-      dashboard.startify.enable = true;
+
+      dashboard.startify = {
+        sessionAutoload = true;
+        sessionPersistence = true;
+      };
     };
   };
 }
