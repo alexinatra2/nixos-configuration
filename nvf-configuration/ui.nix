@@ -4,5 +4,6 @@
     fastaction.enable = true;
     illuminate.enable = true;
     colorizer.enable = true;
+    smartcolumn.enable = true;
   };
 }
