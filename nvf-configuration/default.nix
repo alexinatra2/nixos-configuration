@@ -12,6 +12,7 @@
     ./ui.nix
     ./keymaps.nix
     ./utility.nix
+    ./extra-plugins.nix
   ];
 
   programs.nvf = {

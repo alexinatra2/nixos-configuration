@@ -7,6 +7,6 @@
     # enable icon picker
     icon-picker.enable = true;
     # enable image support
-    images.image-nvim.enable = true;
+    # images.image-nvim.enable = true;
   };
 }
