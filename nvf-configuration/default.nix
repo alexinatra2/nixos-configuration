@@ -27,6 +27,9 @@
       statusline.lualine.enable = true;
       binds.whichKey.enable = true;
       autocomplete.nvim-cmp.enable = true;
+
+      git.enable = true;
+      dashboard.startify.enable = true;
     };
   };
 }
