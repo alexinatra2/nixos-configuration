@@ -11,7 +11,11 @@
     # save with ctrl+s
     {
       key = "<C-s>";
-      mode = ["n" "i" "x"];
+      mode = [
+        "n"
+        "i"
+        "x"
+      ];
       silent = true;
       action = "<esc>:w<cr>";
     }
@@ -42,6 +46,14 @@
       mode = "n";
       silent = true;
       action = "*Ncgn";
+    }
+    # open Oil
+    {
+      key = "-";
+      mode = "n";
+      silent = true;
+      action = ":Oil<cr>";
+      desc = "Open Oil file explorer";
     }
   ];
 }
