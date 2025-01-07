@@ -7,7 +7,7 @@
       enableLSP = true;
       enableTreesitter = true;
       enableFormat = true;
-      
+
       # enabled languages
       nix = {
         enable = true;
@@ -24,11 +24,15 @@
       sql.enable = true;
       tailwind.enable = true;
       bash.enable = true;
+      clang.enable = true;
     };
 
-    lsp.mappings = {
-      goToDefinition = "gd";
-      codeAction = "<M-cr>";
+    lsp = {
+      formatOnSave = true;
+      mappings = {
+        goToDefinition = "gd";
+        codeAction = "<M-cr>";
+      };
     };
   };
 }
