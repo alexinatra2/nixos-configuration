@@ -10,10 +10,10 @@
     }
     # save with ctrl+s
     {
-      key = "<M-bs>";
-      mode = "i";
+      key = "<C-s>";
+      mode = ["n" "i" "x"];
       silent = true;
-      action = "<C-w>";
+      action = "<esc>:w<cr>";
     }
   ];
 }
