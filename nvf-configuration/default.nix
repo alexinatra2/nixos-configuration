@@ -8,6 +8,8 @@
   imports = [
     ./lsp.nix
     ./telescope.nix
+    ./toggleterm.nix
+    ./ui.nix
   ];
 
   programs.nvf = {
@@ -25,10 +27,6 @@
       statusline.lualine.enable = true;
       binds.whichKey.enable = true;
       autocomplete.nvim-cmp.enable = true;
-      terminal.toggleterm = {
-        enable = true;
-        lazygit.enable = true;
-      };
     };
   };
 }
