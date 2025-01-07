@@ -7,6 +7,7 @@
 {
   imports = [
     ./lsp.nix
+    ./telescope.nix
   ];
 
   programs.nvf = {
@@ -22,7 +23,7 @@
       };
 
       statusline.lualine.enable = true;
-      telescope.enable = true;
+      binds.whichKey.enable = true;
       autocomplete.nvim-cmp.enable = true;
     };
   };
