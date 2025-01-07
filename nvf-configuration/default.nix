@@ -12,8 +12,7 @@
     ./ui.nix
     ./keymaps.nix
     ./utility.nix
-    ./harpoon.nix
-    ./oil.nix
+    ./extra-plugins
   ];
 
   programs.nvf = {
