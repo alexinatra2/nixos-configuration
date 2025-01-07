@@ -11,6 +11,7 @@
     ./toggleterm.nix
     ./ui.nix
     ./keymaps.nix
+    ./utility.nix
   ];
 
   programs.nvf = {
