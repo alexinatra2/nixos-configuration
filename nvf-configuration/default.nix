@@ -20,6 +20,8 @@
       viAlias = true;
       vimAlias = true;
 
+      useSystemClipboard = true;
+
       theme = {
         enable = true;
         name = "gruvbox";
