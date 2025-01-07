@@ -25,6 +25,10 @@
       statusline.lualine.enable = true;
       binds.whichKey.enable = true;
       autocomplete.nvim-cmp.enable = true;
+      terminal.toggleterm = {
+        enable = true;
+        lazygit.enable = true;
+      };
     };
   };
 }
