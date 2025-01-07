@@ -9,5 +9,11 @@
       action = "<C-w>";
     }
     # save with ctrl+s
+    {
+      key = "<M-bs>";
+      mode = "i";
+      silent = true;
+      action = "<C-w>";
+    }
   ];
 }
