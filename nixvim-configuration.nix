@@ -330,6 +330,7 @@
               "<M-CR>" = ":lua vim.lsp.buf.code_action()<CR>";
             };
       in
-      config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
+      ;
+    # config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
   };
 }

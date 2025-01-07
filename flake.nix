@@ -44,7 +44,6 @@
     {
       nixpkgs,
       home-manager,
-      nixvim,
       nvf,
       ...
     }@inputs:
@@ -77,7 +76,6 @@
           extraSpecialArgs = {
             inherit username;
             inherit hostname;
-            inherit nixvim;
           };
           modules = [
             nvf.homeManagerModules.default
