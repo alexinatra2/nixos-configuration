@@ -30,6 +30,8 @@
       autocomplete.nvim-cmp.enable = true;
 
       git.enable = true;
+      comments.comment-nvim.enable = true;
+      dashboard.dashboard-nvim.enable = true;
     };
   };
 }
