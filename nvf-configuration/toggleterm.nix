@@ -1,7 +1,7 @@
 { ... }:
 {
 
-  programs.nvf.vim.settings.terminal.toggleterm = {
+  programs.nvf.settings.vim.terminal.toggleterm = {
     enable = true;
     lazygit.enable = true;
   };
