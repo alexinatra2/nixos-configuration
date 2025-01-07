@@ -13,6 +13,7 @@
     ./keymaps.nix
     ./utility.nix
     ./harpoon.nix
+    ./oil.nix
   ];
 
   programs.nvf = {
