@@ -15,5 +15,33 @@
       silent = true;
       action = "<esc>:w<cr>";
     }
+    # jj as an alias for escape in insert mode
+    {
+      key = "jj";
+      mode = "i";
+      silent = true;
+      action = "<esc>";
+    }
+    # improve Y behavior - yank line to end starting from cursor
+    {
+      key = "Y";
+      mode = "x";
+      silent = true;
+      action = "y$";
+    }
+    # improve y behavior - yank and keep cursor at position
+    {
+      key = "y";
+      mode = "x";
+      silent = true;
+      action = "may`a";
+    }
+    # substitute word under cursor (repeatable with .)
+    {
+      key = "<C-n>";
+      mode = "n";
+      silent = true;
+      action = "*Ncgn";
+    }
   ];
 }
