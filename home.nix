@@ -3,7 +3,6 @@
   pkgs,
   lib,
   username,
-  nixvim,
   ...
 }:
 {
@@ -30,7 +29,7 @@
   };
 
   imports = [
-    nixvim.homeManagerModules.nixvim
+    ./nvf-configuration.nix
   ];
 
   nixpkgs = {
