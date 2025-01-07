@@ -192,7 +192,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    polarity = "dark";
+    image = ../Pictures/redbluebackground.jpg;
   };
 
   # manage secrets
