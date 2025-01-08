@@ -125,6 +125,15 @@
     };
 
     gamemode.enable = true;
+
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep-since 4 --keep 3";
+      };
+      flake = "/home/${username}/nixos-configuration";
+    };
   };
 
   # Allow unfree packages
@@ -139,10 +148,8 @@
       wget
       alacritty
       keepassxc
-      nh
     ];
     sessionVariables = {
-      FLAKE = "/home/alexander/nixos-configuration";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
     };
   };
