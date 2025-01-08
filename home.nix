@@ -40,13 +40,6 @@
   };
 
   programs = {
-    # basic configuration of git, please change to your own
-    git = {
-      enable = true;
-      userName = "alexinatra2";
-      userEmail = "a.holzknecht@gmx.de";
-    };
-
     direnv = {
       enable = true;
       enableBashIntegration = true; # see note on other shells below
