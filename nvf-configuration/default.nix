@@ -36,6 +36,7 @@
       git.enable = true;
       comments.comment-nvim.enable = true;
       dashboard.dashboard-nvim.enable = true;
+      tabline.nvimBufferline.enable = true;
     };
   };
 }

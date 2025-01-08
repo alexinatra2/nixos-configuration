@@ -795,6 +795,18 @@
         "type": "github"
       }
     },
+    "nvim-tmux-navigator": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-GcNQjFuiiJiga5o3zc/Tpe80W2i7T6xrJPordmXYxIs=",
+        "type": "file",
+        "url": "https://github.com/alexghergh/nvim-tmux-navigation"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/alexghergh/nvim-tmux-navigation"
+      }
+    },
     "plugin-aerial-nvim": {
       "flake": false,
       "locked": {
@@ -2743,6 +2755,7 @@
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "nvf": "nvf",
+        "nvim-tmux-navigator": "nvim-tmux-navigator",
         "sops-nix": "sops-nix",
         "stylix": "stylix"
       }

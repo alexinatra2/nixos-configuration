@@ -6,6 +6,11 @@
   programs.tmux = {
     enable = true;
     prefix = "C-Space";
+    plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = vim-tmux-navigator;
+      }
+    ];
     extraConfig = ''
             set -g base-index 1
             setw -g pane-base-index 1
@@ -81,5 +86,4 @@
       bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
     '';
   };
-
 }

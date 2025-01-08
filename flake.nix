@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nvim-tmux-navigator = {
+      url = "https://github.com/alexghergh/nvim-tmux-navigation";
+      flake = false;
+    };
+
     # Required, nvf works best and only directly supports flakes
     nvf = {
       url = "github:notashelf/nvf";
@@ -35,6 +40,7 @@
       # instance of nixpkgs. This is safe to do as nvf does not depend
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nvim-tmux-navigator.follows = "nvim-tmux-navigator";
     };
   };
 
