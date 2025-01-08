@@ -36,6 +36,11 @@
       git.enable = true;
       comments.comment-nvim.enable = true;
       dashboard.dashboard-nvim.enable = true;
+
+      extraPackages = with pkgs; [
+        cargo
+        ripgrep
+      ];
     };
   };
 }
