@@ -14,6 +14,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.sops-nix.nixosModules.sops
+    ./nixos
   ];
 
   # Bootloader.
@@ -107,25 +108,6 @@
 
   # Install firefox.
   programs = {
-    firefox = {
-      enable = true;
-      languagePacks = [
-        "de"
-        "en-GB"
-      ];
-      policies = {
-        DisableFirefoxStudies = true;
-        DisableTelemetry = true;
-        DisplayBookmarksToolbar = "always";
-        EnableTrackingProtection = {
-          Cryptomining = true;
-          Fingerprinting = true;
-          Locked = true;
-          Value = true;
-        };
-        TranslateEnabled = false;
-      };
-    };
     thunderbird.enable = true;
     dconf.enable = true;
     adb.enable = true;
