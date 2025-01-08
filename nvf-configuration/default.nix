@@ -24,6 +24,7 @@
 
       useSystemClipboard = true;
       undoFile.enable = true;
+      searchCase = "smart";
 
       theme = {
         enable = true;
