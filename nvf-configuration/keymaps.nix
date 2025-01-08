@@ -49,7 +49,7 @@
     }
     # sort selection
     {
-      key = "-";
+      key = "<leader>s";
       mode = [
         "v"
         "x"
