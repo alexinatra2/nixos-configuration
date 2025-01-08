@@ -89,6 +89,22 @@
       action = ":m '>-2<CR>gv=gv";
       desc = "swap selection with line above";
     }
+    # icon picker from normal mode
+    {
+      key = "<M-i>";
+      mode = "n";
+      silent = true;
+      action = ":IconPickerNormal<cr>";
+      desc = "open icon picker";
+    }
+    # icon picker from insert mode
+    {
+      key = "<M-i>";
+      mode = "i";
+      silent = true;
+      action = ":IconPickerInsert<cr>";
+      desc = "open icon picker";
+    }
 
     # plugins
     # open Oil
