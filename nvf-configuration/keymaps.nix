@@ -7,6 +7,7 @@
       mode = "i";
       silent = true;
       action = "<C-w>";
+      desc = "delete current word";
     }
     # save with ctrl+s
     {
@@ -18,6 +19,7 @@
       ];
       silent = true;
       action = "<esc>:w<cr>";
+      desc = "save buffer";
     }
     # jj as an alias for escape in insert mode
     {
