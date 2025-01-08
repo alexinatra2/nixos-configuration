@@ -40,7 +40,6 @@
       # instance of nixpkgs. This is safe to do as nvf does not depend
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nvim-tmux-navigator.follows = "nvim-tmux-navigator";
     };
   };
 
