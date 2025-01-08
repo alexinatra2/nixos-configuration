@@ -82,6 +82,7 @@
           };
           modules = [
             nvf.homeManagerModules.default
+            inputs.stylix.homeManagerModules.stylix
             ./home.nix
           ];
         };
