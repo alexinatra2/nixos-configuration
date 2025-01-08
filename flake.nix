@@ -35,7 +35,10 @@
 
     # Optional, if you intend to follow nvf's obsidian-nvim input
     # you must also add it as a flake input.
-    obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
+    obsidian-nvim = {
+      url = "github:epwalsh/obsidian.nvim";
+      flake = false;
+    };
 
     # Required, nvf works best and only directly supports flakes
     nvf = {
