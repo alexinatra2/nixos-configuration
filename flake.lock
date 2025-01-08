@@ -807,6 +807,22 @@
         "url": "https://github.com/alexghergh/nvim-tmux-navigation"
       }
     },
+    "obsidian-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722536347,
+        "narHash": "sha256-mbq7fAPmlwOAbWlN3lGX9WGBKTV8cAPZx8pnRCyszJc=",
+        "owner": "epwalsh",
+        "repo": "obsidian.nvim",
+        "rev": "14e0427bef6c55da0d63f9a313fd9941be3a2479",
+        "type": "github"
+      },
+      "original": {
+        "owner": "epwalsh",
+        "repo": "obsidian.nvim",
+        "type": "github"
+      }
+    },
     "plugin-aerial-nvim": {
       "flake": false,
       "locked": {
@@ -2756,6 +2772,7 @@
         "nixvim": "nixvim",
         "nvf": "nvf",
         "nvim-tmux-navigator": "nvim-tmux-navigator",
+        "obsidian-nvim": "obsidian-nvim",
         "sops-nix": "sops-nix",
         "stylix": "stylix"
       }
