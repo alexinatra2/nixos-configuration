@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   ...
 }:
 let
@@ -22,8 +23,8 @@ in
     ];
     policies = {
       DisableFirefoxStudies = true;
-      DisableTelemetry = true;
       DisplayBookmarksToolbar = "always";
+      DisablePocket = true;
       EnableTrackingProtection = {
         Cryptomining = true;
         Fingerprinting = true;
