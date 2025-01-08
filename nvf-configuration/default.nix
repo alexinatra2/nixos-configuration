@@ -23,6 +23,7 @@
       vimAlias = true;
 
       useSystemClipboard = true;
+      undoFile.enable = true;
 
       theme = {
         enable = true;
