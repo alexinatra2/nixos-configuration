@@ -106,7 +106,6 @@
     ];
   };
 
-  # Install firefox.
   programs = {
     thunderbird.enable = true;
     dconf.enable = true;
