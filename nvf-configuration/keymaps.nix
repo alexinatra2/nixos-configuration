@@ -58,6 +58,35 @@
       action = ":sort<cr>";
       desc = "sort selection";
     }
+    # swap lines
+    {
+      key = "<M-j>";
+      mode = "n";
+      silent = true;
+      action = ":m .+1<CR>==";
+      desc = "swap line down";
+    }
+    {
+      key = "<M-k>";
+      mode = "n";
+      silent = true;
+      action = ":m .-2<CR>==";
+      desc = "swap line up";
+    }
+    {
+      key = "<M-j>";
+      mode = "v";
+      silent = true;
+      action = ":m '>+1<CR>gv=gv";
+      desc = "swap selection with line below";
+    }
+    {
+      key = "<M-k>";
+      mode = "v";
+      silent = true;
+      action = ":m '>-2<CR>gv=gv";
+      desc = "swap selection with line above";
+    }
 
     # plugins
     # open Oil
