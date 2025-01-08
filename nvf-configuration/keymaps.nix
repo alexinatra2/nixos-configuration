@@ -105,6 +105,17 @@
       action = ":IconPickerInsert<cr>";
       desc = "open icon picker";
     }
+    # open color picker
+    {
+      key = "<M-c>";
+      mode = [
+        "n"
+        "i"
+      ];
+      silent = true;
+      action = ":CccPick<cr>";
+      desc = "open hex color picker";
+    }
 
     # plugins
     # open Oil
