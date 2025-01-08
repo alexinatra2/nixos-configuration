@@ -6,11 +6,12 @@
 }:
 {
   imports = [
+    ./keymaps.nix
     ./lsp.nix
     ./telescope.nix
     ./toggleterm.nix
+    # ./treesitter.nix
     ./ui.nix
-    ./keymaps.nix
     ./utility.nix
     ./extra-plugins
   ];
