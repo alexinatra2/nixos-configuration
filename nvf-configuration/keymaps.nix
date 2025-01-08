@@ -47,6 +47,19 @@
       silent = true;
       action = "*Ncgn";
     }
+    # sort selection
+    {
+      key = "-";
+      mode = [
+        "v"
+        "x"
+      ];
+      silent = true;
+      action = ":sort<cr>";
+      desc = "sort selection";
+    }
+
+    # plugins
     # open Oil
     {
       key = "-";
