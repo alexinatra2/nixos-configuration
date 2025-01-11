@@ -1,11 +1,9 @@
 {
-  ...
-}:
-{
   programs.nvf.settings.vim = {
     languages = {
       enableLSP = true;
       enableTreesitter = true;
+      enableExtraDiagnostics = true;
       enableFormat = true;
 
       # enabled languages
@@ -14,17 +12,16 @@
         format.type = "nixfmt";
       };
 
-      rust.enable = true;
-      html.enable = true;
+      rust = {
+        enable = true;
+        lsp.enable = true;
+        crates.enable = true;
+        format.enable = true;
+      };
+
       lua.enable = true;
       ts.enable = true;
-      python.enable = true;
-      java.enable = true;
-      kotlin.enable = true;
       sql.enable = true;
-      tailwind.enable = true;
-      bash.enable = true;
-      clang.enable = true;
     };
 
     lsp = {
