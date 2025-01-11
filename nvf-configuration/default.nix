@@ -42,6 +42,8 @@
 
       extraPackages = with pkgs; [
         cargo
+        rustc
+        rustfmt
         ripgrep
       ];
 
