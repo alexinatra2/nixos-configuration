@@ -14,13 +14,17 @@
 
       rust = {
         enable = true;
-        lsp.enable = true;
-        crates.enable = true;
         format.enable = true;
+        crates.enable = true;
+      };
+
+      ts = {
+        enable = true;
+        format.enable = true;
+        extraDiagnostics.enable = true;
       };
 
       lua.enable = true;
-      ts.enable = true;
       sql.enable = true;
     };
 
