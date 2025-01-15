@@ -45,8 +45,8 @@
     image = ./background.png;
     polarity = "dark";
     cursor = {
-      package = pkgs.apple-cursor;
-      name = "macOS Gruvbox";
+      name = "phinger-cursors-light";
+      package = pkgs.phinger-cursors;
       size = 32;
     };
   };
