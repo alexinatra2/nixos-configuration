@@ -16,11 +16,11 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       android-studio
+      cargo
       discord
       gcc
       jetbrains-toolbox
       lazydocker
-      lazygit
       libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
@@ -39,6 +39,12 @@
     allowUnfreePredicate = _: true;
   };
 
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    image = ./background.png;
+  };
+
   programs = {
     direnv = {
       enable = true;
@@ -53,6 +59,12 @@
       };
     };
 
+    atuin = {
+      enable = false;
+      enableBashIntegration = true;
+    };
+
+    nushell.enable = true;
     starship.enable = true;
     fzf.enable = true;
     alacritty.enable = true;
