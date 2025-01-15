@@ -96,14 +96,17 @@
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.alexander = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "kvm"
-      "adbusers"
-    ];
-    shell = pkgs.nushell;
+  users = {
+    users.alexander = {
+      isNormalUser = true;
+      extraGroups = [
+        "wheel"
+        "kvm"
+        "adbusers"
+      ];
+      shell = pkgs.nushell;
+    };
+    groups.libvirtd.members = [ "${username}" ];
   };
 
   programs = {
@@ -111,6 +114,7 @@
     firefox.enable = true;
     dconf.enable = true;
     adb.enable = true;
+    virt-manager.enable = true;
 
     nix-ld = {
       enable = true;
@@ -200,6 +204,11 @@
       };
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+  };
+
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
   };
 
   # List services that you want to enable:
