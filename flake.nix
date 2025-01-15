@@ -48,6 +48,7 @@
       nixpkgs,
       home-manager,
       nvf,
+      stylix,
       ...
     }@inputs:
     let
@@ -67,7 +68,7 @@
           };
           modules = [
             ./configuration.nix
-            inputs.stylix.nixosModules.stylix
+            stylix.nixosModules.stylix
             nvf.nixosModules.default
           ];
         };
@@ -82,7 +83,7 @@
           };
           modules = [
             nvf.homeManagerModules.default
-            inputs.stylix.homeManagerModules.stylix
+            stylix.homeManagerModules.stylix
             ./home.nix
           ];
         };
