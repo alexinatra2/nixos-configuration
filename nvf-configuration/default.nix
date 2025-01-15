@@ -23,6 +23,7 @@
       vimAlias = true;
 
       useSystemClipboard = true;
+      preventJunkFiles = true;
       undoFile.enable = true;
       searchCase = "smart";
 
