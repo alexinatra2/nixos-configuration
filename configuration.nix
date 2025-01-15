@@ -104,6 +104,7 @@
       "kvm"
       "adbusers"
     ];
+    shell = pkgs.bash;
   };
 
   programs = {
@@ -150,6 +151,7 @@
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
+      EDITOR = "nvim";
     };
   };
 
