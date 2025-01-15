@@ -14,7 +14,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.sops-nix.nixosModules.sops
-    ./nixos
   ];
 
   # Bootloader.
@@ -104,11 +103,12 @@
       "kvm"
       "adbusers"
     ];
-    shell = pkgs.bash;
+    shell = pkgs.nushell;
   };
 
   programs = {
     thunderbird.enable = true;
+    firefox.enable = true;
     dconf.enable = true;
     adb.enable = true;
 

@@ -66,7 +66,7 @@
     };
 
     atuin = {
-      enable = false;
+      enable = true;
       enableBashIntegration = true;
     };
 
