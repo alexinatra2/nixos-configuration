@@ -19,6 +19,7 @@
       cargo
       discord
       gcc
+      jetbrains-mono
       jetbrains-toolbox
       lazydocker
       libreoffice-qt6-fresh
