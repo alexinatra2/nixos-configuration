@@ -76,6 +76,7 @@
     atuin = {
       enable = true;
       enableBashIntegration = true;
+      flags = [ "--disable-up-arrow" ];
     };
 
     nushell.enable = true;
