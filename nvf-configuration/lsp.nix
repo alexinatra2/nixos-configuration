@@ -24,6 +24,7 @@
         extraDiagnostics.enable = true;
       };
 
+      clang.enable = true;
       lua.enable = true;
       sql.enable = true;
     };
