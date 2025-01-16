@@ -103,6 +103,7 @@
         "wheel"
         "kvm"
         "adbusers"
+        "libvirtd"
       ];
       shell = pkgs.nushell;
     };
