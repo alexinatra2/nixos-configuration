@@ -104,6 +104,7 @@
         "kvm"
         "adbusers"
         "libvirtd"
+        "docker"
       ];
       shell = pkgs.nushell;
     };
@@ -209,6 +210,7 @@
 
   virtualisation = {
     libvirtd.enable = true;
+    docker.enable = true;
     spiceUSBRedirection.enable = true;
   };
 
