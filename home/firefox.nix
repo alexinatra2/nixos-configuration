@@ -28,11 +28,13 @@ in
         Value = true;
       };
       TranslateEnabled = false;
+      DisableFirefoxAccounts = true;
+      DisableAccounts = true;
       ExtensionSettings = {
         # blocks all addons except the ones specified below
         "*".installation_mode = "blocked";
         # ublock Origin
-        "adblockultimate@adblockultimate.net" = {
+        "uBlock0@raymondhill.net" = {
           install_url = mkAddonUrl "ublock-origin";
           installation_mode = "force_installed";
         };
