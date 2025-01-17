@@ -41,6 +41,11 @@
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -49,6 +54,7 @@
       home-manager,
       nvf,
       stylix,
+      niri,
       ...
     }@inputs:
     let
@@ -70,6 +76,7 @@
             ./configuration.nix
             stylix.nixosModules.stylix
             nvf.nixosModules.default
+            niri.nixosModules.niri
           ];
         };
       };
