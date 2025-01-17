@@ -9,6 +9,7 @@
   imports = [
     ./nvf-configuration
     ./home
+    ./niri.nix
   ];
 
   home = {
