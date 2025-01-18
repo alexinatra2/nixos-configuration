@@ -64,7 +64,7 @@
       hostname = "nixos";
       mkAppVM = name: {
         type = "app";
-        program = "${self.nixosConfiguration.${name}.config.system.build.vm}/bin/run-nixos-vm";
+        program = "${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-nixos-vm";
       };
     in
     {
