@@ -65,7 +65,7 @@
       enable = true;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
-      videoDriver = "nvidia";
+      videoDrivers = [ "nvidia" ];
       xkb = {
         layout = "gb";
         variant = "";
@@ -194,11 +194,11 @@
       enable = true;
     };
     nvidia = {
-      open = true;
+      open = false;
       modesetting.enable = true;
       nvidiaSettings = true;
       prime = {
-        sync.enable = true;
+        offload.enable = true;
         # integrated
         amdgpuBusId = "PCI:5:0:0";
         # dedicated

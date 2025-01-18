@@ -44,12 +44,12 @@
 
     niri = {
       url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs =
     {
+      self,
       nixpkgs,
       home-manager,
       nvf,
@@ -62,6 +62,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
       username = "alexander";
       hostname = "nixos";
+      mkAppVM = name: {
+        type = "app";
+        program = "${self.nixosConfiguration.${name}.config.system.build.vm}/bin/run-nixos-vm";
+      };
     in
     {
       nixosConfigurations = {
@@ -76,9 +80,14 @@
             ./configuration.nix
             stylix.nixosModules.stylix
             nvf.nixosModules.default
-            niri.nixosModules.niri
           ];
         };
+      };
+
+      # extra vm output for testing
+      apps = rec {
+        default = vm-test;
+        vm-test = mkAppVM "nixos"; # start with `nix run .#apps.vm-test`
       };
 
       homeConfigurations = {
@@ -92,6 +101,7 @@
             nvf.homeManagerModules.default
             stylix.homeManagerModules.stylix
             ./home.nix
+            niri.homeModules.niri
           ];
         };
       };
