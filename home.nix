@@ -31,6 +31,8 @@
       pnpm
       ripgrep
       slack
+      spotify-player
+      sptlrx
       synology-drive-client
       teams-for-linux
     ];
