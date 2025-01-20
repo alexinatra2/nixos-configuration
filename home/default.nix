@@ -1,7 +1,9 @@
 {
   imports = [
     ./tmux.nix
-    ./bash.nix
+    # ./bash.nix
     ./git.nix
+    ./firefox.nix
+    ./nushell.nix
   ];
 }
