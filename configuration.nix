@@ -119,7 +119,6 @@
         "libvirtd"
         "docker"
       ];
-      shell = pkgs.nushell;
     };
     groups.libvirtd.members = [ "${username}" ];
   };

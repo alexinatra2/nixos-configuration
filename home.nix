@@ -89,6 +89,11 @@
     firefox.enable = true;
 
     nushell.enable = true;
+    carapace = {
+      enable = true;
+      enableNushellIntegration = true;
+    };
+
     starship.enable = true;
     fzf.enable = true;
     alacritty.enable = true;
