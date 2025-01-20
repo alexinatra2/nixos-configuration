@@ -113,7 +113,6 @@
 
   programs = {
     thunderbird.enable = true;
-    firefox.enable = true;
     dconf.enable = true;
     adb.enable = true;
     virt-manager.enable = true;
@@ -154,6 +153,7 @@
       wget
       alacritty
       keepassxc
+      firefox
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
@@ -182,17 +182,8 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  # styling consistently across entire system
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = ./background.png;
-  };
-
   hardware = {
-    graphics = {
-      enable = true;
-    };
+    graphics.enable = true;
     nvidia = {
       open = false;
       modesetting.enable = true;

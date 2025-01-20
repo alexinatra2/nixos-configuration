@@ -54,6 +54,9 @@
       package = pkgs.phinger-cursors;
       size = 32;
     };
+    targets = {
+      firefox.enable = false;
+    };
   };
 
   dconf.settings = {
@@ -82,6 +85,8 @@
       enableBashIntegration = true;
       flags = [ "--disable-up-arrow" ];
     };
+
+    firefox.enable = true;
 
     nushell.enable = true;
     starship.enable = true;
