@@ -212,24 +212,6 @@ in
             matches = [ { is-focused = false; } ];
             opacity = 0.95;
           }
-          {
-            matches = [
-              {
-                app-id = "^kitty$";
-                title = ''^\[oxygen\]'';
-              }
-            ];
-            border.active.color = colors.base0B;
-          }
-          {
-            matches = [
-              {
-                app-id = "^firefox$";
-                title = "Private Browsing";
-              }
-            ];
-            border.active.color = colors.base0E;
-          }
         ];
 
       spawn-at-startup =
@@ -251,16 +233,6 @@ in
             command = [
               "${only-without-session}"
               "${lib.getExe pkgs.waybar}"
-            ];
-          }
-          {
-            command = [
-              "${only-without-session}"
-              "${lib.getExe pkgs.swaybg}"
-              "-m"
-              "fill"
-              "-i"
-              "background.png"
             ];
           }
           {
