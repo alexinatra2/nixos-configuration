@@ -64,7 +64,7 @@
       mkNixosConfig =
         {
           hostname,
-          modules ? [ ],
+          modules ? [ ./hosts/nixos/configuration.nix ],
         }:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
@@ -75,19 +75,44 @@
           inherit system;
           inherit modules;
         };
+      mkHomeConfig =
+        {
+          username,
+          modules ? [ ./home.nix ],
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit username;
+          };
+          inherit modules;
+        };
       mkAppVM = name: {
         type = "app";
         program = "${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-nixos-vm";
       };
     in
     {
+      # system configurations
       nixosConfigurations = {
         nixos = mkNixosConfig {
           hostname = "nixos";
           modules = [
             ./hosts/nixos/configuration.nix
             stylix.nixosModules.stylix
-            nvf.nixosModules.default
+          ];
+        };
+      };
+
+      # home configurations
+      homeConfigurations = {
+        "alexander" = mkHomeConfig {
+          username = "alexander";
+          modules = [
+            ./home.nix
+            nvf.homeManagerModules.default
+            stylix.homeManagerModules.stylix
+            niri.homeModules.niri
           ];
         };
       };
@@ -96,22 +121,6 @@
       apps = rec {
         default = nixos-vm;
         nixos-vm = mkAppVM "nixos"; # start with `nix run .#apps.vm-test`
-      };
-
-      homeConfigurations = {
-        "${username}" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            inherit username;
-            hostname = "legion";
-          };
-          modules = [
-            nvf.homeManagerModules.default
-            stylix.homeManagerModules.stylix
-            ./home.nix
-            niri.homeModules.niri
-          ];
-        };
       };
     };
 }
