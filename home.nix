@@ -1,13 +1,14 @@
 {
-  config,
   pkgs,
-  lib,
   username,
   inputs,
   ...
 }:
 {
   imports = [
+    inputs.nvf.homeManagerModules.default
+    inputs.stylix.homeManagerModules.stylix
+    inputs.niri.homeModules.niri
     ./nvf-configuration
     ./home
     ./niri.nix

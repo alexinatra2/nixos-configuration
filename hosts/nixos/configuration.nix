@@ -13,6 +13,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.stylix.nixosModules.stylix
     inputs.sops-nix.nixosModules.sops
   ];
 
