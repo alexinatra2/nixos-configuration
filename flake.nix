@@ -45,9 +45,6 @@
       self,
       nixpkgs,
       home-manager,
-      nvf,
-      stylix,
-      niri,
       ...
     }@inputs:
     let
@@ -77,6 +74,7 @@
           inherit pkgs;
           extraSpecialArgs = {
             inherit username;
+            inherit inputs;
           };
           inherit modules;
         };
@@ -92,7 +90,6 @@
           hostname = "nixos";
           modules = [
             ./hosts/nixos/configuration.nix
-            stylix.nixosModules.stylix
           ];
         };
       };
@@ -103,9 +100,6 @@
           username = "alexander";
           modules = [
             ./home.nix
-            nvf.homeManagerModules.default
-            stylix.homeManagerModules.stylix
-            niri.homeModules.niri
           ];
         };
       };
