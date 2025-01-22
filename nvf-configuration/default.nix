@@ -27,6 +27,13 @@
       undoFile.enable = true;
       searchCase = "smart";
 
+      options = {
+        autoindent = true;
+        mouse = "a";
+        shiftwidth = 2;
+        tabstop = 2;
+      };
+
       theme = {
         enable = true;
         name = "gruvbox";
