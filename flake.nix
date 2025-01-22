@@ -61,7 +61,18 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       username = "alexander";
-      hostname = "nixos";
+      hostname = "legion";
+      mkNixosConfig =
+        modules:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit hostname;
+            inherit username;
+          };
+          inherit system;
+          inherit modules;
+        };
       mkAppVM = name: {
         type = "app";
         program = "${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-nixos-vm";
@@ -69,19 +80,11 @@
     in
     {
       nixosConfigurations = {
-        "${hostname}" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-            inherit hostname;
-            inherit username;
-          };
-          modules = [
-            ./configuration.nix
-            stylix.nixosModules.stylix
-            nvf.nixosModules.default
-          ];
-        };
+        "${hostname}" = mkNixosConfig [
+          ./hosts/${hostname}/configuration.nix
+          stylix.nixosModules.stylix
+          nvf.nixosModules.default
+        ];
       };
 
       # extra vm output for testing
