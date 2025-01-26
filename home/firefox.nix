@@ -1,15 +1,7 @@
 {
-  pkgs,
-  config,
+  inputs,
   ...
 }:
-let
-  locked = value: {
-    Value = value;
-    Status = "locked";
-  };
-  mkAddonUrl = name: "https://addons.mozilla.org/firefox/downloads/latest/${name}/latest.xpi";
-in
 {
   programs.firefox = {
     enable = true;
@@ -17,6 +9,46 @@ in
       "de"
       "en-GB"
     ];
+    # profiles =
+    #   let
+    #     # bookmarks
+    #     whatsappBM = {
+    #       name = "WhatsApp";
+    #       url = "https://web.whatsapp.com/";
+    #     };
+    #     chatgptBM = {
+    #       name = "ChatGPT";
+    #       url = "https://chatgpt.com/";
+    #     };
+    #     youtubeBM = {
+    #       name = "Youtube";
+    #       url = "https://www.youtube.com/";
+    #     };
+    #     githubBM = {
+    #       name = "Github";
+    #       url = "https://github.com/";
+    #     };
+    #     commerzbankBM = {
+    #       name = "Commerzbank";
+    #       url = "https://kunden.commerzbank.de/lp/login";
+    #     };
+    #   in
+    #   {
+    #     "personal" = {
+    #       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+    #         profile-switcher
+    #         react-devtools
+    #         ublock-origin
+    #       ];
+    #       bookmarks = [
+    #         whatsappBM
+    #         chatgptBM
+    #         youtubeBM
+    #         commerzbankBM
+    #         githubBM
+    #       ];
+    #     };
+    #   };
     policies = {
       DisableFirefoxStudies = true;
       DisplayBookmarksToolbar = "always";
@@ -27,41 +59,8 @@ in
         Locked = true;
         Value = true;
       };
+      HttpsOnlyMode = "enabled";
       TranslateEnabled = false;
-      DisableFirefoxAccounts = true;
-      DisableAccounts = true;
-      ExtensionSettings = {
-        # blocks all addons except the ones specified below
-        "*".installation_mode = "blocked";
-        # ublock Origin
-        "uBlock0@raymondhill.net" = {
-          install_url = mkAddonUrl "ublock-origin";
-          installation_mode = "force_installed";
-        };
-        # React Devtools
-        "@react-devtools" = {
-          install_url = mkAddonUrl "react-devtools";
-          installation_mode = "force_installed";
-        };
-        # Detach Tab
-        "claymont@mail.com_detach-tab" = {
-          install_url = mkAddonUrl "detach-tab";
-          installation_mode = "force_installed";
-        };
-      };
-      Preferences = {
-        "browser.newtabpage.activity-stream.feeds.section.topstories" = locked false;
-        "browser.newtabpage.activity-stream.feeds.snippets" = locked false;
-        "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = locked false;
-        "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = locked false;
-        "browser.newtabpage.activity-stream.section.highlights.includePocket" = locked false;
-        "browser.newtabpage.activity-stream.section.highlights.includeVisited" = locked false;
-        "browser.newtabpage.activity-stream.showSponsored" = locked false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = locked false;
-        "browser.newtabpage.activity-stream.system.showSponsored" = locked false;
-        "browser.translations.automaticallyPopup" = locked false;
-        "extensions.pocket.enabled" = locked false;
-      };
     };
   };
 }
