@@ -26,6 +26,11 @@
       flake = false;
     };
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Required, nvf works best and only directly supports flakes
     nvf = {
       url = "github:notashelf/nvf";
