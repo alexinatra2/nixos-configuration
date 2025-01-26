@@ -15,6 +15,7 @@
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
     inputs.sops-nix.nixosModules.sops
+    ../../modules
   ];
 
   # Bootloader.
@@ -77,7 +78,13 @@
   services = {
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
+      displayManager = {
+        autoLogin.enable = false;
+        gdm = {
+          enable = true;
+          autoSuspend = false;
+        };
+      };
       desktopManager.gnome.enable = true;
       videoDrivers = [ "nvidia" ];
       xkb = {
@@ -126,7 +133,6 @@
 
   programs = {
     thunderbird.enable = true;
-    dconf.enable = true;
     adb.enable = true;
     virt-manager.enable = true;
 
