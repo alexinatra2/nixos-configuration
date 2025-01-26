@@ -18,12 +18,11 @@
     username = "${username}";
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
-      android-studio
       cargo
       discord
       gcc
       jetbrains-mono
-      jetbrains-toolbox
+      jetbrains.idea-ultimate
       lazydocker
       libreoffice-qt6-fresh
       nixfmt-rfc-style
@@ -32,8 +31,6 @@
       pnpm
       ripgrep
       slack
-      spotify-player
-      sptlrx
       synology-drive-client
       teams-for-linux
     ];
