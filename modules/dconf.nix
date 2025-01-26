@@ -72,7 +72,7 @@
 
           "org/gnome/desktop/wm/keybindings" = {
             switch-windows = [ "<Alt>Tab" ];
-            switch-applications = mkEmptyArray type.string;
+            switch-applications = [ "<Super>Tab" ];
           };
 
           "org/gnome/shell".enabled-extensions = [
