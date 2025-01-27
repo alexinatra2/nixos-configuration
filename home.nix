@@ -42,21 +42,6 @@
     allowUnfreePredicate = _: true;
   };
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = ./background.png;
-    polarity = "dark";
-    cursor = {
-      name = "phinger-cursors-light";
-      package = pkgs.phinger-cursors;
-      size = 32;
-    };
-    targets = {
-      firefox.enable = false;
-    };
-  };
-
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
@@ -76,10 +61,6 @@
         cursor_trail = 2;
       };
     };
-
-    firefox.enable = true;
-
-    lazygit.enable = true;
 
     home-manager.enable = true;
   };
