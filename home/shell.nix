@@ -7,8 +7,6 @@ with lib;
 let
   cfg = config.shell;
   shellAliases = {
-    ls = "eza";
-    cat = "bat";
     lg = "lazygit";
     open = "xdg-open";
     cd = "z";
@@ -63,9 +61,19 @@ in
       starship.enable = true;
       fzf.enable = true;
       zoxide.enable = true;
+      lazygit.enable = true;
 
-      bat.enable = true;
-      eza.enable = true;
+      bat = {
+        enable = true;
+        config = {
+          style = "plain";
+        };
+      };
+
+      lsd = {
+        enable = true;
+        enableAliases = true;
+      };
 
       carapace = {
         enable = true;
