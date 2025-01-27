@@ -23,7 +23,6 @@
       gcc
       jetbrains-mono
       jetbrains.idea-ultimate
-      lazydocker
       libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
@@ -31,6 +30,7 @@
       pnpm
       ripgrep
       slack
+      spotify
       synology-drive-client
       teams-for-linux
     ];
@@ -64,13 +64,12 @@
     };
   };
 
-  programs = {
-    direnv = {
-      enable = true;
-      enableBashIntegration = true; # see note on other shells below
-      nix-direnv.enable = true;
-    };
+  shell = {
+    enable = true;
+    enableBash = true;
+  };
 
+  programs = {
     kitty = {
       enable = true;
       settings = {
@@ -78,25 +77,9 @@
       };
     };
 
-    atuin = {
-      enable = true;
-      enableBashIntegration = true;
-      flags = [ "--disable-up-arrow" ];
-    };
-
     firefox.enable = true;
 
-    nushell.enable = true;
-    carapace = {
-      enable = true;
-      enableNushellIntegration = true;
-    };
-
-    starship.enable = true;
-    fzf.enable = true;
-    alacritty.enable = true;
     lazygit.enable = true;
-    zoxide.enable = true;
 
     home-manager.enable = true;
   };
