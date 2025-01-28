@@ -40,6 +40,11 @@
         send-keys -X copy-pipe-and-cancel "pbcopy"
 
       bind c new-window -c '#{pane_current_path}'
+
+      bind j resize-pane -D 10
+      bind k resize-pane -U 10
+      bind l resize-pane -L 10
+      bind h resize-pane -R 10
     '';
   };
 }
