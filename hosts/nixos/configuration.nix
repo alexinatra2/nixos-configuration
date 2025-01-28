@@ -7,7 +7,6 @@
   config,
   inputs,
   username,
-  hostname,
   ...
 }:
 {
@@ -27,31 +26,12 @@
       efiSupport = true;
       device = "nodev";
       useOSProber = true;
-      theme = pkgs.stdenv.mkDerivation {
-        pname = "distro-grub-themes";
-        version = "3.1";
-        src = pkgs.fetchFromGitHub {
-          owner = "AdisonCavani";
-          repo = "distro-grub-themes";
-          rev = "v3.1";
-          hash = "sha256-ZcoGbbOMDDwjLhsvs77C7G7vINQnprdfI37a9ccrmPs=";
-        };
-        installPhase = "cp -r customize/nixos $out";
-      };
+      default = "saved";
+      gfxmodeEfi = "2880x1800";
+      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+      fontSize = 24;
     };
     efi.canTouchEfiVariables = true;
-  };
-
-  networking = {
-    hostName = "${hostname}"; # Define your hostname.
-    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Enable networking
-    networkmanager.enable = true;
   };
 
   # Set your time zone.
@@ -167,12 +147,13 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      vim
-      git
-      wget
       alacritty
-      keepassxc
+      cacert
       firefox
+      git
+      keepassxc
+      vim
+      wget
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
