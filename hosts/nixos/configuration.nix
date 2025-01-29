@@ -197,16 +197,6 @@
       };
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-    nvidia-container-toolkit.enabe = true;
-  };
-
-  virtualisation = {
-    libvirtd.enable = true;
-    docker = {
-      enable = true;
-      package = pkgs.docker_25;
-    };
-    spiceUSBRedirection.enable = true;
   };
 
   # List services that you want to enable:
