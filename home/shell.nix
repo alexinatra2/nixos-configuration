@@ -59,6 +59,7 @@ in
       };
 
       starship.enable = true;
+      btop.enable = true;
       fzf.enable = true;
       zoxide.enable = true;
       lazygit.enable = true;
