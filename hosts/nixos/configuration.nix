@@ -152,6 +152,7 @@
       firefox
       git
       keepassxc
+      nvidia-container-toolkit
       vim
       wget
     ];
@@ -197,6 +198,7 @@
       };
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    nvidia-container-toolkit.enable = true;
   };
 
   # List services that you want to enable:
