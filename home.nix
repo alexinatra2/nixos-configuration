@@ -26,7 +26,7 @@
       libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
-      nvtop
+      nvtopPackages.full
       obsidian
       pnpm
       ripgrep
