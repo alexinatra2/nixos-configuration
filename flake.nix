@@ -113,6 +113,12 @@
             ./home.nix
           ];
         };
+        "holzknecht@3m5.netz" = mkHomeConfig {
+          username = "holzknecht@3m5.netz";
+          modules = [
+            ./home.nix
+          ];
+        };
       };
 
       # extra vm output for testing
