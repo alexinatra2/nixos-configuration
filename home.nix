@@ -7,11 +7,8 @@
 {
   imports = [
     inputs.nvf.homeManagerModules.default
-    inputs.stylix.homeManagerModules.stylix
-    inputs.niri.homeModules.niri
     ./nvf-configuration
     ./home
-    ./niri.nix
   ];
 
   home = {
@@ -19,21 +16,17 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
-      discord
-      gcc
       jetbrains-mono
       jetbrains.idea-ultimate
-      libreoffice-qt6-fresh
+      maven
       nixfmt-rfc-style
       nodejs
-      nvtopPackages.full
       obsidian
       pnpm
       ripgrep
-      slack
       spotify
-      synology-drive-client
       teams-for-linux
+      yarn
     ];
     stateVersion = "24.11";
   };
@@ -56,13 +49,6 @@
   };
 
   programs = {
-    kitty = {
-      enable = true;
-      settings = {
-        cursor_trail = 2;
-      };
-    };
-
     home-manager.enable = true;
   };
 }
