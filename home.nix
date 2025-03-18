@@ -4,6 +4,9 @@
   inputs,
   ...
 }:
+let
+  ciJobToken = builtins.getEnv "CI_JOB_TOKEN";
+in
 {
   imports = [
     inputs.nvf.homeManagerModules.default
@@ -29,6 +32,12 @@
       yarn
     ];
     stateVersion = "24.11";
+
+    file = {
+      ".grade/grade.properties".text = ''
+        inhouse3m5GitLabPrivateToken=${ciJobToken}
+      '';
+    };
   };
 
   nixpkgs.config = {
@@ -49,6 +58,12 @@
   };
 
   programs = {
+    gradle = {
+      enable = true;
+      settings = {
+      };
+    };
+
     home-manager.enable = true;
   };
 }

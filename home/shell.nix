@@ -11,6 +11,7 @@ let
     open = "xdg-open";
     cd = "z";
   };
+  ciJobToken = builtins.getEnv "CI_JOB_TOKEN";
 in
 {
   options.shell = {
@@ -25,6 +26,9 @@ in
         enable = true;
         enableCompletion = true;
         inherit shellAliases;
+        profileExtra = ''
+          export CI_JOB_TOKEN=${ciJobToken}
+        '';
       };
 
       nushell = mkIf cfg.enableNu {
