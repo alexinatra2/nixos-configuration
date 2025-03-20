@@ -19,6 +19,7 @@ in
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
+      gradle
       jetbrains-mono
       jetbrains.idea-ultimate
       maven
@@ -45,25 +46,10 @@ in
     allowUnfreePredicate = _: true;
   };
 
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
-    };
-  };
-
   shell = {
     enable = true;
     enableBash = true;
   };
 
-  programs = {
-    gradle = {
-      enable = true;
-      settings = {
-      };
-    };
-
-    home-manager.enable = true;
-  };
+  programs.home-manager.enable = true;
 }
