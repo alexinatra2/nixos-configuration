@@ -34,12 +34,6 @@
         tabstop = 2;
       };
 
-      theme = {
-        enable = true;
-        name = "gruvbox";
-        style = "dark";
-      };
-
       statusline.lualine.enable = true;
       binds.whichKey.enable = true;
       autocomplete.nvim-cmp.enable = true;

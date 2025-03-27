@@ -548,7 +548,7 @@
     "nvim-tmux-navigator": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-B6JMI+ijwSGe4EqdtdbIjADKSPyRXJTC+erHv29GMVc=",
+        "narHash": "sha256-pn2YFaRtS/TW6MWf0zXtx4kahNwOA5x1sszLGgBJhKw=",
         "type": "file",
         "url": "https://github.com/alexghergh/nvim-tmux-navigation"
       },

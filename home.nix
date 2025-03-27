@@ -11,7 +11,6 @@
     inputs.niri.homeModules.niri
     ./nvf-configuration
     ./home
-    ./niri.nix
   ];
 
   home = {
