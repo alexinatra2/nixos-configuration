@@ -18,6 +18,7 @@
       set -g renumber-windows on
 
       set -g mouse on
+      set -g set-clipboard on
 
       # Use vim keybindings in copy mode
       setw -g mode-keys vi

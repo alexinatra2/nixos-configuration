@@ -26,10 +26,12 @@ in
       nixfmt-rfc-style
       nodejs
       obsidian
+      openvpn
       pnpm
       ripgrep
       spotify
       teams-for-linux
+      ungoogled-chromium
       yarn
     ];
     stateVersion = "24.11";
