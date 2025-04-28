@@ -1,3 +1,2 @@
 {
-  programs.autorandr.enable = true;
 }
