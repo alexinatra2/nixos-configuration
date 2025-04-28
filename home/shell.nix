@@ -11,7 +11,12 @@ let
     open = "xdg-open";
     cd = "z";
   };
-  ciJobToken = builtins.getEnv "CI_JOB_TOKEN";
+  env =
+    let
+      path = ./env.nix;
+    in
+    if builtins.pathExists path then import path else { };
+  ciJobToken = env.ciJobToken or "";
 in
 {
   options.shell = {
@@ -27,7 +32,7 @@ in
         enableCompletion = true;
         inherit shellAliases;
         profileExtra = ''
-          export CI_JOB_TOKEN=${ciJobToken}
+          export CI_JOB_TOKEN="${ciJobToken}"
         '';
       };
 
@@ -63,7 +68,7 @@ in
 
       lsd = {
         enable = true;
-        enableAliases = true;
+        enableBashIntegration = true;
       };
 
       carapace = {

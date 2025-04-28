@@ -5,7 +5,12 @@
   ...
 }:
 let
-  ciJobToken = builtins.getEnv "CI_JOB_TOKEN";
+  env =
+    let
+      path = ./env.nix;
+    in
+    if builtins.pathExists path then import path else { };
+  ciJobToken = env.ciJobToken or "";
 in
 {
   imports = [
