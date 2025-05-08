@@ -1,7 +1,8 @@
 {
   imports = [
-    ./tmux.nix
-    ./shell.nix
     ./monitors.nix
+    ./nh.nix
+    ./shell.nix
+    ./tmux.nix
   ];
 }
