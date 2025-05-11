@@ -8,7 +8,6 @@
   imports = [
     inputs.nvf.homeManagerModules.default
     inputs.stylix.homeManagerModules.stylix
-    inputs.niri.homeModules.niri
     ./nvf-configuration
     ./home
   ];
@@ -22,17 +21,16 @@
       gcc
       jetbrains-mono
       jetbrains.idea-ultimate
+      jetbrains.rust-rover
       libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
-      nvtopPackages.full
-      obsidian
       pnpm
       ripgrep
       slack
       spotify
-      synology-drive-client
-      teams-for-linux
+      unzip
+      xclip
     ];
     stateVersion = "24.11";
   };
