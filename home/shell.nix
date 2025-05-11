@@ -59,7 +59,7 @@ in
 
       lsd = {
         enable = true;
-        enableAliases = true;
+        enableBashIntegration = true;
       };
 
       carapace = {
