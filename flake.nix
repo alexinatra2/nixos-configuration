@@ -16,20 +16,6 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nvim-tmux-navigator = {
-      url = "https://github.com/alexghergh/nvim-tmux-navigation";
-      flake = false;
-    };
-
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     # Required, nvf works best and only directly supports flakes
     nvf = {
@@ -38,10 +24,6 @@
       # instance of nixpkgs. This is safe to do as nvf does not depend
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    niri = {
-      url = "github:sodiboo/niri-flake";
     };
   };
 
