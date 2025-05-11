@@ -13,7 +13,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    inputs.sops-nix.nixosModules.sops
     ../../modules
   ];
 
@@ -66,7 +65,10 @@
         };
       };
       desktopManager.gnome.enable = true;
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = [
+        "nvidia"
+        "displaylink"
+      ];
       xkb = {
         layout = "gb";
         variant = "";
@@ -90,6 +92,13 @@
       android-udev-rules
     ];
   };
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 32 * 1024;
+    }
+  ];
 
   # Configure console keymap
   console.keyMap = "uk";
