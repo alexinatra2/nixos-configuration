@@ -31,6 +31,7 @@
           "org/gnome/desktop/screensaver".lock-enabled = false;
           "org/gnome/desktop/session".idle-delay = mkUint32 0;
           "org/gnome/desktop/wm/preferences".resize-with-right-button = true;
+          "org/gnome/desktop/wm/preferences".button-layout = "appmenu:minimize,maximize,close";
           "org/gnome/mutter" = {
             edge-tiling = true;
             attach-modal-dialogs = true;
