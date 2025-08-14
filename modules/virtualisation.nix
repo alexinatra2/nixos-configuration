@@ -7,20 +7,37 @@
   virtualisation.containers.enable = true;
   virtualisation = {
     libvirtd.enable = true;
-    podman = {
-      enable = true;
-
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-    # docker = {
+    # podman = {
     #   enable = true;
-    #   package = pkgs.docker_25;
+
+    #   # Create a `docker` alias for podman, to use it as a drop-in replacement
+    #   dockerCompat = true;
+
+    #   # Required for containers under podman-compose to be able to talk to each other.
+    #   defaultNetwork.settings.dns_enabled = true;
     # };
+    docker = {
+      enable = true;
+      package = pkgs.docker_25;
+    };
     spiceUSBRedirection.enable = true;
+
+    oci-containers = {
+      backend = "docker";
+      containers.neo4j = {
+        image = "neo4j:4.4";
+        ports = [
+          "7474:7474"
+          "7687:7687"
+        ];
+        environment = {
+          NEO4J_AUTH = "neo4j:some-password";
+        };
+        extraOptions = [
+          "--restart=unless-stopped"
+        ];
+      };
+    };
   };
 
   # Useful other development tools

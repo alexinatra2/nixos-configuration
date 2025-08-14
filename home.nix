@@ -17,11 +17,13 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
+      claude-code
       discord
       gcc
       jetbrains-mono
       jetbrains.idea-ultimate
       jetbrains.rust-rover
+      jdk21
       libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
