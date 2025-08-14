@@ -7,7 +7,7 @@
 {
   imports = [
     inputs.nvf.homeManagerModules.default
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
     ./nvf-configuration
     ./home
   ];
