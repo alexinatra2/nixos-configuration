@@ -6,7 +6,6 @@
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
   virtualisation = {
-    libvirtd.enable = true;
     # podman = {
     #   enable = true;
 
@@ -20,7 +19,6 @@
       enable = true;
       package = pkgs.docker_25;
     };
-    spiceUSBRedirection.enable = true;
 
     oci-containers = {
       backend = "docker";
@@ -40,11 +38,10 @@
     };
   };
 
-  # Useful other development tools
+  # Useful container development tools
   environment.systemPackages = with pkgs; [
     dive # look into docker image layers
     podman-tui # status of containers in the terminal
     docker-compose # start group of containers for dev
-    #podman-compose # start group of containers for dev
   ];
 }

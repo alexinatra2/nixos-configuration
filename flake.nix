@@ -65,10 +65,6 @@
           };
           inherit modules;
         };
-      mkAppVM = name: {
-        type = "app";
-        program = "${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-nixos-vm";
-      };
     in
     {
       # system configurations
@@ -97,10 +93,5 @@
         };
       };
 
-      # extra vm output for testing
-      apps = rec {
-        default = nixos-vm;
-        nixos-vm = mkAppVM "nixos"; # start with `nix run .#apps.vm-test`
-      };
     };
 }

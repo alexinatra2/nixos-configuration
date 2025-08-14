@@ -57,14 +57,6 @@
   services = {
     xserver = {
       enable = true;
-      displayManager = {
-        autoLogin.enable = false;
-        gdm = {
-          enable = true;
-          autoSuspend = false;
-        };
-      };
-      desktopManager.gnome.enable = true;
       videoDrivers = [
         "nvidia"
         "displaylink"
@@ -84,6 +76,18 @@
 
     pulseaudio.enable = false;
 
+    # Display manager configuration
+    displayManager = {
+      autoLogin.enable = false;
+      gdm = {
+        enable = true;
+        autoSuspend = false;
+      };
+    };
+
+    # Desktop manager configuration
+    desktopManager.gnome.enable = true;
+
     # Enable CUPS to print documents.
     printing.enable = true;
 
@@ -100,8 +104,8 @@
     }
   ];
 
-  # Configure console keymap
-  console.keyMap = "uk";
+  # Configure console keymap (inherit from X11)
+  console.useXkbConfig = true;
 
   security.rtkit.enable = true;
 
@@ -111,19 +115,15 @@
       isNormalUser = true;
       extraGroups = [
         "wheel"
-        "kvm"
         "adbusers"
-        "libvirtd"
         "docker"
       ];
     };
-    groups.libvirtd.members = [ "${username}" ];
   };
 
   programs = {
     thunderbird.enable = true;
     adb.enable = true;
-    virt-manager.enable = true;
 
     nix-ld = {
       enable = true;
@@ -180,6 +180,8 @@
         "flakes"
       ];
     };
+    # Modern approach for store optimization
+    optimise.automatic = true;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 

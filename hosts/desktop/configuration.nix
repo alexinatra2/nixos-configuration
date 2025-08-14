@@ -66,17 +66,13 @@
       isNormalUser = true;
       extraGroups = [
         "wheel"
-        "kvm"
         "adbusers"
-        "libvirtd"
         "docker"
       ];
     };
-    groups.libvirtd.members = [ "${username}" ];
   };
 
   programs = {
-    virt-manager.enable = true;
 
     nix-ld = {
       enable = true;
@@ -121,6 +117,8 @@
         "flakes"
       ];
     };
+    # Modern approach for store optimization
+    optimise.automatic = true;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
