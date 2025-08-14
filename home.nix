@@ -24,7 +24,6 @@
       jetbrains.idea-ultimate
       jetbrains.rust-rover
       jdk21
-      libreoffice-qt6-fresh
       nixfmt-rfc-style
       nodejs
       pnpm
