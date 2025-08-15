@@ -75,12 +75,6 @@
             ./hosts/nixos/configuration.nix
           ];
         };
-        desktop = mkNixosConfig {
-          hostname = "nixos";
-          modules = [
-            ./hosts/desktop/configuration.nix
-          ];
-        };
       };
 
       # home configurations
