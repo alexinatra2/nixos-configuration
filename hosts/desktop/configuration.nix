@@ -72,6 +72,7 @@
         "wheel"
         "adbusers"
         "docker"
+        "networkmanager"
       ];
     };
   };
