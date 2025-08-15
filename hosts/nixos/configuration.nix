@@ -107,6 +107,7 @@
         "wheel"
         "adbusers"
         "docker"
+        "networkmanager"
       ];
     };
   };
@@ -201,6 +202,9 @@
     };
     nvidia-container-toolkit.enable = true;
   };
+
+  # Networking
+  networking.networkmanager.enable = true;
 
   # List services that you want to enable:
 
