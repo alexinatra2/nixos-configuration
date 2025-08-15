@@ -13,7 +13,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    ../../modules
+    ../../modules/virtualisation.nix
+    ../../modules/desktop/kde.nix
   ];
 
   # Bootloader.
@@ -76,23 +77,12 @@
 
     pulseaudio.enable = false;
 
-    # Display manager configuration
-    displayManager = {
-      autoLogin.enable = false;
-      gdm = {
-        enable = true;
-        autoSuspend = false;
-      };
-    };
-
-    # Desktop manager configuration
-    desktopManager.gnome.enable = true;
+    # Display manager and desktop are configured in modules/desktop/kde.nix
 
     # Enable CUPS to print documents.
     printing.enable = true;
 
     udev.packages = with pkgs; [
-      gnome-settings-daemon
       android-udev-rules
     ];
   };

@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
     ../../modules/virtualisation.nix
+    ../../modules/desktop/kde.nix
   ];
 
   boot.loader.grub = {
@@ -53,6 +54,9 @@
       openFirewall = true;
       settings.WebService.AllowUnencrypted = true;
     };
+
+    # Make GNOME session available in SDDM for optional switching
+    desktopManager.gnome.enable = true;
   };
 
   # Configure console keymap
