@@ -126,5 +126,87 @@
       action = ":Oil<cr>";
       desc = "Open Oil file explorer";
     }
+
+    # JetBrains-like shortcuts
+    # Duplicate line
+    {
+      key = "<C-d>";
+      mode = "n";
+      silent = true;
+      action = "yyp";
+      desc = "Duplicate line";
+    }
+    # Comment/uncomment line
+    {
+      key = "<C-/>";
+      mode = [ "n" "v" ];
+      silent = true;
+      action = ":Commentary<cr>";
+      desc = "Toggle comment";
+    }
+    # Go to declaration (similar to Ctrl+B in JetBrains)
+    {
+      key = "<C-b>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.lsp.buf.definition()<cr>";
+      desc = "Go to definition";
+    }
+    # Find usages (similar to Alt+F7 in JetBrains)
+    {
+      key = "<M-F7>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.lsp.buf.references()<cr>";
+      desc = "Find references";
+    }
+    # Refactor rename (similar to Shift+F6 in JetBrains)
+    {
+      key = "<S-F6>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.lsp.buf.rename()<cr>";
+      desc = "Rename symbol";
+    }
+    # Quick fix (similar to Alt+Enter in JetBrains)
+    {
+      key = "<M-cr>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.lsp.buf.code_action()<cr>";
+      desc = "Code action";
+    }
+    # Navigate to next error
+    {
+      key = "<F2>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.diagnostic.goto_next()<cr>";
+      desc = "Next diagnostic";
+    }
+    # Navigate to previous error
+    {
+      key = "<S-F2>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.diagnostic.goto_prev()<cr>";
+      desc = "Previous diagnostic";
+    }
+    # Show parameter hints (similar to Ctrl+P in JetBrains)
+    {
+      key = "<C-p>";
+      mode = [ "i" "n" ];
+      silent = true;
+      action = ":lua vim.lsp.buf.signature_help()<cr>";
+      desc = "Signature help";
+    }
+    # Organize imports
+    {
+      key = "<C-M-o>";
+      mode = "n";
+      silent = true;
+      action = ":lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })<cr>";
+      desc = "Organize imports";
+    }
   ];
 }
