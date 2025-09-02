@@ -60,7 +60,6 @@
       enable = true;
       videoDrivers = [
         "nvidia"
-        "displaylink"
       ];
       xkb = {
         layout = "gb";
@@ -162,7 +161,6 @@
       firefox
       git
       keepassxc
-      nvidia-container-toolkit
       vim
       wget
     ];
