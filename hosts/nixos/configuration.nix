@@ -140,6 +140,16 @@
     };
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+      };
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
