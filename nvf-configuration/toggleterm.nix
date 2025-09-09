@@ -4,8 +4,6 @@
     enable = true;
     mappings = {
       open = "<C-\\>";
-      horizontal = "<leader>th";
-      vertical = "<leader>tv";
     };
     setupOpts = {
       size = 20;

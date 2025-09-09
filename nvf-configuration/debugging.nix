@@ -12,8 +12,6 @@
           stepOut = "<F12>";
           toggleBreakpoint = "<F9>";
           runToCursor = "<leader>dc";
-          terminateSession = "<leader>dt";
-          restartSession = "<leader>dr";
         };
       };
     };

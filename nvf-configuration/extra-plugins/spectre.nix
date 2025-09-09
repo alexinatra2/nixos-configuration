@@ -7,9 +7,9 @@
     setupOpts = {
       color_devicons = true;
       live_update = false;
-      line_sep_start = '┌─────────────────────────────────────────'';
+      line_sep_start = "┌─────────────────────────────────────────";
       result_padding = "¦  ";
-      line_sep = '└─────────────────────────────────────────'';
+      line_sep = "└─────────────────────────────────────────";
       highlight = {
         ui = "String";
         search = "DiffChange";

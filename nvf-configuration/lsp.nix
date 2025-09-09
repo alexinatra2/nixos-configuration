@@ -16,7 +16,6 @@
         previousDiagnostic = "[d";
         openDiagnosticFloat = "<leader>e";
         codeAction = "<leader>ca";
-        rename = "<leader>rn";
         documentHighlight = "<leader>h";
       };
     };
@@ -78,7 +77,6 @@
 
       html = {
         enable = true;
-        lsp.enable = true;
       };
 
       css = {

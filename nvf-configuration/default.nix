@@ -41,7 +41,7 @@
           enable = true;
           sources = {
             nvim_lsp = "[LSP]";
-            luasnip = "[Snippet]";
+            luasnip = lib.mkDefault "[Snippet]";
             buffer = "[Buffer]";
             nvim_lua = "[Lua]";
             path = "[Path]";
