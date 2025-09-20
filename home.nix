@@ -17,18 +17,17 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
-      claude-code
       discord
       gcc
       jetbrains-mono
       jetbrains.idea-ultimate
       jetbrains.rust-rover
+      jetbrains.pycharm-professional
       jdk21
       nixfmt-rfc-style
       nodejs
       pnpm
       ripgrep
-      slack
       spotify
       unzip
       xclip
@@ -40,7 +39,6 @@
     allowUnfree = true;
     allowUnfreePredicate = _: true;
   };
-
 
   shell = {
     enable = true;

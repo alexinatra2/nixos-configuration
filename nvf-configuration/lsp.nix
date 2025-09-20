@@ -89,11 +89,6 @@
         lsp.enable = true;
       };
 
-      dart = {
-        enable = true;
-        lsp.enable = true;
-      };
-
       bash = {
         enable = true;
         lsp.enable = true;
