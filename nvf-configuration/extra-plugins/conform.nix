@@ -8,7 +8,10 @@
     setupOpts = {
       formatters_by_ft = {
         lua = [ "stylua" ];
-        python = [ "isort" "black" ];
+        python = [
+          "isort"
+          "black"
+        ];
         javascript = [ "prettier" ];
         typescript = [ "prettier" ];
         javascriptreact = [ "prettier" ];
@@ -37,7 +40,10 @@
     keys = [
       {
         key = "<leader>mp";
-        mode = [ "n" "v" ];
+        mode = [
+          "n"
+          "v"
+        ];
         silent = true;
         lua = true;
         action = "function() require('conform').format({ lsp_fallback = true }) end";

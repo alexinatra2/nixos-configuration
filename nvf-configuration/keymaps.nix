@@ -139,7 +139,10 @@
     # Comment/uncomment line
     {
       key = "<C-/>";
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       silent = true;
       action = ":Commentary<cr>";
       desc = "Toggle comment";
@@ -195,7 +198,10 @@
     # Show parameter hints (similar to Ctrl+P in JetBrains)
     {
       key = "<C-p>";
-      mode = [ "i" "n" ];
+      mode = [
+        "i"
+        "n"
+      ];
       silent = true;
       action = ":lua vim.lsp.buf.signature_help()<cr>";
       desc = "Signature help";

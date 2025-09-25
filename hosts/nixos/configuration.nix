@@ -13,6 +13,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
+    inputs.musnix.nixosModules.musnix
     ../../modules/virtualisation.nix
     ../../modules/desktop/kde.nix
   ];
@@ -215,6 +216,7 @@
   # Networking
   networking.networkmanager.enable = true;
 
+  musnix.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.

@@ -25,6 +25,10 @@
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    musnix = {
+      url = "github:musnix/musnix";
+    };
   };
 
   outputs =
@@ -66,7 +70,7 @@
           inherit modules;
         };
     in
-    {
+    rec {
       # system configurations
       nixosConfigurations = {
         nixos = mkNixosConfig {

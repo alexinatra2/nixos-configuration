@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   # KDE Plasma 6 + SDDM (Wayland by default; X11 available)
   services.xserver.enable = true;

@@ -2,16 +2,31 @@
 {
   programs.nvf.settings.vim.lazy.plugins."gitsigns.nvim" = {
     package = pkgs.vimPlugins.gitsigns-nvim;
-    event = [ "BufRead" "BufNewFile" ];
+    event = [
+      "BufRead"
+      "BufNewFile"
+    ];
     setupModule = "gitsigns";
     setupOpts = {
       signs = {
-        add = { text = "│"; };
-        change = { text = "│"; };
-        delete = { text = "_"; };
-        topdelete = { text = "‾"; };
-        changedelete = { text = "~"; };
-        untracked = { text = "┆"; };
+        add = {
+          text = "│";
+        };
+        change = {
+          text = "│";
+        };
+        delete = {
+          text = "_";
+        };
+        topdelete = {
+          text = "‾";
+        };
+        changedelete = {
+          text = "~";
+        };
+        untracked = {
+          text = "┆";
+        };
       };
       signcolumn = true;
       numhl = false;

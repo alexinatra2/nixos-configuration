@@ -35,18 +35,36 @@
           height = 0.80;
           preview_cutoff = 120;
         };
-        file_ignore_patterns = [ "node_modules" ".git/" "*.lock" ];
+        file_ignore_patterns = [
+          "node_modules"
+          ".git/"
+          "*.lock"
+        ];
         path_display = [ "truncate" ];
         winblend = 0;
-        border = {};
-        borderchars = [ "─" "│" "─" "│" "╭" "╮" "╯" "╰" ];
+        border = { };
+        borderchars = [
+          "─"
+          "│"
+          "─"
+          "│"
+          "╭"
+          "╮"
+          "╯"
+          "╰"
+        ];
         color_devicons = true;
-        set_env = { COLORTERM = "truecolor"; };
+        set_env = {
+          COLORTERM = "truecolor";
+        };
         file_previewer = "require('telescope.previewers').vim_buffer_cat.new";
         grep_previewer = "require('telescope.previewers').vim_buffer_vimgrep.new";
         qflist_previewer = "require('telescope.previewers').vim_buffer_qflist.new";
       };
-      extensions_list = [ "themes" "terms" ];
+      extensions_list = [
+        "themes"
+        "terms"
+      ];
     };
   };
 }
