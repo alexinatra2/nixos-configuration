@@ -6,9 +6,7 @@
 }:
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
     inputs.stylix.homeModules.stylix
-    ./nvf-configuration
     ./home
   ];
 
