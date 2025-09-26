@@ -168,6 +168,9 @@
       keepassxc
       vim
       wget
+      wineWowPackages.stable  # 32+64 bit Wine
+      winetricks              # for installing extra DLLs if FL Studio needs them
+      desktop-file-utils
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
