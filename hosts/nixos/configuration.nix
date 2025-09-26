@@ -167,6 +167,7 @@
       git
       keepassxc
       vim
+      nvim-pkg
       wget
       wineWowPackages.stable  # 32+64 bit Wine
       winetricks              # for installing extra DLLs if FL Studio needs them
@@ -221,6 +222,10 @@
 
   # Networking
   networking.networkmanager.enable = true;
+
+  nixpkgs.overlays = [
+      inputs.kickstart-nix-nvim.overlays.default
+  ];
 
   musnix.enable = true;
   # List services that you want to enable:
