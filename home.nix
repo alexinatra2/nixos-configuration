@@ -29,6 +29,7 @@
       spotify
       unzip
       xclip
+      libreoffice-qt6-fresh
     ];
     stateVersion = "24.11";
   };
