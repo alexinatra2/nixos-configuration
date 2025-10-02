@@ -2,6 +2,7 @@
   pkgs,
   username,
   inputs,
+  lib,
   ...
 }:
 {
@@ -45,10 +46,11 @@
   };
 
   programs = {
-    kitty = {
+    kitty = lib.mkForce {
       enable = true;
       settings = {
         cursor_trail = 2;
+	    background_opacity = "0.9";
       };
     };
 
