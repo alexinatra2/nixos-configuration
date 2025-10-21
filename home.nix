@@ -21,7 +21,6 @@
       jetbrains-mono
       jetbrains.idea-ultimate
       jetbrains.rust-rover
-      jetbrains.pycharm-professional
       jdk21
       nixfmt-rfc-style
       nodejs
@@ -31,6 +30,7 @@
       unzip
       xclip
       libreoffice-qt6-fresh
+      eduvpn-client
     ];
     stateVersion = "24.11";
   };
