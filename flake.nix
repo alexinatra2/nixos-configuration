@@ -16,14 +16,6 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    musnix = {
-      url = "github:musnix/musnix";
-    };
-
-    kickstart-nix-nvim = {
-      url = "github:alexinatra2/kickstart-nix.nvim";
-    };
   };
 
   outputs =

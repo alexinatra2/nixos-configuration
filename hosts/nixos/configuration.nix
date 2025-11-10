@@ -13,7 +13,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    inputs.musnix.nixosModules.musnix
     ../../modules/virtualisation.nix
     ../../modules/desktop/kde.nix
   ];
@@ -167,7 +166,6 @@
       git
       keepassxc
       vim
-      nvim-pkg
       wget
       desktop-file-utils
     ];
@@ -191,41 +189,16 @@
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
-  # Set Alacritty as the default terminal emulator
-  xdg.mime.defaultApplications = {
-    "x-scheme-handler/terminal" = "alacritty.desktop";
-  };
-
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
-  hardware = {
-    graphics.enable = true;
-    nvidia = {
-      open = false;
-      modesetting.enable = true;
-      nvidiaSettings = true;
-      prime = {
-        offload.enable = true;
-        # integrated
-        amdgpuBusId = "PCI:5:0:0";
-        # dedicated
-        nvidiaBusId = "PCI:1:0:0";
-      };
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-    nvidia-container-toolkit.enable = true;
-  };
+  hardware.graphics.enable = true;
+  hardware.nvidia.open = true;
 
   # Networking
   networking.networkmanager.enable = true;
 
-  nixpkgs.overlays = [
-      inputs.kickstart-nix-nvim.overlays.default
-  ];
-
-  musnix.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
