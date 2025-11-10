@@ -3,9 +3,9 @@
   ...
 }:
 {
-  # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
   virtualisation = {
+    # Enable common container config files in /etc/containers
+    containers.enable = true;
     # podman = {
     #   enable = true;
 
@@ -18,23 +18,6 @@
     docker = {
       enable = true;
       package = pkgs.docker_25;
-    };
-
-    oci-containers = {
-      backend = "docker";
-      containers.neo4j = {
-        image = "neo4j:4.4";
-        ports = [
-          "7474:7474"
-          "7687:7687"
-        ];
-        environment = {
-          NEO4J_AUTH = "neo4j:some-password";
-        };
-        extraOptions = [
-          "--restart=unless-stopped"
-        ];
-      };
     };
   };
 
