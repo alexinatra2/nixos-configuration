@@ -15,10 +15,7 @@
     #   # Required for containers under podman-compose to be able to talk to each other.
     #   defaultNetwork.settings.dns_enabled = true;
     # };
-    docker = {
-      enable = true;
-      package = pkgs.docker_25;
-    };
+    docker.enable = true;
   };
 
   # Useful container development tools
