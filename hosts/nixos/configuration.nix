@@ -138,15 +138,6 @@
     };
   };
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs username; };
-    users = {
-      "${username}" = import ../../home.nix;
-    };
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -160,8 +151,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  home-manager.backupFileExtension = "backup";
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -174,6 +163,7 @@
       vim
       wget
       desktop-file-utils
+      home-manager
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
