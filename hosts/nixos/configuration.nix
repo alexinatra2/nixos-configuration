@@ -60,7 +60,6 @@
       enable = true;
       videoDrivers = [
         "nvidia"
-        "displaylink"
       ];
       xkb = {
         layout = "gb";
@@ -82,10 +81,6 @@
 
     # Enable CUPS to print documents.
     printing.enable = true;
-
-    udev.packages = with pkgs; [
-      android-udev-rules
-    ];
   };
 
   swapDevices = [
@@ -143,6 +138,15 @@
     };
   };
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs username; };
+    users = {
+      "${username}" = import ../../home.nix;
+    };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -155,6 +159,8 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  home-manager.backupFileExtension = "backup";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
