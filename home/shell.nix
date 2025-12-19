@@ -25,6 +25,10 @@ in
         enable = true;
         enableCompletion = true;
         inherit shellAliases;
+        sessionVariables = {
+          NH_FLAKE = "/home/alexander/nixos-configuration";
+          NH_OS_FLAKE = "/home/alexander/nixos-configuration";
+        };
       };
 
       nushell = mkIf cfg.enableNu {
