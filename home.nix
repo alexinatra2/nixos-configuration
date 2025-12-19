@@ -19,7 +19,6 @@
       discord
       gcc
       jetbrains-mono
-      jetbrains.idea-ultimate
       jetbrains.rust-rover
       jdk21
       nixfmt-rfc-style
@@ -29,7 +28,6 @@
       spotify
       unzip
       xclip
-      libreoffice-qt6-fresh
       eduvpn-client
     ];
     stateVersion = "24.11";
