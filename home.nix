@@ -27,6 +27,7 @@
       ripgrep
       spotify
       unzip
+      ollama
       xclip
       eduvpn-client
     ];
