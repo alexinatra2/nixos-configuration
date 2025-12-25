@@ -4,5 +4,6 @@
     ./git.nix
     ./firefox.nix
     ./stylix.nix
+    ./tmux.nix
   ];
 }
