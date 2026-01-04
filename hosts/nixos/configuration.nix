@@ -60,7 +60,7 @@
       enable = true;
       videoDrivers = [
         "nvidia"
-        #        "displaylink"
+        "displaylink"
       ];
       xkb = {
         layout = "gb";
