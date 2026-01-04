@@ -13,8 +13,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    ../../modules/virtualisation.nix
-    ../../modules/desktop/kde.nix
+    ./modules/virtualisation.nix
+    ./modules/kde.nix
   ];
 
   # Bootloader.

@@ -41,7 +41,7 @@
           };
           inherit system;
           modules = [
-            ./hosts/nixos/configuration.nix
+            ./configuration.nix
           ];
         };
       };
