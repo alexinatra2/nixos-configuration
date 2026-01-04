@@ -68,18 +68,6 @@
       };
     };
 
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
-
-    pulseaudio.enable = false;
-
-    # Display manager and desktop are configured in modules/desktop/kde.nix
-
     # Enable CUPS to print documents.
     printing.enable = true;
   };

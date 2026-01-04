@@ -28,7 +28,6 @@
 
   # Basic KDE utilities and network applet for Wi‑Fi control in Plasma
   environment.systemPackages = with pkgs; [
-    kdePackages.kate
     kdePackages.konsole
     kdePackages.kdeconnect-kde
     kdePackages.plasma-nm # NetworkManager applet for KDE (Wi‑Fi controls)
