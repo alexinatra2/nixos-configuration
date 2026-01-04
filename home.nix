@@ -17,19 +17,20 @@
     packages = with pkgs; [
       cargo
       discord
+      eduvpn-client
       gcc
+      jdk21
       jetbrains-mono
       jetbrains.rust-rover
-      jdk21
       nixfmt-rfc-style
       nodejs
+      ollama
       pnpm
+      qgis
       ripgrep
       spotify
       unzip
-      ollama
       xclip
-      eduvpn-client
     ];
     stateVersion = "24.11";
   };
