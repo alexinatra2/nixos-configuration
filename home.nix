@@ -27,6 +27,10 @@
       unzip
       xclip
     ];
+    sessionVariables = {
+      NH_FLAKE = "/home/${username}/nixos-configuration";
+      NH_OS_FLAKE = "/home/${username}/nixos-configuration";
+    };
     stateVersion = "24.11";
   };
   programs.home-manager.enable = true;
@@ -49,8 +53,5 @@
     };
   };
 
-  programs.nh = {
-    enable = true;
-    flake = "/home/${username}/nixos-configuration";
-  };
+  programs.nh.enable = true;
 }
