@@ -33,6 +33,7 @@
     ];
     stateVersion = "24.11";
   };
+  programs.home-manager.enable = true;
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -44,15 +45,13 @@
     enableBash = true;
   };
 
-  programs = {
-    kitty = lib.mkForce {
-      enable = true;
-      settings = {
-        cursor_trail = 2;
-        background_opacity = "0.9";
-      };
+  programs.kitty = lib.mkDefault {
+    enable = true;
+    settings = {
+      cursor_trail = 2;
+      background_opacity = "0.9";
     };
-
-    home-manager.enable = true;
   };
+
+  programs.nh.enable = true;
 }
