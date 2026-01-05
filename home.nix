@@ -16,10 +16,8 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
-      discord
       gcc
       jetbrains-mono
-      jetbrains.rust-rover
       jdk21
       nixfmt-rfc-style
       nodejs
@@ -27,9 +25,7 @@
       ripgrep
       spotify
       unzip
-      ollama
       xclip
-      eduvpn-client
     ];
     stateVersion = "24.11";
   };
@@ -53,5 +49,8 @@
     };
   };
 
-  programs.nh.enable = true;
+  programs.nh = {
+    enable = true;
+    flake = "/home/${username}/nixos-configuration";
+  };
 }

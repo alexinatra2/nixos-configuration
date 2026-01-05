@@ -51,7 +51,10 @@
             username = "alexander";
             inherit inputs;
           };
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix
+            ./modules/privatepackages.nix
+          ];
         };
         "holzknecht@3m5.netz" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
@@ -59,7 +62,10 @@
             username = "holzknecht@3m5.netz";
             inherit inputs;
           };
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix
+            ./modules/workpackages.nix
+          ];
         };
       };
     };
