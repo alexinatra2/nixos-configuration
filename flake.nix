@@ -27,19 +27,17 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      username = "alexander";
-      hostname = "nixos";
     in
-    rec {
+    {
       # system configurations
       nixosConfigurations = {
-        "${hostname}" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit hostname;
-            inherit username;
-          };
+        "nixos" = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {
+            hostname = "nixos";
+            username = "alexander";
+            inherit inputs;
+          };
           modules = [
             ./configuration.nix
           ];
@@ -47,13 +45,27 @@
       };
 
       homeConfigurations = {
-        "${username}" = home-manager.lib.homeManagerConfiguration {
+        "alexander" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {
-            inherit username;
+            username = "alexander";
             inherit inputs;
           };
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix
+            ./modules/privatepackages.nix
+          ];
+        };
+        "holzknecht@3m5.netz" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            username = "holzknecht@3m5.netz";
+            inherit inputs;
+          };
+          modules = [
+            ./home.nix
+            ./modules/workpackages.nix
+          ];
         };
       };
     };

@@ -16,24 +16,24 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
-      discord
-      eduvpn-client
       gcc
-      jdk21
       jetbrains-mono
-      jetbrains.rust-rover
+      jdk21
       nixfmt-rfc-style
       nodejs
-      ollama
       pnpm
-      qgis
       ripgrep
       spotify
       unzip
       xclip
     ];
+    sessionVariables = {
+      NH_FLAKE = "/home/${username}/nixos-configuration";
+      NH_OS_FLAKE = "/home/${username}/nixos-configuration";
+    };
     stateVersion = "24.11";
   };
+  programs.home-manager.enable = true;
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -45,15 +45,13 @@
     enableBash = true;
   };
 
-  programs = {
-    kitty = lib.mkForce {
-      enable = true;
-      settings = {
-        cursor_trail = 2;
-        background_opacity = "0.9";
-      };
+  programs.kitty = lib.mkDefault {
+    enable = true;
+    settings = {
+      cursor_trail = 2;
+      background_opacity = "0.9";
     };
-
-    home-manager.enable = true;
   };
+
+  programs.nh.enable = true;
 }
