@@ -4,9 +4,10 @@
 }:
 {
   home.packages = with pkgs; [
-    ollama
+    discord
     eduvpn-client
     jetbrains.rust-rover
-    discord
+    ollama
+    qgis
   ];
 }

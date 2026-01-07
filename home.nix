@@ -45,7 +45,7 @@
     enableBash = true;
   };
 
-  programs.kitty = lib.mkDefault {
+  programs.kitty = lib.mkForce {
     enable = true;
     settings = {
       cursor_trail = 2;
