@@ -2,8 +2,7 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    # home-manager, used for managing user configuration
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       # The `follows` keyword in inputs is used for inheritance.
@@ -14,15 +13,6 @@
     };
     stylix = {
       url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Required, nvf works best and only directly supports flakes
-    nvf = {
-      url = "github:notashelf/nvf";
-      # You can override the input nixpkgs to follow your system's
-      # instance of nixpkgs. This is safe to do as nvf does not depend
-      # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -37,55 +27,46 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      username = "alexander";
-      mkNixosConfig =
-        {
-          hostname,
-          modules ? [ ./hosts/nixos/configuration.nix ],
-        }:
-        nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit hostname;
-            inherit username;
-          };
-          inherit system;
-          inherit modules;
-        };
-      mkHomeConfig =
-        {
-          username,
-          modules ? [ ./home.nix ],
-        }:
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            inherit username;
-            inherit inputs;
-          };
-          inherit modules;
-        };
     in
     {
       # system configurations
       nixosConfigurations = {
-        nixos = mkNixosConfig {
-          hostname = "nixos";
+        "nixos" = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            hostname = "nixos";
+            username = "alexander";
+            inherit inputs;
+          };
           modules = [
-            ./hosts/nixos/configuration.nix
+            ./configuration.nix
           ];
         };
       };
 
-      # home configurations
       homeConfigurations = {
-        "alexander" = mkHomeConfig {
-          username = "alexander";
+        "alexander" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            username = "alexander";
+            inherit inputs;
+          };
           modules = [
             ./home.nix
+            ./modules/privatepackages.nix
+          ];
+        };
+        "holzknecht@3m5.netz" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            username = "holzknecht@3m5.netz";
+            inherit inputs;
+          };
+          modules = [
+            ./home.nix
+            ./modules/workpackages.nix
           ];
         };
       };
-
     };
 }

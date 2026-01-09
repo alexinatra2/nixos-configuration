@@ -2,13 +2,12 @@
   pkgs,
   username,
   inputs,
+  lib,
   ...
 }:
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
     inputs.stylix.homeModules.stylix
-    ./nvf-configuration
     ./home
   ];
 
@@ -17,44 +16,42 @@
     homeDirectory = "/home/${username}";
     packages = with pkgs; [
       cargo
-      claude-code
-      discord
       gcc
       jetbrains-mono
-      jetbrains.idea-ultimate
-      jetbrains.rust-rover
       jdk21
       nixfmt-rfc-style
       nodejs
       pnpm
       ripgrep
-      slack
       spotify
       unzip
       xclip
     ];
+    sessionVariables = {
+      NH_FLAKE = "/home/${username}/nixos-configuration";
+      NH_OS_FLAKE = "/home/${username}/nixos-configuration";
+    };
     stateVersion = "24.11";
   };
+  programs.home-manager.enable = true;
 
   nixpkgs.config = {
     allowUnfree = true;
     allowUnfreePredicate = _: true;
   };
 
-
   shell = {
     enable = true;
     enableBash = true;
   };
 
-  programs = {
-    kitty = {
-      enable = true;
-      settings = {
-        cursor_trail = 2;
-      };
+  programs.kitty = lib.mkForce {
+    enable = true;
+    settings = {
+      cursor_trail = 2;
+      background_opacity = "0.9";
     };
-
-    home-manager.enable = true;
   };
+
+  programs.nh.enable = true;
 }

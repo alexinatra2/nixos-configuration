@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   # KDE Plasma 6 + SDDM (Wayland by default; X11 available)
   services.xserver.enable = true;
@@ -18,12 +23,12 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
   services.pulseaudio.enable = false;
 
   # Basic KDE utilities and network applet for Wi‑Fi control in Plasma
   environment.systemPackages = with pkgs; [
-    kdePackages.kate
     kdePackages.konsole
     kdePackages.kdeconnect-kde
     kdePackages.plasma-nm # NetworkManager applet for KDE (Wi‑Fi controls)

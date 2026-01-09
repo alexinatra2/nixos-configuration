@@ -13,8 +13,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    ../../modules/virtualisation.nix
-    ../../modules/desktop/kde.nix
+    ./modules/virtualisation.nix
+    ./modules/kde.nix
   ];
 
   # Bootloader.
@@ -68,23 +68,8 @@
       };
     };
 
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-
-    pulseaudio.enable = false;
-
-    # Display manager and desktop are configured in modules/desktop/kde.nix
-
     # Enable CUPS to print documents.
     printing.enable = true;
-
-    udev.packages = with pkgs; [
-      android-udev-rules
-    ];
   };
 
   swapDevices = [
@@ -108,6 +93,8 @@
         "adbusers"
         "docker"
         "networkmanager"
+        "realtime"
+        "audio"
       ];
     };
   };
@@ -140,6 +127,16 @@
     };
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+      };
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -152,9 +149,10 @@
       firefox
       git
       keepassxc
-      nvidia-container-toolkit
       vim
       wget
+      desktop-file-utils
+      home-manager
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
@@ -176,32 +174,12 @@
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
-  # Set Alacritty as the default terminal emulator
-  xdg.mime.defaultApplications = {
-    "x-scheme-handler/terminal" = "alacritty.desktop";
-  };
-
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
-  hardware = {
-    graphics.enable = true;
-    nvidia = {
-      open = false;
-      modesetting.enable = true;
-      nvidiaSettings = true;
-      prime = {
-        offload.enable = true;
-        # integrated
-        amdgpuBusId = "PCI:5:0:0";
-        # dedicated
-        nvidiaBusId = "PCI:1:0:0";
-      };
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-    nvidia-container-toolkit.enable = true;
-  };
+  hardware.graphics.enable = true;
+  hardware.nvidia.open = true;
 
   # Networking
   networking.networkmanager.enable = true;
