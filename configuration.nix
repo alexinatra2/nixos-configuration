@@ -101,7 +101,6 @@
 
   programs = {
     thunderbird.enable = true;
-    adb.enable = true;
 
     nix-ld = {
       enable = true;
@@ -152,6 +151,7 @@
       vim
       wget
       desktop-file-utils
+      android-tools
       home-manager
     ];
     sessionVariables = {
