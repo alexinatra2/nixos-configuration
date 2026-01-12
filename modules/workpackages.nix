@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -20,4 +19,8 @@
   home.sessionVariables = {
     LD_LIBRARY_PATH = "${pkgs.mesa}/lib:${pkgs.libGL}/lib";
   };
+
+  fonts.fontconfig.enable = true;
+  home.file."/.local/share/fonts/NerdFonts/JetBrainsMono".source =
+    "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono";
 }
