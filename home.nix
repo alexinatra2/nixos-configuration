@@ -19,7 +19,7 @@
       gcc
       jetbrains-mono
       jdk21
-      nixfmt-rfc-style
+      nixfmt
       nodejs
       pnpm
       ripgrep
