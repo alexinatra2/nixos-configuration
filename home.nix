@@ -9,6 +9,7 @@
   imports = [
     inputs.stylix.homeModules.stylix
     ./home
+    ./modules/nvf
   ];
 
   home = {
@@ -17,8 +18,8 @@
     packages = with pkgs; [
       cargo
       gcc
-      jetbrains-mono
       jdk21
+      jetbrains-mono
       nixfmt
       nodejs
       pnpm
