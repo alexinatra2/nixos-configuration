@@ -27,6 +27,8 @@
       spotify
       unzip
       xclip
+      lazydocker
+      lazysql
     ];
     sessionVariables = {
       NH_FLAKE = "/home/${username}/nixos-configuration";
