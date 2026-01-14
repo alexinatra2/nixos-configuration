@@ -6,6 +6,7 @@
   imports = [
     inputs.nvf.homeManagerModules.nvf
     ./keymaps.nix
+    ./telescope.nix
   ];
 
   programs.nvf.enable = true;
@@ -28,22 +29,16 @@
     languages = {
       nix.enable = true;
       rust.enable = true;
-      ts.enable = true;
+      ts = {
+        enable = true;
+        extraDiagnostics.enable = true;
+        format.enable = true;
+      };
     };
 
     git.enable = true;
     treesitter.enable = true;
     theme.enable = true;
-    telescope = {
-      enable = true;
-      mappings = {
-        findFiles = "<leader>ff";
-        liveGrep = "<leader>fg";
-        diagnostics = "<leader>fd";
-        gitCommits = "<leader>fc";
-        gitStatus = "<leader>fs";
-      };
-    };
     clipboard = {
       enable = true;
       registers = "unnamedplus";
