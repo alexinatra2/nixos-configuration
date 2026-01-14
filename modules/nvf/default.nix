@@ -42,7 +42,8 @@
         findFiles = "<leader>ff";
         liveGrep = "<leader>fg";
         diagnostics = "<leader>fd";
-        lspDocumentSymbols = "<leader>fs";
+        gitCommits = "<leader>fc";
+        gitStatus = "<leader>fs";
       };
     };
     clipboard = {
