@@ -33,6 +33,7 @@
       ts.enable = true;
     };
 
+    git.enable = true;
     treesitter.enable = true;
     theme.enable = true;
     telescope = {
@@ -54,11 +55,6 @@
       setupOpts.direction = "float";
       lazygit.enable = true;
     };
-    dashboard.startify = {
-      enable = true;
-      sessionPersistence = true;
-      sessionAutoload = true;
-    };
     binds.whichKey.enable = true;
     options = {
       tabstop = 2;
@@ -79,6 +75,5 @@
       breadcrumbs.enable = true;
     };
     autocomplete.nvim-cmp.enable = true;
-
   };
 }
