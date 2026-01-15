@@ -7,7 +7,6 @@
         liveGrep = "<leader>fg";
         diagnostics = "<leader>fd";
         gitCommits = "<leader>fc";
-        gitStatus = "<leader>fs";
       };
     };
 
@@ -24,6 +23,13 @@
         key = "<leader>fh";
         action = "<CMD>Telescope command_history<CR>";
         desc = "Command history [Telescope]";
+        silent = true;
+      }
+      {
+        mode = "n";
+        key = "<leader>ft";
+        action = "<CMD>Telescope colorscheme<CR>";
+        desc = "Colorscheme [Telescope]";
         silent = true;
       }
     ];
