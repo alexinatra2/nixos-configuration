@@ -62,6 +62,10 @@
         gitStatus.enable = true;
       };
       motion.flash-nvim.enable = true;
+      yanky-nvim = {
+        enable = true;
+        setupOpts.ring.storage = "memory";
+      };
     };
     ui = {
       borders.enable = true;
