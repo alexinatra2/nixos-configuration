@@ -47,6 +47,10 @@
         setupOpts.ring.storage = "memory";
       };
     };
+    assistant.copilot = {
+      enable = true;
+      cmp.enable = true;
+    };
     ui = {
       borders.enable = true;
       fastaction.enable = true;
