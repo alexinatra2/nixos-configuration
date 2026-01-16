@@ -6,6 +6,7 @@
   imports = [
     inputs.nvf.homeManagerModules.nvf
     ./keymaps.nix
+    ./lsp.nix
     ./telescope.nix
   ];
 
@@ -14,28 +15,6 @@
   programs.nvf.settings.vim = {
     viAlias = true;
     vimAlias = true;
-    lsp = {
-      enable = true;
-      formatOnSave = true;
-      inlayHints.enable = true;
-      mappings = {
-        codeAction = "<A-CR>";
-        goToDefinition = "gd";
-        nextDiagnostic = "<A-n>";
-        previousDiagnostic = "<A-p>";
-        renameSymbol = "<A-r>";
-      };
-    };
-    languages = {
-      nix.enable = true;
-      rust.enable = true;
-      ts = {
-        enable = true;
-        extraDiagnostics.enable = true;
-        format.enable = true;
-      };
-    };
-
     git.enable = true;
     treesitter.enable = true;
     theme.enable = true;
@@ -62,6 +41,7 @@
         gitStatus.enable = true;
       };
       motion.flash-nvim.enable = true;
+      undotree.enable = true;
       yanky-nvim = {
         enable = true;
         setupOpts.ring.storage = "memory";
