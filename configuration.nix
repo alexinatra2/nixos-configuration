@@ -126,16 +126,6 @@
     };
   };
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = true;
-      };
-    };
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -153,6 +143,8 @@
       desktop-file-utils
       android-tools
       home-manager
+      vlc
+      mpv
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
@@ -178,8 +170,20 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  hardware.graphics.enable = true;
-  hardware.nvidia.open = true;
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings.General.Experimental = true;
+    };
+
+    graphics = {
+      enable = true;
+      extraPackages = [ pkgs.mesa.drivers ];
+    };
+
+    nvidia.open = true;
+  };
 
   # Networking
   networking.networkmanager.enable = true;
