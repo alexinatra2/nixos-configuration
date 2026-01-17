@@ -47,9 +47,12 @@
         setupOpts.ring.storage = "memory";
       };
     };
-    assistant.copilot = {
-      enable = true;
-      cmp.enable = true;
+    assistant = {
+      copilot = {
+        enable = true;
+        cmp.enable = true;
+      };
+      codecompanion-nvim.enable = true;
     };
     ui = {
       borders.enable = true;
