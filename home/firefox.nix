@@ -1,5 +1,4 @@
 {
-  inputs,
   ...
 }:
 {
@@ -49,18 +48,18 @@
     #       ];
     #     };
     #   };
-    policies = {
-      DisableFirefoxStudies = true;
-      DisplayBookmarksToolbar = "always";
-      DisablePocket = true;
-      EnableTrackingProtection = {
-        Cryptomining = true;
-        Fingerprinting = true;
-        Locked = true;
-        Value = true;
-      };
-      HttpsOnlyMode = "enabled";
-      TranslateEnabled = false;
-    };
+    # policies = {
+    #   DisableFirefoxStudies = true;
+    #   DisplayBookmarksToolbar = "always";
+    #   DisablePocket = true;
+    #   EnableTrackingProtection = {
+    #     Cryptomining = true;
+    #     Fingerprinting = true;
+    #     Locked = true;
+    #     Value = true;
+    #   };
+    #   HttpsOnlyMode = "enabled";
+    #   TranslateEnabled = false;
+    # };
   };
 }
