@@ -26,6 +26,8 @@
         format.enable = true;
       };
       python.enable = true;
+      bash.enable = true;
+      kotlin.enable = true;
     };
   };
 }
