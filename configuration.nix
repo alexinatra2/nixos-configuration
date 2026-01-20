@@ -179,7 +179,7 @@
 
     graphics = {
       enable = true;
-      extraPackages = [ pkgs.mesa.drivers ];
+      extraPackages = [ pkgs.mesa ];
     };
 
     nvidia.open = true;
