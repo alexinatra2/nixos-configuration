@@ -8,6 +8,7 @@
     ./keymaps.nix
     ./lsp.nix
     ./telescope.nix
+    ./git.nix
   ];
 
   programs.nvf.enable = true;
@@ -15,7 +16,7 @@
   programs.nvf.settings.vim = {
     viAlias = true;
     vimAlias = true;
-    git.enable = true;
+    hideSearchHighlight = true;
     treesitter.enable = true;
     theme.enable = true;
     clipboard = {
@@ -24,9 +25,8 @@
     };
     terminal.toggleterm = {
       enable = true;
-      mappings.open = "<A-t>";
+      mappings.open = "<A-i>";
       setupOpts.direction = "float";
-      lazygit.enable = true;
     };
     binds.whichKey.enable = true;
     options = {
