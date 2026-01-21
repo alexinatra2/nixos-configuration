@@ -1,19 +1,12 @@
 {
-  inputs,
-  ...
-}:
-{
   imports = [
-    inputs.nvf.homeManagerModules.nvf
     ./keymaps.nix
     ./lsp.nix
     ./telescope.nix
     ./git.nix
   ];
 
-  programs.nvf.enable = true;
-
-  programs.nvf.settings.vim = {
+  config.vim = {
     viAlias = true;
     vimAlias = true;
     hideSearchHighlight = true;

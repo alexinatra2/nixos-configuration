@@ -72,5 +72,12 @@
           ];
         };
       };
-    };
+
+      packages.${system}.nvf =
+        (inputs.nvf.lib.neovimConfiguration {
+          inherit pkgs;
+          modules = [ ./modules/nvf ];
+       	})
+	.neovim;
+  };
 }

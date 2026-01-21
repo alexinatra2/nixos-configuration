@@ -1,5 +1,5 @@
 {
-  programs.nvf.settings.vim = {
+  config.vim = {
     telescope = {
       enable = true;
       mappings = {
