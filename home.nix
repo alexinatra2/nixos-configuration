@@ -9,7 +9,8 @@
   imports = [
     inputs.stylix.homeModules.stylix
     ./home
-    ./modules/nvf
+    # ./modules/nvf
+    ./modules/nixvim
   ];
 
   home = {
