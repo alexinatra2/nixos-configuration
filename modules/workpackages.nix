@@ -13,6 +13,8 @@
     xorg.libXi
     xorg.libXrandr
     xorg.libXxf86vm
+    gradle
+    maven
   ];
 
   # Ensure LD_LIBRARY_PATH includes system GL drivers
