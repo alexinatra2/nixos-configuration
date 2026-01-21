@@ -9,6 +9,7 @@
     enable = true;
     imports = [
       ./options.nix
+      ./telescope.nix
     ];
   };
 }
