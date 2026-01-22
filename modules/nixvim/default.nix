@@ -9,7 +9,10 @@
     enable = true;
     imports = [
       ./options.nix
+      ./keymaps.nix
       ./telescope.nix
+      ./git.nix
+      ./lsp
     ];
   };
 }
