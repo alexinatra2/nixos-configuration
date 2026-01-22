@@ -1,6 +1,13 @@
 {
-  lsp.servers.nil_ls = {
+  pkgs,
+  lib,
+  ...
+}:
+{
+  lsp.servers.nixd = {
     enable = true;
-    config = { };
+    config = {
+      formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
+    };
   };
 }
