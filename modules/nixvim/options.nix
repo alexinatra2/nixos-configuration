@@ -5,7 +5,43 @@
   globals.mapleader = " ";
 
   opts = {
+    # Line numbers
+    number = true;
+    relativenumber = true;
+
+    # Enable more colors (24-bit)
+    termguicolors = true;
+
+    # Have a better completion experience
+    completeopt = [
+      "menuone"
+      "noselect"
+      "noinsert"
+    ];
+
+    # Always show the signcolumn, otherwise text would be shifted when displaying error icons
+    signcolumn = "yes";
+
+    # Enable mouse
+    mouse = "a";
+
+    # Search
+    ignorecase = true;
+    smartcase = true;
+
     tabstop = 2;
     shiftwidth = 2;
+
+    clipboard.register = "unnamedplus";
+
+    # Set encoding
+    encoding = "utf-8";
+    fileencoding = "utf-8";
+
+    # Save undo history
+    undofile = true;
+    swapfile = true;
+    backup = false;
+    autoread = true;
   };
 }
