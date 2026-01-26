@@ -8,14 +8,15 @@
   programs.nixvim = {
     enable = true;
     imports = [
-      ./options.nix
+      ./cmp.nix
+      ./git.nix
       ./keymaps.nix
+      ./lsp
+      ./oil.nix
+      ./options.nix
       ./telescope.nix
       ./treesitter.nix
-      ./git.nix
-      ./oil.nix
       ./utility.nix
-      ./lsp
     ];
   };
 }
