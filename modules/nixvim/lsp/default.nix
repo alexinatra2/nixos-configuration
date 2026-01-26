@@ -1,4 +1,8 @@
 {
+  lib,
+  ...
+}:
+{
   imports = [
     # intended to configure each server in separate file
     ./nix.nix
@@ -29,6 +33,14 @@
     {
       key = "<A-CR>";
       lspBufAction = "code_action";
+    }
+    {
+      action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=-1, float=true }) end";
+      key = "<A-p>";
+    }
+    {
+      action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=1, float=true }) end";
+      key = "<A-n>";
     }
   ];
 }
