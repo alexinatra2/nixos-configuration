@@ -2,10 +2,12 @@
   imports = [
     # intended to configure each server in separate file
     ./nix.nix
+    ./ts.nix
   ];
 
   plugins.lsp.enable = true;
   plugins.lsp-format.enable = true;
+  plugins.lsp-lines.enable = true;
   lsp.inlayhints.enable = true;
   lsp.keymaps = [
     {
