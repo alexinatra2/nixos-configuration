@@ -12,6 +12,8 @@
       ./keymaps.nix
       ./telescope.nix
       ./git.nix
+      ./oil.nix
+      ./toggleterm.nix
       ./lsp
     ];
   };
