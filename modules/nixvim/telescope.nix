@@ -8,5 +8,6 @@
     "<leader>ff" = "find_files";
     "<leader><leader>" = "live_grep";
     "<leader>fg" = "git_files";
+    "<leader>fh" = "command_history";
   };
 }
