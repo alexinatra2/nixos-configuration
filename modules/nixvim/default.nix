@@ -8,8 +8,7 @@
   programs.nixvim = {
     enable = true;
     imports = [
-      ./ai.nix
-      ./cmp.nix
+      ./completion.nix
       ./git.nix
       ./keymaps.nix
       ./lsp
