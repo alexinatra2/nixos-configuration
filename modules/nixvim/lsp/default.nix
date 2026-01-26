@@ -26,5 +26,9 @@
       key = "<leader>r";
       lspBufAction = "rename";
     }
+    {
+      key = "<A-CR>";
+      lspBufAction = "code_action";
+    }
   ];
 }
