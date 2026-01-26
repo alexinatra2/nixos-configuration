@@ -1,6 +1,7 @@
 {
   plugins.treesitter = {
     enable = true;
+    indent.enable = true;
 
     ensure_installed = [
       "typescript"
@@ -10,6 +11,10 @@
       "json"
       "html"
       "css"
+      "nix"
+      "rust"
     ];
   };
+
+	plugins.treesitter-textobjects.enable = true;
 }
