@@ -9,8 +9,9 @@
         "buffer"
       ];
       keymap = {
-        "<S-CR>" = [
+        "<CR>" = [
           "select_and_accept"
+          "fallback"
         ];
         "<C-space>" = [
           "show"
