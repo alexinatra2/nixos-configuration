@@ -13,7 +13,7 @@
       ./telescope.nix
       ./git.nix
       ./oil.nix
-      ./toggleterm.nix
+      ./utility.nix
       ./lsp
     ];
   };
