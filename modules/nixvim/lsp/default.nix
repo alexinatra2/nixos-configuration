@@ -7,6 +7,7 @@
     # intended to configure each server in separate file
     ./nix.nix
     ./ts.nix
+    ./rust.nix
   ];
 
   plugins.lsp.enable = true;
