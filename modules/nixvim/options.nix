@@ -29,10 +29,13 @@
     ignorecase = true;
     smartcase = true;
 
+    breakindent = true;
+    cursorline = true;
+
     tabstop = 2;
     shiftwidth = 2;
 
-    clipboard.register = "unnamedplus";
+    clipboard = "unnamedplus";
 
     # Set encoding
     encoding = "utf-8";
