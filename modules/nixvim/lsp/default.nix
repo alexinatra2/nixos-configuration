@@ -8,6 +8,7 @@
     ./nix.nix
     ./ts.nix
     ./rust.nix
+    ./kotlin.nix
   ];
 
   plugins.lsp.enable = true;
