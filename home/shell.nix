@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  username,
   ...
 }:
 with lib;
@@ -26,8 +27,8 @@ in
         enableCompletion = true;
         inherit shellAliases;
         sessionVariables = {
-          NH_FLAKE = "/home/alexander/nixos-configuration";
-          NH_OS_FLAKE = "/home/alexander/nixos-configuration";
+          NH_FLAKE = "/home/${username}/nixos-configuration";
+          NH_OS_FLAKE = "/home/${username}/nixos-configuration";
         };
       };
 
@@ -56,16 +57,14 @@ in
         enableBashIntegration = true;
 
         defaultOptions = [
-          "--height=40%"
+          "--height=50%"
           "--layout=reverse"
           "--border"
           "--ansi"
           "--tiebreak=begin,length,index"
+          "--extended"
         ];
-
-        defaultCommand = "fd --type f --hidden --follow --exclude .git";
       };
-      fd.enable = true;
 
       zoxide = {
         enable = true;

@@ -31,10 +31,6 @@
       lazydocker
       lazysql
     ];
-    sessionVariables = {
-      NH_FLAKE = "/home/${username}/nixos-configuration";
-      NH_OS_FLAKE = "/home/${username}/nixos-configuration";
-    };
     stateVersion = "24.11";
   };
   programs.home-manager.enable = true;
