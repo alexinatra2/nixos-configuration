@@ -12,7 +12,7 @@
       ./git.nix
       ./keymaps.nix
       ./lsp
-      ./oil.nix
+      ./filesystem.nix
       ./options.nix
       ./telescope.nix
       ./treesitter.nix
