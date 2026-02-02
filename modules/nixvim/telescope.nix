@@ -9,5 +9,8 @@
     "<leader><leader>" = "live_grep";
     "<leader>fg" = "git_files";
     "<leader>fh" = "command_history";
+    "<leader>fr" = "resume";
+    "<leader>fo" = "oldfiles";
+    "<leader>fm" = "harpoon marks";
   };
 }
