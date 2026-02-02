@@ -50,8 +50,28 @@ in
 
       starship.enable = true;
       btop.enable = true;
-      fzf.enable = true;
-      zoxide.enable = true;
+
+      fzf = {
+        enable = true;
+        enableBashIntegration = true;
+
+        defaultOptions = [
+          "--height=40%"
+          "--layout=reverse"
+          "--border"
+          "--ansi"
+          "--tiebreak=begin,length,index"
+        ];
+
+        defaultCommand = "fd --type f --hidden --follow --exclude .git";
+      };
+      fd.enable = true;
+
+      zoxide = {
+        enable = true;
+        enableBashIntegration = true;
+      };
+
       lazygit.enable = true;
 
       bat = {
