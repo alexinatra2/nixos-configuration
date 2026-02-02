@@ -24,23 +24,40 @@
     };
   };
 
+  plugins.harpoon = {
+    enable = true;
+    enableTelescope = true;
+  };
+
   keymaps = [
+    # oil
     {
-      key = "<A-w>";
+      key = "<A-d>";
       action = "<CMD>lua require('oil').toggle_float()<CR>";
       options = {
-        desc = "Toggle Oil float";
+        desc = "Toggle Oil float [Oil]";
         silent = true;
       };
     }
 
+    # neo-tree
     {
-      key = "<A-e>";
+      key = "<A-f>";
       action = "<CMD>Neotree filesystem reveal toggle action=show<CR>";
       options = {
-        desc = "Toggle Neo‑Tree (reveal current file)";
+        desc = "Toggle Neotree [Neotree]";
         silent = true;
       };
     }
+    {
+      key = "<A-g>";
+      action = "<CMD>Neotree source=git_status reveal toggle action=show<CR>";
+      options = {
+        desc = "Toggle Neotree (showing git files) [Neotree]";
+        silent = true;
+      };
+    }
+
+    # TODO harpoon
   ];
 }
