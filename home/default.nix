@@ -5,5 +5,6 @@
     ./firefox.nix
     ./stylix.nix
     ./tmux.nix
+    ./neovim.nix
   ];
 }

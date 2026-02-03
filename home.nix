@@ -9,8 +9,6 @@
   imports = [
     inputs.stylix.homeModules.stylix
     ./home
-    # ./modules/nvf
-    ./modules/nixvim
   ];
 
   home = {
@@ -44,6 +42,11 @@
   shell = {
     enable = true;
     enableBash = true;
+  };
+
+  neovim = {
+    enable = true;
+    provider = "nixvim";
   };
 
   programs.kitty = lib.mkForce {
