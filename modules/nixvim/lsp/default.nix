@@ -9,6 +9,7 @@
     ./ts.nix
     ./rust.nix
     ./kotlin.nix
+    ./python.nix
   ];
 
   plugins.lsp.enable = true;
