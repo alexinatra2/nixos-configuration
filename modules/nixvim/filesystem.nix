@@ -1,17 +1,4 @@
 {
-  plugins.oil = {
-    enable = true;
-    settings = {
-      columns = [
-        "icon"
-        "permissions"
-        "size"
-      ];
-      delete_to_trash = true;
-      skip_confirm_for_simple_edits = true;
-    };
-  };
-
   plugins.neo-tree = {
     enable = true;
     settings = {
@@ -24,25 +11,10 @@
     };
   };
 
-  plugins.harpoon = {
-    enable = true;
-    enableTelescope = true;
-  };
-
   keymaps = [
-    # oil
-    {
-      key = "<A-d>";
-      action = "<CMD>lua require('oil').toggle_float()<CR>";
-      options = {
-        desc = "Toggle Oil float [Oil]";
-        silent = true;
-      };
-    }
-
     # neo-tree
     {
-      key = "<A-f>";
+      key = "<A-e>";
       action = "<CMD>Neotree filesystem reveal toggle action=show<CR>";
       options = {
         desc = "Toggle Neotree [Neotree]";
@@ -57,7 +29,5 @@
         silent = true;
       };
     }
-
-    # TODO harpoon
   ];
 }
