@@ -7,6 +7,9 @@
   plugins.telescope.keymaps = {
     "<leader>ff" = "find_files";
     "<leader><leader>" = "live_grep";
+    "<leader>fd" = "diagnostics";
+    "<leader>fb" = "current_buffer_fuzzy_find";
+    "<leader>fq" = "quickfix";
     "<leader>fg" = "git_files";
     "<leader>fh" = "command_history";
     "<leader>fr" = "resume";
