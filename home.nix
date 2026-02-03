@@ -21,16 +21,16 @@
       gcc
       jdk21
       jetbrains-mono
+      lazydocker
+      lazysql
       nixfmt
       nodejs
+      opencode
       pnpm
       ripgrep
       spotify
       unzip
       xclip
-      opencode
-      lazydocker
-      lazysql
     ];
     stateVersion = "24.11";
   };
