@@ -28,6 +28,7 @@
       spotify
       unzip
       xclip
+      opencode
       lazydocker
       lazysql
     ];
