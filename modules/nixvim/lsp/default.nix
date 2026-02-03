@@ -12,10 +12,13 @@
     ./python.nix
   ];
 
-  plugins.lsp.enable = true;
+  plugins.lsp = {
+    enable = true;
+    inlayhints.enable = true;
+  };
+
   plugins.lsp-format.enable = true;
   plugins.lsp-lines.enable = true;
-  lsp.inlayhints.enable = true;
   lsp.keymaps = [
     {
       key = "gd";
