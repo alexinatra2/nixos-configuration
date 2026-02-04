@@ -18,7 +18,6 @@
   };
 
   plugins.lsp-format.enable = true;
-  plugins.lsp-lines.enable = true;
   lsp.keymaps = [
     {
       key = "gd";
