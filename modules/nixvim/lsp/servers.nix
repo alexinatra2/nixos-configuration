@@ -5,6 +5,15 @@
 }:
 {
   lsp.servers = {
+    # Nix
+    nixd = {
+      enable = true;
+      config = {
+        formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
+      };
+    };
+
+    # TypeScript/JavaScript
     ts_ls = {
       enable = true;
 
@@ -58,5 +67,17 @@
         };
       };
     };
+
+    # Rust
+    rust_analyzer.enable = true;
+
+    # Kotlin
+    kotlin_language_server.enable = true;
+
+    # Python
+    pyright.enable = true;
+
+    # LaTeX
+    ltex.enable = true;
   };
 }

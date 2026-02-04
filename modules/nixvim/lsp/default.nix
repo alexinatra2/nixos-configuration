@@ -4,12 +4,7 @@
 }:
 {
   imports = [
-    # intended to configure each server in separate file
-    ./nix.nix
-    ./ts.nix
-    ./rust.nix
-    ./kotlin.nix
-    ./python.nix
+    ./servers.nix
   ];
 
   plugins.lsp = {
