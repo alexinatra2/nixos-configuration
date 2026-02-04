@@ -6,5 +6,6 @@
     ./stylix.nix
     ./tmux.nix
     ./neovim.nix
+    ./opencode.nix
   ];
 }

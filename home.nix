@@ -23,7 +23,6 @@
       lazysql
       nixfmt
       nodejs
-      opencode
       pnpm
       ripgrep
       spotify
@@ -42,6 +41,17 @@
   shell = {
     enable = true;
     enableBash = true;
+  };
+
+  opencode = {
+    enable = true;
+    agents = {
+      build.enable = true;
+      explore.enable = true;
+      plan.enable = true;
+      chat.enable = true;
+      creative.enable = true;
+    };
   };
 
   neovim = {
