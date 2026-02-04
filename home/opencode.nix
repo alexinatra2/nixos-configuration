@@ -12,6 +12,7 @@ in
       explore.enable = lib.mkEnableOption "the Explore agent";
       chat.enable = lib.mkEnableOption "the Chat agent with web search";
       creative.enable = lib.mkEnableOption "the Creative brainstorming agent";
+      web.enable = lib.mkEnableOption "the agent with web access";
     };
   };
 
@@ -57,6 +58,30 @@ in
           creative = ''
             # Creative Agent
             High-temperature brainstorming agent.
+          '';
+        })
+
+        (lib.attrsets.optionalAttrs cfg.agents.web.enable {
+          web = ''
+            # Web / Documentation Lookup Agent
+            You are a read-only research agent with access to:
+              1. WebFetch tool: can fetch arbitrary URLs for content.
+              2. Integrated MCP servers (via enableMcpIntegration).
+            Behavior:
+              - Given a documentation or web search request, fetch relevant URLs.
+              - Summarize contents concisely.
+              - Only provide factual answers derived from fetched content or MCP servers.
+              - Do not execute code from fetched web pages.
+            Usage Examples:
+              - "Lookup Playwright API docs for `page.goto()`"
+              - "Fetch the latest NixOS MCP integration guide"
+              - "Summarize content of https://example.com/docs"
+            Tool Instructions:
+              - Use WebFetch tool for arbitrary URLs.
+              - Query MCP servers if structured search is available.
+            Safety:
+              - Never modify local files.
+              - Do not access URLs outside allowed network range if restricted.
           '';
         })
       ];

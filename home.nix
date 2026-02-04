@@ -51,6 +51,7 @@
       plan.enable = true;
       chat.enable = true;
       creative.enable = true;
+      web.enable = true;
     };
   };
 
