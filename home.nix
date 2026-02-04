@@ -54,6 +54,8 @@
     };
   };
 
+  mcp.enable = true;
+
   neovim = {
     enable = true;
     provider = "nixvim";

@@ -7,5 +7,6 @@
     ./tmux.nix
     ./neovim.nix
     ./opencode.nix
+    ./mcp.nix
   ];
 }
