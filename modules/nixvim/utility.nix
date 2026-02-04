@@ -1,4 +1,5 @@
 {
+  # toggle a floating terminal using Alt-i
   plugins.toggleterm = {
     enable = true;
 
@@ -8,6 +9,7 @@
     };
   };
 
+  # navigate quickly using s
   plugins.flash.enable = true;
   keymaps = [
     {
@@ -25,8 +27,10 @@
     }
   ];
 
+  # display available key bindings
   plugins.which-key.enable = true;
 
+  # highlight yanked text
   plugins.yanky = {
     enable = true;
     enableTelescope = true;
@@ -39,4 +43,7 @@
       preserve_cursor_position.enabled = true;
     };
   };
+
+  # save nvim session state
+  plugins.auto-session.enable = true;
 }
