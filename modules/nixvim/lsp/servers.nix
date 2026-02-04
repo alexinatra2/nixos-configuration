@@ -78,6 +78,6 @@
     pyright.enable = true;
 
     # LaTeX
-    ltex.enable = true;
+    texlab.enable = true;
   };
 }
