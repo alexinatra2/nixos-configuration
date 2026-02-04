@@ -1,7 +1,14 @@
 {
   plugins.lazygit.enable = true;
-  plugins.gitsigns.enable = true;
+  plugins.gitsigns = {
+    enable = true;
+    settings = {
+      current_line_blame = true;
+    };
+  };
+
   keymaps = [
+    # lazygit
     {
       action = "<CMD>LazyGit<CR>";
       key = "<leader>gg";
@@ -10,20 +17,54 @@
         desc = "LazyGit";
       };
     }
+
+    # gitsigns
     {
-      action = "<CMD> Gitsigns next_hunk<CR>";
+      action = "<CMD>Gitsigns next_hunk<CR>";
       key = "]h";
       options = {
         silent = true;
-        desc = "Next git hunk";
+        desc = "Next git hunk [Gitsigns]";
       };
     }
     {
-      action = "<CMD> Gitsigns prev_hunk<CR>";
+      action = "<CMD>Gitsigns prev_hunk<CR>";
       key = "[h";
       options = {
         silent = true;
-        desc = "Previous git hunk";
+        desc = "Previous git hunk [Gitsigns]";
+      };
+    }
+    {
+      action = "<CMD>Gitsigns stage_hunk<CR>";
+      key = "<leader>gs";
+      options = {
+        silent = true;
+        desc = "Stage git hunk [Gitsigns]";
+      };
+    }
+    {
+      action = "<CMD>Gitsigns reset_hunk<CR>";
+      key = "<leader>gr";
+      options = {
+        silent = true;
+        desc = "Reset git hunk [Gitsigns]";
+      };
+    }
+    {
+      action = "<CMD>Gitsigns reset_buffer<CR>";
+      key = "<leader>gR";
+      options = {
+        silent = true;
+        desc = "Reset file [Gitsigns]";
+      };
+    }
+    {
+      action = "<CMD>Gitsigns blame<CR>";
+      key = "<A-b>";
+      options = {
+        silent = true;
+        desc = "Open blame [Gitsigns]";
       };
     }
   ];
