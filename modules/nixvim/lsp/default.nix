@@ -14,7 +14,7 @@
 
   plugins.lsp = {
     enable = true;
-    inlayhints.enable = true;
+    inlayHints = true;
   };
 
   plugins.lsp-format.enable = true;
