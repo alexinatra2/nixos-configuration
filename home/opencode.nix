@@ -101,6 +101,49 @@ in
           - Avoid raw diffs; prefer natural explanations.
         '';
       };
+
+      rules = ''
+        # Project-Wide Development Rules
+
+        ## Code Editing and Refactoring Discipline
+
+        - Always modify the minimal amount of code necessary to fulfill the request.  
+          Avoid broad or stylistic rewrites unless explicitly approved.
+        - Before any refactor or structural change, scan the entire codebase to detect
+          existing APIs, helper functions, or patterns that could conflict with or duplicate
+          the new implementation.
+        - When refactoring, ensure internal naming, error handling, and interface shapes
+          remain consistent across modules.
+
+        ## Coding Style and Paradigm
+
+        - Prefer a **functional or declarative** style in languages that support it.
+          Use pure functions, immutability, and composition whenever practical.
+        - Follow the common community conventions of the language in use
+          (e.g., idiomatic Rust modules, Kotlin data classes, React functional components).
+        - Keep explanations **concise and factual**—avoid verbose or speculative reasoning
+          when describing code or design choices.
+
+        ## Code Style Documentation
+
+        - If a `CODESTYLE.md` or `docs/code-style.md` file exists, update it whenever a change
+          introduces a new rule or deviates from an existing one.
+        - When adding new conventions, clearly justify *why* they are needed and how they align
+          with existing style principles.
+
+        ## External References
+
+        - Load external rule or guideline files (e.g., `@rules/general.md`)
+          only when they are explicitly referenced in the current task.
+        - Treat loaded files as authoritative for their domain, and follow referenced files
+          recursively when instructed.
+
+        ## Summary
+
+        These rules define the project’s working ethic:
+        precision over verbosity, declarative design over imperative sprawl,
+        and consistency across the entire codebase.
+      '';
     };
   };
 }
