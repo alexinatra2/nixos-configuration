@@ -1,3 +1,3 @@
 {
-  lsp.servers.pylsp.enable = true;
+  lsp.servers.pyright.enable = true;
 }
