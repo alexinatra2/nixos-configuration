@@ -60,6 +60,47 @@ in
           '';
         })
       ];
+
+      commands = {
+        commit = ''
+          # Commit Command
+
+          Create a git commit with proper message formatting.
+          Usage: /commit [message]
+
+          ## Behavior
+          - If no commit message is provided:
+            1. The agent analyzes recent staged changes (git diff --cached).
+            2. It proposes a concise, conventional commit message.
+            3. The agent asks for confirmation:  
+               “Proposed commit message: <message>. Apply it?”
+            4. If confirmed, it creates the commit.
+            5. If declined, it prompts the user to enter a revised message.
+
+          ## Guidelines
+          - Follow the Conventional Commits format (e.g. `feat:`, `fix:`, `docs:`).
+          - Keep messages under 80 characters.
+          - Focus on the *why* and *what*, not the *how*.
+        '';
+        summarize = ''
+          # Summarize Command
+
+          Summarize the purpose and recent changes of the current project.
+          Usage: /summarize [--since <commit> | --file <path> | --context <topic>]
+
+          ## Behavior
+          - If no context or message is given:
+            1. The agent inspects recent commits or files modified in the last N commits.
+            2. It drafts a summary describing key themes and technical changes.
+            3. The agent presents the summary and asks for confirmation.
+            4. If the user declines, they are prompted to provide or refine the summary manually.
+
+          ## Guidelines
+          - Summaries should be concise but informative (3–5 sentences).
+          - Include context: what changed and why.
+          - Avoid raw diffs; prefer natural explanations.
+        '';
+      };
     };
   };
 }
