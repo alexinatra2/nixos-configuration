@@ -5,6 +5,7 @@
 {
   imports = [
     ./servers.nix
+    ./lspsaga.nix
   ];
 
   plugins.lsp = {
@@ -13,75 +14,6 @@
   };
 
   plugins.lsp-format.enable = true;
-  plugins.lspsaga = {
-    enable = true;
-    settings = {
-      beacon = {
-        enable = true;
-      };
-      ui = {
-        border = "rounded"; # One of none, single, double, rounded, solid, shadow
-        codeAction = "💡"; # Can be any symbol you want 💡
-      };
-      diagnostic = {
-        borderFollow = true;
-        diagnosticOnlyCurrent = false;
-        showCodeAction = true;
-      };
-      symbolInWinbar = {
-        enable = true; # Breadcrumbs
-      };
-      codeAction = {
-        extendGitSigns = false;
-        showServerName = true;
-        onlyInCursor = true;
-        numShortcut = true;
-        keys = {
-          exec = "<CR>";
-          quit = [
-            "<Esc>"
-            "q"
-          ];
-        };
-      };
-      lightbulb = {
-        enable = false;
-        sign = false;
-        virtualText = true;
-      };
-      implement = {
-        enable = false;
-      };
-      rename = {
-        autoSave = false;
-        keys = {
-          exec = "<CR>";
-          quit = [
-            "<C-k>"
-            "<Esc>"
-          ];
-          select = "x";
-        };
-      };
-      outline = {
-        autoClose = true;
-        autoPreview = true;
-        closeAfterJump = true;
-        layout = "normal"; # normal or float
-        winPosition = "right"; # left or right
-        keys = {
-          jump = "<CR>";
-          quit = "q";
-          toggleOrJump = "<CR>";
-        };
-      };
-      scrollPreview = {
-        scrollDown = "<C-d>";
-        scrollUp = "<C-u>";
-      };
-    };
-  };
-
   keymaps = [
     {
       key = "gd";
