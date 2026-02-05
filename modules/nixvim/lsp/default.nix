@@ -86,34 +86,63 @@
     };
   };
 
-  lsp.keymaps = [
+  keymaps = [
     {
       key = "gd";
-      lspBufAction = "definition";
+      action = "<cmd>Lspsaga goto_definition<CR>";
+      options = {
+        desc = "Goto Definition";
+        silent = true;
+      };
     }
     {
       key = "gD";
-      lspBufAction = "references";
+      action = "<cmd>Lspsaga finder ref<CR>";
+      options = {
+        desc = "Goto References";
+        silent = true;
+      };
     }
     {
       key = "K";
-      lspBufAction = "hover";
+      action = "<cmd>Lspsaga hover_doc<CR>";
+      options = {
+        desc = "Hover";
+        silent = true;
+      };
     }
     {
       key = "<leader>r";
-      lspBufAction = "rename";
+      action = "<cmd>Lspsaga rename<CR>";
+      options = {
+        desc = "Rename";
+        silent = true;
+      };
+    }
+    {
+      key = "<A-n>";
+      action = "<cmd>Lspsaga diagnostic_jump_next<CR>";
+      options = {
+        desc = "Next Diagnostic";
+        silent = true;
+      };
+    }
+
+    {
+      key = "<A-p>";
+      action = "<cmd>Lspsaga diagnostic_jump_prev<CR>";
+      options = {
+        desc = "Previous Diagnostic";
+        silent = true;
+      };
     }
     {
       key = "<A-CR>";
-      lspBufAction = "code_action";
-    }
-    {
-      action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=-1, float=true }) end";
-      key = "<A-p>";
-    }
-    {
-      action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=1, float=true }) end";
-      key = "<A-n>";
+      action = "<cmd>Lspsaga code_action<CR>";
+      options = {
+        desc = "Previous Diagnostic";
+        silent = true;
+      };
     }
   ];
 }
