@@ -23,10 +23,6 @@
         border = "rounded"; # One of none, single, double, rounded, solid, shadow
         codeAction = "💡"; # Can be any symbol you want 💡
       };
-      hover = {
-        openCmd = "!floorp"; # Choose your browser
-        openLink = "gx";
-      };
       diagnostic = {
         borderFollow = true;
         diagnosticOnlyCurrent = false;
@@ -74,14 +70,14 @@
         layout = "normal"; # normal or float
         winPosition = "right"; # left or right
         keys = {
-          jump = "e";
+          jump = "<CR>";
           quit = "q";
-          toggleOrJump = "o";
+          toggleOrJump = "<CR>";
         };
       };
       scrollPreview = {
-        scrollDown = "<C-f>";
-        scrollUp = "<C-b>";
+        scrollDown = "<C-d>";
+        scrollUp = "<C-u>";
       };
     };
   };
@@ -127,9 +123,8 @@
         silent = true;
       };
     }
-
     {
-      key = "<A-p>";
+      key = "<A-N>";
       action = "<cmd>Lspsaga diagnostic_jump_prev<CR>";
       options = {
         desc = "Previous Diagnostic";
@@ -141,6 +136,14 @@
       action = "<cmd>Lspsaga code_action<CR>";
       options = {
         desc = "Previous Diagnostic";
+        silent = true;
+      };
+    }
+    {
+      key = "<A-o>";
+      action = "<cmd>Lspsaga outline<CR>";
+      options = {
+        desc = "Outline";
         silent = true;
       };
     }
