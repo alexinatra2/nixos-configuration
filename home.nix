@@ -9,6 +9,7 @@
   imports = [
     inputs.stylix.homeModules.stylix
     ./home
+    ./modules/generations.nix
   ];
 
   home = {
@@ -69,6 +70,4 @@
       background_opacity = "0.9";
     };
   };
-
-  programs.nh.enable = true;
 }
