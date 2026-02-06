@@ -54,7 +54,7 @@ in
 
       fzf = {
         enable = true;
-        enableBashIntegration = true;
+        enableBashIntegration = mkIf cfg.enableBash true;
 
         defaultOptions = [
           "--height=50%"
@@ -82,7 +82,7 @@ in
 
       lsd = {
         enable = true;
-        enableBashIntegration = true;
+        enableBashIntegration = mkIf cfg.enableBash true;
       };
 
       carapace = {
