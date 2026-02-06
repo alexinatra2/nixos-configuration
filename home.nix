@@ -29,6 +29,7 @@
       spotify
       unzip
       xclip
+      wifitui
     ];
     stateVersion = "24.11";
   };
