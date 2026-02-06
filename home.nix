@@ -51,6 +51,13 @@
       default = true;
       react-development = true;
     };
+    defaultSearchEngine = "duckduckgo";
+    searchEngines = {
+      duckduckgo = true;
+      google = true;
+      home-manager-options = true;
+      nixos-options = true;
+    };
   };
 
   opencode = {
