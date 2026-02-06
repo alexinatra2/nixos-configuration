@@ -2,12 +2,12 @@
   inputs,
   lib,
   config,
-  system,
+  pkgs,
   ...
 }:
 
 let
-  firefox-addons = inputs.firefox-addons.packages.${system};
+  firefox-addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   options.firefox = {
@@ -39,6 +39,7 @@ in
       profiles.default = {
         id = 0;
         name = "Default";
+        path = "default";
 
         extensions.packages =
           (lib.optionals config.firefox.enabledExtensions.default (
