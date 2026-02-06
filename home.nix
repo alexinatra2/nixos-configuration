@@ -45,6 +45,14 @@
     enableBash = true;
   };
 
+  firefox = {
+    enable = true;
+    enabledExtensions = {
+      default = true;
+      react-development = true;
+    };
+  };
+
   opencode = {
     enable = true;
     agents = {
