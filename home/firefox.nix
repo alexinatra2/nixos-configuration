@@ -1,13 +1,13 @@
 {
   inputs,
-  pkgs,
   lib,
   config,
+  system,
   ...
 }:
 
 let
-  firefox-addons = inputs.firefox-addons.packages.${pkgs.system};
+  firefox-addons = inputs.firefox-addons.packages.${system};
 in
 {
   options.firefox = {
@@ -40,7 +40,7 @@ in
         id = 0;
         name = "Default";
 
-        extensions =
+        extensions.packages =
           (lib.optionals config.firefox.enabledExtensions.default (
             with firefox-addons;
             [
