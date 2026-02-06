@@ -6,6 +6,8 @@
     settings = {
       direction = "float";
       open_mapping = "[[<A-i>]]";
+      # attach to a static tmux session
+      shell = "tmux new-session -A -s nvim-term";
     };
   };
 
