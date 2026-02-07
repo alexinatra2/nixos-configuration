@@ -47,11 +47,35 @@
             username = "alexander";
             inherit inputs;
           };
+          modules = [ ./configuration.nix ];
+        };
+
+        # Graphical Plasma 6 installer ISO
+        "iso" = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            hostname = "nixos-installer";
+            username = "alexander";
+            inherit inputs;
+          };
           modules = [
             ./configuration.nix
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
+            {
+              isoImage.makeEfiBootable = true;
+              isoImage.makeUsbBootable = true;
+              nix.settings.experimental-features = [
+                "nix-command"
+                "flakes"
+              ];
+              networking.hostName = "nixos-installer";
+            }
           ];
         };
       };
+
+      # ISO build target
+      packages.${system}.iso = self.nixosConfigurations.iso.config.system.build.isoImage;
 
       homeConfigurations = {
         "alexander" = home-manager.lib.homeManagerConfiguration {
