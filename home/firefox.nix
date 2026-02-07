@@ -11,21 +11,21 @@ let
 
   availableSearchEngines = {
     duckduckgo = {
-      name = "DuckDuckGo";
+      id = "ddg";
       urls = [ { template = "https://duckduckgo.com/?q={searchTerms}"; } ];
       icon = "https://duckduckgo.com/favicon.ico";
       definedAliases = [ "@d" ];
     };
 
     google = {
-      name = "Google";
+      id = "Google";
       urls = [ { template = "https://www.google.com/search?q={searchTerms}"; } ];
       icon = "https://www.google.com/favicon.ico";
       definedAliases = [ "@g" ];
     };
 
     home-manager-options = {
-      name = "Home Manager Options";
+      id = "Home Manager Options";
       urls = [
         {
           template = "https://home-manager-options.extranix.com/?query={searchTerms}";
@@ -36,7 +36,7 @@ let
     };
 
     nixos-options = {
-      name = "NixOS Options";
+      id = "NixOS Options";
       urls = [
         {
           template = "https://search.nixos.org/options";
@@ -120,9 +120,9 @@ in
 
         search = {
           force = true;
-          default = availableSearchEngines.${config.firefox.defaultSearchEngine}.name;
+          default = availableSearchEngines.${config.firefox.defaultSearchEngine}.id;
           engines = lib.filterAttrs (
-            name: _value: config.firefox.searchEngines.${name} or false
+            id: _value: config.firefox.searchEngines.${id} or false
           ) availableSearchEngines;
         };
       };
