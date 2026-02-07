@@ -74,10 +74,7 @@
 
   mcp.enable = true;
 
-  neovim = {
-    enable = true;
-    provider = "nixvim";
-  };
+  neovim.enable = true;
 
   programs.kitty = lib.mkForce {
     enable = true;

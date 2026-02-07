@@ -15,10 +15,6 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -82,10 +78,5 @@
         };
       };
 
-      packages.${system}.nvf =
-        (inputs.nvf.lib.neovimConfiguration {
-          inherit pkgs;
-          modules = [ ./modules/nvf ];
-        }).neovim;
     };
 }
