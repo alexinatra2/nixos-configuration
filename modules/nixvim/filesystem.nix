@@ -6,6 +6,7 @@
         follow_current_file = {
           enabled = true;
           leave_dirs_open = false;
+          debounce_delay = 50;
         };
         use_libuv_file_watcher = true;
       };
