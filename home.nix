@@ -18,6 +18,7 @@
     packages = with pkgs; [
       cargo
       gcc
+      lsof
       jdk21
       jetbrains-mono
       lazydocker
