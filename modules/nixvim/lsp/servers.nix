@@ -46,12 +46,6 @@
             includeInlayEnumMemberValueHints = true;
           };
         };
-
-        on_attach = lib.nixvim.mkRaw ''
-          function(client, bufnr)
-            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          end
-        '';
       };
     };
 

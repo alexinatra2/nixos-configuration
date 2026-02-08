@@ -11,6 +11,9 @@
   plugins.lsp = {
     enable = true;
     inlayHints = true;
+    onAttach = ''
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    '';
   };
 
   plugins.lsp-format.enable = true;
