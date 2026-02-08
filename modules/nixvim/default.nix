@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   ...
 }:
 {
@@ -19,6 +20,10 @@
       ./treesitter.nix
       ./ui.nix
       ./utility.nix
+    ];
+
+    extraPackages = with pkgs; [
+      lsof
     ];
   };
 }
