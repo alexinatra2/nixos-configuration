@@ -43,6 +43,8 @@
   shell = {
     enable = true;
     enableBash = true;
+    enableZsh = true;
+    defaultShell = "zsh";
   };
 
   firefox = {
