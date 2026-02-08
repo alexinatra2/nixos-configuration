@@ -4,7 +4,7 @@
   ...
 }:
 {
-  lsp.servers = {
+  plugins.lsp.servers = {
     # Nix
     nixd = {
       enable = true;
@@ -69,7 +69,11 @@
     };
 
     # Rust
-    rust_analyzer.enable = true;
+    rust_analyzer = {
+      enable = true;
+      installCargo = true;
+      installRustc = true;
+    };
 
     # Kotlin
     kotlin_language_server.enable = true;
