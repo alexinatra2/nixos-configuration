@@ -7,15 +7,6 @@
 with lib;
 let
   cfg = config.shell;
-  shellAliases = {
-    lg = "lazygit";
-    open = "xdg-open";
-    cd = "z";
-    v = "vi";
-    DN = "> /dev/null";
-    DE = "2> /dev/null";
-    C = "tee >(xclip -selection clipboard)";
-  };
 in
 {
   options.shell = {
@@ -24,34 +15,23 @@ in
     enableZsh = mkEnableOption "Zsh overrides";
     enableFish = mkEnableOption "Fish overrides";
     enableNu = mkEnableOption "Nushell overrides";
-    defaultShell = mkOption {
-      type = types.enum [
-        "bash"
-        "zsh"
-        "fish"
-        "nushell"
-      ];
-      default = "bash";
-      description = "The default login shell for the user";
-    };
   };
 
   config = mkIf cfg.enable {
-    # Enable the selected default shell
-    shell.enableBash = mkIf (cfg.defaultShell == "bash") true;
-    shell.enableZsh = mkIf (cfg.defaultShell == "zsh") true;
-    shell.enableFish = mkIf (cfg.defaultShell == "fish") true;
-    shell.enableNu = mkIf (cfg.defaultShell == "nushell") true;
+    home.shellAliases = {
+      lg = "lazygit";
+      open = "xdg-open";
+      cd = "z";
+      v = "vi";
+      DN = "> /dev/null";
+      DE = "2> /dev/null";
+      C = "tee >(xclip -selection clipboard)";
+    };
 
     programs = {
       bash = {
         enable = true;
         enableCompletion = true;
-        inherit shellAliases;
-        sessionVariables = {
-          NH_FLAKE = "/home/${username}/nixos-configuration";
-          NH_OS_FLAKE = "/home/${username}/nixos-configuration";
-        };
       };
 
       fish = mkIf cfg.enableFish {
@@ -74,12 +54,10 @@ in
           ignoreSpace = true;
         };
         syntaxHighlighting.enable = true;
-        inherit shellAliases;
       };
 
       nushell = mkIf cfg.enableNu {
         enable = true;
-        inherit shellAliases;
       };
 
       atuin = {

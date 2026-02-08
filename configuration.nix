@@ -97,6 +97,7 @@
         "audio"
       ];
     };
+    defaultUserShell = pkgs.zsh;
   };
 
   programs = {
@@ -108,6 +109,9 @@
         # add dynamic libraries here
       ];
     };
+
+    bash.enable = true;
+    zsh.enable = true;
 
     steam = {
       enable = true;

@@ -32,6 +32,10 @@
       wifitui
     ];
     stateVersion = "24.11";
+    sessionVariables = {
+      NH_FLAKE = "/home/${username}/nixos-configuration";
+      NH_OS_FLAKE = "/home/${username}/nixos-configuration";
+    };
   };
   programs.home-manager.enable = true;
 
@@ -44,7 +48,6 @@
     enable = true;
     enableBash = true;
     enableZsh = true;
-    defaultShell = "zsh";
   };
 
   firefox = {
