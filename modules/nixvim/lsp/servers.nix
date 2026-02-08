@@ -74,6 +74,7 @@
 
     # Python
     pyright.enable = true;
+    ruff.enable = true;
 
     # LaTeX
     texlab.enable = true;
