@@ -15,19 +15,14 @@
   # Hostname configuration
   networking.hostName = hostname;
 
-  # User configuration
-  users.users.${username} = {
-    home = "/Users/${username}";
-    shell = pkgs.zsh;
-  };
+  system.primaryUser = username;
 
   # macOS system defaults
   system.defaults = {
     # Dock settings
     dock = {
-      autohide = true;
-      show-recents = false;
-      tilesize = 48;
+      autohide = false;
+      show-recents = true;
     };
 
     # Finder settings
@@ -51,9 +46,6 @@
       InitialKeyRepeat = 15;
     };
   };
-
-  # Enable nix-daemon
-  services.nix-daemon.enable = true;
 
   # Additional macOS-specific packages
   environment.systemPackages = with pkgs; [

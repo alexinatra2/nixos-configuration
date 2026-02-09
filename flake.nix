@@ -90,13 +90,6 @@
             ./hosts/macbook/darwin-configuration.nix
             ./modules/common.nix
             home-manager.darwinModules.home-manager
-            {
-              users.users.alexander = {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.alexander = import ./modules/home.nix;
-              };
-            }
           ];
         };
       };

@@ -10,14 +10,14 @@
 {
   # Nix configuration shared across systems
   nix = {
+    enable = !pkgs.stdenv.isDarwin;
     settings = {
-      auto-optimise-store = true;
       experimental-features = [
         "nix-command"
         "flakes"
       ];
     };
-    optimise.automatic = true;
+    optimise.automatic = !pkgs.stdenv.isDarwin;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
@@ -38,11 +38,6 @@
       vim
       wget
     ];
-  };
-
-  environment.sessionVariables = lib.mkIf pkgs.stdenv.isLinux {
-    EDITOR = "nvim";
-    TERMINAL = "kitty";
   };
 
   # Timezone - can be overridden per host
