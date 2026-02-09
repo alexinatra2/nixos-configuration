@@ -34,14 +34,16 @@
       ...
     }@inputs:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      linuxSystem = "x86_64-linux";
+      darwinSystem = "aarch64-darwin";
+      linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
+      darwinPkgs = nixpkgs.legacyPackages.${darwinSystem};
     in
     {
       # system configurations
       nixosConfigurations = {
         "nixos" = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = linuxSystem;
           specialArgs = {
             hostname = "nixos";
             username = "alexander";
@@ -52,7 +54,7 @@
 
         # Graphical Plasma 6 installer ISO
         "iso" = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = linuxSystem;
           specialArgs = {
             hostname = "nixos-installer";
             username = "alexander";
@@ -75,11 +77,11 @@
       };
 
       # ISO build target
-      packages.${system}.iso = self.nixosConfigurations.iso.config.system.build.isoImage;
+      packages.${linuxSystem}.iso = self.nixosConfigurations.iso.config.system.build.isoImage;
 
       homeConfigurations = {
         "alexander" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = linuxPkgs;
           extraSpecialArgs = {
             username = "alexander";
             inherit inputs;
@@ -90,7 +92,7 @@
           ];
         };
         "holzknecht@3m5.netz" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = linuxPkgs;
           extraSpecialArgs = {
             username = "holzknecht@3m5.netz";
             inherit inputs;
@@ -98,6 +100,16 @@
           modules = [
             ./home.nix
             ./modules/workpackages.nix
+          ];
+        };
+        "alexanderholzknecht" = home-manager.lib.homeManagerConfiguration {
+          pkgs = darwinPkgs;
+          extraSpecialArgs = {
+            username = "alexanderholzknecht";
+            inherit inputs;
+          };
+          modules = [
+            ./home-darwin.nix
           ];
         };
       };
