@@ -25,7 +25,13 @@
   # Shared environment configuration
   environment = {
     # Common session variables
-    sessionVariables = {
+    variables = {
+      EDITOR = "nvim";
+      TERMINAL = "kitty";
+    };
+
+    # This attribute only exists on NixOS
+    sessionVariables = pkgs.lib.mkIf (pkgs.stdenv.isLinux) {
       EDITOR = "nvim";
       TERMINAL = "kitty";
     };
