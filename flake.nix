@@ -1,14 +1,14 @@
 {
-  description = "NixOS configuration";
+  description = "Multi-platform system configurations (NixOS + Darwin)";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
-      # The `follows` keyword in inputs is used for inheritance.
-      # Here, `inputs.nixpkgs` of home-manager is kept consistent with
-      # the `inputs.nixpkgs` of the current flake,
-      # to avoid problems caused by different versions of nixpkgs.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    darwin = {
+      url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
@@ -19,7 +19,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,80 +26,94 @@
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
       home-manager,
+      darwin,
       ...
-    }@inputs:
+    }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      # system configurations
-      nixosConfigurations = {
-        "nixos" = nixpkgs.lib.nixosSystem {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+
+      forAllSystems = nixpkgs.lib.genAttrs systems (
+        system:
+        import nixpkgs {
           inherit system;
-          specialArgs = {
-            hostname = "nixos";
-            username = "alexander";
-            inherit inputs;
-          };
-          modules = [ ./configuration.nix ];
+          config.allowUnfree = true;
+        }
+      );
+
+      mkHome =
+        {
+          username,
+          system,
+          modules ? [ ],
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = forAllSystems.${system};
+          extraSpecialArgs = { inherit inputs username; };
+          modules = [ ./modules/home.nix ] ++ modules;
         };
 
-        # Graphical Plasma 6 installer ISO
-        "iso" = nixpkgs.lib.nixosSystem {
-          inherit system;
+    in
+    {
+      # --- NixOS hosts ---
+      nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
           specialArgs = {
-            hostname = "nixos-installer";
-            username = "alexander";
             inherit inputs;
+            hostname = "nixos";
+            username = "alexander";
           };
           modules = [
-            ./configuration.nix
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
+            ./hosts/nixos/configuration.nix
+            ./modules/common.nix
+          ];
+        };
+      };
+
+      # --- macOS hosts ---
+      darwinConfigurations = {
+        wb-mac = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = {
+            inherit inputs;
+            hostname = "MacBook-Pro-von-Alexander";
+            username = "alexanderholzknecht";
+          };
+          modules = [
+            ./hosts/macbook/darwin-configuration.nix
+            ./modules/common.nix
+            home-manager.darwinModules.home-manager
             {
-              isoImage.makeEfiBootable = true;
-              isoImage.makeUsbBootable = true;
-              nix.settings.experimental-features = [
-                "nix-command"
-                "flakes"
-              ];
-              networking.hostName = "nixos-installer";
+              users.users.alexander = {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.users.alexander = import ./modules/home.nix;
+              };
             }
           ];
         };
       };
 
-      # ISO build target
-      packages.${system}.iso = self.nixosConfigurations.iso.config.system.build.isoImage;
-
+      # --- user-level configurations (standalone Home Manager) ---
       homeConfigurations = {
-        "alexander" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            username = "alexander";
-            inherit inputs;
-          };
-          modules = [
-            ./home.nix
-            ./modules/privatepackages.nix
-          ];
+        "alexander" = mkHome {
+          username = "alexander";
+          system = "x86_64-linux";
+          modules = [ ./modules/privatepackages.nix ];
         };
-        "holzknecht@3m5.netz" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            username = "holzknecht@3m5.netz";
-            inherit inputs;
-          };
-          modules = [
-            ./home.nix
-            ./modules/workpackages.nix
-          ];
+
+        "holzknecht@3m5.netz" = mkHome {
+          username = "holzknecht@3m5.netz";
+          system = "x86_64-linux";
+          modules = [ ./modules/workpackages.nix ];
         };
       };
-
     };
 }

@@ -8,8 +8,8 @@
 {
   imports = [
     inputs.stylix.homeModules.stylix
-    ./home
-    ./modules/generations.nix
+    ../home
+    ./generations.nix
   ];
 
   home = {

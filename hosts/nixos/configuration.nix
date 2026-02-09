@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running 'nixos-help').
 
 {
   pkgs,
@@ -13,8 +13,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    ./modules/virtualisation.nix
-    ./modules/kde.nix
+    ../../modules/virtualisation.nix
+    ../../modules/kde.nix
   ];
 
   # Bootloader.
@@ -33,9 +33,6 @@
     };
     efi.canTouchEfiVariables = true;
   };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
   i18n = {
@@ -84,7 +81,7 @@
 
   security.rtkit.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users = {
     users.alexander = {
       isNormalUser = true;
@@ -111,7 +108,6 @@
     };
 
     bash.enable = true;
-    zsh.enable = true;
 
     steam = {
       enable = true;
@@ -130,20 +126,13 @@
     };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # NixOS-specific packages (extends common.nix)
   environment = {
     systemPackages = with pkgs; [
       alacritty
       cacert
       firefox
-      git
       keepassxc
-      vim
-      wget
       desktop-file-utils
       android-tools
       home-manager
@@ -152,22 +141,7 @@
     ];
     sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
-      EDITOR = "nvim";
-      TERMINAL = "kitty";
     };
-  };
-
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-    # Modern approach for store optimization
-    optimise.automatic = true;
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 
   fonts.packages = with pkgs; [
@@ -192,22 +166,8 @@
   # Networking
   networking.networkmanager.enable = true;
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  # on your system were taken.
+  system.stateVersion = "24.05";
 }
