@@ -2,9 +2,11 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
+
 {
   # Nix configuration shared across systems
   nix = {
@@ -24,14 +26,8 @@
 
   # Shared environment configuration
   environment = {
-    # Common session variables
+    # Common session variables / env vars
     variables = {
-      EDITOR = "nvim";
-      TERMINAL = "kitty";
-    };
-
-    # This attribute only exists on NixOS
-    sessionVariables = pkgs.lib.mkIf (pkgs.stdenv.isLinux) {
       EDITOR = "nvim";
       TERMINAL = "kitty";
     };
@@ -42,6 +38,11 @@
       vim
       wget
     ];
+  };
+
+  environment.sessionVariables = lib.mkIf pkgs.stdenv.isLinux {
+    EDITOR = "nvim";
+    TERMINAL = "kitty";
   };
 
   # Timezone - can be overridden per host
