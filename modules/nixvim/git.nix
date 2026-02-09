@@ -61,7 +61,7 @@
     }
     {
       action = "<CMD>Gitsigns blame<CR>";
-      key = "<A-b>";
+      key = "<M-b>";
       options = {
         silent = true;
         desc = "Open blame [Gitsigns]";

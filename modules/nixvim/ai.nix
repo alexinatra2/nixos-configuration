@@ -11,7 +11,7 @@
 
   keymaps = [
     {
-      key = "<A-a>";
+      key = "<M-a>";
       action = "<CMD>lua require('opencode').toggle()<CR>";
       options = {
         desc = "Toggle OpenCode side panel";

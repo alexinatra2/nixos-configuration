@@ -51,7 +51,7 @@
       };
     }
     {
-      key = "<A-n>";
+      key = "<M-n>";
       action = "<cmd>Lspsaga diagnostic_jump_next<CR>";
       options = {
         desc = "Next Diagnostic";
@@ -59,7 +59,7 @@
       };
     }
     {
-      key = "<A-N>";
+      key = "<M-N>";
       action = "<cmd>Lspsaga diagnostic_jump_prev<CR>";
       options = {
         desc = "Previous Diagnostic";
@@ -67,7 +67,7 @@
       };
     }
     {
-      key = "<A-CR>";
+      key = "<M-CR>";
       action = "<cmd>Lspsaga code_action<CR>";
       options = {
         desc = "Previous Diagnostic";
@@ -75,7 +75,7 @@
       };
     }
     {
-      key = "<A-o>";
+      key = "<M-o>";
       action = "<cmd>Lspsaga outline<CR>";
       options = {
         desc = "Outline";

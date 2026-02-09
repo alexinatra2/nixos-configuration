@@ -10,7 +10,7 @@
     {
       mode = [ "i" ];
       action = "<C-w>";
-      key = "<A-BS>";
+      key = "<M-BS>";
       options = {
         silent = true;
       };
@@ -19,7 +19,7 @@
     # move to other windows
     {
       mode = "n";
-      key = "<A-h>";
+      key = "<M-h>";
       action = "<C-w>h";
       options = {
         silent = true;
@@ -28,7 +28,7 @@
     }
     {
       mode = "n";
-      key = "<A-j>";
+      key = "<M-j>";
       action = "<C-w>j";
       options = {
         silent = true;
@@ -37,7 +37,7 @@
     }
     {
       mode = "n";
-      key = "<A-k>";
+      key = "<M-k>";
       action = "<C-w>k";
       options = {
         silent = true;
@@ -46,7 +46,7 @@
     }
     {
       mode = "n";
-      key = "<A-l>";
+      key = "<M-l>";
       action = "<C-w>l";
       options = {
         silent = true;

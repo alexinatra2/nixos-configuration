@@ -1,11 +1,11 @@
 {
-  # toggle a floating terminal using Alt-i
+  # toggle a floating terminal using Meta-i
   plugins.toggleterm = {
     enable = true;
 
     settings = {
       direction = "float";
-      open_mapping = "[[<A-i>]]";
+      open_mapping = "[[<M-i>]]";
       # attach to a static tmux session
       shell = "tmux new-session -A -s nvim-term";
     };
