@@ -105,6 +105,11 @@
           system = "x86_64-linux";
           modules = [ ./modules/workpackages.nix ];
         };
+        "alexanderholzknecht" = mkHome {
+          username = "alexanderholzknecht";
+          system = "aarch64-darwin";
+          modules = [ ./modules/workpackages.nix ];
+        };
       };
     };
 }

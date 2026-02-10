@@ -14,7 +14,6 @@
   imports = [
     ./shared/nix-config.nix
     ./shared/environment.nix
-    ./shared/users.nix
     ./shared/development.nix
   ];
 

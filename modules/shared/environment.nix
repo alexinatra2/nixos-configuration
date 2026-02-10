@@ -19,12 +19,9 @@
     vim
     wget
     curl
-    htop
+    btop
     ripgrep
     fd
     eza
   ];
-
-  # Additional platform-specific packages can be added by extending this list
-  # in the platform-specific configurations
 }
