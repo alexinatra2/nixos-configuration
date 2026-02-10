@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 {
@@ -9,7 +10,7 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
     image = ../background.png;
     polarity = "dark";
-    targets = {
+    targets = lib.mkIf pkgs.stdenv.isLinux {
       firefox.enable = false;
     };
   };
