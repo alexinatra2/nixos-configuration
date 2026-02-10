@@ -8,10 +8,6 @@
   ...
 }:
 {
-  imports = [
-    inputs.stylix.darwinModules.stylix
-  ];
-
   # Hostname configuration
   networking.hostName = hostname;
 
@@ -50,6 +46,7 @@
   # Additional macOS-specific packages
   environment.systemPackages = with pkgs; [
     firefox
+    spotify
     kitty
   ];
 
