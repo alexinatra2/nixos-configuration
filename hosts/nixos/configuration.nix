@@ -13,6 +13,9 @@
   imports = [
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
+    ../../modules/common.nix
+    ../../modules/linux/nixos-locale.nix
+    ../../modules/linux/nixos-packages.nix
     ../../modules/virtualisation.nix
     ../../modules/kde.nix
   ];
@@ -81,68 +84,13 @@
 
   security.rtkit.enable = true;
 
-  # Define a user account. Don't forget to set a password with 'passwd'.
-  users = {
-    users.alexander = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "adbusers"
-        "docker"
-        "networkmanager"
-        "realtime"
-        "audio"
-      ];
-    };
-    defaultUserShell = pkgs.zsh;
-  };
+  # User configuration is now handled by shared modules
+  # Additional NixOS-specific groups are in nixos-packages.nix
 
-  programs = {
-    thunderbird.enable = true;
+  # Programs are now handled by shared and Linux-specific modules
+  programs.bash.enable = true;
 
-    nix-ld = {
-      enable = true;
-      libraries = [
-        # add dynamic libraries here
-      ];
-    };
-
-    bash.enable = true;
-
-    steam = {
-      enable = true;
-      gamescopeSession.enable = true;
-    };
-
-    gamemode.enable = true;
-
-    nh = {
-      enable = true;
-      clean = {
-        enable = true;
-        extraArgs = "--keep-since 4 --keep 3";
-      };
-      flake = "/home/${username}/nixos-configuration";
-    };
-  };
-
-  # NixOS-specific packages (extends common.nix)
-  environment = {
-    systemPackages = with pkgs; [
-      alacritty
-      cacert
-      firefox
-      keepassxc
-      desktop-file-utils
-      android-tools
-      home-manager
-      vlc
-      mpv
-    ];
-    sessionVariables = {
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
-    };
-  };
+  # Environment and packages are now handled by shared and Linux-specific modules
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

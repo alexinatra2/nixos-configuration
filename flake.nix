@@ -88,8 +88,6 @@
           };
           modules = [
             ./hosts/macbook/darwin-configuration.nix
-            ./modules/common.nix
-            home-manager.darwinModules.home-manager
           ];
         };
       };

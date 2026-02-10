@@ -1,48 +1,23 @@
 # Shared configuration between NixOS and nix-darwin
+# This module combines all cross-platform shared configurations
 {
   config,
   pkgs,
   lib,
   inputs,
+  username,
   ...
 }:
 
 {
-  # Nix configuration shared across systems
-  nix = {
-    enable = !pkgs.stdenv.isDarwin;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-    optimise.automatic = !pkgs.stdenv.isDarwin;
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  };
+  # Import all shared modules
+  imports = [
+    ./shared/nix-config.nix
+    ./shared/environment.nix
+    ./shared/users.nix
+    ./shared/development.nix
+  ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Shared environment configuration
-  environment = {
-    # Common session variables / env vars
-    variables = {
-      EDITOR = "nvim";
-      TERMINAL = "kitty";
-    };
-
-    # Common system packages
-    systemPackages = with pkgs; [
-      git
-      vim
-      wget
-    ];
-  };
-
-  # Timezone - can be overridden per host
-  time.timeZone = "Europe/Berlin";
-
-  # Common program settings
-  programs.zsh.enable = true;
+  # Pass special arguments to shared modules
+  _module.args.username = username;
 }

@@ -8,6 +8,11 @@
   ...
 }:
 {
+  imports = [
+    ../../modules/common.nix
+    ../../modules/darwin/macos-packages.nix
+  ];
+
   # Hostname configuration
   networking.hostName = hostname;
 
@@ -42,13 +47,6 @@
       InitialKeyRepeat = 15;
     };
   };
-
-  # Additional macOS-specific packages
-  environment.systemPackages = with pkgs; [
-    firefox
-    spotify
-    kitty
-  ];
 
   # Homebrew integration (optional - requires Homebrew to be installed separately)
   homebrew = {
