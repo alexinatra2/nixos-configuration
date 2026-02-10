@@ -78,7 +78,7 @@
 
       # --- macOS hosts ---
       darwinConfigurations = {
-        wb-mac = darwin.lib.darwinSystem {
+        "MacBook-Pro-von-Alexander" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = {
             inherit inputs;
