@@ -49,7 +49,7 @@
   };
 
   firefox = {
-    enable = true;
+    enable = lib.mkDefault true;
     enabledExtensions = {
       default = true;
       react-development = true;
