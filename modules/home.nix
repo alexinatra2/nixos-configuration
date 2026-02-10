@@ -1,36 +1,38 @@
 {
   pkgs,
   username,
-  inputs,
   lib,
   ...
 }:
 {
   imports = [
-    inputs.stylix.homeModules.stylix
     ../home
     ./generations.nix
   ];
 
   home = {
     username = "${username}";
-    homeDirectory = "/home/${username}";
-    packages = with pkgs; [
-      cargo
-      gcc
-      jdk21
-      jetbrains-mono
-      lazydocker
-      lazysql
-      nixfmt
-      nodejs
-      pnpm
-      ripgrep
-      spotify
-      unzip
-      xclip
-      wifitui
-    ];
+    homeDirectory = lib.mkDefault "/home/${username}";
+    packages =
+      with pkgs;
+      [
+        cargo
+        gcc
+        jdk21
+        jetbrains-mono
+        lazydocker
+        lazysql
+        nixfmt
+        nodejs
+        pnpm
+        ripgrep
+        spotify
+        unzip
+        xclip
+      ]
+      ++ lib.optionals pkgs.stdenv.isLinux [
+        wifitui
+      ];
     stateVersion = "24.11";
   };
   programs.home-manager.enable = true;

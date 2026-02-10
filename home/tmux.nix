@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 {
@@ -20,8 +21,12 @@
     ];
   };
 
-  home.packages = with pkgs; [
-    xclip
-    wl-clipboard
-  ];
+  home.packages =
+    with pkgs;
+    [
+      xclip
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      wl-clipboard
+    ];
 }

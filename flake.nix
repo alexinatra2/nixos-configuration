@@ -27,7 +27,6 @@
 
   outputs =
     inputs@{
-      self,
       nixpkgs,
       home-manager,
       darwin,
@@ -97,18 +96,22 @@
         "alexander" = mkHome {
           username = "alexander";
           system = "x86_64-linux";
-          modules = [ ./modules/privatepackages.nix ];
+          modules = [
+            ./modules/privatepackages.nix
+          ];
         };
 
         "holzknecht@3m5.netz" = mkHome {
           username = "holzknecht@3m5.netz";
           system = "x86_64-linux";
-          modules = [ ./modules/workpackages.nix ];
+          modules = [
+            ./modules/workpackages.nix
+          ];
         };
         "alexanderholzknecht" = mkHome {
           username = "alexanderholzknecht";
           system = "aarch64-darwin";
-          modules = [ ./modules/workpackages.nix ];
+          modules = [ ./modules/darwin-home.nix ];
         };
       };
     };
