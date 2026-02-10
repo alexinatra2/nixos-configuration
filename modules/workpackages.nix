@@ -1,24 +1,30 @@
 {
   pkgs,
+  lib,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    jetbrains.idea
-    mesa
-    libGL
-    libGLU
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXxf86vm
-    gradle
-    maven
-  ];
+  # Only include Linux-specific graphics packages on non-Darwin systems
+  home.packages =
+    with pkgs;
+    [
+      jetbrains.idea
+      gradle
+      maven
+    ]
+    ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+      mesa
+      libGL
+      libGLU
+      xorg.libX11
+      xorg.libXcursor
+      xorg.libXi
+      xorg.libXrandr
+      xorg.libXxf86vm
+    ];
 
-  # Ensure LD_LIBRARY_PATH includes system GL drivers
-  home.sessionVariables = {
+  # Ensure LD_LIBRARY_PATH includes system GL drivers (Linux only)
+  home.sessionVariables = lib.mkIf (!pkgs.stdenv.isDarwin) {
     LD_LIBRARY_PATH = "${pkgs.mesa}/lib:${pkgs.libGL}/lib";
   };
 
