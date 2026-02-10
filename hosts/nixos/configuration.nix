@@ -69,6 +69,40 @@
 
     # Enable CUPS to print documents.
     printing.enable = true;
+
+    # KDE Plasma 6 + SDDM (Wayland by default; X11 available)
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      # You can set a theme here later, e.g.:
+      # theme = "catppuccin-mocha";
+    };
+
+    desktopManager.plasma6.enable = true;
+
+    # Recommended audio stack; KDE uses PipeWire well
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
+    pulseaudio.enable = false;
+  };
+
+  # Basic KDE utilities and network applet for Wi‑Fi control in Plasma
+  environment.systemPackages = with pkgs; [
+    kdePackages.konsole
+    kdePackages.kdeconnect-kde
+    kdePackages.plasma-nm # NetworkManager applet for KDE (Wi‑Fi controls)
+  ];
+
+  # Allow xdg portals to provide desktop integration for apps
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [ kdePackages.xdg-desktop-portal-kde ];
   };
 
   swapDevices = [
@@ -108,47 +142,6 @@
     };
 
     nvidia.open = true;
-  };
-
-  # KDE Plasma 6 + SDDM (Wayland by default; X11 available)
-  services = {
-    xserver.enable = true;
-
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      # You can set a theme here later, e.g.:
-      # theme = "catppuccin-mocha";
-    };
-
-    desktopManager.plasma6.enable = true;
-
-    # Recommended audio stack; KDE uses PipeWire well
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
-    pulseaudio.enable = false;
-  };
-
-  # Basic KDE utilities and network applet for Wi‑Fi control in Plasma
-  environment.systemPackages = with pkgs; [
-    kdePackages.konsole
-    kdePackages.kdeconnect-kde
-    kdePackages.plasma-nm # NetworkManager applet for KDE (Wi‑Fi controls)
-  ];
-
-  # Enable hardware acceleration helpers if not already set at host level
-  hardware.graphics.enable = true;
-
-  # Allow xdg portals to provide desktop integration for apps
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [ kdePackages.xdg-desktop-portal-kde ];
   };
 
   # Networking
