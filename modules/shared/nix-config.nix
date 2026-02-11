@@ -18,8 +18,6 @@
         "nix-command"
         "flakes"
       ];
-      # Allow unfree packages globally
-      allow-unfree = true;
     };
 
     # Automatic optimization only works on NixOS
