@@ -19,7 +19,7 @@
         cargo
         gcc
         jdk21
-        jetbrains-mono
+        nerd-fonts.jetbrains-mono
         lazydocker
         lazysql
         nixfmt
