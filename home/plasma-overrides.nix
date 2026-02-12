@@ -19,7 +19,7 @@ in
       };
       repeatRate = lib.mkOption {
         type = lib.types.int;
-        default = 250;
+        default = 25;
         description = "Number of key repeats per second";
       };
     };
