@@ -3,6 +3,10 @@
   ...
 }:
 {
+  imports = [
+    ../home/xremap.nix
+  ];
+
   home.packages = with pkgs; [
     discord
     eduvpn-client
