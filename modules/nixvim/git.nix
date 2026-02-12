@@ -67,5 +67,13 @@
         desc = "Open blame [Gitsigns]";
       };
     }
+    {
+      action = "<CMD>Gitsigns toggle_word_diff<CR>";
+      key = "<leader>gd";
+      options = {
+        silent = true;
+        desc = "Toggle word diff [Gitsigns]";
+      };
+    }
   ];
 }
