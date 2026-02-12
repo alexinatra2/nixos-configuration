@@ -1,12 +1,13 @@
 {
   imports = [
-    ./shell.nix
-    ./git.nix
     ./firefox.nix
-    ./stylix.nix
-    ./tmux.nix
+    ./git.nix
+    ./mcp.nix
     ./neovim.nix
     ./opencode.nix
-    ./mcp.nix
+    ./plasma-overrides.nix
+    ./shell.nix
+    ./stylix.nix
+    ./tmux.nix
   ];
 }
