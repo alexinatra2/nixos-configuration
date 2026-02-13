@@ -26,6 +26,15 @@
     niri = {
       url = "github:sodiboo/niri-flake";
     };
+    quickshell = {
+      url = "github:outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.follows = "quickshell";
+    };
     xremap-flake = {
       url = "github:xremap/nix-flake";
     };
