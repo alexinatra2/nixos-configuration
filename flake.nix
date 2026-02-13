@@ -23,6 +23,9 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
     xremap-flake = {
       url = "github:xremap/nix-flake";
     };
@@ -101,6 +104,7 @@
           system = "x86_64-linux";
           modules = [
             ./modules/privatepackages.nix
+            ./home/niri
           ];
         };
 
