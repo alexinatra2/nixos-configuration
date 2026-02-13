@@ -33,7 +33,6 @@
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell";
     };
     xremap-flake = {
       url = "github:xremap/nix-flake";
