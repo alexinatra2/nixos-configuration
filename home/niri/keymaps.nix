@@ -7,7 +7,7 @@
 {
   programs.niri.settings.binds = with config.lib.niri.actions; {
     # For development
-    "super+Shift+q".action = quit;
+    "mod+Shift+q".action = quit;
 
     # Window focus (Mod + arrows)
     "mod+Left".action = focus-window-down-or-column-left;
@@ -33,19 +33,16 @@
     "mod+Shift+k".action = move-window-to-workspace-up;
     "mod+Shift+j".action = move-window-to-workspace-down;
 
+    # Window overview
+    "mod+o".action = toggle-overview;
+
     # Workspace switching (Mod + numbers)
     "mod+1".action = focus-workspace "main";
     "mod+2".action = focus-workspace "dev";
     "mod+3".action = focus-workspace "web";
-    "mod+4".action = focus-workspace "chat";
-
-    # Workspace switching (Mod + numbers)
-    "super+1".action = focus-workspace "main";
-    "super+2".action = focus-workspace "dev";
-    "super+3".action = focus-workspace "web";
 
     # Launch applications
     "mod+Return".action = spawn "${lib.getExe pkgs.kitty}";
-    "mod+Space".action = spawn "${lib.getExe pkgs.rofi} -show drun";
+    "mod+Space".action = spawn-sh "${lib.getExe pkgs.rofi} -show drun";
   };
 }
