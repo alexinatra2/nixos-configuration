@@ -54,6 +54,11 @@ in
           ignoreSpace = true;
         };
         syntaxHighlighting.enable = true;
+
+        initContent = ''
+          bindkey -M viins "^[^?" backward-kill-word
+          bindkey -M vicmd "^[^?" backward-kill-word
+        '';
       };
 
       nushell = mkIf cfg.enableNu {
