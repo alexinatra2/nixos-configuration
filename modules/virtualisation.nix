@@ -1,21 +1,16 @@
 {
   pkgs,
+  username,
   ...
 }:
 {
   virtualisation = {
-    # Enable common container config files in /etc/containers
     containers.enable = true;
-    # podman = {
-    #   enable = true;
-
-    #   # Create a `docker` alias for podman, to use it as a drop-in replacement
-    #   dockerCompat = true;
-
-    #   # Required for containers under podman-compose to be able to talk to each other.
-    #   defaultNetwork.settings.dns_enabled = true;
-    # };
+    podman.enable = true;
     docker.enable = true;
+    libvirtd.enable = true;
+
+    spiceUSBRedirection.enable = true;
   };
 
   # Useful container development tools
@@ -24,4 +19,6 @@
     podman-tui # status of containers in the terminal
     docker-compose # start group of containers for dev
   ];
+
+  users.groups.libvirtd.members = [ "${username}" ];
 }
