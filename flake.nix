@@ -1,5 +1,5 @@
 {
-  description = "Multi-platform system configurations (NixOS + Darwin) - Dendritic Pattern";
+  description = "Multi-platform system configurations (NixOS + Darwin) - Dendritic Pattern with import-tree";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -8,6 +8,8 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    import-tree.url = "github:vic/import-tree";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -60,6 +62,6 @@
         "x86_64-linux"
         "aarch64-darwin"
       ];
-      imports = [ ./modules/hosts.nix ];
+      imports = [ (inputs.import-tree ./modules) ];
     };
 }
