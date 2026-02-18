@@ -9,30 +9,24 @@ let
   };
 in
 {
-  flake.modules.nixos.nix =
-    { pkgs, ... }:
-    {
-      nix = {
-        enable = true;
-        settings = nixSettings;
-        optimise.automatic = true;
-      };
-      nixpkgs.config.allowUnfree = true;
+  flake.modules.nixos.nix = {
+    nix = {
+      enable = true;
+      settings = nixSettings;
+      optimise.automatic = true;
     };
+    nixpkgs.config.allowUnfree = true;
+  };
 
-  flake.modules.darwin.nix =
-    { pkgs, ... }:
-    {
-      nix.settings = nixSettings;
-      nixpkgs.config.allowUnfree = true;
-    };
+  flake.modules.darwin.nix = {
+    nix.settings = nixSettings;
+    nixpkgs.config.allowUnfree = true;
+  };
 
-  flake.modules.homeManager.nix =
-    { pkgs, ... }:
-    {
-      nixpkgs.config = {
-        allowUnfree = true;
-        allowUnfreePredicate = _: true;
-      };
+  flake.modules.homeManager.nix = {
+    nixpkgs.config = {
+      allowUnfree = true;
+      allowUnfreePredicate = _: true;
     };
+  };
 }

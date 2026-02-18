@@ -118,7 +118,7 @@ in
               ));
 
             search = {
-              force = true;
+              force = false;
               default = availableSearchEngines.${config.firefox.defaultSearchEngine}.id;
               engines = lib.filterAttrs (
                 id: _value: config.firefox.searchEngines.${id} or false

@@ -80,6 +80,8 @@ in
           shell.enable = true;
           shell.enableBash = true;
           shell.enableZsh = true;
+          plasmaOverrides.enable = true;
+          firefox.enable = true;
         }
       ]
       ++ (with inputs.self.modules.homeManager; [
@@ -114,6 +116,8 @@ in
           shell.enable = true;
           shell.enableBash = true;
           shell.enableZsh = true;
+          plasmaOverrides.enable = true;
+          firefox.enable = true;
         }
       ]
       ++ (with inputs.self.modules.homeManager; [
