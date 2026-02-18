@@ -5,6 +5,9 @@
     { pkgs, ... }:
     {
       programs.nixvim = {
+        # Enable web-devicons for file icons
+        plugins.web-devicons.enable = true;
+
         plugins.neo-tree = {
           enable = true;
           settings = {

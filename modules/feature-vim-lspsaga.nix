@@ -5,6 +5,9 @@
     { pkgs, ... }:
     {
       programs.nixvim = {
+        # Enable web-devicons for LSP saga icons
+        plugins.web-devicons.enable = true;
+
         plugins.lspsaga = {
           enable = true;
           settings = {
@@ -13,6 +16,35 @@
             };
             ui = {
               border = "rounded";
+              kind = {
+                # File type icons using nerd fonts
+                File = "󰈙";
+                Module = "󰆧";
+                Namespace = "󰅪";
+                Package = "󰏗";
+                Class = "󰌗";
+                Method = "󰆧";
+                Property = "󰜢";
+                Field = "󰜢";
+                Constructor = "󰆧";
+                Enum = "󰒻";
+                Interface = "󰜰";
+                Function = "󰊕";
+                Variable = "󰀫";
+                Constant = "󰏿";
+                String = "󰀬";
+                Number = "󰎠";
+                Boolean = "󰨙";
+                Array = "󰅪";
+                Object = "󰅩";
+                Key = "󰌋";
+                Null = "󰟢";
+                EnumMember = "󰒻";
+                Struct = "󰙅";
+                Event = "󰉒";
+                Operator = "󰆕";
+                TypeParameter = "󰊄";
+              };
             };
             diagnostic = {
               borderFollow = true;

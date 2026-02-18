@@ -24,6 +24,9 @@ let
     vim-ai
     vim-ui
   ];
+
+  # Background image path - resolved relative to this file
+  backgroundImagePath = ../background.png;
 in
 {
   config = {
@@ -67,6 +70,7 @@ in
       extraSpecialArgs = {
         inherit inputs;
         username = linuxUsername;
+        backgroundImage = backgroundImagePath;
       };
       modules = [
         {
@@ -90,6 +94,7 @@ in
         plasma
         kitty
         private
+        stylix
       ])
       ++ vimAspects;
     };
@@ -99,6 +104,7 @@ in
       extraSpecialArgs = {
         inherit inputs;
         username = workUsername;
+        backgroundImage = backgroundImagePath;
       };
       modules = [
         {
@@ -122,6 +128,7 @@ in
         plasma
         kitty
         work
+        stylix
       ])
       ++ vimAspects;
     };
@@ -131,6 +138,7 @@ in
       extraSpecialArgs = {
         inherit inputs;
         username = darwinUsername;
+        backgroundImage = backgroundImagePath;
       };
       modules = [
         {
@@ -152,6 +160,7 @@ in
         mcp
         kitty
         darwin-home
+        stylix
       ])
       ++ vimAspects;
     };
