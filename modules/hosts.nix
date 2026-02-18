@@ -81,6 +81,8 @@ in
           shell.enableBash = true;
           shell.enableZsh = true;
           plasmaOverrides.enable = true;
+          plasmaOverrides.keyboard.repeatDelay = 250;
+          plasmaOverrides.keyboard.repeatRate = 250;
           firefox.enable = true;
         }
       ]
@@ -117,6 +119,8 @@ in
           shell.enableBash = true;
           shell.enableZsh = true;
           plasmaOverrides.enable = true;
+          plasmaOverrides.keyboard.repeatDelay = 250;
+          plasmaOverrides.keyboard.repeatRate = 250;
           firefox.enable = true;
         }
       ]
