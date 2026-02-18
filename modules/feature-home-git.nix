@@ -1,11 +1,10 @@
 {
   flake.modules.homeManager.git = {
-    programs.git = {
+    programs.git.settings = {
       user = {
         name = "alexinatra2";
         email = "a.holzknecht@gmx.de";
       };
-
       alias = {
         s = "status";
         c = "commit";

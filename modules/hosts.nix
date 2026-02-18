@@ -6,6 +6,24 @@ let
   linuxUsername = "alexander";
   darwinUsername = "alexanderholzknecht";
   workUsername = "holzknecht@3m5.netz";
+
+  # Vim aspect modules - organized by feature
+  vimAspects = with inputs.self.modules.homeManager; [
+    vim-base
+    vim-options
+    vim-keymaps
+    vim-completion
+    vim-lsp
+    vim-lspsaga
+    vim-servers
+    vim-telescope
+    vim-treesitter
+    vim-git
+    vim-filesystem
+    vim-utility
+    vim-ai
+    vim-ui
+  ];
 in
 {
   config = {
@@ -51,7 +69,11 @@ in
         username = linuxUsername;
       };
       modules = [
-        inputs.nixvim.homeModules.nixvim
+        {
+          home.username = linuxUsername;
+          home.homeDirectory = "/home/${linuxUsername}";
+          home.stateVersion = "24.11";
+        }
       ]
       ++ (with inputs.self.modules.homeManager; [
         nix
@@ -60,13 +82,13 @@ in
         git
         firefox
         tmux
-        neovim
         opencode
         mcp
         plasma
         kitty
         private
-      ]);
+      ])
+      ++ vimAspects;
     };
 
     flake.homeConfigurations."${workUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -76,7 +98,11 @@ in
         username = workUsername;
       };
       modules = [
-        inputs.nixvim.homeModules.nixvim
+        {
+          home.username = workUsername;
+          home.homeDirectory = "/home/${workUsername}";
+          home.stateVersion = "24.11";
+        }
       ]
       ++ (with inputs.self.modules.homeManager; [
         nix
@@ -85,13 +111,13 @@ in
         git
         firefox
         tmux
-        neovim
         opencode
         mcp
         plasma
         kitty
         work
-      ]);
+      ])
+      ++ vimAspects;
     };
 
     flake.homeConfigurations."${darwinUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -101,7 +127,11 @@ in
         username = darwinUsername;
       };
       modules = [
-        inputs.nixvim.homeModules.nixvim
+        {
+          home.username = darwinUsername;
+          home.homeDirectory = "/Users/${darwinUsername}";
+          home.stateVersion = "24.11";
+        }
       ]
       ++ (with inputs.self.modules.homeManager; [
         nix
@@ -109,12 +139,12 @@ in
         git
         firefox
         tmux
-        neovim
         opencode
         mcp
         kitty
         darwin-home
-      ]);
+      ])
+      ++ vimAspects;
     };
   };
 }
