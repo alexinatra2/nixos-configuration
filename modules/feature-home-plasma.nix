@@ -3,7 +3,9 @@
     { config, lib, ... }:
     {
       options.plasmaOverrides = {
-        enable = lib.mkEnableOption "Enable KDE Plasma configuration";
+        enable = lib.mkEnableOption "Enable KDE Plasma configuration" // {
+          default = true;
+        };
 
         keyboard = {
           repeatDelay = lib.mkOption {

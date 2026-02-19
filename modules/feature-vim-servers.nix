@@ -1,5 +1,3 @@
-# Neovim LSP Servers aspect
-{ inputs, ... }:
 {
   config.flake.modules.homeManager.vim-servers =
     { pkgs, lib, ... }:

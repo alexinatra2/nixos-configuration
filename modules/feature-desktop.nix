@@ -13,8 +13,6 @@
           layout = "gb";
           variant = "";
         };
-        autoRepeatDelay = 250;
-        autoRepeatInterval = 250;
       };
 
       # Enable CUPS to print documents
@@ -60,7 +58,6 @@
       fonts.packages = with pkgs; [
         nerd-fonts.jetbrains-mono
       ];
-
       # Bluetooth
       hardware.bluetooth = {
         enable = true;

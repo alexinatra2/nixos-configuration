@@ -65,9 +65,6 @@
         layout = "gb";
         variant = "";
       };
-
-      autoRepeatDelay = 250;
-      autoRepeatInterval = 250;
     };
 
     # Enable CUPS to print documents.

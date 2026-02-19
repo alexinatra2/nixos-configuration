@@ -58,7 +58,9 @@ in
     in
     {
       options.firefox = {
-        enable = lib.mkEnableOption "Enable Firefox configuration through Home Manager";
+        enable = lib.mkEnableOption "Enable Firefox configuration through Home Manager" // {
+          default = true;
+        };
 
         enabledExtensions = {
           default = lib.mkOption {

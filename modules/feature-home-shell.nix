@@ -23,11 +23,21 @@
     in
     {
       options.shell = {
-        enable = lib.mkEnableOption "Shell overrides";
-        enableBash = lib.mkEnableOption "Bash overrides";
-        enableZsh = lib.mkEnableOption "Zsh overrides";
-        enableFish = lib.mkEnableOption "Fish overrides";
-        enableNu = lib.mkEnableOption "Nushell overrides";
+        enable = lib.mkEnableOption "Shell overrides" // {
+          default = true;
+        };
+        enableBash = lib.mkEnableOption "Bash overrides" // {
+          default = true;
+        };
+        enableZsh = lib.mkEnableOption "Zsh overrides" // {
+          default = true;
+        };
+        enableFish = lib.mkEnableOption "Fish overrides" // {
+          default = false;
+        };
+        enableNu = lib.mkEnableOption "Nushell overrides" // {
+          default = false;
+        };
       };
 
       config = lib.mkIf config.shell.enable {

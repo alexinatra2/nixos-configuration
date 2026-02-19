@@ -77,13 +77,6 @@ in
           home.username = linuxUsername;
           home.homeDirectory = "/home/${linuxUsername}";
           home.stateVersion = "24.11";
-          shell.enable = true;
-          shell.enableBash = true;
-          shell.enableZsh = true;
-          plasmaOverrides.enable = true;
-          plasmaOverrides.keyboard.repeatDelay = 250;
-          plasmaOverrides.keyboard.repeatRate = 250;
-          firefox.enable = true;
         }
       ]
       ++ (with inputs.self.modules.homeManager; [
@@ -115,13 +108,7 @@ in
           home.username = workUsername;
           home.homeDirectory = "/home/${workUsername}";
           home.stateVersion = "24.11";
-          shell.enable = true;
-          shell.enableBash = true;
-          shell.enableZsh = true;
-          plasmaOverrides.enable = true;
-          plasmaOverrides.keyboard.repeatDelay = 250;
           plasmaOverrides.keyboard.repeatRate = 250;
-          firefox.enable = true;
         }
       ]
       ++ (with inputs.self.modules.homeManager; [
@@ -153,9 +140,6 @@ in
           home.username = darwinUsername;
           home.homeDirectory = "/Users/${darwinUsername}";
           home.stateVersion = "24.11";
-          shell.enable = true;
-          shell.enableBash = true;
-          shell.enableZsh = true;
         }
       ]
       ++ (with inputs.self.modules.homeManager; [
