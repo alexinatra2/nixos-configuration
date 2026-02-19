@@ -1,5 +1,3 @@
-# Virtualisation configuration (NixOS only)
-{ ... }:
 {
   flake.modules.nixos.virtualisation =
     { pkgs, ... }:

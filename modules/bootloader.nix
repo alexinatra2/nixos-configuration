@@ -1,7 +1,5 @@
-# Bootloader and hardware configuration (NixOS only)
-{ ... }:
-let
-  grubConfig =
+{
+  flake.modules.nixos.bootloader =
     { pkgs, ... }:
     {
       boot.loader = {
@@ -26,7 +24,4 @@ let
         }
       ];
     };
-in
-{
-  flake.modules.nixos.bootloader = grubConfig;
 }
