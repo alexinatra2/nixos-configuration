@@ -7,23 +7,8 @@ let
   darwinUsername = "alexanderholzknecht";
   workUsername = "holzknecht@3m5.netz";
 
-  # Vim aspect modules - organized by feature
-  vimAspects = with inputs.self.modules.homeManager; [
-    vim-base
-    vim-options
-    vim-keymaps
-    vim-completion
-    vim-lsp
-    vim-lspsaga
-    vim-servers
-    vim-telescope
-    vim-treesitter
-    vim-git
-    vim-filesystem
-    vim-utility
-    vim-ai
-    vim-ui
-  ];
+  # Vim module - now consolidated in homeManager/vim/default.nix
+  vimModule = inputs.self.modules.homeManager.vim;
 
   # Background image path - resolved relative to this file
   backgroundImagePath = ../background.png;
@@ -61,7 +46,7 @@ in
         users
         packages
         locale
-        darwin-system
+        system
       ];
     };
 
@@ -93,7 +78,7 @@ in
         private
         stylix
       ])
-      ++ vimAspects;
+      ++ [ vimModule ];
     };
 
     flake.homeConfigurations."${workUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -125,7 +110,7 @@ in
         work
         stylix
       ])
-      ++ vimAspects;
+      ++ [ vimModule ];
     };
 
     flake.homeConfigurations."${darwinUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -151,10 +136,10 @@ in
         opencode
         mcp
         kitty
-        darwin-home
+        darwin
         stylix
       ])
-      ++ vimAspects;
+      ++ [ vimModule ];
     };
   };
 }
