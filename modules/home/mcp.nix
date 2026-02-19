@@ -3,7 +3,9 @@
     { config, lib, ... }:
     {
       options.mcp = {
-        enable = lib.mkEnableOption "MCP";
+        enable = lib.mkEnableOption "MCP" // {
+          default = true;
+        };
       };
 
       config = lib.mkIf config.mcp.enable {

@@ -140,15 +140,29 @@ in
     { config, lib, ... }:
     {
       options.opencode = {
-        enable = lib.mkEnableOption "OpenCode";
+        enable = lib.mkEnableOption "OpenCode" // {
+          default = true;
+        };
 
         agents = {
-          build.enable = lib.mkEnableOption "the Build agent";
-          plan.enable = lib.mkEnableOption "the Plan agent";
-          explore.enable = lib.mkEnableOption "the Explore agent";
-          chat.enable = lib.mkEnableOption "the Chat agent with web search";
-          creative.enable = lib.mkEnableOption "the Creative brainstorming agent";
-          web.enable = lib.mkEnableOption "the agent with web access";
+          build.enable = lib.mkEnableOption "the Build agent" // {
+            default = true;
+          };
+          plan.enable = lib.mkEnableOption "the Plan agent" // {
+            default = true;
+          };
+          explore.enable = lib.mkEnableOption "the Explore agent" // {
+            default = true;
+          };
+          chat.enable = lib.mkEnableOption "the Chat agent with web search" // {
+            default = true;
+          };
+          creative.enable = lib.mkEnableOption "the Creative brainstorming agent" // {
+            default = true;
+          };
+          web.enable = lib.mkEnableOption "the agent with web access" // {
+            default = true;
+          };
         };
       };
 
