@@ -1,19 +1,21 @@
 {
   flake.modules.nixos.desktop =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
-      # Enable the X11 windowing system
       services.xserver = {
         enable = true;
         videoDrivers = [
           "nvidia"
-          "displaylink"
+          "modesetting"
         ];
-        xkb = {
-          layout = "gb";
-          variant = "";
-        };
+        xkb.layout = "gb";
       };
+
+      # Required for DisplayLink (EVDI kernel module)
+      boot.extraModulePackages = with config.boot.kernelPackages; [ evdi ];
+
+      # Optional: ensure the DisplayLink userspace service is available
+      services.udev.packages = with pkgs; [ displaylink ];
 
       # Enable CUPS to print documents
       services.printing.enable = true;
@@ -23,6 +25,7 @@
         enable = true;
         wayland.enable = true;
       };
+
       services.desktopManager.plasma6.enable = true;
 
       # Audio stack
@@ -40,7 +43,12 @@
         kdePackages.konsole
         kdePackages.kdeconnect-kde
         kdePackages.plasma-nm
+        displaylink
       ];
+
+      environment.variables = {
+        KWIN_DRM_PREFER_COLOR_DEPTH = "24";
+      };
 
       # Allow xdg portals
       xdg.portal = {
