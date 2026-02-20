@@ -1,48 +1,61 @@
-# Environment configuration for all platforms
-{ ... }:
-let
-  commonEnvVars = {
-    EDITOR = "nvim";
-    TERMINAL = "kitty";
-  };
-
-  commonPackages =
-    pkgs: with pkgs; [
-      git
-      vim
-      wget
-      curl
-      btop
-      ripgrep
-      fd
-      eza
-    ];
-
-  devPackages =
-    pkgs: with pkgs; [
-      tree
-      htop
-      zip
-      unzip
-      jq
-    ];
-in
 {
   flake.modules.nixos.environment =
     { pkgs, ... }:
     {
-      environment.variables = commonEnvVars;
-      environment.systemPackages = commonPackages pkgs ++ devPackages pkgs;
+      environment = {
+        variables = {
+          EDITOR = "nvim";
+          TERMINAL = "kitty";
+        };
+        systemPackages = with pkgs; [
+          git
+          vim
+          wget
+          curl
+          btop
+          ripgrep
+          fd
+          eza
+          tree
+          htop
+          zip
+          unzip
+          jq
+        ];
+      };
     };
 
   flake.modules.darwin.environment =
     { pkgs, ... }:
     {
-      environment.variables = commonEnvVars;
-      environment.systemPackages = commonPackages pkgs ++ devPackages pkgs;
+      environment = {
+        variables = {
+          EDITOR = "nvim";
+          TERMINAL = "kitty";
+        };
+        systemPackages = with pkgs; [
+          git
+          vim
+          wget
+          curl
+          btop
+          ripgrep
+          fd
+          eza
+          tree
+          htop
+          zip
+          unzip
+          jq
+        ];
+      };
     };
 
   flake.modules.homeManager.environment = {
-    home.sessionVariables = commonEnvVars;
+    home.sessionVariables = {
+      EDITOR = "nvim";
+      TERMINAL = "kitty";
+    };
+
   };
 }
