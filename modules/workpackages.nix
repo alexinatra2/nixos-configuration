@@ -27,4 +27,10 @@
   fonts.fontconfig.enable = pkgs.stdenv.isLinux;
   home.file."/.local/share/fonts/NerdFonts/JetBrainsMono".source =
     "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono";
+
+  programs.bash.profileExtra = ''
+    if [ -f "$HOME/.config/env.local" ]; then
+      . "$HOME/.config/env.local"
+    fi
+  '';
 }
