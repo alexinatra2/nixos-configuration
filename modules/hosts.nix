@@ -1,12 +1,6 @@
 # Host configurations - assembled from aspect modules
 { inputs, ... }:
 let
-  linuxSystem = "x86_64-linux";
-  darwinSystem = "aarch64-darwin";
-  linuxUsername = "alexander";
-  darwinUsername = "alexanderholzknecht";
-  workUsername = "holzknecht@3m5.netz";
-
   # Vim aspect modules - organized by feature
   vimAspects = with inputs.self.modules.homeManager; [
     vim-base
@@ -30,15 +24,14 @@ let
 in
 {
   config = {
-    # Host configurations using aspect modules from inputs.self.modules
-    # These are auto-collected by import-tree from all feature-*.nix files
     flake.nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
-      system = linuxSystem;
+      system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules =
         with inputs.self.modules.nixos;
         [
           nix
+          nh
           environment
           users
           packages
@@ -53,7 +46,7 @@ in
     };
 
     flake.darwinConfigurations."MacBook-Pro-von-Alexander" = inputs.darwin.lib.darwinSystem {
-      system = darwinSystem;
+      system = "aarch64-darwin";
       specialArgs = { inherit inputs; };
       modules = with inputs.self.modules.darwin; [
         nix
@@ -65,96 +58,81 @@ in
       ];
     };
 
-    flake.homeConfigurations."${linuxUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.${linuxSystem};
-      extraSpecialArgs = {
-        inherit inputs;
-        username = linuxUsername;
-        backgroundImage = backgroundImagePath;
+    flake.homeConfigurations = {
+      "alexander" = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {
+          inherit inputs;
+          username = "alexander";
+          backgroundImage = backgroundImagePath;
+        };
+        modules =
+          (with inputs.self.modules.homeManager; [
+            nix
+            packages
+            shell
+            git
+            firefox
+            tmux
+            opencode
+            mcp
+            plasma
+            kitty
+            private
+            stylix
+          ])
+          ++ vimAspects;
       };
-      modules = [
-        {
-          home.username = linuxUsername;
-          home.homeDirectory = "/home/${linuxUsername}";
-          home.stateVersion = "24.11";
-        }
-      ]
-      ++ (with inputs.self.modules.homeManager; [
-        nix
-        packages
-        shell
-        git
-        firefox
-        tmux
-        opencode
-        mcp
-        plasma
-        kitty
-        private
-        stylix
-      ])
-      ++ vimAspects;
+
     };
 
-    flake.homeConfigurations."${workUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.${linuxSystem};
+    "holzknecht@3m5.netz" = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = {
         inherit inputs;
-        username = workUsername;
+        username = "holzknecht@3m5.netz";
         backgroundImage = backgroundImagePath;
       };
-      modules = [
-        {
-          home.username = workUsername;
-          home.homeDirectory = "/home/${workUsername}";
-          home.stateVersion = "24.11";
-          plasmaOverrides.keyboard.repeatRate = 250;
-        }
-      ]
-      ++ (with inputs.self.modules.homeManager; [
-        nix
-        packages
-        shell
-        git
-        firefox
-        tmux
-        opencode
-        mcp
-        plasma
-        kitty
-        work
-        stylix
-      ])
-      ++ vimAspects;
+      modules =
+        (with inputs.self.modules.homeManager; [
+          nix
+          nh
+          packages
+          shell
+          git
+          firefox
+          tmux
+          opencode
+          mcp
+          plasma
+          kitty
+          work
+          stylix
+        ])
+        ++ vimAspects;
     };
 
-    flake.homeConfigurations."${darwinUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.${darwinSystem};
+    "alexanderholzknecht" = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
       extraSpecialArgs = {
         inherit inputs;
-        username = darwinUsername;
+        username = "alexanderholzknecht";
         backgroundImage = backgroundImagePath;
       };
-      modules = [
-        {
-          home.username = darwinUsername;
-          home.homeDirectory = "/Users/${darwinUsername}";
-          home.stateVersion = "24.11";
-        }
-      ]
-      ++ (with inputs.self.modules.homeManager; [
-        nix
-        shell
-        git
-        firefox
-        tmux
-        opencode
-        mcp
-        kitty
-        darwin-home
-        stylix
-      ])
-      ++ vimAspects;
+      modules =
+        (with inputs.self.modules.homeManager; [
+          nix
+          shell
+          git
+          firefox
+          tmux
+          opencode
+          mcp
+          kitty
+          darwin-home
+          stylix
+        ])
+        ++ vimAspects;
     };
   };
 }

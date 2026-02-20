@@ -56,6 +56,10 @@
       EDITOR = "nvim";
       TERMINAL = "kitty";
     };
-
+    home.profileExtra = ''
+      if [ -f "$HOME/.config/env.local" ]; then
+        . "$HOME/.config/env.local"
+      fi
+    '';
   };
 }
