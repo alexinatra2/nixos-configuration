@@ -64,7 +64,6 @@ in
         extraSpecialArgs = {
           inherit inputs;
           username = "alexander";
-          backgroundImage = backgroundImagePath;
         };
         modules =
           (with inputs.self.modules.homeManager; [
@@ -91,7 +90,6 @@ in
       extraSpecialArgs = {
         inherit inputs;
         username = "holzknecht@3m5.netz";
-        backgroundImage = backgroundImagePath;
       };
       modules =
         (with inputs.self.modules.homeManager; [
@@ -117,7 +115,6 @@ in
       extraSpecialArgs = {
         inherit inputs;
         username = "alexanderholzknecht";
-        backgroundImage = backgroundImagePath;
       };
       modules =
         (with inputs.self.modules.homeManager; [

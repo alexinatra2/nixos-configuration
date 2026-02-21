@@ -2,7 +2,7 @@
 { inputs, ... }:
 {
   config.flake.modules.homeManager.stylix =
-    { pkgs, backgroundImage, ... }:
+    { pkgs, ... }:
     {
       imports = [ inputs.stylix.homeModules.stylix ];
 
@@ -10,7 +10,7 @@
         enable = true;
         autoEnable = true;
         base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-        image = backgroundImage;
+        image = ../background.png;
         polarity = "dark";
         targets.firefox.enable = false;
 
