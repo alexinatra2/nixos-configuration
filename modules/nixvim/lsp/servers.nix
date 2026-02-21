@@ -73,10 +73,12 @@
     kotlin_language_server.enable = true;
 
     # Python
-    pyright.enable = true;
-    ruff.enable = true;
+    # pyright.enable = true;
+    # ruff.enable = true;
+    ty.enable = true;
 
     # LaTeX
     texlab.enable = true;
+    typst.enable = true;
   };
 }
