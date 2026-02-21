@@ -79,6 +79,8 @@
 
     # LaTeX
     texlab.enable = true;
-    typst.enable = true;
+
+    # Typst
+    tinymist.enable = true;
   };
 }
