@@ -147,30 +147,54 @@
           };
         };
         fuzzy = {
-          sorts = null;
+          # Sort completion results based on recency and frequency of selection.
+          # Keeps commonly used items ranked higher over time.
           use_frecency = true;
-          use_proximity = null;
+
+          # Allow fuzzy matching to tolerate minor typos.
+          # Example: "pritn" still matches "print".
           use_typo_resistance = true;
-          use_unsafe_no_lock = null;
+
+          # --- Optional / Advanced options below ---
+
+          # sorts = null;              # Custom list of sort strategies (e.g. ["frecency" "score"]).
+          # Leave null to use plugin defaults.
+
+          # use_proximity = null;      # Rank by proximity to cursor (useful for LSP symbols).
+          # Slightly slower; usually not needed globally.
+
+          # use_unsafe_no_lock = null; # Disables internal concurrency locks.
+          # Only useful for debugging; may cause race conditions.
         };
         signature = {
+          # Enable inline function signature help (shows parameters as you type).
           enabled = true;
+
           trigger = {
-            blocked_retrigger_characters = null;
-            blocked_trigger_characters = null;
+            # Enable signature help when typing trigger characters such as '('.
             enabled = true;
-            show_on_insert_on_trigger_character = null;
+
+            # --- Optional / Advanced options below ---
+
+            # blocked_retrigger_characters = null;   # Characters that prevent retriggering after popup shown.
+            # blocked_trigger_characters = null;     # Characters that should *not* trigger signature help.
+            # show_on_insert_on_trigger_character = null; # Show signature help immediately after inserting trigger char.
           };
+
           window = {
+            # Use a simple single border around the signature popup.
             border = "single";
-            direction_priority = null;
-            max_height = null;
-            max_width = null;
-            min_width = null;
-            scrollbar = null;
-            treesitter_highlighting = null;
-            winblend = null;
-            winhighlight = null;
+
+            # --- Optional / Advanced options below ---
+
+            # direction_priority = null;          # Controls preferred direction if window would overflow.
+            # max_height = null;                  # Maximum popup height (lines); auto-sized if null.
+            # max_width = null;                   # Maximum popup width (columns); auto-sized if null.
+            # min_width = null;                   # Minimum width before truncation.
+            # scrollbar = null;                   # Show scrollbar if content exceeds window height.
+            # treesitter_highlighting = null;     # Enable Treesitter-based syntax highlighting in popup.
+            # winblend = null;                    # Transparency (0 = opaque, 100 = fully transparent).
+            # winhighlight = null;                # Highlight groups, e.g. "Normal:CmpPmenu,FloatBorder:CmpBorder".
           };
         };
         snippets = {
