@@ -31,7 +31,7 @@
       useOSProber = true;
       default = "saved";
       gfxmodeEfi = "2880x1800";
-      font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+      font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
       fontSize = 24;
     };
     efi.canTouchEfiVariables = true;
