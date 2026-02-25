@@ -1,0 +1,24 @@
+snippet con "const"
+	const ${1} = ${2};
+	${0}
+snippet cont "const with type"
+	const ${1}: ${2:any} = ${3};
+	${0}
+snippet typ "type"
+	type ${1} = {
+		${2}: ${3:any};
+		${0}
+	}
+snippet etyp "exported type"
+	export type ${1} = {
+		${2}: ${3:any};
+		${0}
+	}
+snippet fn "arrow function"
+	const ${1} = (${2}: ${3:any}) => {
+		${0}
+	}
+snippet nfn "named function"
+	function ${1}(${2}): ${3:any} {
+		${0}
+	}

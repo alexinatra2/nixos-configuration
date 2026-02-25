@@ -243,10 +243,12 @@
           };
         };
         snippets = {
-          preset = "luasnip";
-          active = null;
-          expand = null;
-          jump = null;
+          active = true;
+          expand = ''
+            function(args)
+            	require('luasnip').lsp_expand(args.body)
+            end'';
+          jump = true;
         };
         sources = {
           cmdline = null;
@@ -256,6 +258,7 @@
             "path"
             "snippets"
             # Community
+            "luasnip"
             "copilot"
             "dictionary"
             "emoji"
