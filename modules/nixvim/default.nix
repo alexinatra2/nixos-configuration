@@ -16,6 +16,7 @@
       ./keymaps.nix
       ./lsp
       ./options.nix
+      ./snippets.nix
       ./telescope.nix
       ./treesitter.nix
       ./ui.nix
