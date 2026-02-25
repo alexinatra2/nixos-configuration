@@ -93,7 +93,7 @@
     enable = true;
     settings = {
       # cursor_trail = 2;
-      background_opacity = "0.9";
+      background_opacity = "0.95";
     };
   };
 }
