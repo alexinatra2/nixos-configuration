@@ -17,6 +17,7 @@
     ../../modules/linux/nixos-locale.nix
     ../../modules/linux/nixos-packages.nix
     ../../modules/virtualisation.nix
+    ../../modules/linux/displaylink.nix
   ];
 
   # Bootloader.
@@ -59,15 +60,11 @@
       enable = true;
       videoDrivers = [
         "nvidia"
-        "displaylink"
       ];
       xkb = {
         layout = "gb";
         variant = "";
       };
-
-      autoRepeatDelay = 250;
-      autoRepeatInterval = 250;
     };
 
     # Enable CUPS to print documents.
