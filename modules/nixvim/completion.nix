@@ -1,6 +1,14 @@
 {
+  plugins = {
+    blink-cmp-dictionary.enable = true;
+    blink-cmp-git.enable = true;
+    blink-cmp-spell.enable = true;
+    blink-emoji.enable = true;
+    blink-ripgrep.enable = true;
+  };
   plugins.blink-cmp = {
     enable = true;
+    setupLspCapabilities = true;
 
     settings = {
       keymap = {
@@ -42,7 +50,44 @@
         ];
         appearance = {
           highlight_ns = null;
-          kind_icons = null;
+          kind_icons = {
+            Text = "󰉿";
+            Method = "";
+            Function = "󰊕";
+            Constructor = "󰒓";
+
+            Field = "󰜢";
+            Variable = "󰆦";
+            Property = "󰖷";
+
+            Class = "󱡠";
+            Interface = "󱡠";
+            Struct = "󱡠";
+            Module = "󰅩";
+
+            Unit = "󰪚";
+            Value = "󰦨";
+            Enum = "󰦨";
+            EnumMember = "󰦨";
+
+            Keyword = "󰻾";
+            Constant = "󰏿";
+
+            Snippet = "󱄽";
+            Color = "󰏘";
+            File = "󰈔";
+            Reference = "󰬲";
+            Folder = "󰉋";
+            Event = "󱐋";
+            Operator = "󰪚";
+            TypeParameter = "󰬛";
+            Error = "󰏭";
+            Warning = "󰏯";
+            Information = "󰏮";
+            Hint = "󰏭";
+
+            Emoji = "🤶";
+          };
           nerd_font_variant = null;
           use_nvim_cmp_as_default = null;
         };
@@ -198,6 +243,7 @@
           };
         };
         snippets = {
+          preset = "luasnip";
           active = null;
           expand = null;
           jump = null;
@@ -205,13 +251,63 @@
         sources = {
           cmdline = null;
           default = [
+            "buffer"
             "lsp"
             "path"
-            "buffer"
+            "snippets"
+            # Community
+            "copilot"
+            "dictionary"
+            "emoji"
+            "git"
+            "spell"
+            "ripgrep"
           ];
+          providers = {
+            ripgrep = {
+              name = "Ripgrep";
+              module = "blink-ripgrep";
+              score_offset = 1;
+            };
+            dictionary = {
+              name = "Dict";
+              module = "blink-cmp-dictionary";
+              min_keyword_length = 3;
+            };
+            emoji = {
+              name = "Emoji";
+              module = "blink-emoji";
+              score_offset = 1;
+            };
+            lsp.score_offset = 4;
+            spell = {
+              name = "Spell";
+              module = "blink-cmp-spell";
+              score_offset = 1;
+            };
+            git = {
+              name = "Git";
+              module = "blink-cmp-git";
+              enabled = true;
+              score_offset = 100;
+              should_show_items.__raw = ''
+                function()
+                  return vim.o.filetype == 'gitcommit' or vim.o.filetype == 'markdown'
+                end
+              '';
+              opts = {
+                git_centers = {
+                  github = {
+                    issue = {
+                      on_error.__raw = "function(_,_) return true end";
+                    };
+                  };
+                };
+              };
+            };
+          };
           min_keyword_length = null;
           per_filetype = null;
-          providers = null;
           transform_items = null;
         };
       };
