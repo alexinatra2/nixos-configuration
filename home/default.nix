@@ -8,6 +8,7 @@
     ./plasma-overrides.nix
     ./shell.nix
     ./stylix.nix
+    ./obsidian.nix
     ./tmux.nix
   ];
 }
