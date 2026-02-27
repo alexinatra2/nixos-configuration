@@ -24,6 +24,17 @@ let
       definedAliases = [ "@g" ];
     };
 
+    google-scholar = {
+      id = "Google Scholar";
+      urls = [
+        {
+          template = "https://scholar.google.com/scholar?q={searchTerms}";
+        }
+      ];
+      icon = "https://scholar.google.com/favicon.ico";
+      definedAliases = [ "@s" ];
+    };
+
     home-manager-options = {
       id = "Home Manager Options";
       urls = [
