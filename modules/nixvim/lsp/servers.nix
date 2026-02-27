@@ -81,6 +81,11 @@
     texlab.enable = true;
 
     # Typst
-    tinymist.enable = true;
+    tinymist = {
+      enable = true;
+      extraOptions = {
+        settings.formatterMode = "typstyle";
+      };
+    };
   };
 }
