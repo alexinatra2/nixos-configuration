@@ -90,6 +90,7 @@ in
       duckduckgo = lib.mkEnableOption "Enable the DuckDuckGo search engine.";
       google = lib.mkEnableOption "Enable the Google search engine.";
       home-manager-options = lib.mkEnableOption "Enable search for Home Manager options.";
+      google-scholar = lib.mkEnableOption "Enable searching on Google Scholar.";
       nixos-options = lib.mkEnableOption "Enable search for NixOS options.";
     };
 

@@ -66,6 +66,7 @@
     searchEngines = {
       duckduckgo = true;
       google = true;
+      google-scholar = true;
       home-manager-options = true;
       nixos-options = true;
     };
