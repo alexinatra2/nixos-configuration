@@ -65,13 +65,6 @@ in
         enable = true;
       };
 
-      atuin = {
-        enable = true;
-        enableBashIntegration = mkIf cfg.enableBash true;
-        enableZshIntegration = mkIf cfg.enableZsh true;
-        flags = [ "--disable-up-arrow" ];
-      };
-
       direnv = {
         enable = true;
         enableBashIntegration = mkIf cfg.enableBash true;
@@ -89,12 +82,25 @@ in
         enableFishIntegration = mkIf cfg.enableFish true;
 
         defaultOptions = [
-          "--height=50%"
+          "--height=70%"
           "--layout=reverse"
           "--border"
           "--ansi"
-          "--tiebreak=begin,length,index"
-          "--extended"
+          "--tiebreak=length,end,begin"
+        ];
+
+        # input to fzf when using <C-t>
+        fileWidgetCommand = "fd --type f";
+        # options passed to fzf afterwards
+        fileWidgetOptions = [
+          "--preview 'bat {}'"
+        ];
+
+        # input to fzf when using <A-c>
+        changeDirWidgetCommand = "fd --type d";
+        # options passed to fzf afterwards
+        changeDirWidgetOptions = [
+          "--preview 'tree -C {} | head -200'"
         ];
       };
 
