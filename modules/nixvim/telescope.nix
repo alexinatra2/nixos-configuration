@@ -5,9 +5,17 @@
   plugins.web-devicons.enable = true;
 
   plugins.telescope.keymaps = {
+    # for files
     "<leader>ff" = "find_files";
-    "<leader><leader>" = "live_grep";
+    # / for file search but across multiple files
+    "<leader>f/" = "live_grep";
+    # for [d]iagnostics
     "<leader>fd" = "diagnostics";
-    "<leader>fb" = "lsp_document_symbols";
+    # for lsp [s]ymbols
+    "<leader>fs" = "lsp_document_symbols";
+    # for telescope built[i]ns
+    "<leader>fi" = "builtin";
+    # for [h]elp tags
+    "<leader>fh" = "help_tags";
   };
 }
