@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }:
 with lib;
@@ -13,8 +12,6 @@ in
     enable = mkEnableOption "Shell overrides";
     enableBash = mkEnableOption "Bash overrides";
     enableZsh = mkEnableOption "Zsh overrides";
-    enableFish = mkEnableOption "Fish overrides";
-    enableNu = mkEnableOption "Nushell overrides";
   };
 
   config = mkIf cfg.enable {
@@ -34,10 +31,6 @@ in
         enableCompletion = true;
       };
 
-      fish = mkIf cfg.enableFish {
-        enable = true;
-      };
-
       zsh = mkIf cfg.enableZsh {
         enable = true;
         enableCompletion = true;
@@ -54,15 +47,6 @@ in
           ignoreSpace = true;
         };
         syntaxHighlighting.enable = true;
-
-        initContent = ''
-          bindkey -M viins "^[^?" backward-kill-word
-          bindkey -M vicmd "^[^?" backward-kill-word
-        '';
-      };
-
-      nushell = mkIf cfg.enableNu {
-        enable = true;
       };
 
       direnv = {
@@ -79,7 +63,6 @@ in
         enable = true;
         enableBashIntegration = mkIf cfg.enableBash true;
         enableZshIntegration = mkIf cfg.enableZsh true;
-        enableFishIntegration = mkIf cfg.enableFish true;
 
         defaultOptions = [
           "--height=70%"
@@ -125,7 +108,6 @@ in
 
       carapace = {
         enable = true;
-        enableNushellIntegration = mkIf cfg.enableNu true;
       };
     };
   };
