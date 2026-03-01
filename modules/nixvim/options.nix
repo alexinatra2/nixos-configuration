@@ -2,7 +2,14 @@
   viAlias = true;
   vimAlias = true;
 
-  globals.mapleader = " ";
+  globals = {
+    mapleader = " ";
+    # commented out due to banner hiding causing high cpu usage for some reason
+    # netrw_banner = 0;
+    netrw_winsize = 20;
+    # set netrw style to tree view
+    netrw_liststyle = 3;
+  };
 
   opts = {
     # Line numbers
