@@ -12,7 +12,25 @@
   };
 
   # navigate quickly using s
-  plugins.flash.enable = true;
+  plugins.flash = {
+    enable = true;
+    settings = {
+      label = {
+        uppercase = false;
+        rainbow = {
+          enabled = true;
+        };
+      };
+      jump = {
+        autojump = true;
+      };
+      modes = {
+        char = {
+          jump_labels = true;
+        };
+      };
+    };
+  };
   keymaps = [
     {
       mode = [
