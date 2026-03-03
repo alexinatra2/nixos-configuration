@@ -11,54 +11,10 @@
     };
   };
 
-  # navigate quickly using s
-  plugins.flash = {
-    enable = true;
-    settings = {
-      label = {
-        uppercase = false;
-        rainbow = {
-          enabled = true;
-        };
-      };
-      jump = {
-        autojump = true;
-      };
-    };
-  };
-  keymaps = [
-    {
-      mode = [
-        "n"
-        "x"
-        "o"
-      ];
-      key = "s";
-      action = "<CMD>lua require('flash').jump()<CR>";
-      options = {
-        desc = "Flash jump";
-        silent = true;
-      };
-    }
-  ];
-
   # display available key bindings
   plugins.which-key.enable = true;
-
   # highlight yanked text
-  plugins.yanky = {
-    enable = true;
-    enableTelescope = true;
-    settings = {
-      highlight = {
-        on_put = true;
-        on_yank = true;
-        timer = 300;
-      };
-      preserve_cursor_position.enabled = true;
-    };
-  };
-
+  plugins.yanky.enable = true;
   # save nvim session state
   plugins.auto-session.enable = true;
 }

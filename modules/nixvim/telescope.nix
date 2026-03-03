@@ -9,6 +9,8 @@
     "<leader>ff" = "find_files";
     # / for file search but across multiple files
     "<leader>f/" = "live_grep";
+    # select from modified files visible to the git status command
+    "<leader>fg" = "git_status";
     # for [d]iagnostics
     "<leader>fd" = "diagnostics";
     # for lsp [s]ymbols

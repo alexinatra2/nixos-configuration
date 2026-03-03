@@ -9,7 +9,6 @@
   programs.nixvim = {
     enable = true;
     imports = [
-      ./ai.nix
       ./commands.nix
       ./completion.nix
       ./filesystem.nix
