@@ -61,11 +61,6 @@
     allowUnfreePredicate = _: true;
   };
 
-  shell = {
-    enable = true;
-    enableBash = true;
-  };
-
   firefox = {
     enable = lib.mkDefault true;
     enabledExtensions = {
