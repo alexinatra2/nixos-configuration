@@ -23,6 +23,10 @@ in
       DN = "> /dev/null";
       DE = "2> /dev/null";
       C = "tee >(xclip -selection clipboard)";
+      # vim-temp is a custom script defined through the `lib.writeShellScript` utility
+      # it enables reading the output of a command into a temporary file and displaying
+      # it in vim to optionally be saved somewhere
+      VT = "vim-temp";
     };
 
     programs = {

@@ -37,7 +37,6 @@
           ];
           text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
         })
-
         (writeShellApplication {
           name = "vim-temp";
           runtimeInputs = [ neovim ];

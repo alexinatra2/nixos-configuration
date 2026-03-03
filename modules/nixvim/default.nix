@@ -10,6 +10,7 @@
     enable = true;
     imports = [
       ./ai.nix
+      ./commands.nix
       ./completion.nix
       ./filesystem.nix
       ./git.nix
