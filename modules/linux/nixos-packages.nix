@@ -68,9 +68,6 @@
 
   # NixOS user configuration
   users = {
-    # Default user shell
-    defaultUserShell = pkgs.zsh;
-
     # Define NixOS user with additional groups
     users.${username} = {
       isNormalUser = true;
