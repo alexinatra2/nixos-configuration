@@ -15,7 +15,13 @@
         silent = true;
       };
     }
-
+    {
+      action = "\"_dP";
+      key = "<leader>p";
+      options = {
+        silent = true;
+      };
+    }
     # move to other windows
     {
       mode = "n";
