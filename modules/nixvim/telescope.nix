@@ -19,5 +19,7 @@
     "<leader>fi" = "builtin";
     # for [h]elp tags
     "<leader>fh" = "help_tags";
+    # select from [o]ld/previous files only
+    "<leader>fo" = "oldfiles";
   };
 }
