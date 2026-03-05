@@ -15,9 +15,23 @@
         silent = true;
       };
     }
+    # don't lose previous register content upon pasting
     {
+      mode = "x";
       action = "\"_dP";
       key = "<leader>p";
+      options = {
+        silent = true;
+      };
+    }
+    # don't populate register with deleted content
+    {
+      mode = [
+        "n"
+        "v"
+      ];
+      action = "\"_d";
+      key = "<leader>d";
       options = {
         silent = true;
       };
