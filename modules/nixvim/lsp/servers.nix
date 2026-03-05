@@ -4,7 +4,7 @@
   ...
 }:
 {
-  plugins.lsp.servers = {
+  lsp.servers = {
     # Nix
     nixd = {
       enable = true;
@@ -63,11 +63,7 @@
     };
 
     # Rust
-    rust_analyzer = {
-      enable = true;
-      installCargo = true;
-      installRustc = true;
-    };
+    rust_analyzer.enable = true;
 
     # Kotlin
     kotlin_language_server.enable = true;
@@ -83,8 +79,8 @@
     # Typst
     tinymist = {
       enable = true;
-      extraOptions = {
-        settings.formatterMode = "typstyle";
+      config = {
+        formatterMode = "typstyle";
       };
     };
   };

@@ -3,56 +3,34 @@
     ./servers.nix
   ];
 
-  plugins.lsp = {
+  lsp = {
     enable = true;
-    inlayHints = true;
-  };
+    inlayHints.enable = true;
 
-  plugins.lsp-format.enable = true;
-  keymaps =
-    let
-      mkLspAction = bufAction: "<cmd>lua vim.lsp.buf.${bufAction}()<cr>";
-    in
-    [
+    keymaps = [
       {
         key = "gd";
-        action = mkLspAction "definition";
-        options = {
-          desc = "Goto Definition";
-          silent = true;
-        };
+        lspBufAction = "definition";
       }
       {
-        key = "gR";
-        action = mkLspAction "references";
-        options = {
-          desc = "Goto References";
-          silent = true;
-        };
+        key = "gD";
+        lspBufAction = "references";
       }
       {
         key = "K";
-        action = mkLspAction "hover";
-        options = {
-          desc = "Hover";
-          silent = true;
-        };
+        lspBufAction = "hover";
       }
       {
         key = "<leader>r";
-        action = mkLspAction "rename";
-        options = {
-          desc = "Rename";
-          silent = true;
-        };
+        lspBufAction = "rename";
       }
       {
         key = "<M-CR>";
-        action = mkLspAction "code_action";
-        options = {
-          desc = "Code action";
-          silent = true;
-        };
+        lspBufAction = "code_action";
       }
     ];
+  };
+
+  plugins.lspconfig.enable = true;
+  plugins.lsp-format.enable = true;
 }
