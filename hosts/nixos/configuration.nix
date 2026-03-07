@@ -63,7 +63,7 @@
         "amdgpu"
       ];
       xkb = {
-        layout = "gb";
+        layout = "us";
         variant = "";
       };
     };
