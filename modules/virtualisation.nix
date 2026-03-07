@@ -4,6 +4,8 @@
   ...
 }:
 {
+  programs.virt-manager.enable = true;
+
   virtualisation = {
     containers.enable = true;
     podman.enable = true;
