@@ -27,6 +27,8 @@
       spotify
       unzip
       xclip
+      typst
+      just
       (writeShellApplication {
         name = "ns";
         runtimeInputs = [

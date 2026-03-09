@@ -35,8 +35,5 @@
 
     # Text processing
     jq
-
-    typst
-    just
   ];
 }
