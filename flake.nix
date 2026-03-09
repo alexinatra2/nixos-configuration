@@ -6,7 +6,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     darwin = {
       url = "github:lnl7/nix-darwin";
@@ -14,11 +14,11 @@
     };
     stylix = {
       url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -43,6 +43,7 @@
   outputs =
     inputs@{
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       darwin,
       ...
@@ -55,7 +56,7 @@
 
       forAllSystems = nixpkgs.lib.genAttrs systems (
         system:
-        import nixpkgs {
+        import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;
         }
