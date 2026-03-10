@@ -27,7 +27,7 @@
 
   keymaps = [
     {
-      key = "<leader>gw";
+      key = "<leader>fw";
       action.__raw = ''
                 function()
         					local word = vim.fn.expand("<cword>")
