@@ -61,6 +61,7 @@
       videoDrivers = [
         "nvidia"
         "amdgpu"
+        "displaylink"
       ];
       xkb = {
         layout = "us,gb,de";
