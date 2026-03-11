@@ -9,5 +9,6 @@
     image = ../background.png;
     polarity = "dark";
     targets.firefox.enable = false;
+    targets.neovim.enable = false;
   };
 }
