@@ -8,6 +8,8 @@
   imports = [
     ../home
     ./generations.nix
+    ../modules/mcp.nix
+    ../modules/opencode.nix
   ];
 
   home = {
@@ -73,20 +75,6 @@
       nixos-options = true;
     };
   };
-
-  opencode = {
-    enable = true;
-    agents = {
-      build.enable = true;
-      explore.enable = true;
-      plan.enable = true;
-      chat.enable = true;
-      creative.enable = true;
-      web.enable = true;
-    };
-  };
-
-  mcp.enable = true;
 
   neovim.enable = true;
 

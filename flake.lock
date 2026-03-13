@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "agents": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772563257,
+        "narHash": "sha256-hp6Q8TVP9xZeBFgZm51ndCacmVZxucZzLtj12pzD6c0=",
+        "ref": "refs/heads/master",
+        "rev": "39ac89f388532e9a7629808037791c64cd5fc13c",
+        "revCount": 63,
+        "type": "git",
+        "url": "https://code.m3ta.dev/m3tam3re/AGENTS"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://code.m3ta.dev/m3tam3re/AGENTS"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -518,6 +538,7 @@
     },
     "root": {
       "inputs": {
+        "agents": "agents",
         "darwin": "darwin",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",

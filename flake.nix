@@ -38,6 +38,10 @@
     xremap-flake = {
       url = "github:xremap/nix-flake";
     };
+    agents = {
+      url = "git+https://code.m3ta.dev/m3tam3re/AGENTS";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -70,7 +74,7 @@
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = forAllSystems.${system};
-          extraSpecialArgs = { inherit inputs username; };
+          extraSpecialArgs = { inherit inputs username system; };
           modules = [ ./modules/home.nix ] ++ modules;
         };
 
