@@ -45,6 +45,11 @@
         ];
         env = { };
       };
+
+      pdf-reader-mpc = {
+        command = "npx";
+        args = [ "@sylphx/pdf-reader-mcp" ];
+      };
     };
   };
 }
