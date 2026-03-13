@@ -50,6 +50,14 @@
         command = "npx";
         args = [ "@sylphx/pdf-reader-mcp" ];
       };
+
+      playwright = {
+        type = "local";
+        command = "npx";
+        args = [
+          "@playwright/mcp@latest"
+        ];
+      };
     };
   };
 }
