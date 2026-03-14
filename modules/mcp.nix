@@ -58,6 +58,14 @@
           "@playwright/mcp@latest"
         ];
       };
+
+      duckduckgo-search = {
+        command = "npx";
+        args = [
+          "-y"
+          "duckduckgo-mcp-server"
+        ];
+      };
     };
   };
 }
