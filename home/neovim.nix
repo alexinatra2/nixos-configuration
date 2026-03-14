@@ -22,5 +22,6 @@ in
     programs.nixvim.enable = cfg.nixvim;
 
     programs.neovim.enable = !cfg.nixvim;
+    programs.neovim.viAlias = !cfg.nixvim;
   };
 }
