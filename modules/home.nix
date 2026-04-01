@@ -73,6 +73,7 @@
       google-scholar = true;
       home-manager-options = true;
       nixos-options = true;
+      nixpkgs = true;
     };
   };
 

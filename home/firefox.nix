@@ -66,6 +66,27 @@ let
       icon = "https://nixos.org/favicon.png";
       definedAliases = [ "@n" ];
     };
+
+    nixpkgs = {
+      id = "Nixpkgs";
+      urls = [
+        { 
+          template = "https://search.nixos.org/packages";
+          params = [
+            { 
+              name = "channel";
+              value = "unstable";
+            }
+            {
+              name = "query";
+              value = "{searchTerms}";
+            }
+          ];
+        }
+      ];
+      icon = "https://nixos.org/favicon.png";
+      definedAliases = [ "@x" ];
+    };
   };
 in
 {
@@ -92,6 +113,7 @@ in
       home-manager-options = lib.mkEnableOption "Enable search for Home Manager options.";
       google-scholar = lib.mkEnableOption "Enable searching on Google Scholar.";
       nixos-options = lib.mkEnableOption "Enable search for NixOS options.";
+      nixpkgs = lib.mkEnableOption "Enable search for Nixpkgs.";
     };
 
     defaultSearchEngine = lib.mkOption {
