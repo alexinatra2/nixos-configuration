@@ -31,6 +31,8 @@
       xclip
       typst
       just
+      bc
+      uutils-coreutils-noprefix
       (writeShellApplication {
         name = "ns";
         runtimeInputs = [
