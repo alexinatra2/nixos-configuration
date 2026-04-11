@@ -8,6 +8,7 @@ in
       nixos
       locale
       users
+      virtualization
       niri
     ];
   };
