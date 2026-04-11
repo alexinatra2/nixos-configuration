@@ -4,8 +4,10 @@ let
 in
 { 
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
-    modules = [
-      self.nixosModules.${hostName}
+    modules = with self.nixosModules; [
+      nixos
+      locale
+      users
     ];
   };
 }
