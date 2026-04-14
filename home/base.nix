@@ -5,13 +5,6 @@
   ...
 }:
 {
-  imports = [
-    ../home
-    ./generations.nix
-    ../modules/mcp.nix
-    ../modules/opencode.nix
-  ];
-
   home = {
     username = "${username}";
     homeDirectory = lib.mkDefault "/home/${username}";

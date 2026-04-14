@@ -4,7 +4,7 @@
 }:
 {
   imports = [
-    # ../home/xremap.nix
+    # ./xremap.nix
   ];
 
   home.packages = with pkgs; [

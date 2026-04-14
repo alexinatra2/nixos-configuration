@@ -75,7 +75,7 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = forAllSystems.${system};
           extraSpecialArgs = { inherit inputs username system; };
-          modules = [ ./modules/home.nix ] ++ modules;
+          modules = [ ./home ] ++ modules;
         };
 
     in
@@ -117,7 +117,7 @@
           username = "alexander";
           system = "x86_64-linux";
           modules = [
-            ./modules/privatepackages.nix
+            ./home/privatepackages.nix
             ./home/niri
           ];
         };
@@ -126,13 +126,13 @@
           username = "holzknecht@3m5.netz";
           system = "x86_64-linux";
           modules = [
-            ./modules/workpackages.nix
+            ./home/workpackages.nix
           ];
         };
         "alexanderholzknecht" = mkHome {
           username = "alexanderholzknecht";
           system = "aarch64-darwin";
-          modules = [ ./modules/darwin-home.nix ];
+          modules = [ ./home/darwin.nix ];
         };
       };
     };
