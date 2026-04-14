@@ -25,6 +25,15 @@
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      initContent = ''
+        bindkey -e
+        bindkey '^I' autosuggest-accept
+        bindkey -M viins '^I' autosuggest-accept
+        bindkey '^[^?' backward-kill-word
+        bindkey '^[^H' backward-kill-word
+        bindkey -M viins '^[^?' backward-kill-word
+        bindkey -M viins '^[^H' backward-kill-word
+      '';
       shellAliases = config.home.shellAliases;
     };
 
