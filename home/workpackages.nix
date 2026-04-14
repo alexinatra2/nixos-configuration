@@ -33,4 +33,10 @@
       . "$HOME/.config/env.local"
     fi
   '';
+
+  programs.zsh.initExtra = ''
+    if [ -f "$HOME/.config/env.local" ]; then
+      . "$HOME/.config/env.local"
+    fi
+  '';
 }

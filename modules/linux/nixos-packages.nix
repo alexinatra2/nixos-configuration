@@ -71,6 +71,7 @@
     # Define NixOS user with additional groups
     users.${username} = {
       isNormalUser = true;
+      shell = pkgs.zsh;
       extraGroups = [
         "wheel" # For sudo access
         "adbusers" # For Android development

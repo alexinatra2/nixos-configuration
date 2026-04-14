@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   home.shellAliases = {
     lg = "lazygit";
@@ -19,9 +20,18 @@
       enableCompletion = true;
     };
 
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = config.home.shellAliases;
+    };
+
     direnv = {
       enable = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
       nix-direnv.enable = true;
     };
 
@@ -31,6 +41,7 @@
     fzf = {
       enable = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
 
       defaultOptions = [
         "--height=70%"
@@ -58,6 +69,7 @@
     zoxide = {
       enable = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
     };
 
     lazygit.enable = true;
@@ -72,6 +84,7 @@
     lsd = {
       enable = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
     };
 
     carapace = {
