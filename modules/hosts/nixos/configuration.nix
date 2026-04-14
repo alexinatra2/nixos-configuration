@@ -109,6 +109,8 @@ in
           wayland.enable = true;
         };
 
+        displayManager.defaultSession = "niri";
+
         desktopManager.plasma6.enable = true;
 
         # Enable CUPS to print documents.
