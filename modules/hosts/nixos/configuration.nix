@@ -1,4 +1,9 @@
-{ self, inputs, config, ... }:
+{
+  self,
+  inputs,
+  config,
+  ...
+}:
 let
   hostName = "nixos";
   username = "alexander";
@@ -14,6 +19,7 @@ in
       users.users."alexander" = {
         isNormalUser = true;
         hashedPassword = "$y$j9T$Iztq1/D8jn6wQf4ZOjJUh0$3QftpZFTD51SWvAdg5XKXVgbBkgw1ox9hoWWKgOvZO2";
+        shell = pkgs.bashInteractive;
         extraGroups = [
           "wheel"
           "adbusers"
@@ -59,6 +65,8 @@ in
 
       nixpkgs.config.allowUnfree = true;
 
+      programs.zsh.enable = true;
+
       hardware = {
         bluetooth = {
           enable = true;
@@ -96,7 +104,7 @@ in
           };
         };
 
-        displayManager.sddm = { 
+        displayManager.sddm = {
           enable = true;
           wayland.enable = true;
         };
@@ -117,7 +125,6 @@ in
 
         pulseaudio.enable = false;
       };
-
 
       # Allow xdg portals to provide desktop integration for apps
       xdg.portal = {
