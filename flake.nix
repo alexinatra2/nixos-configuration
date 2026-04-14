@@ -106,7 +106,7 @@
             username = "alexanderholzknecht";
           };
           modules = [
-            ./hosts/macbook/darwin-configuration.nix
+            ./darwin
           ];
         };
       };

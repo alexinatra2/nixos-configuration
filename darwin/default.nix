@@ -9,9 +9,9 @@
 }:
 {
   imports = [
-    ../../modules/common.nix
-    ../../modules/darwin/macos-packages.nix
-    ../../modules/darwin/system-settings.nix
+    ../modules/common.nix
+    ./packages.nix
+    ./system-settings.nix
   ];
 
   # Hostname configuration
