@@ -1,6 +1,8 @@
-{ pkgs, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   imports = [ inputs.stylix.homeModules.stylix ];
+
+  gtk.gtk4.theme = config.gtk.theme;
 
   stylix = {
     enable = true;
