@@ -2,11 +2,16 @@
 {
   flake.nixosModules.niri =
     { pkgs, lib, ... }:
+    let
+      niriPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+    in
     {
       programs.niri = {
         enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+        package = niriPackage;
       };
+
+      services.displayManager.sessionPackages = [ niriPackage ];
     };
 
   perSystem =

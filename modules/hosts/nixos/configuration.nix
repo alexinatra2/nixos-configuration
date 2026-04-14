@@ -71,18 +71,10 @@ in
           };
         };
 
+        displayManager.sddm.enable = true;
+
         # Enable CUPS to print documents.
         printing.enable = true;
-
-        # KDE Plasma 6 + SDDM (Wayland by default; X11 available)
-        displayManager.sddm = {
-          enable = true;
-          wayland.enable = true;
-          # You can set a theme here later, e.g.:
-          # theme = "catppuccin-mocha";
-        };
-
-        desktopManager.plasma6.enable = true;
 
         # Recommended audio stack; KDE uses PipeWire well
         pipewire = {
@@ -92,6 +84,7 @@ in
           pulse.enable = true;
           jack.enable = true;
         };
+
         pulseaudio.enable = false;
       };
 
