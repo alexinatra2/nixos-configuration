@@ -1,0 +1,25 @@
+{ self, inputs, ... }:
+{
+  flake.nixosModules.grub =
+    { pkgs, ... }:
+    {
+      boot.loader = {
+        systemd-boot.enable = false;
+
+        # Enable GRUB
+        grub = {
+          enable = true;
+          efiSupport = true;
+          device = "nodev";
+          useOSProber = true;
+          default = "saved";
+          gfxmodeEfi = "2880x1800";
+          font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
+          fontSize = 24;
+        };
+
+        efi.canTouchEfiVariables = true;
+
+      };
+    };
+}

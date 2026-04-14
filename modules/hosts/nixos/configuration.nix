@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, inputs, config, ... }:
 let
   hostName = "nixos";
   username = "alexander";
@@ -11,9 +11,36 @@ in
         self.nixosModules."${hostName}Hardware"
       ];
 
-      # Use the systemd-boot EFI boot loader.
-      boot.loader.systemd-boot.enable = true;
-      boot.loader.efi.canTouchEfiVariables = true;
+      users.users."alexander" = {
+        isNormalUser = true;
+        hashedPassword = "$y$j9T$Iztq1/D8jn6wQf4ZOjJUh0$3QftpZFTD51SWvAdg5XKXVgbBkgw1ox9hoWWKgOvZO2";
+        extraGroups = [
+          "wheel"
+          "adbusers"
+          "docker"
+          "networkmanager"
+          "realtime"
+          "audio"
+        ];
+      };
+
+      i18n = {
+        defaultLocale = "en_GB.UTF-8";
+
+        extraLocaleSettings = {
+          LC_ADDRESS = "de_DE.UTF-8";
+          LC_IDENTIFICATION = "de_DE.UTF-8";
+          LC_MEASUREMENT = "de_DE.UTF-8";
+          LC_MONETARY = "de_DE.UTF-8";
+          LC_NAME = "de_DE.UTF-8";
+          LC_NUMERIC = "de_DE.UTF-8";
+          LC_PAPER = "de_DE.UTF-8";
+          LC_TELEPHONE = "de_DE.UTF-8";
+          LC_TIME = "en_GB.UTF-8";
+        };
+      };
+
+      time.timeZone = "Europe/Berlin";
 
       nix = {
         enable = true;
@@ -44,16 +71,15 @@ in
           extraPackages = [ pkgs.mesa ];
         };
 
-        nvidia.open = true;
-      };
-
-      hardware.nvidia = {
-        modesetting.enable = true;
-        powerManagement.enable = true;
-        prime = {
-          offload.enable = true;
-          amdgpuBusId = "PCI:5:0:0";
-          nvidiaBusId = "PCI:1:0:0";
+        nvidia = {
+          open = true;
+          modesetting.enable = true;
+          powerManagement.enable = true;
+          prime = {
+            offload.enable = true;
+            amdgpuBusId = "PCI:5:0:0";
+            nvidiaBusId = "PCI:1:0:0";
+          };
         };
       };
 
@@ -63,7 +89,6 @@ in
           videoDrivers = [
             "nvidia"
             "amdgpu"
-            "displaylink"
           ];
           xkb = {
             layout = "us,de";
@@ -71,7 +96,12 @@ in
           };
         };
 
-        displayManager.sddm.enable = true;
+        displayManager.sddm = { 
+          enable = true;
+          wayland.enable = true;
+        };
+
+        desktopManager.plasma6.enable = true;
 
         # Enable CUPS to print documents.
         printing.enable = true;
@@ -88,11 +118,19 @@ in
         pulseaudio.enable = false;
       };
 
+
+      # Allow xdg portals to provide desktop integration for apps
+      xdg.portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+        extraPortals = with pkgs; [ kdePackages.xdg-desktop-portal-kde ];
+      };
+
       # networking.hostName = ${hostName};
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
 
-      system.stateVersion = "25.11"; # Did you read the comment?
+      system.stateVersion = "24.05";
     };
 }

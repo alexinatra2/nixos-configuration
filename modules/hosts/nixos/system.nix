@@ -6,10 +6,9 @@ in
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       nixos
-      locale
-      users
-      virtualization
       niri
+      virtualization
+      grub
     ];
   };
 }

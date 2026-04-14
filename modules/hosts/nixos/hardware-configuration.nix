@@ -4,7 +4,13 @@ let
 in
 {
   flake.nixosModules."${hostName}Hardware" =
-    { pkgs, lib, modulesPath, config, ... }:
+    {
+      pkgs,
+      lib,
+      modulesPath,
+      config,
+      ...
+    }:
 
     {
       imports = [
@@ -34,12 +40,6 @@ in
           "dmask=0077"
         ];
       };
-
-      fileSystems."/var/lib/docker/overlay2/07820b34138842c8768caff88684ee7284a9f74e6fe59408c07fc10f89e1dd38/merged" =
-        {
-          device = "overlay";
-          fsType = "overlay";
-        };
 
       swapDevices = [ ];
 
