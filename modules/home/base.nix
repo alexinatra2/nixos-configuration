@@ -21,8 +21,10 @@
           nixfmt
           nodejs
           pnpm
+          fd
           ripgrep
           spotify
+          tree
           unzip
           xclip
           typst
