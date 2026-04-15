@@ -1,16 +1,21 @@
 { self, inputs, ... }:
 {
   flake.modules.homeManager.shell =
-    { config, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     {
       home.shellAliases = {
         lg = "lazygit";
-        open = "xdg-open";
+        open = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
         cd = "z";
         v = "vi";
         DN = "> /dev/null";
         DE = "2> /dev/null";
-        C = "tee >(xclip -selection clipboard)";
+        C = if pkgs.stdenv.isDarwin then "tee >(pbcopy)" else "tee >(xclip -selection clipboard)";
         VT = "vim-temp";
       };
 
