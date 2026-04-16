@@ -94,6 +94,7 @@
         enable = true;
         settings = {
           background_opacity = "0.95";
+          macos_option_as_alt = "yes";
         };
       };
     };
