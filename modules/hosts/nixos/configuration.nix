@@ -27,6 +27,7 @@ in
           "networkmanager"
           "realtime"
           "audio"
+          "video"
         ];
       };
 
@@ -139,6 +140,8 @@ in
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
+
+      security.polkit.enable = true;
 
       system.stateVersion = "24.05";
     };
