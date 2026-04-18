@@ -17,6 +17,7 @@ let
     shell
     stylix
     tmux
+    music-creation
   ];
 in
 {
