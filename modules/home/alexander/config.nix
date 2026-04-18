@@ -8,6 +8,7 @@ let
     firefox
     generations
     git
+    image-editing
     mcp
     neovim
     obsidian
