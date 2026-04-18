@@ -7,6 +7,7 @@ in
     modules = with self.nixosModules; [
       nixos
       niri
+      displaylink
       gaming
       virtualization
       fonts
