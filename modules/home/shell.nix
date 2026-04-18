@@ -32,10 +32,6 @@
           syntaxHighlighting.enable = true;
           initContent = ''
             bindkey -e
-            bindkey '^I' autosuggest-accept
-            bindkey -M viins '^I' autosuggest-accept
-            bindkey '^[^I' expand-or-complete
-            bindkey -M viins '^[^I' expand-or-complete
             bindkey '^[^?' backward-kill-word
             bindkey '^[^H' backward-kill-word
             bindkey -M viins '^[^?' backward-kill-word
