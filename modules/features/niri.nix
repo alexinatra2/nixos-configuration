@@ -96,6 +96,8 @@
                 "Mod+Shift+0".move-column-to-workspace = "w9";
 
                 "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
+                "Mod+B".spawn = "firefox";
+                "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
 
                 "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
