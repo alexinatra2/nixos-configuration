@@ -32,7 +32,7 @@
 
                 keyboard = {
                   xkb = {
-                    layout = "us,ru,ua";
+                    layout = "us,de";
                     options = "grp:alt_shift_toggle,caps:escape";
                   };
                   repeat-rate = 40;
@@ -50,6 +50,8 @@
               };
 
               binds = {
+                "Mod+Shift+Slash".show-hotkey-overlay = _: { };
+
                 "Mod+Return".spawn = config.terminal;
 
                 "Mod+Q".close-window = _: { };
@@ -73,35 +75,31 @@
                 "Mod+Shift+K".move-window-up = _: { };
                 "Mod+Shift+J".move-window-down = _: { };
 
-                "Mod+1".focus-workspace = "w0";
-                "Mod+2".focus-workspace = "w1";
-                "Mod+3".focus-workspace = "w2";
-                "Mod+4".focus-workspace = "w3";
-                "Mod+5".focus-workspace = "w4";
-                "Mod+6".focus-workspace = "w5";
-                "Mod+7".focus-workspace = "w6";
-                "Mod+8".focus-workspace = "w7";
-                "Mod+9".focus-workspace = "w8";
-                "Mod+0".focus-workspace = "w9";
+                "Mod+9".focus-workspace = "w0";
+                "Mod+0".focus-workspace = "w1";
+                "Mod+Equal".focus-workspace = "w2";
 
-                "Mod+Shift+1".move-column-to-workspace = "w0";
-                "Mod+Shift+2".move-column-to-workspace = "w1";
-                "Mod+Shift+3".move-column-to-workspace = "w2";
-                "Mod+Shift+4".move-column-to-workspace = "w3";
-                "Mod+Shift+5".move-column-to-workspace = "w4";
-                "Mod+Shift+6".move-column-to-workspace = "w5";
-                "Mod+Shift+7".move-column-to-workspace = "w6";
-                "Mod+Shift+8".move-column-to-workspace = "w7";
-                "Mod+Shift+9".move-column-to-workspace = "w8";
-                "Mod+Shift+0".move-column-to-workspace = "w9";
+                "Mod+Shift+9".move-column-to-workspace = "w0";
+                "Mod+Shift+0".move-column-to-workspace = "w1";
+                "Mod+Shift+Equal".move-column-to-workspace = "w2";
 
                 "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
                 "Mod+B".spawn = "firefox";
                 "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
+                "Mod+O".toggle-overview = _: { };
+                "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
+
+                "Print".screenshot = _: { };
+                "Ctrl+Print".screenshot-screen = _: { };
+                "Alt+Print".screenshot-window = _: { };
+
+                "Mod+Shift+E".quit = _: { };
+                "Mod+Shift+P".power-off-monitors = _: { };
 
                 "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
                 "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
+                "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
                 "Mod+Ctrl+H".set-column-width = "50%";
                 "Mod+Ctrl+L".set-column-width = "100%";
@@ -112,6 +110,9 @@
                 "Mod+WheelScrollUp".focus-column-right = _: { };
                 "Mod+Ctrl+WheelScrollDown".focus-workspace-down = _: { };
                 "Mod+Ctrl+WheelScrollUp".focus-workspace-up = _: { };
+
+                "Mod+Ctrl+Minus".set-column-width = "-10%";
+                "Mod+Ctrl+Equal".set-column-width = "+10%";
 
                 "Mod+Shift+S".spawn-sh = lib.getExe (
                   config.pkgs.writeShellApplication {
@@ -143,13 +144,6 @@
                   "w0" = settings;
                   "w1" = settings;
                   "w2" = settings;
-                  "w3" = settings;
-                  "w4" = settings;
-                  "w5" = settings;
-                  "w6" = settings;
-                  "w7" = settings;
-                  "w8" = settings;
-                  "w9" = settings;
                 };
 
               window-rules = [
