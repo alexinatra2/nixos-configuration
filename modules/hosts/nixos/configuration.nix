@@ -19,7 +19,7 @@ in
       users.users."alexander" = {
         isNormalUser = true;
         hashedPassword = "$y$j9T$Iztq1/D8jn6wQf4ZOjJUh0$3QftpZFTD51SWvAdg5XKXVgbBkgw1ox9hoWWKgOvZO2";
-        shell = pkgs.bashInteractive;
+        shell = pkgs.zsh;
         extraGroups = [
           "wheel"
           "adbusers"
