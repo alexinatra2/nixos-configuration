@@ -6,6 +6,7 @@ let
   hmModules = with self.modules.homeManager; [
     base
     firefox
+    fonts
     generations
     git
     # image-editing

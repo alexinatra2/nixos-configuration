@@ -9,6 +9,7 @@ in
       niri
       gaming
       virtualization
+      fonts
       grub
     ];
   };

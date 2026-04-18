@@ -18,7 +18,6 @@
             cargo
             gcc
             jdk21
-            nerd-fonts.jetbrains-mono
             lazydocker
             lazysql
             nixfmt
@@ -87,13 +86,5 @@
       };
 
       neovim.enable = true;
-
-      programs.kitty = lib.mkForce {
-        enable = true;
-        settings = {
-          background_opacity = "0.95";
-          macos_option_as_alt = "yes";
-        };
-      };
     };
 }
