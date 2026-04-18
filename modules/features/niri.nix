@@ -193,8 +193,13 @@
   };
 
   perSystem =
-    { pkgs, ... }:
     {
+      system,
+      pkgs,
+      lib,
+      ...
+    }:
+    lib.optionalAttrs (lib.hasSuffix "-linux" system) {
       packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
         imports = [ self.wrappersModules.niri ];
