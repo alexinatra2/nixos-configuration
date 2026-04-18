@@ -1,11 +1,15 @@
 { self, inputs, ... }:
 {
   flake.modules.homeManager.privatepackages =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
-      home.packages = with pkgs; [
-        eduvpn-client
-        qgis
-      ];
+      # These packages are currently Linux-only in nixpkgs.
+      home.packages = lib.optionals pkgs.stdenv.isLinux (
+        with pkgs;
+        [
+          eduvpn-client
+          qgis
+        ]
+      );
     };
 }

@@ -1,16 +1,21 @@
 { self, inputs, ... }:
 {
   flake.modules.homeManager.shell =
-    { config, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     {
       home.shellAliases = {
         lg = "lazygit";
-        open = "xdg-open";
+        open = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
         cd = "z";
         v = "vi";
         DN = "> /dev/null";
         DE = "2> /dev/null";
-        C = "tee >(xclip -selection clipboard)";
+        C = if pkgs.stdenv.isDarwin then "tee >(pbcopy)" else "tee >(xclip -selection clipboard)";
         VT = "vim-temp";
       };
 
@@ -29,6 +34,8 @@
             bindkey -e
             bindkey '^I' autosuggest-accept
             bindkey -M viins '^I' autosuggest-accept
+            bindkey '^[^I' expand-or-complete
+            bindkey -M viins '^[^I' expand-or-complete
             bindkey '^[^?' backward-kill-word
             bindkey '^[^H' backward-kill-word
             bindkey -M viins '^[^?' backward-kill-word

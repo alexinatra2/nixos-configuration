@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 let
-  username = "alexander";
-  system = "x86_64-linux";
+  username = "alexanderholzknecht";
+  system = "aarch64-darwin";
 
   hmModules = with self.modules.homeManager; [
     base
@@ -27,12 +27,7 @@ in
     };
 
     extraSpecialArgs = {
-      inherit
-        inputs
-        self
-        username
-        system
-        ;
+      inherit username system;
     };
 
     modules = hmModules;

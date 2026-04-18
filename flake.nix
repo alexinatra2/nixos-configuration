@@ -1,6 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +32,10 @@
       tree = inputs.import-tree ./modules;
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.flake-parts.flakeModules.modules ] ++ tree.imports;
+      imports = [
+        inputs.flake-parts.flakeModules.modules
+        inputs.flake-parts.flakeModules.easyOverlay
+      ]
+      ++ tree.imports;
     };
 }
