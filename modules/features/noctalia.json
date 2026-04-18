@@ -2,17 +2,17 @@
   "settings": {
     "settingsVersion": 59,
     "bar": {
-      "barType": "simple",
+      "barType": "floating",
       "position": "top",
       "monitors": [],
-      "density": "spacious",
+      "density": "comfortable",
       "showOutline": false,
       "showCapsule": true,
       "capsuleOpacity": 0.2,
       "capsuleColorKey": "primary",
       "widgetSpacing": 6,
-      "contentPadding": 0,
-      "fontScale": 1.2000000000000002,
+      "contentPadding": 2,
+      "fontScale": 1,
       "enableExclusionZoneInset": true,
       "backgroundOpacity": 0.93,
       "useSeparateOpacity": false,
@@ -232,20 +232,20 @@
       "settingsPanelSideBarCardStyle": false
     },
     "location": {
-      "name": "Tokyo",
+      "name": "Dresden",
       "weatherEnabled": true,
       "weatherShowEffects": true,
       "weatherTaliaMascotAlways": false,
       "useFahrenheit": false,
       "use12hourFormat": false,
-      "showWeekNumberInCalendar": false,
+      "showWeekNumberInCalendar": true,
       "showCalendarEvents": true,
       "showCalendarWeather": true,
-      "analogClockInCalendar": false,
+      "analogClockInCalendar": true,
       "firstDayOfWeek": -1,
       "hideWeatherTimezone": false,
       "hideWeatherCityName": false,
-      "autoLocate": false
+      "autoLocate": true
     },
     "calendar": {
       "cards": [
@@ -537,7 +537,7 @@
       "enableMarkdown": false,
       "density": "default",
       "monitors": [],
-      "location": "top_right",
+      "location": "bottom_left",
       "overlayLayer": true,
       "backgroundOpacity": 1,
       "respectExpireTimeout": false,
@@ -683,7 +683,7 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1774652208000
+      "lastSeenTs": 1776513695000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.5"
