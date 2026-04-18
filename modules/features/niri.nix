@@ -123,7 +123,7 @@
               };
 
               layout = {
-                gaps = 5;
+                gaps = 12;
 
                 focus-ring = {
                   width = 2;
@@ -134,7 +134,7 @@
               workspaces =
                 let
                   settings = {
-                    layout.gaps = 5;
+                    layout.gaps = 12;
                   };
                 in
                 {
@@ -149,6 +149,13 @@
                   "w8" = settings;
                   "w9" = settings;
                 };
+
+              window-rules = [
+                {
+                  geometry-corner-radius = 12;
+                  clip-to-geometry = true;
+                }
+              ];
 
               xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
 
