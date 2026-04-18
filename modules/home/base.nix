@@ -88,8 +88,6 @@
 
       neovim.enable = true;
 
-      plasmaOverrides.enable = true;
-
       programs.kitty = lib.mkForce {
         enable = true;
         settings = {

@@ -1,28 +1,15 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.displaylink = { pkgs, ... }: {
-    services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
-    
-    environment.variables = {
-      KWIN_DRM_PREFER_COLOR_DEPTH = "24";
+  flake.nixosModules.displaylink =
+    { pkgs, ... }:
+    {
+      services.xserver.videoDrivers = [
+        "displaylink"
+        "modesetting"
+      ];
+
+      environment.systemPackages = with pkgs; [
+        displaylink
+      ];
     };
-
-    services = {
-      desktopManager.plasma6 = {
-        enable = true;
-      };
-      displayManager = {
-        sddm = {
-          enable = true;
-          wayland.enable = true;
-        };
-        defaultSession = "plasma";
-      };
-
-    };
-
-    environment.systemPackages = with pkgs; [
-      displaylink
-    ];
-  };
 }

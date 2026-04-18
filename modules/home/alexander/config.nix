@@ -13,7 +13,6 @@ let
     neovim
     obsidian
     opencode
-    plasmaOverrides
     privatepackages
     shell
     stylix

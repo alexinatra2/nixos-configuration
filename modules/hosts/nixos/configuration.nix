@@ -111,12 +111,10 @@ in
 
         displayManager.defaultSession = "niri";
 
-        desktopManager.plasma6.enable = true;
-
         # Enable CUPS to print documents.
         printing.enable = true;
 
-        # Recommended audio stack; KDE uses PipeWire well
+        # Recommended audio stack
         pipewire = {
           enable = true;
           alsa.enable = true;
@@ -132,7 +130,7 @@ in
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
-        extraPortals = with pkgs; [ kdePackages.xdg-desktop-portal-kde ];
+        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
       };
 
       # networking.hostName = ${hostName};
