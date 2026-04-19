@@ -662,9 +662,9 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
     },
-    "desktopWidgetsEditMode": true,
+    "desktopWidgetsEditMode": false,
     "display": {
       "winit": {
         "connected": true,
