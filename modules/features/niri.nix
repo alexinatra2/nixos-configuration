@@ -22,7 +22,12 @@
         config = {
           settings =
             let
-              noctaliaExe = lib.getExe self.packages.${config.pkgs.stdenv.hostPlatform.system}.myNoctalia;
+              noctaliaExe = lib.getExe (
+                inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
+                  pkgs = config.pkgs;
+                  settings = (builtins.fromJSON (builtins.readFile ../wrappedPackages/noctalia.json)).settings;
+                }
+              );
             in
             {
               prefer-no-csd = _: { };
