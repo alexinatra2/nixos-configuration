@@ -10,7 +10,7 @@ let
 in
 {
   flake.nixosModules.${hostName} =
-    { pkgs, lib, ... }:
+    { pkgs, ... }:
     {
       imports = [
         self.nixosModules."${hostName}Hardware"
@@ -103,13 +103,6 @@ in
             variant = "";
           };
         };
-
-        displayManager.sddm = {
-          enable = true;
-          wayland.enable = true;
-        };
-
-        displayManager.defaultSession = "niri";
 
         # Enable CUPS to print documents.
         printing.enable = true;
