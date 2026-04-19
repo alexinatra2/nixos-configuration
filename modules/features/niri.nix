@@ -49,6 +49,35 @@
                 };
               };
 
+              outputs = {
+                "PNP(AOC) 24G2W1G4 ATNM61A017051" = {
+                  position = _: {
+                    props = {
+                      x = 0;
+                      y = 0;
+                    };
+                  };
+                };
+
+                "LG Electronics 24GM79G 0x0004AB84" = {
+                  position = _: {
+                    props = {
+                      x = 1920;
+                      y = 0;
+                    };
+                  };
+                };
+
+                "Samsung Display Corp. 0x4188 Unknown" = {
+                  position = _: {
+                    props = {
+                      x = 0;
+                      y = 1080;
+                    };
+                  };
+                };
+              };
+
               binds = {
                 "Mod+Shift+Slash".show-hotkey-overlay = _: { };
 
@@ -70,6 +99,16 @@
                 "Mod+Up".focus-window-up = _: { };
                 "Mod+Down".focus-window-down = _: { };
 
+                "Mod+Ctrl+Left".move-column-to-monitor-left = _: { };
+                "Mod+Ctrl+Right".move-column-to-monitor-right = _: { };
+                "Mod+Ctrl+Up".move-column-to-monitor-up = _: { };
+                "Mod+Ctrl+Down".move-column-to-monitor-down = _: { };
+
+                "Mod+Ctrl+Shift+Left".move-workspace-to-monitor-left = _: { };
+                "Mod+Ctrl+Shift+Right".move-workspace-to-monitor-right = _: { };
+                "Mod+Ctrl+Shift+Up".move-workspace-to-monitor-up = _: { };
+                "Mod+Ctrl+Shift+Down".move-workspace-to-monitor-down = _: { };
+
                 "Mod+Shift+H".move-column-left = _: { };
                 "Mod+Shift+L".move-column-right = _: { };
                 "Mod+Shift+K".move-window-up = _: { };
@@ -77,11 +116,13 @@
 
                 "Mod+9".focus-workspace = "w0";
                 "Mod+0".focus-workspace = "w1";
-                "Mod+Equal".focus-workspace = "w2";
+                "Mod+Minus".focus-workspace = "w2";
+                "Mod+Equal".focus-workspace = "w3";
 
                 "Mod+Shift+9".move-column-to-workspace = "w0";
                 "Mod+Shift+0".move-column-to-workspace = "w1";
-                "Mod+Shift+Equal".move-column-to-workspace = "w2";
+                "Mod+Shift+Minus".move-column-to-workspace = "w2";
+                "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
                 "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
                 "Mod+B".spawn = "firefox";
@@ -144,6 +185,7 @@
                   "w0" = settings;
                   "w1" = settings;
                   "w2" = settings;
+                  "w3" = settings;
                 };
 
               window-rules = [
@@ -184,6 +226,53 @@
           xwayland-satellite
         ];
 
+      };
+
+    nixosModules.greeter =
+      {
+        pkgs,
+        lib,
+        ...
+      }:
+      {
+        services.displayManager.sddm.enable = false;
+
+        services.greetd = {
+          enable = true;
+          useTextGreeter = true;
+          settings = {
+            default_session = {
+              user = "greeter";
+              command = "${lib.getExe pkgs.tuigreet} --time --remember --remember-session --cmd niri-session";
+            };
+          };
+        };
+
+        services.displayManager.defaultSession = "niri";
+
+        specialisation = {
+          sddm.configuration = {
+            services.greetd.enable = lib.mkForce false;
+            services.displayManager.sddm = {
+              enable = lib.mkForce true;
+              wayland.enable = true;
+            };
+          };
+
+          ly.configuration = {
+            services.greetd.enable = lib.mkForce false;
+            services.displayManager.ly.enable = true;
+            services.displayManager.ly.settings = {
+              animation = "matrix";
+              bigclock = true;
+              clear_password = true;
+              default_input = "session";
+              hide_borders = true;
+              shutdown_key = "F1";
+              restart_key = "F2";
+            };
+          };
+        };
       };
   };
 
