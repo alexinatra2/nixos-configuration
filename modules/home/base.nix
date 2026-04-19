@@ -22,6 +22,7 @@
             lazysql
             nixfmt
             nodejs
+            neovim
             pnpm
             fd
             ripgrep
@@ -85,6 +86,5 @@
         };
       };
 
-      neovim.enable = true;
     };
 }
