@@ -12,6 +12,7 @@ in
       gaming
       virtualization
       fonts
+      stylix
       grub
     ];
   };
