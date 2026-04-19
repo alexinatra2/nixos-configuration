@@ -47,18 +47,18 @@
                 ];
               };
 
-              typst-mcp = {
-                type = "stdio";
-                command = "uv";
-                args = [
-                  "run"
-                  "--with"
-                  "git+https://github.com/FujishigeTemma/typst-mcp"
-                  "typst-mcp"
-                  "serve"
-                ];
-                env = { };
-              };
+              # typst-mcp = {
+              #   type = "stdio";
+              #   command = "uv";
+              #   args = [
+              #     "run"
+              #     "--with"
+              #     "git+https://github.com/FujishigeTemma/typst-mcp"
+              #     "typst-mcp"
+              #     "serve"
+              #   ];
+              #   env = { };
+              # };
 
               pdf-reader-mpc = {
                 command = "npx";
@@ -84,6 +84,14 @@
                 args = [
                   "-y"
                   "@modelcontextprotocol/server-sequential-thinking"
+                ];
+              };
+
+              google-maps-platform-code-assist = {
+                command = "npx";
+                args = [
+                  "-y"
+                  "@googlemaps/code-assist-mcp@latest"
                 ];
               };
             };
