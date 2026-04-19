@@ -142,11 +142,6 @@
                 "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
                 "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
-                "Mod+Ctrl+H".set-column-width = "50%";
-                "Mod+Ctrl+L".set-column-width = "100%";
-                "Mod+Ctrl+J".set-window-height = "50%";
-                "Mod+Ctrl+K".set-window-height = "100%";
-
                 "Mod+WheelScrollDown".focus-column-left = _: { };
                 "Mod+WheelScrollUp".focus-column-right = _: { };
                 "Mod+Ctrl+WheelScrollDown".focus-workspace-down = _: { };
