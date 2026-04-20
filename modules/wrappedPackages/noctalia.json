@@ -7,7 +7,7 @@
       "monitors": [],
       "density": "comfortable",
       "showOutline": false,
-      "showCapsule": true,
+      "showCapsule": false,
       "capsuleOpacity": 0.2,
       "capsuleColorKey": "primary",
       "widgetSpacing": 6,
@@ -16,8 +16,8 @@
       "enableExclusionZoneInset": true,
       "backgroundOpacity": 0.93,
       "useSeparateOpacity": false,
-      "marginVertical": 4,
-      "marginHorizontal": 4,
+      "marginVertical": 5,
+      "marginHorizontal": 10,
       "frameThickness": 8,
       "frameRadius": 12,
       "outerCorners": true,
@@ -29,33 +29,31 @@
       "widgets": {
         "left": [
           {
-            "clockColor": "none",
-            "customFont": "",
-            "formatHorizontal": "dddd - MMM dd, HH:mm:ss",
-            "formatVertical": "HH mm - dd MM",
-            "id": "Clock",
-            "tooltipFormat": "HH:mm ddd, MMM dd",
-            "useCustomFont": false
-          },
-          {
-            "deviceNativePath": "__default__",
-            "displayMode": "icon-always",
-            "hideIfIdle": false,
-            "hideIfNotDetected": true,
-            "id": "Battery",
-            "showNoctaliaPerformance": false,
-            "showPowerProfiles": false
-          },
-          {
             "colorizeIcons": true,
             "hideMode": "transparent",
             "id": "ActiveWindow",
             "maxWidth": 145,
-            "scrollingMode": "always",
+            "scrollingMode": "hover",
             "showIcon": true,
             "showText": true,
             "textColor": "primary",
             "useFixedWidth": true
+          },
+          {
+            "compactMode": true,
+            "hideMode": "idle",
+            "hideWhenIdle": false,
+            "id": "MediaMini",
+            "maxWidth": 145,
+            "panelShowAlbumArt": true,
+            "scrollingMode": "hover",
+            "showAlbumArt": true,
+            "showArtistFirst": true,
+            "showProgressRing": true,
+            "showVisualizer": true,
+            "textColor": "primary",
+            "useFixedWidth": false,
+            "visualizerType": "wave"
           }
         ],
         "center": [
@@ -79,22 +77,6 @@
             "showBadge": true,
             "showLabelsOnlyWhenOccupied": true,
             "unfocusedIconsOpacity": 1
-          },
-          {
-            "compactMode": true,
-            "hideMode": "visible",
-            "hideWhenIdle": false,
-            "id": "MediaMini",
-            "maxWidth": 145,
-            "panelShowAlbumArt": true,
-            "scrollingMode": "always",
-            "showAlbumArt": true,
-            "showArtistFirst": true,
-            "showProgressRing": true,
-            "showVisualizer": true,
-            "textColor": "primary",
-            "useFixedWidth": false,
-            "visualizerType": "wave"
           }
         ],
         "right": [
@@ -130,6 +112,24 @@
             "iconColor": "none",
             "id": "Brightness",
             "textColor": "none"
+          },
+          {
+            "deviceNativePath": "__default__",
+            "displayMode": "graphic-clean",
+            "hideIfIdle": false,
+            "hideIfNotDetected": true,
+            "id": "Battery",
+            "showNoctaliaPerformance": false,
+            "showPowerProfiles": false
+          },
+          {
+            "clockColor": "none",
+            "customFont": "",
+            "formatHorizontal": "dddd - MMM dd, HH:mm:ss",
+            "formatVertical": "HH mm - dd MM",
+            "id": "Clock",
+            "tooltipFormat": "HH:mm ddd, MMM dd",
+            "useCustomFont": false
           },
           {
             "colorizeDistroLogo": false,
