@@ -16,12 +16,15 @@
       sops = {
         defaultSopsFile = ../../secrets/secrets.yaml;
         defaultSopsFormat = "yaml";
-        age.keyFile = "/home/alexander/.config/sops/age/keys.txt";
+        age = {
+	  sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+	  keyFile = "/home/alexander/.config/sops/age/keys.txt";
+	  generateKey = true;	
+	};
 
+	# secrets will be output to /run/secrets
 	secrets = {
-	  example-key = { };
-
-	  "myservice/my_subdir/my_secret" = { 
+	  alexander-password = {
 	    owner = user;
 	  };
 	};
@@ -30,6 +33,9 @@
 
   flake.modules.homeManager.sops =
     { pkgs, config, ... }:
+    let
+      homeDir = config.home.homeDirectory;
+    in
     {
       imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
@@ -39,7 +45,20 @@
       ];
 
       home.sessionVariables = {
-        SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+        SOPS_AGE_KEY_FILE = "${homeDir}/.config/sops/age/keys.txt";
+      };
+
+      sops = { 
+        age.keyFile = "${homeDir}/.config/sops/age/keys.txt";
+
+	defaultSopsFile = ../../secrets/secrets.yaml;
+	validateSopsFiles = false;
+
+	secrets = {
+	  "private_keys/alexander" = {
+	    path = "${homeDir}/.ssh/id_ed25519";
+	  };
+	};
       };
     };
 }
