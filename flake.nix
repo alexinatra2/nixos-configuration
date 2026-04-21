@@ -25,11 +25,7 @@
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
-    comfyui-nix = {
-      url = "github:utensils/comfyui-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-    };
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =

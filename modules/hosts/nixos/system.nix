@@ -14,6 +14,7 @@ in
       fonts
       stylix
       grub
+      sops
     ];
   };
 }
