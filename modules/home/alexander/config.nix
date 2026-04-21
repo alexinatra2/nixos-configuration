@@ -14,6 +14,7 @@ let
     neovim
     obsidian
     opencode
+    pdf
     privatepackages
     shell
     slide-creation

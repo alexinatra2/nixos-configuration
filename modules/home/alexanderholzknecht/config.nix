@@ -13,6 +13,7 @@ let
     neovim
     obsidian
     opencode
+    pdf
     privatepackages
     shell
     stylix
