@@ -85,6 +85,7 @@
 
               binds = {
                 "Mod+Shift+Slash".show-hotkey-overlay = _: { };
+                "Mod+Shift+Q".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
 
                 "Mod+Return".spawn = config.terminal;
 
