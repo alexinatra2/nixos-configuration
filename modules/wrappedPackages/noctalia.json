@@ -48,13 +48,13 @@
           },
           {
             "colorizeIcons": true,
-            "hideMode": "transparent",
+            "hideMode": "hidden",
             "id": "ActiveWindow",
             "maxWidth": 145,
             "scrollingMode": "hover",
             "showIcon": true,
             "showText": true,
-            "textColor": "primary",
+            "textColor": "none",
             "useFixedWidth": true
           },
           {
@@ -77,20 +77,20 @@
         "center": [
           {
             "characterCount": 2,
-            "colorizeIcons": false,
-            "emptyColor": "secondary",
+            "colorizeIcons": true,
+            "emptyColor": "none",
             "enableScrollWheel": true,
             "focusedColor": "primary",
             "followFocusedScreen": false,
-            "fontWeight": "bold",
+            "fontWeight": "regular",
             "groupedBorderOpacity": 1,
             "hideUnoccupied": false,
             "iconScale": 0.8,
             "id": "Workspace",
             "labelMode": "index",
-            "occupiedColor": "secondary",
+            "occupiedColor": "none",
             "pillSize": 0.6,
-            "showApplications": false,
+            "showApplications": true,
             "showApplicationsHover": false,
             "showBadge": true,
             "showLabelsOnlyWhenOccupied": true,
@@ -134,6 +134,7 @@
           {
             "colorizeDistroLogo": false,
             "colorizeSystemIcon": "none",
+            "colorizeSystemText": "none",
             "customIconPath": "",
             "enableColorization": false,
             "icon": "noctalia",
@@ -662,9 +663,7 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
-      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
-      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
@@ -688,7 +687,7 @@
       "lastSeenTs": 1776513695000
     },
     "changelogState": {
-      "lastSeenVersion": "v4.7.5"
+      "lastSeenVersion": "v4.7.6"
     },
     "colorSchemesList": {
       "schemes": [],
