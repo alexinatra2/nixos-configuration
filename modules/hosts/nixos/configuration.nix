@@ -15,21 +15,6 @@ in
         self.nixosModules."${hostName}Hardware"
       ];
 
-      users.users."alexander" = {
-        isNormalUser = true;
-        hashedPassword = "$y$j9T$Iztq1/D8jn6wQf4ZOjJUh0$3QftpZFTD51SWvAdg5XKXVgbBkgw1ox9hoWWKgOvZO2";
-        shell = pkgs.zsh;
-        extraGroups = [
-          "wheel"
-          "adbusers"
-          "docker"
-          "networkmanager"
-          "realtime"
-          "audio"
-          "video"
-        ];
-      };
-
       i18n = {
         defaultLocale = "en_GB.UTF-8";
 

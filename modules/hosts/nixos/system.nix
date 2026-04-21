@@ -5,6 +5,7 @@ in
 {
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
+      user-alexander
       nixos
       niri
       greeter
