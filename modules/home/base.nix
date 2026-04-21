@@ -22,7 +22,6 @@
             lazysql
             nixfmt
             nodejs
-            neovim
             pnpm
             fd
             ripgrep
