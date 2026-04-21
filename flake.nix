@@ -26,6 +26,11 @@
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
     sops-nix.url = "github:Mic92/sops-nix";
+
+    secrets = { 
+      url = "git+ssh://github.com/alexinatra2/secrets.git?ref=main&shallow=1";
+      flake = false;
+    };
   };
 
   outputs =
