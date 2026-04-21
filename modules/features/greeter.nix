@@ -4,6 +4,7 @@
     {
       pkgs,
       lib,
+      config,
       ...
     }:
     {
@@ -13,7 +14,10 @@
       services.displayManager.ly = {
         enable = true;
         settings = {
-          animation = "matrix";
+          animation = "colormix";
+          colormix_col1 = "0x00${config.lib.stylix.colors.base08}";
+          colormix_col2 = "0x00${config.lib.stylix.colors.base0B}";
+          colormix_col3 = "0x00${config.lib.stylix.colors.base0A}";
           bigclock = true;
           clear_password = true;
           default_input = "session";
@@ -53,7 +57,10 @@
           services.greetd.enable = lib.mkForce false;
           services.displayManager.ly.enable = lib.mkForce true;
           services.displayManager.ly.settings = {
-            animation = "matrix";
+            animation = "colormix";
+            colormix_col1 = "0x00${config.lib.stylix.colors.base08}";
+            colormix_col2 = "0x00${config.lib.stylix.colors.base0B}";
+            colormix_col3 = "0x00${config.lib.stylix.colors.base0A}";
             bigclock = true;
             clear_password = true;
             default_input = "session";
