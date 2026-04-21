@@ -6,7 +6,6 @@
 }:
 let
   hostName = "nixos";
-  username = "alexander";
 in
 {
   flake.nixosModules.${hostName} =
