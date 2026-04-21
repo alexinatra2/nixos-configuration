@@ -147,6 +147,7 @@
 
                 "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
                 "Mod+B".spawn = "firefox";
+                "Mod+E".spawn-sh = "${config.terminal} -e yazi";
                 "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
                 "Mod+O".toggle-overview = _: { };
