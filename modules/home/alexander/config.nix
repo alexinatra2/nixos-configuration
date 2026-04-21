@@ -9,7 +9,6 @@ let
     fonts
     generations
     git
-    # image-editing
     mcp
     neovim
     obsidian
@@ -19,6 +18,7 @@ let
     stylix
     tmux
     music-creation
+    sops
   ];
 in
 {

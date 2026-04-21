@@ -68,29 +68,6 @@
         "type": "github"
       }
     },
-    "comfyui-nix": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1775530069,
-        "narHash": "sha256-LuWit2RDTkiwwHwAhqfPcfo6ZUcV931XXijeQqD6FTM=",
-        "owner": "utensils",
-        "repo": "comfyui-nix",
-        "rev": "255224118c3a7d7514c4f0d975120feb3cb16b58",
-        "type": "github"
-      },
-      "original": {
-        "owner": "utensils",
-        "repo": "comfyui-nix",
-        "type": "github"
-      }
-    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -289,6 +266,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1775888245,
+        "narHash": "sha256-nwASzrRDD1JBEu/o8ekKYEXm/oJW6EMCzCRdrwcLe90=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "13043924aaa7375ce482ebe2494338e058282925",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1775579569,
         "narHash": "sha256-/m3yyS/EnXqoPGBJYVy4jTOsirdgsEZ3JdN2gGkBr14=",
         "owner": "NixOS",
@@ -330,15 +323,33 @@
     },
     "root": {
       "inputs": {
-        "comfyui-nix": "comfyui-nix",
         "darwin": "darwin",
         "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
+        "sops-nix": "sops-nix",
         "stylix": "stylix",
         "wrapper-modules": "wrapper-modules"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1776119890,
+        "narHash": "sha256-Zm6bxLNnEOYuS/SzrAGsYuXSwk3cbkRQZY0fJnk8a5M=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "d4971dd58c6627bfee52a1ad4237637c0a2fb0cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "stylix": {
@@ -455,7 +466,7 @@
     },
     "wrapper-modules": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1776464146,
