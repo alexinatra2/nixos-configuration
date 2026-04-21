@@ -76,6 +76,8 @@ in
       };
 
       services = {
+        upower.enable = true;
+
         xserver = {
           enable = true;
           videoDrivers = [

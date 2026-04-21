@@ -29,6 +29,24 @@
       "widgets": {
         "left": [
           {
+            "clockColor": "none",
+            "customFont": "",
+            "formatHorizontal": "dddd - MMM dd, HH:mm:ss",
+            "formatVertical": "HH mm - dd MM",
+            "id": "Clock",
+            "tooltipFormat": "HH:mm ddd, MMM dd",
+            "useCustomFont": false
+          },
+          {
+            "deviceNativePath": "__default__",
+            "displayMode": "icon-always",
+            "hideIfIdle": false,
+            "hideIfNotDetected": true,
+            "id": "Battery",
+            "showNoctaliaPerformance": false,
+            "showPowerProfiles": false
+          },
+          {
             "colorizeIcons": true,
             "hideMode": "transparent",
             "id": "ActiveWindow",
@@ -112,24 +130,6 @@
             "iconColor": "none",
             "id": "Brightness",
             "textColor": "none"
-          },
-          {
-            "deviceNativePath": "__default__",
-            "displayMode": "graphic-clean",
-            "hideIfIdle": false,
-            "hideIfNotDetected": true,
-            "id": "Battery",
-            "showNoctaliaPerformance": false,
-            "showPowerProfiles": false
-          },
-          {
-            "clockColor": "none",
-            "customFont": "",
-            "formatHorizontal": "dddd - MMM dd, HH:mm:ss",
-            "formatVertical": "HH mm - dd MM",
-            "id": "Clock",
-            "tooltipFormat": "HH:mm ddd, MMM dd",
-            "useCustomFont": false
           },
           {
             "colorizeDistroLogo": false,
@@ -662,7 +662,9 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
+      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
+      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
