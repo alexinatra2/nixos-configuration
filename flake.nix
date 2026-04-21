@@ -27,8 +27,8 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
-    secrets = { 
-      url = "git+ssh://github.com/alexinatra2/secrets.git?ref=main&shallow=1";
+    secrets = {
+      url = "git+ssh://git@github.com/alexinatra2/secrets.git?shallow=1";
       flake = false;
     };
   };

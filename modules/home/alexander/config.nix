@@ -15,6 +15,7 @@ let
     opencode
     privatepackages
     shell
+    ssh
     stylix
     tmux
     music-creation

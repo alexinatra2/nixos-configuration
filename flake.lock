@@ -329,9 +329,27 @@
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
+        "secrets": "secrets",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "wrapper-modules": "wrapper-modules"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776774383,
+        "narHash": "sha256-w4HxPajJtJNinij9BBJtCvteTAfSQ1oUulmtEvwFv+4=",
+        "ref": "refs/heads/main",
+        "rev": "7aa5fe1a6448db669054562633da7e535488d6f4",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/alexinatra2/secrets.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/alexinatra2/secrets.git"
       }
     },
     "sops-nix": {
