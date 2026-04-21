@@ -96,33 +96,48 @@
 
                 "Mod+H".focus-column-left = _: { };
                 "Mod+L".focus-column-right = _: { };
-                "Mod+K".focus-window-up = _: { };
-                "Mod+J".focus-window-down = _: { };
+                "Mod+K".focus-window-or-workspace-up = _: { };
+                "Mod+J".focus-window-or-workspace-down = _: { };
 
                 "Mod+Left".focus-column-left = _: { };
                 "Mod+Right".focus-column-right = _: { };
-                "Mod+Up".focus-window-up = _: { };
-                "Mod+Down".focus-window-down = _: { };
+                "Mod+Up".focus-window-or-workspace-up = _: { };
+                "Mod+Down".focus-window-or-workspace-down = _: { };
 
-                "Mod+Ctrl+Left".move-column-to-monitor-left = _: { };
-                "Mod+Ctrl+Right".move-column-to-monitor-right = _: { };
-                "Mod+Ctrl+Up".move-column-to-monitor-up = _: { };
-                "Mod+Ctrl+Down".move-column-to-monitor-down = _: { };
+                "Mod+Ctrl+H".focus-monitor-left = _: { };
+                "Mod+Ctrl+L".focus-monitor-right = _: { };
+                "Mod+Ctrl+K".focus-monitor-up = _: { };
+                "Mod+Ctrl+J".focus-monitor-down = _: { };
 
-                "Mod+Ctrl+Shift+Left".move-workspace-to-monitor-left = _: { };
-                "Mod+Ctrl+Shift+Right".move-workspace-to-monitor-right = _: { };
-                "Mod+Ctrl+Shift+Up".move-workspace-to-monitor-up = _: { };
-                "Mod+Ctrl+Shift+Down".move-workspace-to-monitor-down = _: { };
+                "Mod+Ctrl+Left".focus-monitor-left = _: { };
+                "Mod+Ctrl+Right".focus-monitor-right = _: { };
+                "Mod+Ctrl+Up".focus-monitor-up = _: { };
+                "Mod+Ctrl+Down".focus-monitor-down = _: { };
 
                 "Mod+Shift+H".move-column-left = _: { };
                 "Mod+Shift+L".move-column-right = _: { };
-                "Mod+Shift+K".move-window-up = _: { };
-                "Mod+Shift+J".move-window-down = _: { };
+                "Mod+Shift+K".move-window-up-or-to-workspace-up = _: { };
+                "Mod+Shift+J".move-window-down-or-to-workspace-down = _: { };
 
-                "Mod+9".focus-workspace = "w0";
-                "Mod+0".focus-workspace = "w1";
-                "Mod+Minus".focus-workspace = "w2";
-                "Mod+Equal".focus-workspace = "w3";
+                "Mod+Shift+Left".move-column-to-monitor-left = _: { };
+                "Mod+Shift+Right".move-column-to-monitor-right = _: { };
+                "Mod+Shift+Up".move-column-to-monitor-up = _: { };
+                "Mod+Shift+Down".move-column-to-monitor-down = _: { };
+
+                "Mod+Alt+9".focus-workspace = "w0";
+                "Mod+Alt+0".focus-workspace = "w1";
+                "Mod+Alt+Minus".focus-workspace = "w2";
+                "Mod+Alt+Equal".focus-workspace = "w3";
+
+                "Mod+Alt+J".focus-workspace-down = _: { };
+                "Mod+Alt+K".focus-workspace-up = _: { };
+                "Mod+Alt+Shift+J".move-workspace-down = _: { };
+                "Mod+Alt+Shift+K".move-workspace-up = _: { };
+
+                "Mod+Alt+Left".move-workspace-to-monitor-left = _: { };
+                "Mod+Alt+Right".move-workspace-to-monitor-right = _: { };
+                "Mod+Alt+Up".move-workspace-to-monitor-up = _: { };
+                "Mod+Alt+Down".move-workspace-to-monitor-down = _: { };
 
                 "Mod+Shift+9".move-column-to-workspace = "w0";
                 "Mod+Shift+0".move-column-to-workspace = "w1";
@@ -149,8 +164,8 @@
 
                 "Mod+WheelScrollDown".focus-column-left = _: { };
                 "Mod+WheelScrollUp".focus-column-right = _: { };
-                "Mod+Ctrl+WheelScrollDown".focus-workspace-down = _: { };
-                "Mod+Ctrl+WheelScrollUp".focus-workspace-up = _: { };
+                "Mod+Alt+WheelScrollDown".focus-workspace-down = _: { };
+                "Mod+Alt+WheelScrollUp".focus-workspace-up = _: { };
 
                 "Mod+Ctrl+Minus".set-column-width = "-10%";
                 "Mod+Ctrl+Equal".set-column-width = "+10%";
