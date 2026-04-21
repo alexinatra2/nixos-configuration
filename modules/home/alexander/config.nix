@@ -9,12 +9,14 @@ let
     fonts
     generations
     git
+    comfyui
     mcp
     neovim
     obsidian
     opencode
     privatepackages
     shell
+    slide-creation
     ssh
     stylix
     tmux
