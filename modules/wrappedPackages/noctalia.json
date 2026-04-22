@@ -30,11 +30,11 @@
         "left": [
           {
             "clockColor": "none",
-            "customFont": "",
-            "formatHorizontal": "dddd - MMM dd, HH:mm:ss",
+            "customFont": "JetBrainsMono NF",
+            "formatHorizontal": "HH:mm",
             "formatVertical": "HH mm - dd MM",
             "id": "Clock",
-            "tooltipFormat": "HH:mm ddd, MMM dd",
+            "tooltipFormat": "dddd - MMM dd, HH:mm:ss",
             "useCustomFont": false
           },
           {
@@ -663,7 +663,9 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
+      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
+      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
