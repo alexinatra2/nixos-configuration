@@ -18,6 +18,7 @@
             programs.opencode = {
               enable = true;
               enableMcpIntegration = true;
+              settings.mcp."computer-use".enabled = false;
             };
           }
           (lib.mkIf hasAgents {

@@ -94,6 +94,14 @@
                   "@googlemaps/code-assist-mcp@latest"
                 ];
               };
+
+              computer-use = {
+                command = "npx";
+                args = [
+                  "-y"
+                  "computer-use-mcp"
+                ];
+              };
             };
           };
         })
