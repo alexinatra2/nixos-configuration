@@ -1,14 +1,24 @@
 { self, inputs, ... }:
+let
+  user = "alexander";
+  sops-password-key = "${user}-password";
+in
 {
   flake.nixosModules.user-alexander =
     { pkgs, config, ... }:
     {
-      sops.secrets.alexander-password.neededForUsers = true;
+      sops.secrets = { 
+	"${sops-password-key}" = {
+	  owner = user;
+	  neededForUsers = true;
+	};
+      };
+
       users.mutableUsers = false;
 
-      users.users.alexander = {
+      users.users.${user} = {
         isNormalUser = true;
-        hashedPasswordFile = config.sops.secrets.alexander-password.path;
+        hashedPasswordFile = config.sops.secrets.${sops-password-key}.path;
         shell = pkgs.zsh;
 
         extraGroups = [

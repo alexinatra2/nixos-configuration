@@ -5,9 +5,6 @@ in
 {
   flake.nixosModules.sops =
     { pkgs, config, ... }:
-    let
-      user = config.users.users.alexander.name;
-    in
     {
       imports = [ inputs.sops-nix.nixosModules.sops ];
 
@@ -23,13 +20,6 @@ in
 	  sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 	  keyFile = "/home/alexander/.config/sops/age/keys.txt";
 	  generateKey = true;	
-	};
-
-	# secrets will be output to /run/secrets
-	secrets = {
-	  alexander-password = {
-	    owner = user;
-	  };
 	};
       };
     };
@@ -82,9 +72,6 @@ in
 	  "private_keys/${username}" = {
 	    path = "${homeDir}/.ssh/id_ed25519";
 	  };
-
-	  "homelab/proxmox/ip" = { };
-	  "homelab/proxmox/user" = { };
 	};
       };
     };
