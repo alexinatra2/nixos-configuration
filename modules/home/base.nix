@@ -28,6 +28,7 @@
             tree
             unzip
             yazi
+	    disktui
             typst
             just
             bc
