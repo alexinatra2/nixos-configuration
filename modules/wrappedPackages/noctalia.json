@@ -239,7 +239,7 @@
       "smoothScrollEnabled": true
     },
     "ui": {
-      "fontDefault": "Sans Serif",
+      "fontDefault": "DejaVu Sans",
       "fontFixed": "monospace",
       "fontDefaultScale": 1,
       "fontFixedScale": 1,
@@ -332,7 +332,7 @@
       "favorites": []
     },
     "appLauncher": {
-      "enableClipboardHistory": false,
+      "enableClipboardHistory": true,
       "autoPasteClipboard": false,
       "enableClipPreview": true,
       "clipboardWrapText": true,
@@ -343,7 +343,7 @@
       "position": "center",
       "pinnedApps": [],
       "sortByMostUsed": true,
-      "terminalCommand": "alacritty -e",
+      "terminalCommand": "kitty -e",
       "customLaunchPrefixEnabled": false,
       "customLaunchPrefix": "",
       "viewMode": "list",
@@ -548,8 +548,8 @@
           "action": "userspaceReboot",
           "command": "",
           "countdownEnabled": true,
-          "enabled": false,
-          "keybind": ""
+          "enabled": true,
+          "keybind": "8"
         }
       ]
     },
@@ -683,7 +683,7 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
+      "eDP-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
       "DVI-I-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
       "DVI-I-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
     },
@@ -736,7 +736,7 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1776513695000
+      "lastSeenTs": 1776956701000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.6"
