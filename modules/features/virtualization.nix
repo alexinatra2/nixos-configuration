@@ -6,10 +6,16 @@ in
   flake.nixosModules.virtualization =
     {
       pkgs,
+      lib,
       ...
     }:
     {
       programs.virt-manager.enable = true;
+
+      users.groups = {
+        docker = { };
+        podman = { };
+      };
 
       users.groups.libvirtd.members = [ "${username}" ];
 
@@ -24,14 +30,14 @@ in
 
         podman = {
           enable = true;
-          dockerCompat = true;
-          dockerSocket.enable = true;
+          dockerCompat = false;
+          dockerSocket.enable = false;
           defaultNetwork.settings = {
             dns_enabled = true;
           };
         };
 
-        docker.enable = false;
+        docker.enable = true;
 
         libvirtd = {
           enable = true;
@@ -44,6 +50,16 @@ in
         };
 
         spiceUSBRedirection.enable = true;
+      };
+
+      specialisation.podman.configuration = {
+        virtualisation = {
+          docker.enable = lib.mkForce false;
+          podman = {
+            dockerCompat = lib.mkForce true;
+            dockerSocket.enable = lib.mkForce true;
+          };
+        };
       };
 
       security.rtkit.enable = true;
