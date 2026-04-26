@@ -8,18 +8,28 @@
     }:
     let
       themes = {
+        gruvbox = {
+          scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+          polarity = "dark";
+        };
+
         nord = {
           scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
           polarity = "dark";
         };
 
-        gruvbox-dark-hard = {
-          scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+        tokyo-night-dark = {
+          scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
+          polarity = "dark";
+        };
+
+        material = {
+          scheme = "${pkgs.base16-schemes}/share/themes/material.yaml";
           polarity = "dark";
         };
       };
 
-      defaultTheme = "nord";
+      defaultTheme = "gruvbox";
       activeTheme = themes.${defaultTheme};
       extraThemes = lib.filterAttrs (name: _: name != defaultTheme) themes;
       mkThemeSpecialisation = theme: {
