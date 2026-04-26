@@ -6,7 +6,6 @@ in
   flake.nixosModules.virtualization =
     {
       pkgs,
-      lib,
       ...
     }:
     {
@@ -43,22 +42,6 @@ in
         };
 
         spiceUSBRedirection.enable = true;
-      };
-
-      specialisation = {
-        native-docker.configuration = {
-          virtualisation = {
-            podman = {
-              enable = lib.mkForce false;
-              dockerCompat = lib.mkForce false;
-            };
-            docker.enable = lib.mkForce true;
-          };
-        };
-
-        full-emulation.configuration = {
-          virtualisation.libvirtd.qemu.package = lib.mkForce pkgs.qemu;
-        };
       };
 
       security.rtkit.enable = true;
