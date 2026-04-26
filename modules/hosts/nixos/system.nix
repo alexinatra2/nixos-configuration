@@ -16,6 +16,7 @@ in
       stylix
       grub
       sops
+      tailscale
     ];
   };
 }

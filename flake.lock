@@ -338,10 +338,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1776951760,
-        "narHash": "sha256-X9uWnqhEQpgK9bxz4cB3iTiZgzTAXiHrVh1aAm9Om1w=",
+        "lastModified": 1777209957,
+        "narHash": "sha256-jiYKqIf7tULAHUo3zoGuiITe5Ve7hSFwjTpQvnW4j+E=",
         "ref": "refs/heads/main",
-        "rev": "a3fce01af7445c1a8d4b33ba0ef61aafdb114d40",
+        "rev": "726a9968b593f2839f4dbf5dad0ff00084ba55d0",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/alexinatra2/secrets.git"
