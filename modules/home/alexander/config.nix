@@ -22,6 +22,7 @@ let
     stylix
     tmux
     music-creation
+    llms
     sops
   ];
 in
