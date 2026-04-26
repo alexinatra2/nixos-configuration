@@ -87,6 +87,19 @@
                 ];
               };
 
+              qgis = {
+                command = "uvx";
+                args = [
+                  "--from"
+                  "git+https://github.com/nkarasiak/qgis-mcp"
+                  "qgis-mcp-server"
+                ];
+                env = {
+                  QGIS_MCP_HOST = "localhost";
+                  QGIS_MCP_PORT = "9876";
+                };
+              };
+
               sequential-thinking = {
                 command = "npx";
                 args = [
