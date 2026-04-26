@@ -79,6 +79,14 @@
                 ];
               };
 
+              slidev-mcp = {
+                command = "npx";
+                args = [
+                  "-y"
+                  "slidev-mcp"
+                ];
+              };
+
               sequential-thinking = {
                 command = "npx";
                 args = [
