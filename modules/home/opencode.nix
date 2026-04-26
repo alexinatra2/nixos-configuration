@@ -1,41 +1,22 @@
-{ self, inputs, ... }:
+{ ... }:
 {
   flake.modules.homeManager.opencode =
     {
-      lib,
-      options,
-      system,
+      pkgs,
       ...
     }:
     let
-      hasOpencode = options ? programs.opencode;
-      hasAgents = inputs ? agents;
+      cavemanSkill = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/JuliusBrussee/caveman/main/caveman/SKILL.md";
+        hash = "sha256-+cg6KyD8OzUDr50a4c8gmMn4w9MmwgPCNrFg6+gayPA=";
+      };
     in
     {
-      config = lib.mkIf hasOpencode (
-        lib.mkMerge [
-          {
-            programs.opencode = {
-              enable = true;
-              enableMcpIntegration = true;
-              settings.mcp."computer-use".enabled = false;
-            };
-          }
-          (lib.mkIf hasAgents {
-            xdg.configFile = {
-              "opencode/skills".source = "${inputs.agents}/skills";
-              "opencode/context".source = "${inputs.agents}/context";
-              "opencode/commands".source = "${inputs.agents}/commands";
-              "opencode/prompts".source = "${inputs.agents}/prompts";
-            };
-
-            programs.opencode.settings.agent = builtins.fromJSON (
-              builtins.readFile "${inputs.agents}/agents/agents.json"
-            );
-
-            home.packages = [ inputs.agents.packages.${system}.skills-runtime ];
-          })
-        ]
-      );
+      programs.opencode = {
+        enable = true;
+        enableMcpIntegration = true;
+        settings.mcp."computer-use".enabled = false;
+        skills.caveman = builtins.readFile cavemanSkill;
+      };
     };
 }
