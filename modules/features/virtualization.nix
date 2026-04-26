@@ -14,6 +14,7 @@ in
       users.groups.libvirtd.members = [ "${username}" ];
 
       environment.systemPackages = with pkgs; [
+        podman-compose
         quickemu
         quickgui
       ];
