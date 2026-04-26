@@ -31,6 +31,7 @@
 	    disktui
             typst
             just
+	    telegram-desktop
             bc
             uutils-coreutils-noprefix
             (writeShellApplication {
