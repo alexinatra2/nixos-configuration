@@ -25,6 +25,7 @@ in
           "wheel"
           "adbusers"
           "docker"
+          "podman"
           "networkmanager"
           "realtime"
           "audio"

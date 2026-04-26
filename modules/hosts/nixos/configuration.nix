@@ -9,7 +9,7 @@ let
 in
 {
   flake.nixosModules.${hostName} =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       imports = [
         self.nixosModules."${hostName}Hardware"
@@ -130,10 +130,21 @@ in
       security.rtkit.enable = true;
 
       security.pam.services = {
-        ly.fprintAuth = true;
-        login.fprintAuth = true;
+        ly = {
+          fprintAuth = true;
+          unixAuth = true;
+          enableGnomeKeyring = lib.mkForce false;
+        };
+        login = {
+          fprintAuth = true;
+          unixAuth = true;
+          enableGnomeKeyring = lib.mkForce false;
+        };
         sudo.fprintAuth = false;
-        "polkit-1".fprintAuth = true;
+        "polkit-1" = {
+          fprintAuth = true;
+          unixAuth = true;
+        };
       };
 
       services.blueman.enable = true;
