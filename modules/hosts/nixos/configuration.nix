@@ -76,6 +76,14 @@ in
       };
 
       services = {
+        fprintd = {
+          enable = true;
+          tod = {
+            enable = true;
+            driver = pkgs.libfprint-2-tod1-goodix-550a;
+          };
+        };
+
         upower.enable = true;
 
         xserver = {
@@ -119,6 +127,13 @@ in
 
       security.polkit.enable = true;
       security.rtkit.enable = true;
+
+      security.pam.services = {
+        ly.fprintAuth = true;
+        login.fprintAuth = true;
+        sudo.fprintAuth = true;
+        "polkit-1".fprintAuth = true;
+      };
 
       services.blueman.enable = true;
 
