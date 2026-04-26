@@ -126,12 +126,13 @@ in
       networking.networkmanager.enable = true;
 
       security.polkit.enable = true;
+      security.soteria.enable = true;
       security.rtkit.enable = true;
 
       security.pam.services = {
         ly.fprintAuth = true;
         login.fprintAuth = true;
-        sudo.fprintAuth = true;
+        sudo.fprintAuth = false;
         "polkit-1".fprintAuth = true;
       };
 
