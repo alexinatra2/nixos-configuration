@@ -7,7 +7,10 @@
       ...
     }:
     {
-      home.packages = [ pkgs.python313Packages.huggingface-hub ];
+      home.packages = [
+        pkgs.python313Packages.huggingface-hub
+        pkgs.heretic
+      ];
 
       sops.secrets."llms/huggingface/token" = { };
 
