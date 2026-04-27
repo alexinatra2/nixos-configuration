@@ -7,11 +7,11 @@ in
   flake.nixosModules.user-alexander =
     { pkgs, config, ... }:
     {
-      sops.secrets = { 
-	"${sops-password-key}" = {
-	  owner = user;
-	  neededForUsers = true;
-	};
+      sops.secrets = {
+        "${sops-password-key}" = {
+          owner = user;
+          neededForUsers = true;
+        };
       };
 
       users.mutableUsers = false;

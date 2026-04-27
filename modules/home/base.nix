@@ -28,10 +28,10 @@
             tree
             unzip
             yazi
-	    disktui
+            disktui
             typst
             just
-	    telegram-desktop
+            telegram-desktop
             bc
             uutils-coreutils-noprefix
             (writeShellApplication {

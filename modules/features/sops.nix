@@ -17,10 +17,10 @@ in
         defaultSopsFile = "${secretspath}/secrets.yaml";
         defaultSopsFormat = "yaml";
         age = {
-	  sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-	  keyFile = "/home/alexander/.config/sops/age/keys.txt";
-	  generateKey = true;	
-	};
+          sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+          keyFile = "/home/alexander/.config/sops/age/keys.txt";
+          generateKey = true;
+        };
       };
     };
 
@@ -62,21 +62,21 @@ in
         })
       ];
 
-      sops = { 
-        age = { 
-	  keyFile = "${homeDir}/.config/sops/age/keys.txt";
-	  sshKeyPaths = [ "${homeDir}/.ssh/id_ed25519" ];
-	  generateKey = true;	
-	};
+      sops = {
+        age = {
+          keyFile = "${homeDir}/.config/sops/age/keys.txt";
+          sshKeyPaths = [ "${homeDir}/.ssh/id_ed25519" ];
+          generateKey = true;
+        };
 
         defaultSopsFile = "${secretspath}/secrets.yaml";
-	validateSopsFiles = false;
+        validateSopsFiles = false;
 
-	secrets = {
-	  "private_keys/${username}" = {
-	    path = "${homeDir}/.ssh/id_ed25519";
-	  };
-	};
+        secrets = {
+          "private_keys/${username}" = {
+            path = "${homeDir}/.ssh/id_ed25519";
+          };
+        };
       };
     };
 }

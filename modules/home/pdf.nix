@@ -19,8 +19,14 @@
       programs.sioyek = lib.mkIf pkgs.stdenv.isLinux {
         enable = true;
         bindings = {
-          screen_down = [ "j" "<C-d>" ];
-          screen_up = [ "k" "<C-u>" ];
+          screen_down = [
+            "j"
+            "<C-d>"
+          ];
+          screen_up = [
+            "k"
+            "<C-u>"
+          ];
           next_page = [ "<C-f>" ];
           previous_page = [ "<C-b>" ];
           move_left = [ "h" ];
