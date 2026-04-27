@@ -10,6 +10,7 @@ let
     fonts
     generations
     git
+    mcp
     neovim
     opencode
     pdf
