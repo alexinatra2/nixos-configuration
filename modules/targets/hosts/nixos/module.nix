@@ -9,7 +9,11 @@ let
 in
 {
   flake.nixosModules.${hostName} =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     {
       imports = [
         self.nixosModules."${hostName}Hardware"
@@ -43,7 +47,6 @@ in
           ];
         };
 
-        # Automatic optimization only works on NixOS
         optimise.automatic = true;
         nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       };
@@ -98,10 +101,8 @@ in
           };
         };
 
-        # Enable CUPS to print documents.
         printing.enable = true;
 
-        # Recommended audio stack
         pipewire = {
           enable = true;
           alsa.enable = true;
@@ -113,16 +114,12 @@ in
         pulseaudio.enable = false;
       };
 
-      # Allow xdg portals to provide desktop integration for apps
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
         extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
       };
 
-      # networking.hostName = ${hostName};
-
-      # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
 
       security.polkit.enable = true;

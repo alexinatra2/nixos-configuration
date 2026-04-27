@@ -47,19 +47,6 @@
                 ];
               };
 
-              # typst-mcp = {
-              #   type = "stdio";
-              #   command = "uv";
-              #   args = [
-              #     "run"
-              #     "--with"
-              #     "git+https://github.com/FujishigeTemma/typst-mcp"
-              #     "typst-mcp"
-              #     "serve"
-              #   ];
-              #   env = { };
-              # };
-
               pdf-reader-mpc = {
                 command = "npx";
                 args = [ "@sylphx/pdf-reader-mcp" ];

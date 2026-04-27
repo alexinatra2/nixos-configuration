@@ -28,7 +28,6 @@
             tree
             unzip
             yazi
-            disktui
             typst
             just
             telegram-desktop
@@ -59,6 +58,7 @@
             [
               spotify
               xclip
+              disktui
             ]
           );
         stateVersion = "26.05";

@@ -30,16 +30,12 @@ in
         TERMINAL = "kitty";
       };
 
-      # Determinate manages the Nix installation/daemon on macOS.
-      # Disable nix-darwin's native Nix management to avoid activation aborts.
       nix.enable = false;
 
       nixpkgs.config.allowUnfree = true;
 
-      # Allow sudo authentication via Touch ID / Apple Watch.
       security.pam.services.sudo_local.touchIdAuth = true;
 
-      # Homebrew integration (optional; requires Homebrew installed separately).
       homebrew = {
         enable = false;
         onActivation.cleanup = "zap";

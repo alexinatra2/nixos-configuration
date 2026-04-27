@@ -27,7 +27,6 @@
         KeyRepeat = 2;
       };
 
-      # Preferences from exported defaults dump without first-class options.
       CustomUserPreferences = {
         "com.apple.AppleMultitouchTrackpad" = {
           Clicking = true;

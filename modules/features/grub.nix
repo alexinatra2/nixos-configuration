@@ -6,7 +6,6 @@
       boot.loader = {
         systemd-boot.enable = false;
 
-        # Enable GRUB
         grub = {
           enable = true;
           efiSupport = true;
