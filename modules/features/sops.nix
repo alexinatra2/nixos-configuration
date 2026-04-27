@@ -63,7 +63,11 @@ in
       ];
 
       sops = { 
-        age.keyFile = "${homeDir}/.config/sops/age/keys.txt";
+        age = { 
+	  keyFile = "${homeDir}/.config/sops/age/keys.txt";
+	  sshKeyPaths = [ "${homeDir}/.ssh/id_ed25519" ];
+	  generateKey = true;	
+	};
 
         defaultSopsFile = "${secretspath}/secrets.yaml";
 	validateSopsFiles = false;
