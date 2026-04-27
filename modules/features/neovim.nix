@@ -330,10 +330,6 @@
                   show_on_trigger_character = true;
                 };
               };
-              fuzzy = {
-                frequency.enabled = true;
-                use_typo_resistance = true;
-              };
               signature = {
                 enabled = true;
                 trigger.enabled = true;
