@@ -29,7 +29,9 @@
           };
 
           core.pager = "delta";
+          core.untrackedCache = true;
           diff.tool = "delta";
+          feature.manyFiles = true;
           difftool = {
             prompt = false;
             delta.cmd = "delta --side-by-side --line-numbers \"$LOCAL\" \"$REMOTE\"";
