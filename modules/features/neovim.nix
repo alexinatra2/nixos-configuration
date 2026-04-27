@@ -421,17 +421,20 @@
           web-devicons.enable = true;
           treesitter = {
             enable = true;
-            indent.enable = true;
-            ensureInstalled = [
-              "typescript"
-              "tsx"
-              "javascript"
-              "lua"
-              "json"
-              "html"
-              "css"
-              "nix"
-              "rust"
+            settings = {
+              highlight.enable = true;
+              indent.enable = true;
+            };
+            grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+              typescript
+              tsx
+              javascript
+              lua
+              json
+              html
+              css
+              nix
+              rust
             ];
           };
           treesitter-textobjects.enable = true;
