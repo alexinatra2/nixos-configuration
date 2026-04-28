@@ -93,8 +93,6 @@
                 "Mod+F".maximize-column = _: { };
                 "Mod+G".fullscreen-window = _: { };
                 "Mod+Shift+F".toggle-window-floating = _: { };
-                "Mod+C".center-column = _: { };
-
                 "Mod+H".focus-column-left = _: { };
                 "Mod+L".focus-column-right = _: { };
                 "Mod+K".focus-window-or-workspace-up = _: { };

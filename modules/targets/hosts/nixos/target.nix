@@ -7,6 +7,7 @@ in
     modules = with self.nixosModules; [
       user-alexander
       nixos
+      opencode
       niri
       greeter
       displaylink
