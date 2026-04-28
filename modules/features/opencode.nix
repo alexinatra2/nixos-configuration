@@ -1,9 +1,14 @@
 { lib, ... }:
 let
-  mkOpencodeClearSessions = pkgs:
+  mkOpencodeClearSessions =
+    pkgs:
     pkgs.writeShellApplication {
       name = "opencode-clear-sessions";
-      runtimeInputs = with pkgs; [ opencode ripgrep findutils ];
+      runtimeInputs = with pkgs; [
+        opencode
+        ripgrep
+        findutils
+      ];
       text = ''
         set -euo pipefail
 
@@ -19,10 +24,14 @@ let
       '';
     };
 
-  mkOpencodeSessionList = pkgs:
+  mkOpencodeSessionList =
+    pkgs:
     pkgs.writeShellApplication {
       name = "opencode-session-list";
-      runtimeInputs = with pkgs; [ opencode gawk ];
+      runtimeInputs = with pkgs; [
+        opencode
+        gawk
+      ];
       text = ''
         set -euo pipefail
 
@@ -42,10 +51,14 @@ let
       '';
     };
 
-  mkOpencodeLatestSession = pkgs:
+  mkOpencodeLatestSession =
+    pkgs:
     pkgs.writeShellApplication {
       name = "opencode-latest-session";
-      runtimeInputs = with pkgs; [ opencode gawk ];
+      runtimeInputs = with pkgs; [
+        opencode
+        gawk
+      ];
       text = ''
         set -euo pipefail
 
@@ -122,8 +135,7 @@ in
       programs.opencode = {
         enable = true;
         enableMcpIntegration = true;
-        settings.mcp."computer-use".enabled = false;
-        skills.caveman = builtins.readFile cavemanSkill;
+        settings.autoupdate = false;
       };
     };
 
