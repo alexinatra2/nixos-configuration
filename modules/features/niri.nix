@@ -185,7 +185,7 @@
                     name = "screenshot";
                     text = ''
                       ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
-                      | ${config.pkgs.wl-clipboard}/bin/wl-copy
+                      | ${config.pkgs.wl-clipboard}/bin/wl-copy --type image/png
                     '';
                   }
                 );
