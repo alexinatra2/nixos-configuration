@@ -54,8 +54,8 @@
 
               playwright = {
                 type = "local";
-                command = "npx";
-                args = [ "@playwright/mcp@latest" ];
+                command = lib.getExe pkgs.playwright-mcp;
+                args = [ ];
               };
 
               duckduckgo-search = {
