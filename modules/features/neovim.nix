@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
   flake.modules.homeManager.neovim =
-    { lib, pkgs, ... }:
+    { config, lib, pkgs, ... }:
     {
       imports = [ inputs.nixvim.homeModules.nixvim ];
 
@@ -421,7 +421,7 @@
               highlight.enable = true;
               indent.enable = true;
             };
-            grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+            grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
               typescript
               tsx
               javascript

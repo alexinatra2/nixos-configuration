@@ -55,19 +55,10 @@
               };
 
               outputs = {
-                "PNP(AOC) 24G2W1G4 ATNM61A017051" = {
+                "HDMI-A-1" = {
                   position = _: {
                     props = {
                       x = 0;
-                      y = 0;
-                    };
-                  };
-                };
-
-                "LG Electronics 24GM79G 0x0004AB84" = {
-                  position = _: {
-                    props = {
-                      x = 1920;
                       y = 0;
                     };
                   };
@@ -160,6 +151,7 @@
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
                 "Mod+O".toggle-overview = _: { };
                 "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
+                "Mod+D".spawn-sh = "wdisplays";
 
                 "Print".screenshot = _: { };
                 "Ctrl+Print".screenshot-screen = _: { };
@@ -248,6 +240,7 @@
         services.displayManager.sessionPackages = [ self'.niri ];
 
         environment.systemPackages = with pkgs; [
+          wdisplays
           xwayland-satellite
         ];
 
