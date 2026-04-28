@@ -128,7 +128,7 @@ in
 
       security.pam.services = {
         ly = {
-          fprintAuth = true;
+          fprintAuth = false;
           unixAuth = true;
           enableGnomeKeyring = lib.mkForce false;
         };
