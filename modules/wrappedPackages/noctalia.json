@@ -317,13 +317,13 @@
       "useOriginalImages": false,
       "overviewBlur": 0.4,
       "overviewTint": 0.6,
-      "useWallhaven": false,
-      "wallhavenQuery": "",
+      "useWallhaven": true,
+      "wallhavenQuery": "guitar",
       "wallhavenSorting": "relevance",
       "wallhavenOrder": "desc",
-      "wallhavenCategories": "111",
+      "wallhavenCategories": "100",
       "wallhavenPurity": "100",
-      "wallhavenRatios": "",
+      "wallhavenRatios": "landscape",
       "wallhavenApiKey": "",
       "wallhavenResolutionMode": "atleast",
       "wallhavenResolutionWidth": "",
@@ -615,7 +615,7 @@
       "backlightDeviceMappings": []
     },
     "colorSchemes": {
-      "useWallpaperColors": false,
+      "useWallpaperColors": true,
       "predefinedScheme": "Gruvbox",
       "darkMode": true,
       "schedulingMode": "off",
@@ -683,9 +683,7 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
-      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg",
-      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/pexels-dennis-perreault-1419278-25447649.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
@@ -736,7 +734,7 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1776956701000
+      "lastSeenTs": 1777310056000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.6"
