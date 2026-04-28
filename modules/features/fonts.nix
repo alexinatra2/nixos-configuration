@@ -4,7 +4,11 @@
     { pkgs, ... }:
     {
       fonts = {
-        packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+        packages = with pkgs; [
+          besley
+          nerd-fonts.jetbrains-mono
+          open-sans
+        ];
         fontconfig = {
           enable = true;
           defaultFonts.monospace = [ "JetBrainsMono Nerd Font" ];
@@ -15,7 +19,11 @@
   flake.modules.homeManager.fonts =
     { pkgs, lib, ... }:
     {
-      home.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+      home.packages = with pkgs; [
+        besley
+        nerd-fonts.jetbrains-mono
+        open-sans
+      ];
 
       programs.kitty = lib.mkForce {
         enable = true;
