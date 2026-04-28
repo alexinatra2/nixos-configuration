@@ -129,9 +129,7 @@ in
 
   flake.nixosModules.opencode =
     {
-      config,
       pkgs,
-      lib,
       ...
     }:
     let
@@ -139,9 +137,5 @@ in
     in
     {
       environment.systemPackages = [ opencodeLatestSession ];
-
-      programs.niri.settings.binds = lib.mkIf config.programs.niri.enable {
-        "Mod+C".spawn-sh = "opencode-latest-session";
-      };
     };
 }
