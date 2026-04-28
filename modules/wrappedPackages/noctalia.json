@@ -683,7 +683,9 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg"
+      "eDP-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg",
+      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg",
+      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
