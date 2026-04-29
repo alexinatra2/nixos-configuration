@@ -10,9 +10,6 @@
       home.packages =
         (with pkgs; [
           slidev-cli
-          marp-cli
-          quarto
-          pandoc
         ])
         ++ lib.optionals pkgs.stdenv.isLinux (
           with pkgs;
