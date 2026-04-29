@@ -107,38 +107,6 @@
             };
           }
           {
-            key = "gd";
-            action = "<cmd>lua vim.lsp.buf.definition()<CR>";
-            options = {
-              desc = "Goto Definition";
-              silent = true;
-            };
-          }
-          {
-            key = "gD";
-            action = "<cmd>lua vim.lsp.buf.references()<CR>";
-            options = {
-              desc = "Goto References";
-              silent = true;
-            };
-          }
-          {
-            key = "K";
-            action = "<cmd>lua vim.lsp.buf.hover()<CR>";
-            options = {
-              desc = "Hover";
-              silent = true;
-            };
-          }
-          {
-            key = "<leader>r";
-            action = "<cmd>lua vim.lsp.buf.rename()<CR>";
-            options = {
-              desc = "Rename";
-              silent = true;
-            };
-          }
-          {
             key = "<M-n>";
             action = "<cmd>lua vim.diagnostic.jump({ count = 1, float = true })<CR>";
             options = {
@@ -151,14 +119,6 @@
             action = "<cmd>lua vim.diagnostic.jump({ count = -1, float = true })<CR>";
             options = {
               desc = "Previous Diagnostic";
-              silent = true;
-            };
-          }
-          {
-            key = "<M-CR>";
-            action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
-            options = {
-              desc = "Code Action";
               silent = true;
             };
           }
@@ -341,6 +301,31 @@
           lsp = {
             enable = true;
             inlayHints = true;
+            keymaps = {
+              silent = true;
+              lspBuf = {
+                gd = {
+                  action = "definition";
+                  desc = "Goto Definition";
+                };
+                gD = {
+                  action = "references";
+                  desc = "Goto References";
+                };
+                K = {
+                  action = "hover";
+                  desc = "Hover";
+                };
+                "<leader>r" = {
+                  action = "rename";
+                  desc = "Rename";
+                };
+                "<M-CR>" = {
+                  action = "code_action";
+                  desc = "Code Action";
+                };
+              };
+            };
             onAttach = ''
               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
             '';
