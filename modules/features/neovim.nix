@@ -417,10 +417,8 @@
           web-devicons.enable = true;
           treesitter = {
             enable = true;
-            settings = {
-              highlight.enable = true;
-              indent.enable = true;
-            };
+            highlight.enable = true;
+            indent.enable = true;
             grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
               typescript
               tsx
