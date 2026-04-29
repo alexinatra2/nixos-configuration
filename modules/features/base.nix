@@ -15,7 +15,6 @@
         );
         packages =
           (with pkgs; [
-            cargo
             gcc
             jdk21
             lazydocker

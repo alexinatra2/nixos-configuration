@@ -14,6 +14,7 @@ in
       self.modules.homeManager.neovim
       self.modules.homeManager.opencode
       self.modules.homeManager.pdf
+      self.modules.homeManager."rust-dev"
       self.modules.homeManager.shell
       self.modules.homeManager.stylix
       self.modules.homeManager.tmux

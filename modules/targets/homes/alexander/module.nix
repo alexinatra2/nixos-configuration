@@ -17,6 +17,7 @@ in
       self.modules.homeManager.opencode
       self.modules.homeManager.pdf
       self.modules.homeManager.privatepackages
+      self.modules.homeManager."rust-dev"
       self.modules.homeManager.shell
       self.modules.homeManager.slide-creation
       self.modules.homeManager.ssh
