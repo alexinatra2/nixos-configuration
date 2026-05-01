@@ -18,6 +18,7 @@ in
       grub
       sops
       tailscale
+      syncthing
     ];
   };
 }
