@@ -38,30 +38,6 @@
           settings.formatting.command = [ (lib.getExe pkgs.nixfmt) ];
         };
 
-        ts_ls = {
-          enable = true;
-          settings = {
-            typescript.inlayHints = {
-              includeInlayParameterNameHints = "all";
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false;
-              includeInlayFunctionParameterTypeHints = true;
-              includeInlayVariableTypeHints = true;
-              includeInlayPropertyDeclarationTypeHints = true;
-              includeInlayFunctionLikeReturnTypeHints = true;
-              includeInlayEnumMemberValueHints = true;
-            };
-            javascript.inlayHints = {
-              includeInlayParameterNameHints = "all";
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false;
-              includeInlayFunctionParameterTypeHints = true;
-              includeInlayVariableTypeHints = true;
-              includeInlayPropertyDeclarationTypeHints = true;
-              includeInlayFunctionLikeReturnTypeHints = true;
-              includeInlayEnumMemberValueHints = true;
-            };
-          };
-        };
-
         eslint = {
           enable = true;
           settings = {
@@ -72,12 +48,12 @@
 
         rust_analyzer = {
           enable = true;
-          installCargo = false;
-          installRustc = false;
+          installCargo = true;
+          installRustc = true;
         };
+
         kotlin_language_server.enable = true;
-        ty.enable = true;
-        texlab.enable = true;
+
         tinymist = {
           enable = true;
           settings.formatterMode = "typstyle";
