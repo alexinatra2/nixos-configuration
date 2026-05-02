@@ -1,21 +1,25 @@
 { self, inputs, ... }:
 {
-  flake.modules.homeManager.neovim = {
-    imports = [ inputs.nixvim.homeModules.nixvim ];
+  flake.modules.homeManager.neovim =
+    { config, pkgs, ... }:
+    let
+      nixvimPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.nixvim;
+    in
+    {
+      home.packages = [ (nixvimPackage.extend config.stylix.targets.nixvim.exportedModule) ];
 
-    programs.nixvim = {
-      enable = true;
-      imports = [
-        ./_config/core.nix
-        ./_config/keymaps.nix
-        ./_config/plugins.nix
-        ./_config/lsp.nix
-      ];
+      home.sessionVariables = {
+        EDITOR = "nvim";
+        VISUAL = "nvim";
+      };
     };
 
-    home.sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
+  perSystem =
+    { system, pkgs, ... }:
+    {
+      packages.nixvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+        inherit pkgs;
+        module = ../../../nixvim;
+      };
     };
-  };
 }

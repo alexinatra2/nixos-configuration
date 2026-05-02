@@ -71,6 +71,7 @@
           base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
           polarity = "dark";
           targets.firefox.enable = false;
+          targets.nixvim.enable = true;
           targets.neovim.enable = false;
         };
       };
