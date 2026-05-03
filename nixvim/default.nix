@@ -3,8 +3,7 @@
   imports = [
     ./core.nix
     ./keymaps.nix
-    ./plugins.nix
-    ./lsp.nix
+    ./plugins
   ];
 
   config = {
