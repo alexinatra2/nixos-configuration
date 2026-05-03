@@ -1,5 +1,9 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
+  extraPlugins = [
+    pkgs.vimPlugins.opencode-nvim
+  ];
+
   plugins = {
     blink-cmp = {
       enable = true;
