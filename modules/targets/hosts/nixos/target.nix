@@ -19,6 +19,7 @@ in
       sops
       tailscale
       syncthing
+      llms
     ];
   };
 }

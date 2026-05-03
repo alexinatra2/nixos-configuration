@@ -7,8 +7,12 @@
       ...
     }:
     let
-      normalUsers = lib.attrNames (lib.filterAttrs (_: userCfg: userCfg.isNormalUser or false) config.users.users);
+      normalUsers = lib.attrNames (
+        lib.filterAttrs (_: userCfg: userCfg.isNormalUser or false) config.users.users
+      );
+
       operatorUser = if normalUsers == [ ] then "root" else builtins.head normalUsers;
+      hostTag = "tag:${config.networking.hostName}";
     in
     {
       sops.secrets."tailscale/authkey" = {
@@ -18,7 +22,14 @@
       services.tailscale = {
         enable = true;
         authKeyFile = config.sops.secrets."tailscale/authkey".path;
-        extraSetFlags = [ "--operator=${operatorUser}" ];
+
+        extraUpFlags = [
+          "--advertise-tags=${hostTag}"
+        ];
+
+        extraSetFlags = [
+          "--operator=${operatorUser}"
+        ];
       };
     };
 }
