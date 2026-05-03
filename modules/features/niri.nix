@@ -163,6 +163,8 @@
                 "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
                 "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
                 "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+                "XF86MonBrightnessUp".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%+";
+                "XF86MonBrightnessDown".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%-";
 
                 "Mod+WheelScrollDown".focus-column-left = _: { };
                 "Mod+WheelScrollUp".focus-column-right = _: { };
@@ -240,6 +242,7 @@
         services.displayManager.sessionPackages = [ self'.niri ];
 
         environment.systemPackages = with pkgs; [
+          brightnessctl
           wdisplays
           xwayland-satellite
         ];
