@@ -17,6 +17,7 @@ in
       opencode
       pdf
       privatepackages
+      rust
       shell
       slide-creation
       ssh
