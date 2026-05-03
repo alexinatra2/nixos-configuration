@@ -135,6 +135,7 @@ in
       programs.opencode = {
         enable = true;
         enableMcpIntegration = true;
+        extraPackages = [ pkgs.bun ];
         settings.autoupdate = false;
         skills.caveman = builtins.readFile cavemanSkill;
       };
