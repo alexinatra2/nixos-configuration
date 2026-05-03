@@ -136,6 +136,7 @@ in
         enable = true;
         enableMcpIntegration = true;
         settings.autoupdate = false;
+        skills.caveman = builtins.readFile cavemanSkill;
       };
     };
 
