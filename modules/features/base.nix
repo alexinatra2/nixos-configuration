@@ -56,6 +56,7 @@
             with pkgs;
             [
               spotify
+              ausweisapp
               xclip
               disktui
             ]
