@@ -29,6 +29,11 @@
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix.url = "github:Mic92/sops-nix";
 
     secrets = {
@@ -46,6 +51,7 @@
       imports = [
         inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
+        inputs.wrapper-modules.flakeModules.wrappers
       ]
       ++ tree.imports;
     };

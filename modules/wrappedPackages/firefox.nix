@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
   flake = {
-    wrappersModules.firefox =
+    wrappers.firefox =
       {
         wlib,
         pkgs,
@@ -175,15 +175,4 @@
       };
   };
 
-  perSystem =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      packages.firefox = inputs.wrapper-modules.lib.evalPackage {
-        inherit pkgs;
-        imports = [ self.wrappersModules.firefox ];
-      };
-    };
 }

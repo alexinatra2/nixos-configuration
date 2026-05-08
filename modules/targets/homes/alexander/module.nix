@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, inputs, ... }:
 let
   profileName = "alexander";
 in
@@ -23,6 +23,7 @@ in
       ssh
       stylix
       tmux
+      zenBrowser
       music-creation
       llms
       sops

@@ -6,17 +6,26 @@
 }:
 {
   flake = {
-    wrappersModules.niri =
+    wrappers.niri =
       {
         config,
         lib,
         pkgs,
+        wlib,
         ...
       }:
       {
+        imports = [ wlib.wrapperModules.niri ];
+
         options.terminal = lib.mkOption {
           type = lib.types.str;
           default = "kitty";
+        };
+
+        options.browser = lib.mkOption {
+          type = lib.types.package;
+          default = pkgs.firefox;
+          description = "Browser package used by Niri keybindings.";
         };
 
         config = {
@@ -145,7 +154,7 @@
                 "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
                 "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
-                "Mod+B".spawn = "firefox";
+                "Mod+B".spawn = lib.getExe config.browser;
                 "Mod+E".spawn-sh = "${config.terminal} -e yazi";
                 "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
@@ -229,39 +238,41 @@
       };
 
     nixosModules.niri =
-      { pkgs, ... }:
+      {
+        pkgs,
+        lib,
+        config,
+        ...
+      }:
       let
-        self' = self.packages.${pkgs.stdenv.hostPlatform.system};
+        niriPackage = self.wrappers.niri.wrap {
+          inherit pkgs;
+          browser = config.niri.browser;
+        };
       in
       {
-        programs.niri = {
-          enable = true;
-          package = self'.niri;
+        options.niri.browser = lib.mkOption {
+          type = lib.types.package;
+          default = pkgs.firefox;
+          description = "Browser package launched by the Niri Mod+B keybinding.";
         };
 
-        services.displayManager.sessionPackages = [ self'.niri ];
+        config = {
+          programs.niri = {
+            enable = true;
+            package = niriPackage;
+          };
 
-        environment.systemPackages = with pkgs; [
-          brightnessctl
-          wdisplays
-          xwayland-satellite
-        ];
+          services.displayManager.sessionPackages = [ niriPackage ];
+
+          environment.systemPackages = with pkgs; [
+            brightnessctl
+            wdisplays
+            xwayland-satellite
+          ];
+        };
 
       };
 
   };
-
-  perSystem =
-    {
-      system,
-      pkgs,
-      lib,
-      ...
-    }:
-    lib.optionalAttrs (lib.hasSuffix "-linux" system) {
-      packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
-        inherit pkgs;
-        imports = [ self.wrappersModules.niri ];
-      };
-    };
 }
