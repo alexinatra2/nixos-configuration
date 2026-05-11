@@ -40,6 +40,11 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
+    overpass-mcp = {
+      url = "git+https://codeberg.org/alexinatra/overpass-mcp.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     secrets = {
       url = "git+ssh://git@github.com/alexinatra2/secrets.git?shallow=1";
       flake = false;

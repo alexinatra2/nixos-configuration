@@ -89,6 +89,12 @@
                   "@googlemaps/code-assist-mcp@latest"
                 ];
               };
+
+              overpass-mcp = {
+                type = "local";
+                command = lib.getExe inputs.overpass-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default;
+                args = [ ];
+              };
             };
           };
         })
