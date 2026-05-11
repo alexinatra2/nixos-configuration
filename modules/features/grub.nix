@@ -1,24 +1,29 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   flake.nixosModules.grub =
-    { pkgs, ... }:
     {
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
+
+      environment.systemPackages = with pkgs; [
+        # For debugging and troubleshooting Secure Boot.
+        sbctl
+      ];
+
       boot.loader = {
-        systemd-boot.enable = false;
-
-        grub = {
-          enable = true;
-          efiSupport = true;
-          device = "nodev";
-          useOSProber = true;
-          default = "saved";
-          gfxmodeEfi = "2880x1800";
-          font = "${pkgs.jetbrains-mono}/share/fonts/truetype/JetBrainsMono-Regular.ttf";
-          fontSize = 24;
-        };
-
         efi.canTouchEfiVariables = true;
 
+        # Lanzaboote replaces the standard systemd-boot module.
+        systemd-boot.enable = lib.mkForce false;
+      };
+
+      boot.lanzaboote = {
+        enable = true;
+        pkiBundle = "/var/lib/sbctl";
       };
     };
 }
