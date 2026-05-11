@@ -3,12 +3,12 @@
   flake.nixosModules.greeter =
     {
       config,
-      lib,
       pkgs,
       ...
     }:
     let
       inherit (config.lib.stylix.colors) base00 base03 base05 base08 base0A base0B;
+      inherit (config.lib.stylix) mkHexColor;
 
       themeName = "ly-colormix";
       spinnerThemeDir = "${pkgs.plymouth}/share/plymouth/themes/spinner";
@@ -45,11 +45,11 @@
         WatermarkVerticalAlignment=.46
         Transition=none
         TransitionDuration=0.0
-        BackgroundStartColor=0x${base00}
-        BackgroundEndColor=0x${base00}
-        ProgressBarBackgroundColor=0x${base03}
-        ProgressBarForegroundColor=0x${base0A}
-        ProgressBarBorderColor=0x${base05}
+        BackgroundStartColor=${mkHexColor base00}
+        BackgroundEndColor=${mkHexColor base00}
+        ProgressBarBackgroundColor=${mkHexColor base03}
+        ProgressBarForegroundColor=${mkHexColor base0A}
+        ProgressBarBorderColor=${mkHexColor base05}
         MessageBelowAnimation=true
 
         [boot-up]
@@ -69,6 +69,8 @@
       '';
     in
     {
+      stylix.targets.plymouth.enable = false;
+
       boot = {
         consoleLogLevel = 0;
         initrd.verbose = false;
@@ -82,7 +84,7 @@
 
         plymouth = {
           enable = true;
-          theme = lib.mkForce themeName;
+          theme = themeName;
           themePackages = [ plymouthThemePackage ];
           logo = lyLogo;
         };
