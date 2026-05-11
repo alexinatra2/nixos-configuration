@@ -88,11 +88,6 @@ in
       ...
     }:
     let
-      cavemanSkill = pkgs.fetchurl {
-        url = "https://raw.githubusercontent.com/JuliusBrussee/caveman/main/caveman/SKILL.md";
-        hash = "sha256-+cg6KyD8OzUDr50a4c8gmMn4w9MmwgPCNrFg6+gayPA=";
-      };
-
       opencodeClearSessions = mkOpencodeClearSessions pkgs;
       opencodeSessionList = mkOpencodeSessionList pkgs;
       opencodeLatestSession = mkOpencodeLatestSession pkgs;
@@ -137,7 +132,7 @@ in
         enableMcpIntegration = true;
         extraPackages = [ pkgs.bun ];
         settings.autoupdate = false;
-        skills.caveman = builtins.readFile cavemanSkill;
+        skills.caveman = builtins.readFile ./opencode/caveman/SKILL.md;
       };
     };
 

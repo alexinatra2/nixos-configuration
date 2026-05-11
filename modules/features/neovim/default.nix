@@ -6,7 +6,11 @@
       nixvimPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.nixvim;
     in
     {
-      home.packages = [ (nixvimPackage.extend config.stylix.targets.nixvim.exportedModule) ];
+      home.packages = [
+        (nixvimPackage.extend {
+          imports = [ config.stylix.targets.nixvim.exportedModule ];
+        })
+      ];
 
       home.sessionVariables = {
         EDITOR = "nvim";
@@ -15,11 +19,14 @@
     };
 
   perSystem =
-    { system, pkgs, ... }:
+    { system, ... }:
     {
-      packages.nixvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
-        inherit pkgs;
-        module = ../../../nixvim;
+      packages.nixvim = inputs.rust-nixvim.packages.${system}.default.extend {
+        imports = [
+          ../../../nixvim/keymaps.nix
+          ../../../nixvim/plugins/oil.nix
+          ../../../nixvim/plugins/lazygit.nix
+        ];
       };
     };
 }
