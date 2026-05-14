@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.nixosModules.fonts =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       fonts = {
         packages = with pkgs; [
@@ -11,7 +11,10 @@
         ];
         fontconfig = {
           enable = true;
-          defaultFonts.monospace = [ "JetBrainsMono Nerd Font" ];
+          defaultFonts.monospace = lib.mkForce [
+            "JetBrainsMono Nerd Font"
+            "DejaVu Sans Mono"
+          ];
         };
       };
     };
@@ -19,6 +22,14 @@
   flake.modules.homeManager.fonts =
     { pkgs, lib, ... }:
     {
+      fonts.fontconfig = {
+        enable = true;
+        defaultFonts.monospace = lib.mkForce [
+          "JetBrainsMono Nerd Font"
+          "DejaVu Sans Mono"
+        ];
+      };
+
       home.packages = with pkgs; [
         besley
         nerd-fonts.jetbrains-mono
