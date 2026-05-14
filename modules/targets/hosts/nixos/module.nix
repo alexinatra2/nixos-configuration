@@ -80,9 +80,9 @@ in
 
       services = {
         fprintd = {
-          enable = true;
+          enable = false;
           tod = {
-            enable = true;
+            enable = false;
             driver = pkgs.libfprint-2-tod1-goodix-550a;
           };
         };
@@ -133,13 +133,13 @@ in
           enableGnomeKeyring = lib.mkForce false;
         };
         login = {
-          fprintAuth = true;
+          fprintAuth = false;
           unixAuth = true;
           enableGnomeKeyring = lib.mkForce false;
         };
         sudo.fprintAuth = false;
         "polkit-1" = {
-          fprintAuth = true;
+          fprintAuth = false;
           unixAuth = true;
         };
       };
