@@ -20,6 +20,7 @@ in
       tailscale
       syncthing
       llms
+      android
     ];
   };
 }

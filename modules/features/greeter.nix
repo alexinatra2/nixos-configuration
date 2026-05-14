@@ -7,7 +7,14 @@
       ...
     }:
     let
-      inherit (config.lib.stylix.colors) base00 base03 base05 base08 base0A base0B;
+      inherit (config.lib.stylix.colors)
+        base00
+        base03
+        base05
+        base08
+        base0A
+        base0B
+        ;
       inherit (config.lib.stylix) mkHexColor;
 
       themeName = "ly-colormix";
