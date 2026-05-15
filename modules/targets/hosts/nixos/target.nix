@@ -21,6 +21,7 @@ in
       syncthing
       llms
       android
+      index
     ];
   };
 }
