@@ -4,22 +4,35 @@ let
 in
 {
   flake.nixosModules.sops =
-    { pkgs, config, ... }:
     {
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
+    {
+      options.local.sops.ageKeyFile = lib.mkOption {
+        type = lib.types.str;
+        default = "/home/alexander/.config/sops/age/keys.txt";
+        description = "Path to the system age key used by sops-nix.";
+      };
+
       imports = [ inputs.sops-nix.nixosModules.sops ];
 
-      environment.systemPackages = with pkgs; [
-        sops
-        age
-      ];
+      config = {
+        environment.systemPackages = with pkgs; [
+          sops
+          age
+        ];
 
-      sops = {
-        defaultSopsFile = "${secretspath}/secrets.yaml";
-        defaultSopsFormat = "yaml";
-        age = {
-          sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-          keyFile = "/home/alexander/.config/sops/age/keys.txt";
-          generateKey = true;
+        sops = {
+          defaultSopsFile = "${secretspath}/secrets.yaml";
+          defaultSopsFormat = "yaml";
+          age = {
+            sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+            keyFile = config.local.sops.ageKeyFile;
+            generateKey = true;
+          };
         };
       };
     };

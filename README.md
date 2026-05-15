@@ -54,6 +54,7 @@ home-manager switch --flake .#alexander
 
 ```bash
 sudo nixos-rebuild switch --flake .#nixos
+sudo nixos-rebuild switch --flake .#warden
 ```
 
 ## Package Sources Of Truth

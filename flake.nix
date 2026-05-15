@@ -46,6 +46,11 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     overpass-mcp = {
       url = "git+https://codeberg.org/alexinatra/overpass-mcp.git";
       inputs.nixpkgs.follows = "nixpkgs";
