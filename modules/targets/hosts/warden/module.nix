@@ -10,11 +10,17 @@ in
 {
   flake.nixosModules.${hostName} =
     {
+      config,
       lib,
       ...
     }:
     {
       imports = [ self.nixosModules."${hostName}Hardware" ];
+
+      sops.secrets."vaultwarden/env" = {
+        owner = "vaultwarden";
+        restartUnits = [ "vaultwarden.service" ];
+      };
 
       networking = {
         hostName = hostName;
@@ -45,6 +51,10 @@ in
       };
 
       local.sops.ageKeyFile = "/var/lib/sops-nix/key.txt";
+      local.vaultwarden = {
+        domain = "https://warden.taila26075.ts.net";
+        environmentFiles = [ config.sops.secrets."vaultwarden/env".path ];
+      };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

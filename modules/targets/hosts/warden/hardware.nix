@@ -37,7 +37,7 @@ in
       disko.devices = {
         disk.main = {
           type = "disk";
-          device = "/dev/disk/by-id/REPLACE_WITH_YOUR_SERVER_DISK";
+          device = "/dev/disk/by-id/usb-Intenso_Portable_SSD_2019121210258-0:0";
           content = {
             type = "gpt";
             partitions = {
