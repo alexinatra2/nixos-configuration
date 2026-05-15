@@ -1,0 +1,51 @@
+{ inputs, config, ... }:
+{
+  imports = [ inputs.hm-wrapper-modules.flakeModules.default ];
+
+  hmWrappers = {
+    home-manager = inputs.home-manager;
+    stateVersion = "26.05";
+  };
+
+  perSystem =
+    {
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      hmWrappers.programs = lib.optionalAttrs pkgs.stdenv.isLinux {
+        tmux = {
+          mainPackage = pkgs.tmux;
+          homeModules = [ config.flake.modules.homeManager.tmux ];
+        };
+
+        neovim = {
+          homeModules = [
+            config.flake.modules.homeManager.stylix
+            config.flake.modules.homeManager.neovim
+          ];
+        };
+
+        git = {
+          mainPackage = pkgs.git;
+          homeModules = [ config.flake.modules.homeManager.git ];
+        };
+
+        opencode = {
+          mainPackage = pkgs.opencode;
+          homeModules = [ config.flake.modules.homeManager.opencode ];
+        };
+
+        obsidian = {
+          mainPackage = pkgs.obsidian;
+          homeModules = [ config.flake.modules.homeManager.obsidian ];
+        };
+
+        pdf = {
+          mainPackage = pkgs.sioyek;
+          homeModules = [ config.flake.modules.homeManager.pdf ];
+        };
+      };
+    };
+}

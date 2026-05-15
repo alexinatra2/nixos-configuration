@@ -33,6 +33,12 @@
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
+    hm-wrapper-modules = {
+      url = "github:sini/hm-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
