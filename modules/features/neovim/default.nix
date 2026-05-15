@@ -1,9 +1,9 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.neovim =
     { config, pkgs, ... }:
     let
-      nixvimPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.nixvim;
+      nixvimPackage = inputs.nixvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default;
     in
     {
       home.packages = [
@@ -15,18 +15,6 @@
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-      };
-    };
-
-  perSystem =
-    { system, ... }:
-    {
-      packages.nixvim = inputs.rust-nixvim.packages.${system}.default.extend {
-        imports = [
-          ../../../nixvim/keymaps.nix
-          ../../../nixvim/plugins/oil.nix
-          ../../../nixvim/plugins/lazygit.nix
-        ];
       };
     };
 }

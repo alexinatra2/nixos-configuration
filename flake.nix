@@ -11,8 +11,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rust-nixvim = {
-      url = "git+https://git.goeranh.de/goeranh/rust-nixvim";
+    nixvim-config = {
+      url = "git+ssh://git@codeberg.org/alexinatra/nixvim.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
