@@ -12,24 +12,31 @@
       );
 
       operatorUser = if normalUsers == [ ] then "root" else builtins.head normalUsers;
-      hostTag = "tag:${config.networking.hostName}";
     in
     {
-      sops.secrets."tailscale/authkey" = {
-        restartUnits = [ "tailscaled-autoconnect.service" ];
+      options.local.tailscale.tags = lib.mkOption {
+        type = with lib.types; listOf str;
+        default = [ "tag:${config.networking.hostName}" ];
+        description = "Tailscale tags advertised by this host.";
       };
 
-      services.tailscale = {
-        enable = true;
-        authKeyFile = config.sops.secrets."tailscale/authkey".path;
+      config = {
+        sops.secrets."tailscale/authkey" = {
+          restartUnits = [ "tailscaled-autoconnect.service" ];
+        };
 
-        extraUpFlags = [
-          "--advertise-tags=${hostTag}"
-        ];
+        services.tailscale = {
+          enable = true;
+          authKeyFile = config.sops.secrets."tailscale/authkey".path;
 
-        extraSetFlags = [
-          "--operator=${operatorUser}"
-        ];
+          extraUpFlags = lib.optional (config.local.tailscale.tags != [ ]) (
+            "--advertise-tags=${lib.concatStringsSep "," config.local.tailscale.tags}"
+          );
+
+          extraSetFlags = [
+            "--operator=${operatorUser}"
+          ];
+        };
       };
     };
 }

@@ -50,7 +50,14 @@ in
         nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       };
 
-      local.sops.ageKeyFile = "/var/lib/sops-nix/key.txt";
+      sops.age = {
+        # Derive the age identity from the copied SSH host key so first boot can
+        # decrypt secrets immediately after nixos-anywhere installs the machine.
+        keyFile = lib.mkForce null;
+        generateKey = lib.mkForce false;
+        sshKeyPaths = lib.mkForce [ "/etc/ssh/ssh_host_ed25519_key" ];
+      };
+      local.tailscale.tags = [ ];
       local.vaultwarden = {
         domain = "https://warden.taila26075.ts.net";
         environmentFiles = [ config.sops.secrets."vaultwarden/env".path ];
