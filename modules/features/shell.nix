@@ -1,5 +1,79 @@
 { self, inputs, ... }:
+let
+  shellAliases = {
+    lg = "lazygit";
+    open = "xdg-open";
+    cd = "z";
+    v = "vi";
+    DN = "> /dev/null";
+    DE = "2> /dev/null";
+    C = "tee >(xclip -selection clipboard)";
+    VT = "vim-temp";
+  };
+
+  zshInit = ''
+    bindkey -e
+    bindkey '^[^?' backward-kill-word
+    bindkey '^[^H' backward-kill-word
+    bindkey -M viins '^[^?' backward-kill-word
+    bindkey -M viins '^[^H' backward-kill-word
+  '';
+in
 {
+  flake.nixosModules.shell =
+    { pkgs, ... }:
+    {
+      environment.shellAliases = shellAliases;
+
+      environment.systemPackages = with pkgs; [
+        bat
+        fd
+        fzf
+        kitty.terminfo
+        starship
+        tree
+        xclip
+        zoxide
+      ];
+
+      programs = {
+        bash = {
+          completion.enable = true;
+          interactiveShellInit = ''
+            eval "$(starship init bash)"
+            eval "$(zoxide init bash)"
+            source ${pkgs.fzf}/share/fzf/key-bindings.bash
+            source ${pkgs.fzf}/share/fzf/completion.bash
+          '';
+          shellAliases = shellAliases;
+        };
+
+        fzf = {
+          fuzzyCompletion = true;
+          keybindings = true;
+        };
+
+        starship.enable = true;
+
+        zoxide.enable = true;
+
+        zsh = {
+          autosuggestions.enable = true;
+          enable = true;
+          enableCompletion = true;
+          interactiveShellInit = ''
+            ${zshInit}
+            eval "$(starship init zsh)"
+            eval "$(zoxide init zsh)"
+            source ${pkgs.fzf}/share/fzf/key-bindings.zsh
+            source ${pkgs.fzf}/share/fzf/completion.zsh
+          '';
+          shellAliases = shellAliases;
+          syntaxHighlighting.enable = true;
+        };
+      };
+    };
+
   flake.modules.homeManager.shell =
     {
       config,
@@ -8,15 +82,9 @@
       ...
     }:
     {
-      home.shellAliases = {
-        lg = "lazygit";
-        open = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
-        cd = "z";
-        v = "vi";
-        DN = "> /dev/null";
-        DE = "2> /dev/null";
-        C = if pkgs.stdenv.isDarwin then "tee >(pbcopy)" else "tee >(xclip -selection clipboard)";
-        VT = "vim-temp";
+      home.shellAliases = shellAliases // {
+        open = if pkgs.stdenv.isDarwin then "open" else shellAliases.open;
+        C = if pkgs.stdenv.isDarwin then "tee >(pbcopy)" else shellAliases.C;
       };
 
       programs = {
@@ -31,13 +99,7 @@
           enableCompletion = true;
           autosuggestion.enable = true;
           syntaxHighlighting.enable = true;
-          initContent = ''
-            bindkey -e
-            bindkey '^[^?' backward-kill-word
-            bindkey '^[^H' backward-kill-word
-            bindkey -M viins '^[^?' backward-kill-word
-            bindkey -M viins '^[^H' backward-kill-word
-          '';
+          initContent = zshInit;
           shellAliases = config.home.shellAliases;
         };
 
