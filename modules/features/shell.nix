@@ -21,7 +21,25 @@ let
 in
 {
   flake.nixosModules.shell =
-    { pkgs, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
+    let
+      managedZshUsers = lib.mapAttrsToList (name: user: {
+        inherit name;
+        home = user.home;
+      }) (
+        lib.filterAttrs (
+          _: user:
+          (user.isNormalUser or false)
+          && user ? home
+          && user.home != null
+        ) config.users.users
+      );
+    in
     {
       environment.shellAliases = shellAliases;
 
@@ -72,6 +90,21 @@ in
           syntaxHighlighting.enable = true;
         };
       };
+
+      system.activationScripts.zshUserConfig.text = lib.concatLines (
+        [
+          "# Prevent zsh-newuser-install from running for declarative users."
+        ]
+        ++ map (user: ''
+          if [ -d ${lib.escapeShellArg user.home} ] && [ ! -e ${lib.escapeShellArg "${user.home}/.zshrc"} ]; then
+            install -m 0644 -o ${lib.escapeShellArg user.name} -g users /dev/null ${lib.escapeShellArg "${user.home}/.zshrc"}
+            cat > ${lib.escapeShellArg "${user.home}/.zshrc"} <<'EOF'
+            # Managed by NixOS: load the system zsh configuration.
+            source /etc/zshrc
+            EOF
+          fi
+        '') managedZshUsers
+      );
     };
 
   flake.modules.homeManager.shell =
