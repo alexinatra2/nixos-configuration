@@ -10,6 +10,7 @@ in
 {
   flake.nixosModules.${hostName} =
     {
+      pkgs,
       config,
       lib,
       ...
@@ -57,11 +58,6 @@ in
         generateKey = lib.mkForce false;
         sshKeyPaths = lib.mkForce [ "/etc/ssh/ssh_host_ed25519_key" ];
       };
-      local.tailscale.tags = [ ];
-      local.vaultwarden = {
-        domain = "https://warden.taila26075.ts.net";
-        environmentFiles = [ config.sops.secrets."vaultwarden/env".path ];
-      };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
@@ -78,7 +74,9 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@nixos"
       ];
 
-      environment.systemPackages = [ ];
+      environment.systemPackages = with pkgs; [ 
+      	git
+      ];
 
       programs.zsh.enable = true;
 
