@@ -98,10 +98,7 @@ in
         ++ map (user: ''
           if [ -d ${lib.escapeShellArg user.home} ] && [ ! -e ${lib.escapeShellArg "${user.home}/.zshrc"} ]; then
             install -m 0644 -o ${lib.escapeShellArg user.name} -g users /dev/null ${lib.escapeShellArg "${user.home}/.zshrc"}
-            cat > ${lib.escapeShellArg "${user.home}/.zshrc"} <<'EOF'
-            # Managed by NixOS: load the system zsh configuration.
-            source /etc/zshrc
-            EOF
+            printf '%s\n' '# Managed by NixOS: load the system zsh configuration.' 'source /etc/zshrc' > ${lib.escapeShellArg "${user.home}/.zshrc"}
           fi
         '') managedZshUsers
       );
