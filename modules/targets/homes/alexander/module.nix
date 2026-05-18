@@ -27,6 +27,7 @@ in
       music-creation
       llms
       sops
+      localsend
     ];
   };
 }
