@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   systems = [
     "x86_64-linux"
@@ -8,8 +8,15 @@
   ];
 
   perSystem =
-    { pkgs, ... }:
+    { system, ... }:
+    let
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in
     {
+      _module.args.pkgs = pkgs;
       formatter = pkgs.nixfmt;
     };
 }

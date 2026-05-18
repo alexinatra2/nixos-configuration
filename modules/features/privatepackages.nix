@@ -7,7 +7,6 @@
         with pkgs;
         [
           eduvpn-client
-          qgis
         ]
       );
     };

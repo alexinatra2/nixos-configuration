@@ -153,7 +153,7 @@
                 "Mod+Shift+Minus".move-column-to-workspace = "w2";
                 "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
-                "Mod+Space".spawn-sh = "${noctaliaExe} ipc call launcher toggle";
+                "Mod+Space".spawn = lib.getExe config.pkgs.fuzzel;
                 "Mod+B".spawn = lib.getExe config.browser;
                 "Mod+E".spawn-sh = "${config.terminal} -e yazi";
                 "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
@@ -267,6 +267,7 @@
 
           environment.systemPackages = with pkgs; [
             brightnessctl
+            fuzzel
             wdisplays
             xwayland-satellite
           ];
