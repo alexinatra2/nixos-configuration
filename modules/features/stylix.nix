@@ -57,6 +57,7 @@
     modules.homeManager.stylix =
       {
         config,
+        lib,
         pkgs,
         ...
       }:
@@ -73,6 +74,28 @@
           targets.firefox.enable = false;
           targets.nixvim.enable = true;
           targets.neovim.enable = false;
+        };
+
+        programs.fuzzel = lib.mkIf pkgs.stdenv.isLinux {
+          enable = true;
+          settings = {
+            main = {
+              prompt = ''"> "'';
+              "dpi-aware" = "yes";
+              width = 48;
+              lines = 12;
+              "horizontal-pad" = 16;
+              "vertical-pad" = 14;
+              "inner-pad" = 10;
+              "icons-enabled" = "yes";
+            };
+
+            border = {
+              width = 2;
+              radius = 12;
+              "selection-radius" = 8;
+            };
+          };
         };
       };
   };
