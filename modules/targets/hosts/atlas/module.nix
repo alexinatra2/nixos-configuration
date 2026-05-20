@@ -57,6 +57,13 @@ in
 
       nixpkgs.config.allowUnfree = true;
 
+      boot = {
+        kernelPackages = pkgs.linuxPackages_6_6;
+        extraModprobeConfig = ''
+          options btusb enable_autosuspend=n reset=1
+        '';
+      };
+
       programs.zsh.enable = true;
 
       hardware = {
@@ -117,6 +124,25 @@ in
 
         pulseaudio.enable = false;
       };
+
+      systemd = {
+        services.bluetooth-unblock = {
+          description = "Unblock Bluetooth on boot";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "bluetooth.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.util-linux}/bin/rfkill unblock bluetooth";
+          };
+        };
+
+        services.systemd-rfkill.enable = false;
+        sockets.systemd-rfkill.enable = false;
+      };
+
+      system.activationScripts.clearBluetoothRfkill = lib.stringAfter [ "users" ] ''
+        rm -f /var/lib/systemd/rfkill/*bluetooth || true
+      '';
 
       xdg.portal = {
         enable = true;
