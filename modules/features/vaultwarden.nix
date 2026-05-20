@@ -19,6 +19,14 @@
         config = {
           DOMAIN = "https://warden.taila26075.ts.net";
           SIGNUPS_ALLOWED = false;
+
+          SMTP_HOST = "smtp.purelymail.com";
+          SMTP_PORT = 465;
+          SMTP_SECURITY = "force_tls";
+          SMTP_FROM = "alexander@woodservant.com";
+          SMTP_FROM_NAME = "Vaultwarden";
+          SMTP_USERNAME = "alexander@woodservant.com";
+
           ROCKET_ADDRESS = "127.0.0.1";
           ROCKET_PORT = vaultwardenPort;
           ROCKET_LOG = "critical";
