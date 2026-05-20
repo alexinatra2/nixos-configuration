@@ -24,7 +24,7 @@
         install -d -m 0750 -o alexander -g users "${snapshotDir}"
 
         snapshot_path="${snapshotDir}/db-$(date -u +%Y%m%dT%H%M%SZ).sqlite3"
-        sqlite3 /var/lib/bitwarden_rs/db.sqlite3 ".backup '$snapshot_path'"
+        sqlite3 /var/lib/vaultwarden/db.sqlite3 ".backup '$snapshot_path'"
         chown alexander:users "$snapshot_path"
 
         find "${snapshotDir}" -maxdepth 1 -type f -name 'db-*.sqlite3' -printf '%T@ %p\n' \
