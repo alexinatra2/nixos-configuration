@@ -6,6 +6,8 @@
 }:
 let
   hostName = "nixos";
+  wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
+  vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
 in
 {
   flake.nixosModules.${hostName} =
@@ -121,6 +123,40 @@ in
       };
 
       networking.networkmanager.enable = true;
+
+      local.syncthing = {
+        enable = true;
+        guiUser = "alex";
+        secrets = {
+          password.name = "syncthing/password";
+          cert.name = "syncthing/cert";
+          key.name = "syncthing/key";
+        };
+        devices = {
+          pixel7 = {
+            id = "S6GEWYT-ST3KUYP-PBEE6WG-TYKMUL7-X6UQPX2-IQOL567-5YKKBQZ-VFO3WQV";
+          };
+          warden = {
+            id = wardenSyncthingId;
+          };
+        };
+        folders = {
+          camera = {
+            id = "v283i-tw1dt";
+            label = "Camera";
+            path = "/home/alexander/Pictures/Pixel7";
+            type = "receiveonly";
+            devices = [ "pixel7" ];
+          };
+          vaultwardenSnapshots = {
+            id = "vaultwarden-snapshots";
+            label = "Vaultwarden Snapshots";
+            path = vaultwardenSnapshotPath;
+            type = "receiveonly";
+            devices = [ "warden" ];
+          };
+        };
+      };
 
       security.polkit.enable = true;
       security.soteria.enable = true;

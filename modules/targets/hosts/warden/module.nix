@@ -6,6 +6,8 @@
 let
   hostName = "warden";
   adminUser = "alexander";
+  nixosSyncthingId = "NPPGEFJ-GNQJVKL-OVEVTVE-JWJQEBD-TQ5RZSO-PW557BU-YTIYV3N-GSCBNAS";
+  vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
 in
 {
   flake.nixosModules.${hostName} =
@@ -34,6 +36,34 @@ in
             22
             443
           ];
+        };
+      };
+
+      local.syncthing = {
+        enable = true;
+        secrets = {
+          cert = {
+            name = "syncthing/warden/cert";
+            owner = adminUser;
+          };
+          key = {
+            name = "syncthing/warden/key";
+            owner = adminUser;
+          };
+        };
+        devices = {
+          nixos = {
+            id = nixosSyncthingId;
+          };
+        };
+        folders = {
+          vaultwardenSnapshots = {
+            id = "vaultwarden-snapshots";
+            label = "Vaultwarden Snapshots";
+            path = vaultwardenSnapshotPath;
+            type = "sendonly";
+            devices = [ "nixos" ];
+          };
         };
       };
 
@@ -74,8 +104,8 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@nixos"
       ];
 
-      environment.systemPackages = with pkgs; [ 
-      	git
+      environment.systemPackages = with pkgs; [
+        git
       ];
 
       programs.zsh.enable = true;

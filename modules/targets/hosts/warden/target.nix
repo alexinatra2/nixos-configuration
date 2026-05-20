@@ -9,6 +9,7 @@ in
       shell
       sops
       tailscale
+      syncthing
       vaultwarden
       warden
     ];

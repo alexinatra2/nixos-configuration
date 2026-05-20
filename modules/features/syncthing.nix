@@ -1,37 +1,110 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.syncthing =
-    { config, ... }:
     {
-      sops.secrets = {
-        "syncthing/password" = { };
-        "syncthing/cert" = { };
-        "syncthing/key" = { };
-      };
+      config,
+      lib,
+      ...
+    }:
+    {
+      options.local.syncthing = {
+        enable = lib.mkEnableOption "syncthing";
 
-      services.syncthing = {
-        enable = true;
-        openDefaultPorts = true;
-        user = "alexander";
-        group = "users";
-        dataDir = "/home/alexander";
-        guiPasswordFile = config.sops.secrets."syncthing/password".path;
-        cert = config.sops.secrets."syncthing/cert".path;
-        key = config.sops.secrets."syncthing/key".path;
+        guiUser = lib.mkOption {
+          type = with lib.types; nullOr str;
+          default = null;
+          description = "Optional Syncthing GUI user name.";
+        };
 
-        settings = {
-          gui.user = "alex";
-          devices = {
-            pixel7 = {
-              id = "S6GEWYT-ST3KUYP-PBEE6WG-TYKMUL7-X6UQPX2-IQOL567-5YKKBQZ-VFO3WQV";
+        devices = lib.mkOption {
+          type = with lib.types; attrsOf attrs;
+          default = { };
+          description = "Syncthing devices for this host.";
+        };
+
+        folders = lib.mkOption {
+          type = with lib.types; attrsOf attrs;
+          default = { };
+          description = "Syncthing folders for this host.";
+        };
+
+        secrets = {
+          password = {
+            name = lib.mkOption {
+              type = with lib.types; nullOr str;
+              default = null;
+              description = "Optional SOPS secret name for the Syncthing GUI password file.";
+            };
+            owner = lib.mkOption {
+              type = lib.types.str;
+              default = "root";
+              description = "Owner for the Syncthing GUI password secret.";
             };
           };
-          folders.camera = {
-            id = "v283i-tw1dt";
-            label = "Camera";
-            path = "/home/alexander/Pictures/Pixel7";
-            type = "receiveonly";
-            devices = [ "pixel7" ];
+
+          cert = {
+            name = lib.mkOption {
+              type = with lib.types; nullOr str;
+              default = null;
+              description = "Optional SOPS secret name for the Syncthing certificate.";
+            };
+            owner = lib.mkOption {
+              type = lib.types.str;
+              default = "root";
+              description = "Owner for the Syncthing certificate secret.";
+            };
+          };
+
+          key = {
+            name = lib.mkOption {
+              type = with lib.types; nullOr str;
+              default = null;
+              description = "Optional SOPS secret name for the Syncthing key.";
+            };
+            owner = lib.mkOption {
+              type = lib.types.str;
+              default = "root";
+              description = "Owner for the Syncthing key secret.";
+            };
+          };
+        };
+      };
+
+      config = lib.mkIf config.local.syncthing.enable {
+        sops.secrets =
+          lib.optionalAttrs (config.local.syncthing.secrets.password.name != null) {
+            ${config.local.syncthing.secrets.password.name}.owner =
+              config.local.syncthing.secrets.password.owner;
+          }
+          // lib.optionalAttrs (config.local.syncthing.secrets.cert.name != null) {
+            ${config.local.syncthing.secrets.cert.name}.owner = config.local.syncthing.secrets.cert.owner;
+          }
+          // lib.optionalAttrs (config.local.syncthing.secrets.key.name != null) {
+            ${config.local.syncthing.secrets.key.name}.owner = config.local.syncthing.secrets.key.owner;
+          };
+
+        services.syncthing = {
+          enable = true;
+          openDefaultPorts = true;
+          user = "alexander";
+          group = "users";
+          dataDir = "/home/alexander";
+          guiPasswordFile = lib.mkIf (
+            config.local.syncthing.secrets.password.name != null
+          ) config.sops.secrets.${config.local.syncthing.secrets.password.name}.path;
+          cert = lib.mkIf (
+            config.local.syncthing.secrets.cert.name != null
+          ) config.sops.secrets.${config.local.syncthing.secrets.cert.name}.path;
+          key = lib.mkIf (
+            config.local.syncthing.secrets.key.name != null
+          ) config.sops.secrets.${config.local.syncthing.secrets.key.name}.path;
+
+          settings = {
+            gui = lib.optionalAttrs (config.local.syncthing.guiUser != null) {
+              user = config.local.syncthing.guiUser;
+            };
+            devices = config.local.syncthing.devices;
+            folders = config.local.syncthing.folders;
           };
         };
       };
