@@ -41,6 +41,8 @@ in
       );
     in
     {
+      imports = [ inputs.nix-index-database.nixosModules.default ];
+
       environment.shellAliases = shellAliases;
 
       environment.systemPackages = with pkgs; [
@@ -48,6 +50,7 @@ in
         fd
         fzf
         kitty.terminfo
+        lazygit
         starship
         tree
         xclip
@@ -55,6 +58,8 @@ in
       ];
 
       programs = {
+        nix-index-database.comma.enable = true;
+
         bash = {
           completion.enable = true;
           interactiveShellInit = ''
