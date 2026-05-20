@@ -57,6 +57,12 @@ in
         };
       };
 
+      local.prometheus = {
+        enable = true;
+        listenAddress = "0.0.0.0";
+        tailscaleScrape.enable = true;
+      };
+
       time.timeZone = "Europe/Berlin";
 
       i18n.defaultLocale = "en_GB.UTF-8";
