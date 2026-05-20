@@ -38,7 +38,7 @@
 
           smtp = {
             host = "mail.gmx.net";
-            port = 587;
+            port = 465;
             tls.enable = true;
           };
 
