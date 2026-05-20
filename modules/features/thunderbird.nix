@@ -7,7 +7,8 @@
       ...
     }:
     {
-      sops.secrets."mail/thunderbird/woodservant/password" = { };
+      sops.secrets."mail/thunderbird/aholzknecht/password" = { };
+      sops.secrets."mail/thunderbird/woodservant/app-password" = { };
 
       programs.thunderbird = {
         enable = true;
@@ -19,7 +20,7 @@
       };
 
       accounts.email.accounts = {
-        "a.holzknecht@gmx.de" = {
+        aholzknecht = {
           address = "a.holzknecht@gmx.de";
           realName = "Alexander Holzknecht";
           userName = "a.holzknecht@gmx.de";
@@ -47,7 +48,7 @@
           };
         };
 
-        "alexander@woodservant.com" = {
+        woodservant = {
           address = "alexander@woodservant.com";
           primary = true;
           realName = "Alexander Holzknecht";
@@ -55,7 +56,7 @@
 
           # Keep mailbox credentials out of the Nix store.
           passwordCommand = "${pkgs.coreutils}/bin/cat ${
-            config.sops.secrets."mail/thunderbird/woodservant/password".path
+            config.sops.secrets."mail/thunderbird/woodservant/app-password".path
           }";
 
           imap = {
