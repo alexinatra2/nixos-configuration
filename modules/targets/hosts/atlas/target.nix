@@ -1,12 +1,12 @@
 { self, inputs, ... }:
 let
-  hostName = "nixos";
+  hostName = "atlas";
 in
 {
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       user-alexander
-      nixos
+      atlas
       opencode
       niri
       greeter

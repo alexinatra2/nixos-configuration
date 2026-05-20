@@ -5,7 +5,7 @@
   ...
 }:
 let
-  hostName = "nixos";
+  hostName = "atlas";
   wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
   vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
 in
@@ -20,6 +20,8 @@ in
       imports = [
         self.nixosModules."${hostName}Hardware"
       ];
+
+      networking.hostName = hostName;
 
       i18n = {
         defaultLocale = "en_GB.UTF-8";

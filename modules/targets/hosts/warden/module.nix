@@ -6,7 +6,7 @@
 let
   hostName = "warden";
   adminUser = "alexander";
-  nixosSyncthingId = "NPPGEFJ-GNQJVKL-OVEVTVE-JWJQEBD-TQ5RZSO-PW557BU-YTIYV3N-GSCBNAS";
+  atlasSyncthingId = "NPPGEFJ-GNQJVKL-OVEVTVE-JWJQEBD-TQ5RZSO-PW557BU-YTIYV3N-GSCBNAS";
   vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
 in
 {
@@ -42,8 +42,8 @@ in
       local.syncthing = {
         enable = true;
         devices = {
-          nixos = {
-            id = nixosSyncthingId;
+          atlas = {
+            id = atlasSyncthingId;
           };
         };
         folders = {
@@ -52,7 +52,7 @@ in
             label = "Vaultwarden Snapshots";
             path = vaultwardenSnapshotPath;
             type = "sendonly";
-            devices = [ "nixos" ];
+            devices = [ "atlas" ];
           };
         };
       };
@@ -91,7 +91,7 @@ in
       };
 
       users.users.${adminUser}.openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@nixos"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@atlas"
       ];
 
       environment.systemPackages = with pkgs; [

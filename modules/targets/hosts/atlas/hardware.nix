@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 let
-  hostName = "nixos";
+  hostName = "atlas";
 in
 {
   flake.nixosModules."${hostName}Hardware" =

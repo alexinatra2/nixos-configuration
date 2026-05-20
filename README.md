@@ -53,7 +53,7 @@ home-manager switch --flake .#alexander
 ### NixOS host
 
 ```bash
-sudo nixos-rebuild switch --flake .#nixos
+sudo nixos-rebuild switch --flake .#atlas
 sudo nixos-rebuild switch --flake .#warden
 ```
 
