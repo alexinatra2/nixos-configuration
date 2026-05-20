@@ -41,16 +41,6 @@ in
 
       local.syncthing = {
         enable = true;
-        secrets = {
-          cert = {
-            name = "syncthing/warden/cert";
-            owner = adminUser;
-          };
-          key = {
-            name = "syncthing/warden/key";
-            owner = adminUser;
-          };
-        };
         devices = {
           nixos = {
             id = nixosSyncthingId;
