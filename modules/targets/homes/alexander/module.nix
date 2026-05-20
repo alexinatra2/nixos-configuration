@@ -22,6 +22,7 @@ in
       slide-creation
       ssh
       stylix
+      thunderbird
       tmux
       zenBrowser
       music-creation
