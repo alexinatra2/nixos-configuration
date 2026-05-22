@@ -29,5 +29,11 @@
         enable = true;
         pkiBundle = "/var/lib/sbctl";
       };
+
+      swapDevices = [
+        {
+          device = "/var/swapfile";
+        }
+      ];
     };
 }
