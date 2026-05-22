@@ -41,62 +41,60 @@
             definedAliases = [ "@g" ];
           };
 
-          google-scholar = {
-            id = "Google Scholar";
-            urls = [ { template = "https://scholar.google.com/scholar?q={searchTerms}"; } ];
-            icon = "https://scholar.google.com/favicon.ico";
-            definedAliases = [ "@s" ];
-          };
-
-          home-manager-options = {
-            id = "Home Manager Options";
-            urls = [ { template = "https://home-manager-options.extranix.com/?query={searchTerms}"; } ];
-            icon = "https://nixos.org/favicon.png";
-            definedAliases = [ "@h" ];
-          };
-
-          nixos-options = {
-            id = "NixOS Options";
-            urls = [
-              {
-                template = "https://search.nixos.org/options";
-                params = [
-                  {
-                    name = "type";
-                    value = "options";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            icon = "https://nixos.org/favicon.png";
-            definedAliases = [ "@n" ];
-          };
-
-          nixpkgs = {
-            id = "Nixpkgs";
-            urls = [
-              {
-                template = "https://search.nixos.org/packages";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            icon = "https://nixos.org/favicon.png";
-            definedAliases = [ "@x" ];
-          };
         };
+
+        keywordShortcuts = [
+          {
+            key = "google-scholar";
+            keyword = "scholar";
+            url = "https://scholar.google.com/scholar?q=%s";
+            guid = "ocffkwgoogle";
+          }
+          {
+            key = "home-manager-options";
+            keyword = "hm";
+            url = "https://home-manager-options.extranix.com/?query=%s";
+            guid = "ocffkwhmopts";
+          }
+          {
+            key = "nixos-options";
+            keyword = "nixos";
+            url = "https://search.nixos.org/options?type=options&query=%s";
+            guid = "ocffkwnixopt";
+          }
+          {
+            key = "nixpkgs";
+            keyword = "nixpkgs";
+            url = "https://search.nixos.org/packages?channel=unstable&query=%s";
+            guid = "ocffkwnixpkg";
+          }
+        ];
+
+        enabledKeywordShortcuts = builtins.filter (
+          shortcut: config.firefox.searchEngines.${shortcut.key} or false
+        ) keywordShortcuts;
+
+        managedKeywords = map (shortcut: shortcut.keyword) keywordShortcuts;
+
+        sqlString = value: lib.replaceStrings [ "'" ] [ "''" ] value;
+
+        managedKeywordsSql = lib.concatStringsSep ", " (
+          map (keyword: "'${sqlString keyword}'") managedKeywords
+        );
+
+        shortcutSql = lib.concatMapStringsSep "\n" (shortcut: ''
+          INSERT INTO moz_places (url, guid)
+          SELECT '${sqlString shortcut.url}', '${sqlString shortcut.guid}'
+          WHERE NOT EXISTS (
+            SELECT 1 FROM moz_places WHERE url = '${sqlString shortcut.url}'
+          );
+
+          INSERT INTO moz_keywords (keyword, place_id, post_data)
+          SELECT '${sqlString shortcut.keyword}', id, NULL
+          FROM moz_places
+          WHERE url = '${sqlString shortcut.url}'
+          LIMIT 1;
+        '') enabledKeywordShortcuts;
       in
       {
         options.firefox = {
@@ -119,10 +117,10 @@
           searchEngines = {
             duckduckgo = lib.mkEnableOption "Enable the DuckDuckGo search engine.";
             google = lib.mkEnableOption "Enable the Google search engine.";
-            home-manager-options = lib.mkEnableOption "Enable search for Home Manager options.";
-            google-scholar = lib.mkEnableOption "Enable searching on Google Scholar.";
-            nixos-options = lib.mkEnableOption "Enable search for NixOS options.";
-            nixpkgs = lib.mkEnableOption "Enable search for Nixpkgs.";
+            home-manager-options = lib.mkEnableOption "Enable the @h Firefox keyword for Home Manager options.";
+            google-scholar = lib.mkEnableOption "Enable the @s Firefox keyword for Google Scholar.";
+            nixos-options = lib.mkEnableOption "Enable the @n Firefox keyword for NixOS options.";
+            nixpkgs = lib.mkEnableOption "Enable the @x Firefox keyword for Nixpkgs.";
           };
 
           defaultSearchEngine = lib.mkOption {
@@ -171,6 +169,26 @@
               };
             };
           };
+
+          home.activation.firefoxKeywordShortcuts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            firefoxPlacesDb="$HOME/.mozilla/firefox/default/places.sqlite"
+
+            if [ ! -f "$firefoxPlacesDb" ]; then
+              exit 0
+            fi
+
+            if ! ${lib.getExe pkgs.sqlite} "$firefoxPlacesDb" <<'SQL'
+            .bail on
+            .timeout 1000
+            BEGIN IMMEDIATE;
+            DELETE FROM moz_keywords WHERE keyword IN (${managedKeywordsSql});
+            ${shortcutSql}
+            COMMIT;
+            SQL
+            then
+              echo "Skipping Firefox keyword shortcut update; close Firefox and run home-manager switch again." >&2
+            fi
+          '';
         };
       };
   };

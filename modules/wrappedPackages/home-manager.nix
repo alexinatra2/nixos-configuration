@@ -5,8 +5,13 @@
   hmWrappers = {
     home-manager = inputs.home-manager;
     stateVersion = "26.05";
+    autoWrap = true;
+    exclude = [
+      "stylix"
+      "firefox"
+    ];
+    baseModules = [ config.flake.modules.homeManager.stylix ];
   };
-
   perSystem =
     {
       pkgs,
