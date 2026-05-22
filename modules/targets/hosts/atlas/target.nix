@@ -21,6 +21,7 @@ in
       llms
       android
       index
+      zramCompression
     ];
   };
 }
