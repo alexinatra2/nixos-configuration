@@ -34,9 +34,16 @@ in
           allowedUDPPorts = [ ];
           interfaces.tailscale0.allowedTCPPorts = [
             22
-            443
+            8222
           ];
         };
+      };
+
+      local.tailscale = {
+        enable = true;
+        authKeySecretName = "headscale/authkey";
+        loginServer = "https://headscale.woodservant.com";
+        expectedTailnet = "tailnet.woodservant.com";
       };
 
       local.syncthing = {

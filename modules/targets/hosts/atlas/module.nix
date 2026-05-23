@@ -23,6 +23,13 @@ in
 
       networking.hostName = hostName;
 
+      local.tailscale = {
+        enable = true;
+        authKeySecretName = "headscale/authkey";
+        loginServer = "https://headscale.woodservant.com";
+        expectedTailnet = "tailnet.woodservant.com";
+      };
+
       i18n = {
         defaultLocale = "en_GB.UTF-8";
 

@@ -76,3 +76,58 @@ This keeps the package configuration reusable while avoiding a second hand-maint
 - `obsidian` and `firefox` require unfree packages to be allowed by the caller's Nix configuration.
 - Host-level concerns like boot, services, hardware, users, secrets bootstrapping, and desktop/session wiring stay in `nixosModules`.
 - Direct wrapper packages that are a better fit than HM extraction, such as `firefox`, remain separate.
+
+## Tailscale And Headscale Hosts
+
+The shared NixOS module is `self.nixosModules.tailscale`. Each host selects its control plane through `local.tailscale`.
+
+Hosted Tailscale host example:
+
+```nix
+{
+  local.tailscale = {
+    enable = true;
+    authKeySecretName = "tailscale/authkey";
+    expectedTailnet = "taila26075.ts.net";
+  };
+}
+```
+
+Self-hosted Headscale host example:
+
+```nix
+{
+  local.tailscale = {
+    enable = true;
+    authKeySecretName = "headscale/authkey";
+    loginServer = "https://headscale.woodservant.com";
+    expectedTailnet = "tailnet.woodservant.com";
+  };
+}
+```
+
+Available host options:
+
+- `local.tailscale.enable`
+- `local.tailscale.authKeyFile`
+- `local.tailscale.authKeySecretName`
+- `local.tailscale.hostname`
+- `local.tailscale.loginServer`
+- `local.tailscale.expectedTailnet`
+- `local.tailscale.tags`
+
+Secret values:
+
+- Hosted Tailscale: the secret file must contain a hosted Tailscale auth key.
+- Headscale: the secret file must contain a Headscale pre-auth key created on `https://headscale.woodservant.com`.
+
+Migration caveats:
+
+- A single `tailscaled` instance can only be enrolled in one control plane at a time.
+- Changing `local.tailscale.loginServer` and rebuilding does not reliably migrate an already-enrolled machine by itself.
+- For an existing machine, rebuild with the new secret and `loginServer`, then re-register it with a manual reset path such as `sudo tailscale logout` followed by `sudo systemctl restart tailscaled-autoconnect.service`.
+- If the daemon still keeps the old control-plane state, stop `tailscaled` and clear its state before re-enrolling.
+
+Service exposure caveat:
+
+- `modules/features/vaultwarden.nix` no longer relies on `tailscale serve --https`, because that certificate path is tied to hosted Tailscale features. Vaultwarden is exposed directly on its application port over the tailnet instead.

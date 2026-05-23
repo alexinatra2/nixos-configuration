@@ -37,13 +37,20 @@
       '';
     in
     {
+      assertions = [
+        {
+          assertion = config.local.tailscale.fqdn != null;
+          message = "The vaultwarden module requires local.tailscale.expectedTailnet to compute its MagicDNS name.";
+        }
+      ];
+
       services.vaultwarden = {
         enable = true;
         dbBackend = "sqlite";
         backupDir = "/var/backup/vaultwarden";
         environmentFile = [ config.sops.secrets."vaultwarden/env".path ];
         config = {
-          DOMAIN = "https://warden.taila26075.ts.net";
+          DOMAIN = "http://${config.local.tailscale.fqdn}:${toString vaultwardenPort}";
           SIGNUPS_ALLOWED = false;
 
           SMTP_HOST = "smtp.purelymail.com";
@@ -53,7 +60,7 @@
           SMTP_FROM_NAME = "Vaultwarden";
           SMTP_USERNAME = "alexander@woodservant.com";
 
-          ROCKET_ADDRESS = "127.0.0.1";
+          ROCKET_ADDRESS = "0.0.0.0";
           ROCKET_PORT = vaultwardenPort;
           ROCKET_LOG = "critical";
         };
@@ -82,36 +89,5 @@
         };
       };
 
-      systemd.services.tailscale-vaultwarden-serve = {
-        description = "Expose Vaultwarden over Tailscale HTTPS";
-        wantedBy = [ "multi-user.target" ];
-        wants = [
-          "tailscaled.service"
-          "tailscaled-autoconnect.service"
-          "vaultwarden.service"
-        ];
-        after = [
-          "tailscaled.service"
-          "tailscaled-autoconnect.service"
-          "vaultwarden.service"
-        ];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          ExecStart = pkgs.writeShellScript "tailscale-vaultwarden-serve-start" ''
-                  set -euo pipefail
-
-                  until ${pkgs.tailscale}/bin/tailscale status >/dev/null 2>&1; do
-            	sleep 2
-                  done
-
-                  ${pkgs.tailscale}/bin/tailscale serve --bg --https=443 --yes http://127.0.0.1:${toString vaultwardenPort}
-          '';
-          ExecStop = pkgs.writeShellScript "tailscale-vaultwarden-serve-stop" ''
-            set -euo pipefail
-            ${pkgs.tailscale}/bin/tailscale serve --https=443 --yes off || true
-          '';
-        };
-      };
     };
 }
