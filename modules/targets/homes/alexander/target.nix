@@ -15,6 +15,11 @@ in
       inherit username system;
     };
 
-    modules = [ self.modules.homeManager.${profileName} ];
+    modules = [
+      self.modules.homeManager.${profileName}
+      {
+        local.ssh.enable = false;
+      }
+    ];
   };
 }

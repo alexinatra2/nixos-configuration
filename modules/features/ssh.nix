@@ -29,22 +29,26 @@
       };
     in
     {
-      programs.ssh = {
-        enable = true;
-        enableDefaultConfig = false;
+      options.local.ssh.enable = lib.mkEnableOption "SSH client configuration";
 
-        matchBlocks = {
-          "*" = {
-            identitiesOnly = true;
-            identityFile = [ "~/.ssh/id_ed25519" ];
+      config = lib.mkIf config.local.ssh.enable {
+        programs.ssh = {
+          enable = true;
+          enableDefaultConfig = false;
+
+          matchBlocks = {
+            "*" = {
+              identitiesOnly = true;
+              identityFile = [ "~/.ssh/id_ed25519" ];
+            };
           };
+
+          includes = map (host: config.sops.templates."ssh/matchblocks/${host}".path) homelabHosts;
         };
 
-        includes = map (host: config.sops.templates."ssh/matchblocks/${host}".path) homelabHosts;
+        sops.templates = lib.foldl' lib.recursiveUpdate { } (map mkHostTemplate homelabHosts);
+
+        sops.secrets = lib.foldl' lib.recursiveUpdate { } (map mkHostSecrets homelabHosts);
       };
-
-      sops.templates = lib.foldl' lib.recursiveUpdate { } (map mkHostTemplate homelabHosts);
-
-      sops.secrets = lib.foldl' lib.recursiveUpdate { } (map mkHostSecrets homelabHosts);
     };
 }

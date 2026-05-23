@@ -6,6 +6,10 @@
       lib,
       ...
     }:
+    let
+      swapFile = "/var/swapfile";
+      swapSize = "16G";
+    in
     {
       imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
 
@@ -32,8 +36,28 @@
 
       swapDevices = [
         {
-          device = "/var/swapfile";
+          device = swapFile;
         }
       ];
+
+      systemd.services.ensure-swapfile = {
+        description = "Create swapfile before activation";
+        before = [ "var-swapfile.swap" ];
+        requiredBy = [ "var-swapfile.swap" ];
+        after = [ "local-fs.target" ];
+        unitConfig.ConditionPathExists = "!${swapFile}";
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = pkgs.writeShellScript "ensure-swapfile" ''
+            set -euo pipefail
+
+            ${pkgs.coreutils}/bin/mkdir -p ${builtins.dirOf swapFile}
+            ${pkgs.util-linux}/bin/fallocate -l ${swapSize} ${swapFile}
+            ${pkgs.coreutils}/bin/chmod 600 ${swapFile}
+            ${pkgs.util-linux}/bin/mkswap ${swapFile}
+          '';
+        };
+      };
     };
 }
