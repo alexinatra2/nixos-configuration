@@ -76,10 +76,13 @@ in
 
       nix = {
         enable = true;
-        settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
+        settings = {
+	  experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+	  trusted-users = [ "alexander" ];
+	};
         optimise.automatic = true;
         nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
       };
