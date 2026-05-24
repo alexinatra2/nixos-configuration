@@ -579,11 +579,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1779442789,
-        "narHash": "sha256-11kg3wa02tC/Kv5zCT84dsFiQr1/uPx5VNV/aTNsd+w=",
+        "lastModified": 1779577529,
+        "narHash": "sha256-PU5X5CLzCfg3Vz9lTnj8raFUfXS9fo1MCCGCM0ywyKU=",
         "ref": "refs/heads/master",
-        "rev": "6f2217710406526296a89785af8d7cb4e71effbc",
-        "revCount": 3,
+        "rev": "7e15c460736a83d2185b8876483074bd456ac1f2",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://git@codeberg.org/alexinatra/nixvim.git"
       },
@@ -727,10 +727,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1779557806,
-        "narHash": "sha256-cMSSgtfaodmlQABKWS+MFBsC+W116eHf2SjLuItLzig=",
+        "lastModified": 1779625342,
+        "narHash": "sha256-CexmC4NOFeQH71sa5uKflWwYU0GjlIMuXvp3h3fdvns=",
         "ref": "refs/heads/main",
-        "rev": "db423ace53fc2f7d3ef236a06bec4fa2c8e6c826",
+        "rev": "a530cc58395e0779d925a706e7f818a5415eb6f9",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/alexinatra2/secrets.git"
