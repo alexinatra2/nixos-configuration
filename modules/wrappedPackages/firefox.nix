@@ -130,7 +130,25 @@
           };
         };
 
-        config = lib.mkIf config.firefox.enable {
+        config = {
+          firefox = {
+            enable = lib.mkDefault true;
+            enabledExtensions = {
+              default = true;
+              react-development = true;
+            };
+            defaultSearchEngine = "duckduckgo";
+            searchEngines = {
+              duckduckgo = true;
+              google = true;
+              google-scholar = true;
+              home-manager-options = true;
+              nixos-options = true;
+              nixpkgs = true;
+            };
+          };
+        }
+        // lib.mkIf config.firefox.enable {
           programs.firefox = {
             enable = true;
             package = self.packages.${pkgs.stdenv.hostPlatform.system}.firefox;

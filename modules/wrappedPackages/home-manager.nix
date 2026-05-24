@@ -27,7 +27,6 @@
 
         neovim = {
           homeModules = [
-            config.flake.modules.homeManager.stylix
             config.flake.modules.homeManager.neovim
           ];
         };

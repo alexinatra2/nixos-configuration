@@ -21,7 +21,6 @@ in
       shell
       slide-creation
       ssh
-      stylix
       thunderbird
       tmux
       zenBrowser

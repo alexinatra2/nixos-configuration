@@ -16,6 +16,7 @@ in
     };
 
     modules = [
+      self.modules.homeManager.stylix
       self.modules.homeManager.${profileName}
       {
         local.ssh.enable = false;

@@ -36,6 +36,8 @@
       ...
     }:
     {
+      imports = [ self.modules.homeManager.sops ];
+
       home.packages = with pkgs; [
         ollama
         python313Packages.huggingface-hub

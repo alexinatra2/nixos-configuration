@@ -1,17 +1,19 @@
 { self, inputs, ... }:
+let
+  defaultUsername = "alexander";
+in
 {
   flake.modules.homeManager.base =
     {
       pkgs,
-      username,
       lib,
       ...
     }:
     {
       home = {
-        username = username;
+        username = lib.mkDefault defaultUsername;
         homeDirectory = lib.mkDefault (
-          if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}"
+          if pkgs.stdenv.isDarwin then "/Users/${defaultUsername}" else "/home/${defaultUsername}"
         );
         packages =
           (with pkgs; [
@@ -69,23 +71,6 @@
       nixpkgs.config = {
         allowUnfree = true;
         allowUnfreePredicate = _: true;
-      };
-
-      firefox = {
-        enable = lib.mkDefault true;
-        enabledExtensions = {
-          default = true;
-          react-development = true;
-        };
-        defaultSearchEngine = "duckduckgo";
-        searchEngines = {
-          duckduckgo = true;
-          google = true;
-          google-scholar = true;
-          home-manager-options = true;
-          nixos-options = true;
-          nixpkgs = true;
-        };
       };
 
     };

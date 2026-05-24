@@ -7,6 +7,8 @@
       ...
     }:
     {
+      imports = [ self.modules.homeManager.sops ];
+
       sops.secrets."mail/thunderbird/aholzknecht/password" = { };
       sops.secrets."mail/thunderbird/woodservant/app-password" = { };
 

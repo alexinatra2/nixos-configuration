@@ -26,7 +26,7 @@ in
         ];
 
         sops = {
-          defaultSopsFile = "${secretspath}/secrets.yaml";
+          defaultSopsFile = "${secretspath}/shared.yaml";
           defaultSopsFormat = "yaml";
           age = {
             sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -82,11 +82,12 @@ in
           generateKey = true;
         };
 
-        defaultSopsFile = "${secretspath}/secrets.yaml";
+        defaultSopsFile = "${secretspath}/shared.yaml";
         validateSopsFiles = false;
 
         secrets = {
-          "private_keys/${username}" = {
+          "users/${username}/private-ssh-key" = {
+            key = "users/${username}/private-ssh-key";
             path = "${homeDir}/.ssh/id_ed25519";
           };
         };

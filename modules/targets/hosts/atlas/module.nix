@@ -21,6 +21,8 @@ in
         self.nixosModules."${hostName}Hardware"
       ];
 
+      sops.defaultSopsFile = lib.mkForce "${builtins.toString inputs.secrets}/atlas.yaml";
+
       networking.hostName = hostName;
 
       security.pki.certificateFiles = [

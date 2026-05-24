@@ -29,6 +29,8 @@
       };
     in
     {
+      imports = [ self.modules.homeManager.sops ];
+
       options.local.ssh.enable = lib.mkEnableOption "SSH client configuration";
 
       config = lib.mkIf config.local.ssh.enable {
