@@ -23,11 +23,16 @@ in
 
       networking.hostName = hostName;
 
+      security.pki.certificateFiles = [
+        ../certs/woodservant-tailnet-root-ca.crt
+      ];
+
       local.tailscale = {
         enable = true;
         authKeySecretName = "headscale/authkey";
         loginServer = "https://headscale.woodservant.com";
         expectedTailnet = "tailnet.woodservant.com";
+        tags = [ ];
       };
 
       i18n = {

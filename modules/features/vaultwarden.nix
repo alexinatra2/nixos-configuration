@@ -9,6 +9,7 @@
     }:
     let
       vaultwardenPort = 8222;
+      vaultwardenHost = config.local.tailscale.fqdn;
       snapshotDir = "/home/alexander/Documents/Backups/Vaultwarden";
       snapshotScript = pkgs.writeShellScript "vaultwarden-snapshot" ''
         set -euo pipefail
@@ -44,13 +45,29 @@
         }
       ];
 
+      sops.secrets = {
+        "vaultwarden/tls/cert" = {
+          owner = "nginx";
+          group = "nginx";
+          mode = "0440";
+          restartUnits = [ "nginx.service" ];
+        };
+
+        "vaultwarden/tls/key" = {
+          owner = "nginx";
+          group = "nginx";
+          mode = "0440";
+          restartUnits = [ "nginx.service" ];
+        };
+      };
+
       services.vaultwarden = {
         enable = true;
         dbBackend = "sqlite";
         backupDir = "/var/backup/vaultwarden";
         environmentFile = [ config.sops.secrets."vaultwarden/env".path ];
         config = {
-          DOMAIN = "http://${config.local.tailscale.fqdn}:${toString vaultwardenPort}";
+          DOMAIN = "https://${vaultwardenHost}";
           SIGNUPS_ALLOWED = false;
 
           SMTP_HOST = "smtp.purelymail.com";
@@ -60,11 +77,30 @@
           SMTP_FROM_NAME = "Vaultwarden";
           SMTP_USERNAME = "alexander@woodservant.com";
 
-          ROCKET_ADDRESS = "0.0.0.0";
+          ROCKET_ADDRESS = "127.0.0.1";
           ROCKET_PORT = vaultwardenPort;
           ROCKET_LOG = "critical";
         };
       };
+
+      services.nginx = {
+        enable = true;
+        recommendedProxySettings = true;
+        recommendedTlsSettings = true;
+
+        virtualHosts.${vaultwardenHost} = {
+          onlySSL = true;
+          sslCertificate = config.sops.secrets."vaultwarden/tls/cert".path;
+          sslCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
+
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${toString vaultwardenPort}";
+            proxyWebsockets = true;
+          };
+        };
+      };
+
+      networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
 
       systemd.tmpfiles.rules = [
         "d ${snapshotDir} 0750 alexander users -"

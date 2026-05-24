@@ -134,6 +134,7 @@
           programs.firefox = {
             enable = true;
             package = self.packages.${pkgs.stdenv.hostPlatform.system}.firefox;
+            policies.Certificates.ImportEnterpriseRoots = true;
             languagePacks = [
               "de"
               "en-GB"

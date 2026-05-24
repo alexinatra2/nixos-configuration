@@ -34,7 +34,6 @@ in
           allowedUDPPorts = [ ];
           interfaces.tailscale0.allowedTCPPorts = [
             22
-            8222
           ];
         };
       };
@@ -44,6 +43,7 @@ in
         authKeySecretName = "headscale/authkey";
         loginServer = "https://headscale.woodservant.com";
         expectedTailnet = "tailnet.woodservant.com";
+        tags = [ ];
       };
 
       local.syncthing = {
@@ -71,6 +71,10 @@ in
       };
 
       time.timeZone = "Europe/Berlin";
+
+      security.pki.certificateFiles = [
+        ../certs/woodservant-tailnet-root-ca.crt
+      ];
 
       i18n.defaultLocale = "en_GB.UTF-8";
 

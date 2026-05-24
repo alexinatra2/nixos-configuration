@@ -130,4 +130,40 @@ Migration caveats:
 
 Service exposure caveat:
 
-- `modules/features/vaultwarden.nix` no longer relies on `tailscale serve --https`, because that certificate path is tied to hosted Tailscale features. Vaultwarden is exposed directly on its application port over the tailnet instead.
+- `modules/features/vaultwarden.nix` no longer relies on `tailscale serve --https`, because that certificate path is tied to hosted Tailscale features.
+- Vaultwarden now expects a private CA certificate and a private leaf certificate for `warden.tailnet.woodservant.com`.
+
+## Vaultwarden Private CA
+
+Vaultwarden is exposed privately on the Headscale tailnet at `https://warden.tailnet.woodservant.com`.
+
+Generate a private CA and a server certificate manually. The files you need are:
+
+- `root-ca.crt`
+- `root-ca.key`
+- `warden.tailnet.woodservant.com.crt`
+- `warden.tailnet.woodservant.com.key`
+
+You may also have an OpenSSL extension file such as `warden.tailnet.woodservant.com.ext`; that file is not needed at runtime.
+
+Store the server certificate and key in your secrets repo under these keys:
+
+- `vaultwarden/tls/cert`
+- `vaultwarden/tls/key`
+
+Store the root CA certificate as a tracked file at:
+
+- `modules/targets/hosts/certs/woodservant-tailnet-root-ca.crt`
+
+Then rebuild:
+
+```bash
+sudo nixos-rebuild switch --flake .#warden
+```
+
+Notes:
+
+- `warden` serves Vaultwarden over `nginx` on tailnet port `443` only.
+- `atlas` and `warden` trust `modules/targets/hosts/certs/woodservant-tailnet-root-ca.crt` declaratively through `security.pki.certificateFiles`.
+- Linux Firefox is configured to import enterprise roots, so fresh machines should trust the Vaultwarden certificate after rebuild.
+- Other Firefox-family browsers may still need a manual root CA import.
