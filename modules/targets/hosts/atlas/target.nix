@@ -5,6 +5,7 @@ in
 {
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
+      hostBase
       user-alexander
       atlas
       niri
@@ -15,7 +16,6 @@ in
       fonts
       stylix
       grub
-      sops
       tailscale
       syncthing
       llms

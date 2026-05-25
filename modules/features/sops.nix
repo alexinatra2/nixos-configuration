@@ -1,7 +1,4 @@
 { self, inputs, ... }:
-let
-  secretspath = builtins.toString inputs.secrets;
-in
 {
   flake.nixosModules.sops =
     {
@@ -26,7 +23,6 @@ in
         ];
 
         sops = {
-          defaultSopsFile = "${secretspath}/shared.yaml";
           defaultSopsFormat = "yaml";
           age = {
             sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -49,30 +45,6 @@ in
       home.packages = with pkgs; [
         sops
         age
-        (writeShellApplication {
-          name = "update-secrets";
-          runtimeInputs = [
-            git
-            nix
-          ];
-          text = ''
-            set -euo pipefail
-
-            repo_root="${homeDir}/nixos-configuration"
-
-            if [ ! -d "$repo_root/.git" ]; then
-              echo "Not a git repo: $repo_root" >&2
-              exit 1
-            fi
-
-            echo "Updating flake input 'secrets' in $repo_root"
-            nix flake update secrets --flake "$repo_root"
-
-            echo
-            echo "Done. Current lockfile changes:"
-            git -C "$repo_root" status --short -- flake.lock
-          '';
-        })
       ];
 
       sops = {
@@ -82,12 +54,12 @@ in
           generateKey = true;
         };
 
-        defaultSopsFile = "${secretspath}/shared.yaml";
+        defaultSopsFile = ../targets/hosts/secrets.yaml;
         validateSopsFiles = false;
 
         secrets = {
           "users/${username}/private-ssh-key" = {
-            key = "users/${username}/private-ssh-key";
+            key = "private_keys/${username}";
             path = "${homeDir}/.ssh/id_ed25519";
           };
         };

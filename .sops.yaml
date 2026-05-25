@@ -1,0 +1,24 @@
+keys:
+  - &users
+    - &me age1r8vj8khzcvkz98y9zfep0srwwcmyc34xr2f000fefw4llwm6jsdsx08e2p
+  - &hosts
+    - &atlas age19zyawmvsqqdgqjpjsden72zyv8pm0z6g7q0mp2rwwlrfx6pvmqhqhtd79q
+    - &warden age1hsumcd4kudmx8x9q3wzvjkyfx03djp9kpp9z6pamuyvlpjc329nsmq3qjx
+
+creation_rules:
+  - path_regex: ^modules/targets/hosts/secrets\.yaml$
+    key_groups:
+      - age:
+          - *me
+          - *atlas
+          - *warden
+  - path_regex: ^modules/targets/hosts/atlas/secrets\.yaml$
+    key_groups:
+      - age:
+          - *me
+          - *atlas
+  - path_regex: ^modules/targets/hosts/warden/secrets\.yaml$
+    key_groups:
+      - age:
+          - *me
+          - *warden

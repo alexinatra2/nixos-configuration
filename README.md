@@ -146,7 +146,7 @@ Generate a private CA and a server certificate manually. The files you need are:
 
 You may also have an OpenSSL extension file such as `warden.tailnet.woodservant.com.ext`; that file is not needed at runtime.
 
-Store the server certificate and key in your secrets repo under these keys:
+Store the server certificate and key in `modules/targets/hosts/warden/secrets.yaml` under these keys:
 
 - `vaultwarden/tls/cert`
 - `vaultwarden/tls/key`

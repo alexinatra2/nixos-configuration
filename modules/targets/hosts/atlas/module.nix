@@ -21,8 +21,6 @@ in
         self.nixosModules."${hostName}Hardware"
       ];
 
-      sops.defaultSopsFile = lib.mkForce "${builtins.toString inputs.secrets}/atlas.yaml";
-
       networking.hostName = hostName;
 
       security.pki.certificateFiles = [
@@ -171,8 +169,11 @@ in
         guiUser = "alex";
         secrets = {
           password.name = "syncthing/password";
+          password.sopsFile = ./secrets.yaml;
           cert.name = "syncthing/cert";
+          cert.sopsFile = ./secrets.yaml;
           key.name = "syncthing/key";
+          key.sopsFile = ./secrets.yaml;
         };
         devices = {
           pixel7 = {

@@ -1,8 +1,7 @@
-{ self, inputs, ... }:
+{ self, ... }:
 let
   user = "alexander";
   passwordHashSecret = "users/${user}/password-hash";
-  sharedSecretsFile = "${builtins.toString inputs.secrets}/shared.yaml";
 in
 {
   flake.nixosModules.user-alexander =
@@ -11,7 +10,6 @@ in
       sops.secrets = {
         "${passwordHashSecret}" = {
           key = passwordHashSecret;
-          sopsFile = sharedSecretsFile;
           neededForUsers = true;
         };
       };

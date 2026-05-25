@@ -40,6 +40,11 @@
               default = "root";
               description = "Owner for the Syncthing GUI password secret.";
             };
+            sopsFile = lib.mkOption {
+              type = with lib.types; nullOr path;
+              default = null;
+              description = "Optional SOPS file containing the Syncthing GUI password secret.";
+            };
           };
 
           cert = {
@@ -52,6 +57,11 @@
               type = lib.types.str;
               default = "root";
               description = "Owner for the Syncthing certificate secret.";
+            };
+            sopsFile = lib.mkOption {
+              type = with lib.types; nullOr path;
+              default = null;
+              description = "Optional SOPS file containing the Syncthing certificate secret.";
             };
           };
 
@@ -66,6 +76,11 @@
               default = "root";
               description = "Owner for the Syncthing key secret.";
             };
+            sopsFile = lib.mkOption {
+              type = with lib.types; nullOr path;
+              default = null;
+              description = "Optional SOPS file containing the Syncthing key secret.";
+            };
           };
         };
       };
@@ -73,14 +88,22 @@
       config = lib.mkIf config.local.syncthing.enable {
         sops.secrets =
           lib.optionalAttrs (config.local.syncthing.secrets.password.name != null) {
-            ${config.local.syncthing.secrets.password.name}.owner =
-              config.local.syncthing.secrets.password.owner;
+            ${config.local.syncthing.secrets.password.name} = {
+              owner = config.local.syncthing.secrets.password.owner;
+              sopsFile = config.local.syncthing.secrets.password.sopsFile;
+            };
           }
           // lib.optionalAttrs (config.local.syncthing.secrets.cert.name != null) {
-            ${config.local.syncthing.secrets.cert.name}.owner = config.local.syncthing.secrets.cert.owner;
+            ${config.local.syncthing.secrets.cert.name} = {
+              owner = config.local.syncthing.secrets.cert.owner;
+              sopsFile = config.local.syncthing.secrets.cert.sopsFile;
+            };
           }
           // lib.optionalAttrs (config.local.syncthing.secrets.key.name != null) {
-            ${config.local.syncthing.secrets.key.name}.owner = config.local.syncthing.secrets.key.owner;
+            ${config.local.syncthing.secrets.key.name} = {
+              owner = config.local.syncthing.secrets.key.owner;
+              sopsFile = config.local.syncthing.secrets.key.sopsFile;
+            };
           };
 
         services.syncthing = {

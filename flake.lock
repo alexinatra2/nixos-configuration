@@ -110,11 +110,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779226674,
-        "narHash": "sha256-wuOkjI6pRiN4sEn/EPBRnNW5cmcpvd7xtIM8y5LooAs=",
+        "lastModified": 1779699611,
+        "narHash": "sha256-EcCaSTKnmg2o4wLKaN1aqQFomwyhO7ik0bX9COdyCas=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "65fb947964bd44fc0008faf77d1fcb7a9f40bb32",
+        "rev": "5ba0c9555c28685e57fa54c7a25e42c7efdbfc8d",
         "type": "github"
       },
       "original": {
@@ -131,11 +131,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1779595358,
-        "narHash": "sha256-wYTO3i1Xe1oh9lWP8cAcgtD4tJyWFQRcN1uxYpdcL1Q=",
+        "lastModified": 1779681769,
+        "narHash": "sha256-GJEtd8O8wDePHsTESQ+bk2Z8vnbPdJSyXcWrEd3eQss=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "3028f7f65d02928083359f8701507a8b35d8bf42",
+        "rev": "55e2ec35f212e5740b0e6593fd6a3d859dc923ac",
         "type": "gitlab"
       },
       "original": {
@@ -360,11 +360,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779627636,
-        "narHash": "sha256-J6JGf42zNzLo/CrRdKb5dNznpLI+eGxN/5KTLG1Mo5s=",
+        "lastModified": 1779678629,
+        "narHash": "sha256-gHcIFg0mm+KFsg7iZQt67kni3+qR5U3PhEC9P7vKlZ4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "044c30c19550c0557997dece4ce9e54d2fa77ba1",
+        "rev": "612bbe3b405ad5f71d7bf9edecc04b678a061652",
         "type": "github"
       },
       "original": {
@@ -675,7 +675,6 @@
         "nixpkgs": "nixpkgs",
         "nixvim-config": "nixvim-config",
         "overpass-mcp": "overpass-mcp",
-        "secrets": "secrets",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "wrapper-modules": "wrapper-modules",
@@ -722,23 +721,6 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
-      }
-    },
-    "secrets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1779671574,
-        "narHash": "sha256-U8fktp6xgSJf5LigerBbCQaIESUrj+xpLo0RDioZf7c=",
-        "ref": "refs/heads/main",
-        "rev": "b54a0eb38f1ca6df1669b19c5ad26b61a6a51bdc",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/alexinatra2/secrets.git"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/alexinatra2/secrets.git"
       }
     },
     "sops-nix": {
@@ -891,11 +873,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1779512817,
-        "narHash": "sha256-Y2S3mvEezyKL/A4XUkgVbhuvob9YKfnG25NuJDl8fuQ=",
+        "lastModified": 1779698383,
+        "narHash": "sha256-8B0VM13icJClvwK6ILfXHm9c5DuVUb2OZjC2UouFAYA=",
         "owner": "BirdeeHub",
         "repo": "nix-wrapper-modules",
-        "rev": "8c90cbe3aaae094370b08f270682fc352fcbcb91",
+        "rev": "0a1c7485f39141e461380239f804de2bd9f43322",
         "type": "github"
       },
       "original": {

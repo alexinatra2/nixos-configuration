@@ -20,11 +20,10 @@ in
     {
       imports = [ self.nixosModules."${hostName}Hardware" ];
 
-      sops.defaultSopsFile = lib.mkForce "${builtins.toString inputs.secrets}/warden.yaml";
-
       sops.secrets."vaultwarden/env" = {
         owner = "vaultwarden";
         restartUnits = [ "vaultwarden.service" ];
+        sopsFile = ./secrets.yaml;
       };
 
       networking = {

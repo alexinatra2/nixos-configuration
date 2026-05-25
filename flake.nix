@@ -61,10 +61,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    secrets = {
-      url = "git+ssh://git@github.com/alexinatra2/secrets.git?shallow=1";
-      flake = false;
-    };
   };
 
   outputs =
