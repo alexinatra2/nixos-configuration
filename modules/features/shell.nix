@@ -117,10 +117,7 @@ in
       ...
     }:
     {
-      home.shellAliases = shellAliases // {
-        open = if pkgs.stdenv.isDarwin then "open" else shellAliases.open;
-        C = if pkgs.stdenv.isDarwin then "tee >(pbcopy)" else shellAliases.C;
-      };
+      home.shellAliases = shellAliases;
 
       programs = {
         bash = {

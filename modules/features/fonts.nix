@@ -41,7 +41,6 @@
         settings = {
           font_family = "JetBrainsMono Nerd Font";
           background_opacity = "0.95";
-          macos_option_as_alt = "yes";
         };
       };
     };

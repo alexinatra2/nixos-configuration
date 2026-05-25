@@ -12,9 +12,7 @@ in
     {
       home = {
         username = lib.mkDefault defaultUsername;
-        homeDirectory = lib.mkDefault (
-          if pkgs.stdenv.isDarwin then "/Users/${defaultUsername}" else "/home/${defaultUsername}"
-        );
+        homeDirectory = lib.mkDefault "/home/${defaultUsername}";
         packages =
           (with pkgs; [
             gcc
