@@ -10,7 +10,6 @@ in
       fonts
       generations
       git
-      comfyui
       mcp
       neovim
       obsidian
@@ -23,7 +22,6 @@ in
       ssh
       thunderbird
       tmux
-      zenBrowser
       music-creation
       llms
       sops
