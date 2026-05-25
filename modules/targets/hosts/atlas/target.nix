@@ -19,7 +19,6 @@ in
       tailscale
       syncthing
       llms
-      android
       index
       zramCompression
     ];

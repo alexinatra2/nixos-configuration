@@ -41,15 +41,6 @@
           homeModules = [ config.flake.modules.homeManager.opencode ];
         };
 
-        obsidian = {
-          mainPackage = pkgs.obsidian;
-          homeModules = [ config.flake.modules.homeManager.obsidian ];
-        };
-
-        pdf = {
-          mainPackage = pkgs.sioyek;
-          homeModules = [ config.flake.modules.homeManager.pdf ];
-        };
       };
     };
 }

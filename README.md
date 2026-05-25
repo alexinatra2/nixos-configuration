@@ -15,8 +15,6 @@ Currently exposed on Linux:
 - `.#neovim`
 - `.#git`
 - `.#opencode`
-- `.#obsidian`
-- `.#pdf`
 - `.#firefox`
 
 ### Run a wrapped package
@@ -39,7 +37,6 @@ nix profile install github:alexinatra/nixos-configuration#firefox
 
 ```bash
 nix shell .#git
-nix shell github:alexinatra/nixos-configuration#pdf
 ```
 
 ## Full Configurations
@@ -62,18 +59,16 @@ sudo nixos-rebuild switch --flake .#warden
 Portable packages are intentionally generated from the same Home Manager modules used by the full profile.
 
 - `tmux` from `modules/features/tmux.nix`
-- `neovim` from `modules/features/neovim/default.nix`
+- `neovim` from `modules/features/neovim.nix`
 - `git` from `modules/features/git.nix`
 - `opencode` from `modules/features/opencode.nix`
-- `obsidian` from `modules/features/obsidian.nix`
-- `pdf` from `modules/features/pdf.nix`
 
 This keeps the package configuration reusable while avoiding a second hand-maintained package-specific config layer.
 
 ## Notes
 
 - The Home Manager backed wrapped packages are currently exported on Linux only.
-- `obsidian` and `firefox` require unfree packages to be allowed by the caller's Nix configuration.
+- `firefox` requires unfree packages to be allowed by the caller's Nix configuration.
 - Host-level concerns like boot, services, hardware, users, secrets bootstrapping, and desktop/session wiring stay in `nixosModules`.
 - Direct wrapper packages that are a better fit than HM extraction, such as `firefox`, remain separate.
 

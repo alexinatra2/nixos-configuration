@@ -12,20 +12,15 @@ in
       git
       mcp
       neovim
-      obsidian
       opencode
-      pdf
-      privatepackages
       rust
       shell
-      slide-creation
       ssh
       thunderbird
       tmux
       music-creation
       llms
       sops
-      localsend
     ];
   };
 }
