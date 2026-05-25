@@ -23,6 +23,8 @@ in
 
       networking.hostName = hostName;
 
+      services.openssh.settings.PermitRootLogin = "no";
+
       security.pki.certificateFiles = [
         ../certs/woodservant-tailnet-root-ca.crt
       ];
