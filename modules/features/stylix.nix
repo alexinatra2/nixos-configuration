@@ -32,11 +32,6 @@
 
         defaultTheme = "gruvbox";
         activeTheme = themes.${defaultTheme};
-        extraThemes = lib.filterAttrs (name: _: name != defaultTheme) themes;
-        mkThemeSpecialisation = theme: {
-          stylix.base16Scheme = lib.mkForce theme.scheme;
-          stylix.polarity = lib.mkForce theme.polarity;
-        };
       in
       {
         imports = [ inputs.stylix.nixosModules.stylix ];
@@ -49,9 +44,6 @@
           targets.grub.enable = false;
         };
 
-        specialisation = lib.mapAttrs (_: theme: {
-          configuration = mkThemeSpecialisation theme;
-        }) extraThemes;
       };
 
     modules.homeManager.stylix =

@@ -52,16 +52,6 @@ in
         spiceUSBRedirection.enable = true;
       };
 
-      specialisation.podman.configuration = {
-        virtualisation = {
-          docker.enable = lib.mkForce false;
-          podman = {
-            dockerCompat = lib.mkForce true;
-            dockerSocket.enable = lib.mkForce true;
-          };
-        };
-      };
-
       security.rtkit.enable = true;
     };
 }
