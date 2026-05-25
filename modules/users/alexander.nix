@@ -12,7 +12,6 @@ in
         "${passwordHashSecret}" = {
           key = passwordHashSecret;
           sopsFile = sharedSecretsFile;
-          owner = user;
           neededForUsers = true;
         };
       };
