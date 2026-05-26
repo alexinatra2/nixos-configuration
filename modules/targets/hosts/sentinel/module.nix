@@ -25,7 +25,20 @@ in
         firewall = {
           enable = true;
           allowedTCPPorts = [ 22 ];
+          interfaces.tailscale0.allowedTCPPorts = [ 22 ];
         };
+      };
+
+      security.pki.certificateFiles = [
+        ../certs/woodservant-tailnet-root-ca.crt
+      ];
+
+      local.tailscale = {
+        enable = true;
+        authKeySecretName = "headscale/authkey";
+        loginServer = "https://headscale.woodservant.com";
+        expectedTailnet = "tailnet.woodservant.com";
+        tags = [ ];
       };
 
       i18n.defaultLocale = "en_GB.UTF-8";

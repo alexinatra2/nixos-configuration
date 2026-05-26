@@ -7,6 +7,7 @@ in
     modules = with self.nixosModules; [
       hostBase
       user-alexander
+      tailscale
       zramCompression
       sentinel
     ];
