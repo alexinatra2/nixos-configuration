@@ -86,11 +86,8 @@
           extraUpFlags =
             lib.optional (cfg.hostname != "") "--hostname=${cfg.hostname}"
             ++ lib.optional (cfg.loginServer != null) "--login-server=${cfg.loginServer}"
+            ++ [ "--operator=${operatorUser}" ]
             ++ lib.optional (cfg.tags != [ ]) "--advertise-tags=${lib.concatStringsSep "," cfg.tags}";
-
-          extraSetFlags = [
-            "--operator=${operatorUser}"
-          ];
         };
       };
     };
