@@ -565,11 +565,11 @@
         "rev": "b724777ed716adf7ed0153c143dc18c7a95806d8",
         "revCount": 5,
         "type": "git",
-        "url": "ssh://git@codeberg.org/alexinatra/nixvim.git"
+        "url": "https://codeberg.org/alexinatra/nixvim.git"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@codeberg.org/alexinatra/nixvim.git"
+        "url": "https://codeberg.org/alexinatra/nixvim.git"
       }
     },
     "nur": {

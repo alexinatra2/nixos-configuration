@@ -7,7 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim-config = {
-      url = "git+ssh://git@codeberg.org/alexinatra/nixvim.git";
+      url = "git+https://codeberg.org/alexinatra/nixvim.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
