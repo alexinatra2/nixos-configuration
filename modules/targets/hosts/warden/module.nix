@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}:
+{ self, ... }:
 let
   hostName = "warden";
   adminUser = "alexander";
@@ -12,7 +8,6 @@ in
 {
   flake.nixosModules.${hostName} =
     {
-      pkgs,
       config,
       lib,
       ...
@@ -39,14 +34,6 @@ in
         };
       };
 
-      local.tailscale = {
-        enable = true;
-        authKeySecretName = "headscale/authkey";
-        loginServer = "https://headscale.woodservant.com";
-        expectedTailnet = "tailnet.woodservant.com";
-        tags = [ ];
-      };
-
       local.syncthing = {
         enable = true;
         devices = {
@@ -71,26 +58,7 @@ in
         tailscaleScrape.enable = true;
       };
 
-      time.timeZone = "Europe/Berlin";
-
-      security.pki.certificateFiles = [
-        ../certs/woodservant-tailnet-root-ca.crt
-      ];
-
-      i18n.defaultLocale = "en_GB.UTF-8";
-
-      nix = {
-        enable = true;
-        settings = {
-	  experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-	  trusted-users = [ "alexander" ];
-	};
-        optimise.automatic = true;
-        nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-      };
+      local.shell.toolset = "minimal";
 
       sops.age = {
         # Derive the age identity from the copied SSH host key so first boot can
@@ -113,12 +81,6 @@ in
       users.users.${adminUser}.openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@atlas"
       ];
-
-      environment.systemPackages = with pkgs; [
-        git
-      ];
-
-      programs.zsh.enable = true;
 
       boot.tmp.cleanOnBoot = true;
 

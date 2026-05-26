@@ -1,9 +1,4 @@
-{
-  self,
-  inputs,
-  config,
-  ...
-}:
+{ self, config, ... }:
 let
   hostName = "atlas";
   wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
@@ -21,25 +16,13 @@ in
         self.nixosModules."${hostName}Hardware"
       ];
 
-      networking.hostName = hostName;
-
       services.openssh.settings.PermitRootLogin = "no";
 
-      security.pki.certificateFiles = [
-        ../certs/woodservant-tailnet-root-ca.crt
-      ];
+      networking.hostName = hostName;
 
-      local.tailscale = {
-        enable = true;
-        authKeySecretName = "headscale/authkey";
-        loginServer = "https://headscale.woodservant.com";
-        expectedTailnet = "tailnet.woodservant.com";
-        tags = [ ];
-      };
+      local.shell.toolset = "maximal";
 
       i18n = {
-        defaultLocale = "en_GB.UTF-8";
-
         extraLocaleSettings = {
           LC_ADDRESS = "de_DE.UTF-8";
           LC_IDENTIFICATION = "de_DE.UTF-8";
@@ -53,22 +36,6 @@ in
         };
       };
 
-      time.timeZone = "Europe/Berlin";
-
-      nix = {
-        enable = true;
-
-        settings = {
-          experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-        };
-
-        optimise.automatic = true;
-        nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-      };
-
       nixpkgs.config.allowUnfree = true;
 
       boot = {
@@ -77,8 +44,6 @@ in
           options btusb enable_autosuspend=n reset=1
         '';
       };
-
-      programs.zsh.enable = true;
 
       hardware = {
         bluetooth = {

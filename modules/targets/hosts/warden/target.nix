@@ -7,9 +7,7 @@ in
     modules = with self.nixosModules; [
       hostBase
       prometheus
-      user-alexander
       shell
-      tailscale
       syncthing
       vaultwarden
       warden

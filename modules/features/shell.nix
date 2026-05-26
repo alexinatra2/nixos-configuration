@@ -28,85 +28,120 @@ in
       ...
     }:
     let
-      managedZshUsers = lib.mapAttrsToList (name: user: {
-        inherit name;
-        home = user.home;
-      }) (
-        lib.filterAttrs (
-          _: user:
-          (user.isNormalUser or false)
-          && user ? home
-          && user.home != null
-        ) config.users.users
-      );
+      cfg = config.local.shell;
+      isDefaultOrMaximal = cfg.toolset != "minimal";
+      isMaximal = cfg.toolset == "maximal";
+
+      minimalPackages = with pkgs; [
+        git
+        tmux
+      ];
+
+      defaultPackages = with pkgs; [
+        fzf
+        lazygit
+        starship
+      ];
+
+      maximalPackages = with pkgs; [
+        bat
+        fd
+        ripgrep
+        uutils-coreutils-noprefix
+      ];
+
+      managedZshUsers =
+        lib.mapAttrsToList
+          (name: user: {
+            inherit name;
+            home = user.home;
+          })
+          (
+            lib.filterAttrs (
+              _: user: (user.isNormalUser or false) && user ? home && user.home != null
+            ) config.users.users
+          );
     in
     {
       imports = [ inputs.nix-index-database.nixosModules.default ];
 
-      environment.shellAliases = shellAliases;
-
-      environment.systemPackages = with pkgs; [
-        bat
-        fd
-        fzf
-        kitty.terminfo
-        lazygit
-        starship
-        tree
-        xclip
-        zoxide
-      ];
-
-      programs = {
-        nix-index-database.comma.enable = true;
-
-        bash = {
-          completion.enable = true;
-          interactiveShellInit = ''
-            eval "$(starship init bash)"
-            eval "$(zoxide init bash)"
-            source ${pkgs.fzf}/share/fzf/key-bindings.bash
-            source ${pkgs.fzf}/share/fzf/completion.bash
-          '';
-          shellAliases = shellAliases;
-        };
-
-        fzf = {
-          fuzzyCompletion = true;
-          keybindings = true;
-        };
-
-        starship.enable = true;
-
-        zoxide.enable = true;
-
-        zsh = {
-          autosuggestions.enable = true;
-          enable = true;
-          enableCompletion = true;
-          interactiveShellInit = ''
-            ${zshInit}
-            eval "$(starship init zsh)"
-            eval "$(zoxide init zsh)"
-            source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-            source ${pkgs.fzf}/share/fzf/completion.zsh
-          '';
-          shellAliases = shellAliases;
-          syntaxHighlighting.enable = true;
-        };
+      options.local.shell.toolset = lib.mkOption {
+        type = lib.types.enum [
+          "minimal"
+          "default"
+          "maximal"
+        ];
+        default = "default";
+        description = "Host shell toolset tier.";
       };
 
-      system.activationScripts.zshUserConfig.text = lib.concatLines (
-        [
-          "# Prevent zsh-newuser-install from running for declarative users."
-        ]
-        ++ map (user: ''
-          if [ -d ${lib.escapeShellArg user.home} ] && [ ! -e ${lib.escapeShellArg "${user.home}/.zshrc"} ]; then
-            install -m 0644 -o ${lib.escapeShellArg user.name} -g users /dev/null ${lib.escapeShellArg "${user.home}/.zshrc"}
-            printf '%s\n' '# Managed by NixOS: load the system zsh configuration.' 'source /etc/zshrc' > ${lib.escapeShellArg "${user.home}/.zshrc"}
-          fi
-        '') managedZshUsers
-      );
+      config = {
+        environment.shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+
+        environment.systemPackages =
+          minimalPackages
+          ++ lib.optionals isDefaultOrMaximal (
+            defaultPackages
+            ++ [
+              pkgs.kitty.terminfo
+              pkgs.xclip
+            ]
+          )
+          ++ lib.optionals isMaximal maximalPackages;
+
+        programs = {
+          nix-index-database.comma.enable = true;
+
+          bash = {
+            completion.enable = isDefaultOrMaximal;
+            interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
+              eval "$(starship init bash)"
+              eval "$(zoxide init bash)"
+              source ${pkgs.fzf}/share/fzf/key-bindings.bash
+              source ${pkgs.fzf}/share/fzf/completion.bash
+            '';
+            shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+          };
+
+          fzf = lib.mkIf isDefaultOrMaximal {
+            fuzzyCompletion = true;
+            keybindings = true;
+          };
+
+          starship.enable = isDefaultOrMaximal;
+
+          zoxide.enable = isDefaultOrMaximal;
+
+          zsh = {
+            autosuggestions.enable = isDefaultOrMaximal;
+            enable = isDefaultOrMaximal;
+            enableCompletion = isDefaultOrMaximal;
+            interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
+              ${zshInit}
+              eval "$(starship init zsh)"
+              eval "$(zoxide init zsh)"
+              source ${pkgs.fzf}/share/fzf/key-bindings.zsh
+              source ${pkgs.fzf}/share/fzf/completion.zsh
+            '';
+            shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+            syntaxHighlighting.enable = isDefaultOrMaximal;
+          };
+        };
+
+        system.activationScripts.zshUserConfig = lib.mkIf isDefaultOrMaximal {
+          text = lib.concatLines (
+            [
+              "# Prevent zsh-newuser-install from running for declarative users."
+            ]
+            ++ map (user: ''
+              if [ -d ${lib.escapeShellArg user.home} ] && [ ! -e ${lib.escapeShellArg "${user.home}/.zshrc"} ]; then
+                install -m 0644 -o ${lib.escapeShellArg user.name} -g users /dev/null ${lib.escapeShellArg "${user.home}/.zshrc"}
+                printf '%s\n' '# Managed by NixOS: load the system zsh configuration.' 'source /etc/zshrc' > ${lib.escapeShellArg "${user.home}/.zshrc"}
+              fi
+            '') managedZshUsers
+          );
+        };
+      };
     };
 
   flake.modules.homeManager.shell =

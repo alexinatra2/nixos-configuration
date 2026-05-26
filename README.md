@@ -54,6 +54,34 @@ sudo nixos-rebuild switch --flake .#atlas
 sudo nixos-rebuild switch --flake .#warden
 ```
 
+### Development shell
+
+For `cuda-oxide`, use the dedicated dev shell from a project directory under `~/projects`.
+
+```bash
+mkdir -p ~/projects/cuda-oxide-playground
+cd ~/projects/cuda-oxide-playground
+nix develop /home/alexander/nixos-configuration#cuda-oxide
+```
+
+The shell provides CUDA, LLVM 21, clang/libclang, and `rustup`. Inside it, follow the upstream toolchain setup for the pinned nightly and `cargo-oxide`.
+
+## Host Shell Toolsets
+
+Hosts that import `self.nixosModules.shell` can select a shell toolset with `local.shell.toolset`.
+
+- `minimal`: `git`, `tmux`
+- `default`: `minimal` plus `zsh` with the shared shell customizations, `starship`, `fzf`, `lazygit`
+- `maximal`: `default` plus `uutils-coreutils-noprefix`, `ripgrep`, `bat`, `fd`
+
+Example:
+
+```nix
+{
+  local.shell.toolset = "maximal";
+}
+```
+
 ## Package Sources Of Truth
 
 Portable packages are intentionally generated from the same Home Manager modules used by the full profile.
