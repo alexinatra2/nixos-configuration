@@ -24,8 +24,6 @@
     };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
-    import-tree.url = "github:vic/import-tree";
-
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
     hm-wrapper-modules = {
@@ -55,15 +53,12 @@
 
   outputs =
     inputs:
-    let
-      tree = inputs.import-tree ./modules;
-    in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.wrapper-modules.flakeModules.wrappers
       ]
-      ++ tree.imports;
+      ++ import ./modules { lib = inputs.nixpkgs.lib; };
     };
 }
