@@ -54,7 +54,7 @@
           generateKey = true;
         };
 
-        defaultSopsFile = ../targets/hosts/secrets.yaml;
+        defaultSopsFile = ../../hosts/common/secrets.yaml;
         validateSopsFiles = false;
 
         secrets = {
