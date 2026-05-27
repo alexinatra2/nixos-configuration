@@ -5,17 +5,12 @@ in
 {
   flake.modules.homeManager.${profileName} = {
     imports = with self.modules.homeManager; [
-      base
       firefox
       fonts
-      generations
       mcp
-      neovim
       opencode
-      rust
       shell
       thunderbird
-      music-creation
       sops
     ];
   };
