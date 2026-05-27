@@ -5,6 +5,7 @@ in
 {
   flake.modules.homeManager.${profileName} = {
     imports = with self.modules.homeManager; [
+      fonts
       firefox
       mcp
       opencode

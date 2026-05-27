@@ -9,7 +9,6 @@
     {
       imports = [ self.modules.homeManager.sops ];
 
-      sops.secrets."mail/thunderbird/aholzknecht/password" = { };
       sops.secrets."mail/thunderbird/woodservant/app-password" = { };
 
       programs.thunderbird = {
@@ -22,34 +21,6 @@
       };
 
       accounts.email.accounts = {
-        aholzknecht = {
-          address = "a.holzknecht@gmx.de";
-          realName = "Alexander Holzknecht";
-          userName = "a.holzknecht@gmx.de";
-
-          # Keep mailbox credentials out of the Nix store.
-          passwordCommand = "${pkgs.coreutils}/bin/cat ${
-            config.sops.secrets."mail/thunderbird/aholzknecht/password".path
-          }";
-
-          imap = {
-            host = "imap.gmx.net";
-            port = 993;
-            tls.enable = true;
-          };
-
-          smtp = {
-            host = "mail.gmx.net";
-            port = 465;
-            tls.enable = true;
-          };
-
-          thunderbird = {
-            enable = true;
-            profiles = [ "default" ];
-          };
-        };
-
         woodservant = {
           address = "alexander@woodservant.com";
           primary = true;

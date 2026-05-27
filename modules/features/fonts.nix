@@ -49,11 +49,11 @@
         open-sans
       ];
 
-      programs.kitty = lib.mkForce {
+      programs.kitty = {
         enable = true;
         settings = {
-          font_family = "JetBrainsMono Nerd Font";
-          background_opacity = "0.95";
+          font_family = lib.mkDefault "JetBrainsMono Nerd Font";
+          background_opacity = lib.mkDefault "0.95";
         };
       };
     };
