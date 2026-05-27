@@ -11,6 +11,7 @@ in
       atlas
       niri
       greeter
+      git
       displaylink
       gaming
       virtualization
@@ -20,6 +21,7 @@ in
       syncthing
       llms
       index
+      tmux
       zramCompression
     ];
   };

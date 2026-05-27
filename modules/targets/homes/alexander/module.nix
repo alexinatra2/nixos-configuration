@@ -9,7 +9,6 @@ in
       firefox
       fonts
       generations
-      git
       mcp
       neovim
       opencode
@@ -17,7 +16,6 @@ in
       shell
       ssh
       thunderbird
-      tmux
       music-creation
       llms
       sops
