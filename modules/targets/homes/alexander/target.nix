@@ -19,7 +19,16 @@ in
       self.modules.homeManager.stylix
       self.modules.homeManager.${profileName}
       {
-        local.ssh.enable = false;
+        home = {
+          username = username;
+          homeDirectory = "/home/${username}";
+          stateVersion = "26.05";
+        };
+
+        nixpkgs.config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
       }
     ];
   };
