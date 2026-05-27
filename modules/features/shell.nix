@@ -38,8 +38,11 @@ in
       ];
 
       defaultPackages = with pkgs; [
+        btop
+        carapace
         fzf
         lazygit
+        lsd
         starship
       ];
 
@@ -50,17 +53,6 @@ in
         uutils-coreutils-noprefix
       ];
 
-      managedZshUsers =
-        lib.mapAttrsToList
-          (name: user: {
-            inherit name;
-            home = user.home;
-          })
-          (
-            lib.filterAttrs (
-              _: user: (user.isNormalUser or false) && user ? home && user.home != null
-            ) config.users.users
-          );
     in
     {
       imports = [ inputs.nix-index-database.nixosModules.default ];
@@ -78,6 +70,21 @@ in
       config = {
         environment.shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
 
+        environment.variables = lib.mkIf isDefaultOrMaximal {
+          BAT_STYLE = "plain";
+          FZF_DEFAULT_OPTS = lib.concatStringsSep " " [
+            "--height=70%"
+            "--layout=reverse"
+            "--border"
+            "--ansi"
+            "--tiebreak=length,end,begin"
+          ];
+          FZF_CTRL_T_COMMAND = "fd --type f";
+          FZF_CTRL_T_OPTS = "--preview 'bat {}'";
+          FZF_ALT_C_COMMAND = "fd --type d";
+          FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
+        };
+
         environment.systemPackages =
           minimalPackages
           ++ lib.optionals isDefaultOrMaximal (
@@ -92,11 +99,19 @@ in
         programs = {
           nix-index-database.comma.enable = true;
 
+          direnv = {
+            enable = isDefaultOrMaximal;
+            enableBashIntegration = isDefaultOrMaximal;
+            enableZshIntegration = isDefaultOrMaximal;
+            nix-direnv.enable = isDefaultOrMaximal;
+          };
+
           bash = {
             completion.enable = isDefaultOrMaximal;
             interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
               eval "$(starship init bash)"
               eval "$(zoxide init bash)"
+              source <(${pkgs.carapace}/bin/carapace _carapace bash)
               source ${pkgs.fzf}/share/fzf/key-bindings.bash
               source ${pkgs.fzf}/share/fzf/completion.bash
             '';
@@ -120,6 +135,7 @@ in
               ${zshInit}
               eval "$(starship init zsh)"
               eval "$(zoxide init zsh)"
+              source <(${pkgs.carapace}/bin/carapace _carapace zsh)
               source ${pkgs.fzf}/share/fzf/key-bindings.zsh
               source ${pkgs.fzf}/share/fzf/completion.zsh
             '';
@@ -128,95 +144,22 @@ in
           };
         };
 
-        system.activationScripts.zshUserConfig = lib.mkIf isDefaultOrMaximal {
-          text = lib.concatLines (
-            [
-              "# Prevent zsh-newuser-install from running for declarative users."
-            ]
-            ++ map (user: ''
-              if [ -d ${lib.escapeShellArg user.home} ] && [ ! -e ${lib.escapeShellArg "${user.home}/.zshrc"} ]; then
-                install -m 0644 -o ${lib.escapeShellArg user.name} -g users /dev/null ${lib.escapeShellArg "${user.home}/.zshrc"}
-                printf '%s\n' '# Managed by NixOS: load the system zsh configuration.' 'source /etc/zshrc' > ${lib.escapeShellArg "${user.home}/.zshrc"}
-              fi
-            '') managedZshUsers
-          );
-        };
       };
     };
 
   flake.modules.homeManager.shell =
+    { config, lib, ... }:
     {
-      config,
-      pkgs,
-      lib,
-      ...
-    }:
-    {
-      home.shellAliases = shellAliases;
-
-      programs = {
-        bash = {
-          enable = true;
-          enableCompletion = true;
-        };
-
-        zsh = {
-          enable = true;
-          dotDir = config.home.homeDirectory;
-          enableCompletion = true;
-          autosuggestion.enable = true;
-          syntaxHighlighting.enable = true;
-          initContent = zshInit;
-          shellAliases = config.home.shellAliases;
-        };
-
-        direnv = {
-          enable = true;
-          enableBashIntegration = true;
-          enableZshIntegration = true;
-          nix-direnv.enable = true;
-        };
-
-        starship.enable = true;
-        btop.enable = true;
-
-        fzf = {
-          enable = true;
-          enableBashIntegration = true;
-          enableZshIntegration = true;
-          defaultOptions = [
-            "--height=70%"
-            "--layout=reverse"
-            "--border"
-            "--ansi"
-            "--tiebreak=length,end,begin"
-          ];
-          fileWidgetCommand = "fd --type f";
-          fileWidgetOptions = [ "--preview 'bat {}'" ];
-          changeDirWidgetCommand = "fd --type d";
-          changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
-        };
-
-        zoxide = {
-          enable = true;
-          enableBashIntegration = true;
-          enableZshIntegration = true;
-        };
-
-        lazygit.enable = true;
-
-        bat = {
-          enable = true;
-          config.style = "plain";
-        };
-
-        lsd = {
-          enable = true;
-          enableBashIntegration = true;
-          enableZshIntegration = true;
-        };
-
-        carapace.enable = true;
+      programs.zsh = {
+        enable = true;
+        dotDir = config.home.homeDirectory;
+        enableCompletion = false;
+        autosuggestion.enable = false;
+        syntaxHighlighting.enable = false;
+        initContent = lib.mkOrder 2000 ''
+          source /etc/zshrc
+        '';
       };
     };
+
 }
