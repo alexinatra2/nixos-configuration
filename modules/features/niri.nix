@@ -87,7 +87,9 @@
                 "Mod+Shift+Slash".show-hotkey-overlay = _: { };
                 "Mod+Shift+Q".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
 
-                "Mod+Return".spawn = config.terminal;
+                # Use the full executable path for kitty so the keybinding
+                # reliably launches the terminal in the current generation.
+                "Mod+Return".spawn = lib.getExe config.pkgs.kitty;
 
                 "Mod+Q".close-window = _: { };
                 "Mod+F".maximize-column = _: { };
@@ -155,7 +157,9 @@
 
                 "Mod+Space".spawn = lib.getExe config.pkgs.fuzzel;
                 "Mod+B".spawn = lib.getExe config.browser;
-                "Mod+E".spawn-sh = "${config.terminal} -e yazi";
+                # Launch yazi inside the configured terminal using the actual
+                # kitty executable path to avoid relying on a bare command name.
+                "Mod+E".spawn-sh = "${lib.getExe config.pkgs.kitty} -e yazi";
                 "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
                 "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
                 "Mod+O".toggle-overview = _: { };
