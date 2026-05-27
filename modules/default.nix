@@ -11,6 +11,9 @@ let
         path = dir + "/${name}";
         type = entries.${name};
       in
+      if dir == ./. && name == "targets" then
+        [ ]
+      else
       if type == "directory" then
         collectModules path
       else if type == "regular" && lib.hasSuffix ".nix" name && name != "default.nix" then

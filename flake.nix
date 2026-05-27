@@ -58,6 +58,8 @@
         inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.wrapper-modules.flakeModules.wrappers
+        ./hosts
+        ./homes
       ]
       ++ import ./modules { lib = inputs.nixpkgs.lib; };
     };

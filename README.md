@@ -169,14 +169,14 @@ Generate a private CA and a server certificate manually. The files you need are:
 
 You may also have an OpenSSL extension file such as `warden.tailnet.woodservant.com.ext`; that file is not needed at runtime.
 
-Store the server certificate and key in `modules/targets/hosts/warden/secrets.yaml` under these keys:
+Store the server certificate and key in `hosts/warden/secrets.yaml` under these keys:
 
 - `vaultwarden/tls/cert`
 - `vaultwarden/tls/key`
 
 Store the root CA certificate as a tracked file at:
 
-- `modules/targets/hosts/certs/woodservant-tailnet-root-ca.crt`
+- `hosts/common/certs/woodservant-tailnet-root-ca.crt`
 
 Then rebuild:
 
@@ -187,6 +187,6 @@ sudo nixos-rebuild switch --flake .#warden
 Notes:
 
 - `warden` serves Vaultwarden over `nginx` on tailnet port `443` only.
-- `atlas` and `warden` trust `modules/targets/hosts/certs/woodservant-tailnet-root-ca.crt` declaratively through `security.pki.certificateFiles`.
+- `atlas` and `warden` trust `hosts/common/certs/woodservant-tailnet-root-ca.crt` declaratively through `security.pki.certificateFiles`.
 - Linux Firefox is configured to import enterprise roots, so fresh machines should trust the Vaultwarden certificate after rebuild.
 - Other Firefox-family browsers may still need a manual root CA import.
