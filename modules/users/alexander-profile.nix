@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 let
   user = "alexander";
   homeDirectory = "/home/${user}";
@@ -31,7 +31,9 @@ in
         xclip
         nixvimPackage
         ollama
+        nodejs
         python313Packages.huggingface-hub
+        uv
         (writeShellApplication {
           name = "ns";
           runtimeInputs = [

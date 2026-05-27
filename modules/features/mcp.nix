@@ -11,14 +11,7 @@
       hasMcp = options ? programs.mcp;
     in
     {
-      config = lib.mkMerge [
-        {
-          home.packages = with pkgs; [
-            uv
-            nodejs
-          ];
-        }
-        (lib.mkIf hasMcp {
+      config = lib.mkIf hasMcp {
           programs.mcp = {
             enable = true;
 
@@ -97,7 +90,6 @@
               };
             };
           };
-        })
-      ];
+      };
     };
 }
