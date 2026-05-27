@@ -6,6 +6,7 @@ in
   flake.nixosConfigurations.${hostName} = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       hostBase
+      self.nixosModules."user-alexander-profile"
       shell
       atlas
       niri

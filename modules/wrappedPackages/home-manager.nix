@@ -5,7 +5,7 @@
   hmWrappers = {
     home-manager = inputs.home-manager;
     stateVersion = "26.05";
-    autoWrap = true;
+    autoWrap = false;
     exclude = [
       "stylix"
       "firefox"
