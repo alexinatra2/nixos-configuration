@@ -59,7 +59,6 @@
 
         secrets = {
           "users/${username}/private-ssh-key" = {
-            key = "private_keys/${username}";
             path = "${homeDir}/.ssh/id_ed25519";
           };
         };

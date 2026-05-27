@@ -1,9 +1,11 @@
 { self, ... }:
 let
   user = "alexander";
+  homeDirectory = "/home/${user}";
 
   passwordHashSecret = "users/${user}/password-hash";
   rootPasswordHashSecret = "users/root/password-hash";
+  privateSshKeySecret = "users/${user}/private-ssh-key";
 in
 {
   flake.nixosModules.user-alexander =
@@ -11,13 +13,18 @@ in
     {
       sops.secrets = {
         "${passwordHashSecret}" = {
-          key = passwordHashSecret;
           neededForUsers = true;
         };
 
         "${rootPasswordHashSecret}" = {
-          key = rootPasswordHashSecret;
           neededForUsers = true;
+        };
+
+        "${privateSshKeySecret}" = {
+          path = "${homeDirectory}/.ssh/id_ed25519";
+          owner = user;
+          group = "users";
+          mode = "0600";
         };
       };
 
@@ -59,6 +66,10 @@ in
           KbdInteractiveAuthentication = false;
         };
       };
+
+      systemd.tmpfiles.rules = [
+        "d ${homeDirectory}/.ssh 0700 ${user} users -"
+      ];
 
       system.activationScripts.validatePasswordHashSecrets = {
         deps = [ "users" ];

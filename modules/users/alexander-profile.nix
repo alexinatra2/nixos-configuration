@@ -6,8 +6,17 @@ let
 in
 {
   flake.nixosModules."user-alexander-profile" =
-    { pkgs, ... }:
     {
+      pkgs,
+      config,
+      ...
+    }:
+    {
+      sops.secrets."llms/huggingface/token" = {
+        owner = user;
+        mode = "0400";
+      };
+
       users.users.${user}.packages = with pkgs; [
         lazydocker
         fd
@@ -35,6 +44,7 @@ in
 
       environment.sessionVariables = {
         EDITOR = "nvim";
+        HF_TOKEN_PATH = config.sops.secrets."llms/huggingface/token".path;
         VISUAL = "nvim";
       };
 

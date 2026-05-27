@@ -14,10 +14,8 @@ in
       opencode
       rust
       shell
-      ssh
       thunderbird
       music-creation
-      llms
       sops
     ];
   };
