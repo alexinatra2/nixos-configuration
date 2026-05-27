@@ -22,17 +22,14 @@
         '';
       };
     in
-    if pkgs.stdenv.isLinux then
-      {
-        packages = {
-          inherit syncNoctaliaSettings;
-          "noctalia-shell" = noctaliaShell;
-        };
-        apps.sync-noctalia-settings = {
-          type = "app";
-          program = "${syncNoctaliaSettings}/bin/sync-noctalia-settings";
-        };
-      }
-    else
-      { };
+    {
+      packages = {
+        inherit syncNoctaliaSettings;
+        "noctalia-shell" = noctaliaShell;
+      };
+      apps.sync-noctalia-settings = {
+        type = "app";
+        program = "${syncNoctaliaSettings}/bin/sync-noctalia-settings";
+      };
+    };
 }

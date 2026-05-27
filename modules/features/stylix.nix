@@ -68,7 +68,7 @@
           targets.neovim.enable = false;
         };
 
-        programs.fuzzel = lib.mkIf pkgs.stdenv.isLinux {
+        programs.fuzzel = {
           enable = true;
           settings = {
             main = {

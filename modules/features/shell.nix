@@ -114,7 +114,7 @@ in
 
           zsh = {
             autosuggestions.enable = isDefaultOrMaximal;
-            enable = isDefaultOrMaximal;
+            enable = true;
             enableCompletion = isDefaultOrMaximal;
             interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
               ${zshInit}

@@ -4,7 +4,7 @@
     { pkgs, ... }:
     {
       home.packages = [
-        inputs.nixvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.nixvim-config.packages.x86_64-linux.default
       ];
 
       home.sessionVariables = {

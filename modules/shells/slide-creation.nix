@@ -1,7 +1,7 @@
 { ... }:
 {
   perSystem =
-    { pkgs, lib, ... }:
+    { pkgs, ... }:
     let
       slidesServeSlidev = pkgs.writeShellApplication {
         name = "slides-serve-slidev";
@@ -62,25 +62,19 @@
     in
     {
       devShells.slide-creation = pkgs.mkShell {
-        packages =
-          (with pkgs; [
-            slidev-cli
-            marp-cli
-            quarto
-            pandoc
-            slidesServeSlidev
-            slidesExportSlidev
-            slidesPreviewMarp
-            slidesExportMarpPdf
-            slidesExportMarpPptx
-            slidesExportQuarto
-          ])
-          ++ lib.optionals pkgs.stdenv.isLinux (
-            with pkgs;
-            [
-              onlyoffice-desktopeditors
-            ]
-          );
+        packages = with pkgs; [
+          slidev-cli
+          marp-cli
+          quarto
+          pandoc
+          slidesServeSlidev
+          slidesExportSlidev
+          slidesPreviewMarp
+          slidesExportMarpPdf
+          slidesExportMarpPptx
+          slidesExportQuarto
+          onlyoffice-desktopeditors
+        ];
       };
     };
 }

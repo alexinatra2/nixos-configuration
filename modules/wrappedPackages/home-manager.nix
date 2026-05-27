@@ -15,11 +15,10 @@
   perSystem =
     {
       pkgs,
-      lib,
       ...
     }:
     {
-      hmWrappers.programs = lib.optionalAttrs pkgs.stdenv.isLinux {
+      hmWrappers.programs = {
         tmux = {
           mainPackage = pkgs.tmux;
           homeModules = [ config.flake.modules.homeManager.tmux ];

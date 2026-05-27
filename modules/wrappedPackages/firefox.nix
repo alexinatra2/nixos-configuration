@@ -24,7 +24,7 @@
         ...
       }:
       let
-        firefoxAddons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+        firefoxAddons = inputs.firefox-addons.packages.x86_64-linux;
 
         availableSearchEngines = {
           duckduckgo = {
@@ -151,7 +151,7 @@
         // lib.mkIf config.firefox.enable {
           programs.firefox = {
             enable = true;
-            package = self.packages.${pkgs.stdenv.hostPlatform.system}.firefox;
+            package = self.packages.x86_64-linux.firefox;
             policies.Certificates.ImportEnterpriseRoots = true;
             languagePacks = [
               "de"
