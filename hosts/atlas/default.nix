@@ -12,6 +12,9 @@ in
   networking.hostName = hostName;
 
   local.shell.toolset = "maximal";
+  local.niri.picker = "vicinae";
+
+  local.tmuxRemote.niriTerminalOverride.enable = true;
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";

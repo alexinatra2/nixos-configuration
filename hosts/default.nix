@@ -2,7 +2,8 @@
 let
   lib = inputs.nixpkgs.lib;
 
-  mkHost = modules:
+  mkHost =
+    modules:
     lib.nixosSystem {
       specialArgs = {
         inherit inputs self;
@@ -16,6 +17,7 @@ in
     atlas = mkHost [
       self.nixosModules."user-alexander-profile"
       self.nixosModules.shell
+      self.nixosModules.tmuxRemote
       ./atlas
       self.nixosModules.niri
       self.nixosModules.greeter
