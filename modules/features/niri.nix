@@ -22,6 +22,15 @@
           default = "kitty";
         };
 
+        options.picker = lib.mkOption {
+          type = lib.types.enum [
+            "fuzzel"
+            "vicinae"
+          ];
+          default = "fuzzel";
+          description = "Launcher used by the Niri Mod+Space keybinding.";
+        };
+
         options.browser = lib.mkOption {
           type = lib.types.package;
           default = pkgs.firefox;
@@ -37,6 +46,24 @@
                   settings = (builtins.fromJSON (builtins.readFile ../wrappedPackages/noctalia.json)).settings;
                 }
               );
+              vicinaeServer = lib.getExe (pkgs.writeShellScriptBin "vicinae-server" ''
+                export USE_LAYER_SHELL=1
+                exec ${lib.getExe config.pkgs.vicinae} server
+              '');
+              vicinaeToggle = lib.getExe (pkgs.writeShellScriptBin "vicinae-toggle" ''
+                export USE_LAYER_SHELL=1
+                exec ${lib.getExe config.pkgs.vicinae} toggle
+              '');
+            in
+            let
+              pickerBind =
+                if config.picker == "vicinae" then
+                  [ vicinaeToggle ]
+                else
+                  lib.getExe config.pkgs.fuzzel;
+              pickerStartup = lib.optionals (config.picker == "vicinae") [
+                [ vicinaeServer ]
+              ];
             in
             {
               prefer-no-csd = _: { };
@@ -155,7 +182,7 @@
                 "Mod+Shift+Minus".move-column-to-workspace = "w2";
                 "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
-                "Mod+Space".spawn = lib.getExe config.pkgs.fuzzel;
+                "Mod+Space".spawn = pickerBind;
                 "Mod+B".spawn = lib.getExe config.browser;
                 # Launch yazi inside the configured terminal using the actual
                 # kitty executable path to avoid relying on a bare command name.
@@ -232,6 +259,7 @@
               spawn-at-startup = [
                 noctaliaExe
               ]
+              ++ pickerStartup
               ++ lib.optionals (self ? wallpaper) [
                 (lib.getExe (
                   pkgs.writeShellScriptBin "wallpaper" "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
@@ -252,9 +280,19 @@
         niriPackage = self.wrappers.niri.wrap {
           inherit pkgs;
           browser = config.niri.browser;
+          picker = config.local.niri.picker;
         };
       in
       {
+        options.local.niri.picker = lib.mkOption {
+          type = lib.types.enum [
+            "fuzzel"
+            "vicinae"
+          ];
+          default = "fuzzel";
+          description = "Launcher used by the Niri Mod+Space keybinding.";
+        };
+
         options.niri.browser = lib.mkOption {
           type = lib.types.package;
           default = pkgs.firefox;
@@ -271,7 +309,7 @@
 
           environment.systemPackages = with pkgs; [
             brightnessctl
-            fuzzel
+            (if config.local.niri.picker == "vicinae" then vicinae else fuzzel)
             wdisplays
             xwayland-satellite
           ];
