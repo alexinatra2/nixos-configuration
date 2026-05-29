@@ -18,12 +18,28 @@
           tmux-sessionx
         ];
         extraConfig = ''
+          unbind C-b
+          set -g prefix C-a
+          bind C-a send-prefix
           set -g mouse on
           set -g status-keys vi
           set -s extended-keys on
           set -as terminal-features 'xterm*:extkeys'
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
+          bind -n M-h previous-window
+          bind -n M-l next-window
+          bind -n M-1 select-window -t 1
+          bind -n M-2 select-window -t 2
+          bind -n M-3 select-window -t 3
+          bind -n M-4 select-window -t 4
+          bind -n M-5 select-window -t 5
+          bind -n M-6 select-window -t 6
+          bind -n M-7 select-window -t 7
+          bind -n M-8 select-window -t 8
+          bind -n M-9 select-window -t 9
+          bind c new-window -c '#{pane_current_path}'
+          bind x kill-pane
           set -g @sessionx-fzf-builtin-tmux 'on'
           set -g @sessionx-preview-location 'right'
           set -g @sessionx-preview-ratio '55%'
@@ -54,6 +70,8 @@
           set -as terminal-features 'xterm*:extkeys'
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
+          bind c new-window -c '#{pane_current_path}'
+          bind x kill-pane
         '';
       };
 

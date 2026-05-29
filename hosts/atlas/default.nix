@@ -37,6 +37,12 @@ in
     '';
   };
 
+  # Ensure redistributable (non-free) firmware is available for Wi-Fi / GPU
+  # devices. Some recent generations changed kernel packaging; enabling this
+  # ensures required firmware blobs are available to the initramfs and kernel
+  # modules.
+  hardware.enableRedistributableFirmware = true;
+
   hardware = {
     bluetooth = {
       enable = true;
@@ -122,6 +128,23 @@ in
   };
 
   networking.networkmanager.enable = true;
+  networking.networkmanager.package = pkgs.networkmanager;
+
+  # Allow changing user passwords on this host at runtime so you can recover
+  # from situations where the SOPS-managed hashed password doesn't match the
+  # interactive password you know. This makes /etc/shadow mutable via passwd
+  # and other tools. It is the minimal change to let you "just change" the
+  # password on the running system without re-encrypting secrets.
+  #
+  # If you prefer an explicit hash-managed workflow (so password changes are
+  # made via the Nix configuration), add a hashedPassword string to the
+  # alexander user in the Nix config and rebuild. Example (in a host-specific
+  # module):
+  #
+  #   users.mutableUsers = false; # when you want strict immutable users
+  #   users.users.alexander.hashedPassword = "<bcrypt-or-sha-hash>";
+  #
+  users.mutableUsers = true;
 
   local.syncthing = {
     enable = true;

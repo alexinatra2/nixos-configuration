@@ -28,8 +28,6 @@ in
         };
       };
 
-      users.mutableUsers = false;
-
       users.users.root = {
         hashedPasswordFile = config.sops.secrets.${rootPasswordHashSecret}.path;
 
