@@ -33,6 +33,7 @@ in
       self.nixosModules.index
       self.nixosModules.tmux
       self.nixosModules.zramCompression
+      self.nixosModules.yubikey
     ];
 
     sentinel = mkHost [

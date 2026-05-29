@@ -15,6 +15,7 @@ in
   local.niri.picker = "vicinae";
 
   local.tmuxRemote.niriTerminalOverride.enable = true;
+  local.yubikey.enable = true;
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
@@ -182,24 +183,6 @@ in
   security.polkit.enable = true;
   security.soteria.enable = true;
   security.rtkit.enable = true;
-
-  security.pam.services = {
-    ly = {
-      fprintAuth = false;
-      unixAuth = true;
-      enableGnomeKeyring = lib.mkForce false;
-    };
-    login = {
-      fprintAuth = false;
-      unixAuth = true;
-      enableGnomeKeyring = lib.mkForce false;
-    };
-    sudo.fprintAuth = false;
-    "polkit-1" = {
-      fprintAuth = false;
-      unixAuth = true;
-    };
-  };
 
   services.blueman.enable = true;
 
