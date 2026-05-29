@@ -51,7 +51,7 @@
           group = "nginx";
           mode = "0440";
           restartUnits = [ "nginx.service" ];
-          sopsFile = ../targets/hosts/warden/secrets.yaml;
+          sopsFile = ../../hosts/warden/secrets.yaml;
         };
 
         "vaultwarden/tls/key" = {
@@ -59,7 +59,7 @@
           group = "nginx";
           mode = "0440";
           restartUnits = [ "nginx.service" ];
-          sopsFile = ../targets/hosts/warden/secrets.yaml;
+          sopsFile = ../../hosts/warden/secrets.yaml;
         };
       };
 
