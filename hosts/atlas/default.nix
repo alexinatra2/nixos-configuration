@@ -7,8 +7,6 @@ in
 {
   imports = [ ./hardware.nix ];
 
-  services.openssh.settings.PermitRootLogin = "no";
-
   networking.hostName = hostName;
 
   local.shell.toolset = "maximal";

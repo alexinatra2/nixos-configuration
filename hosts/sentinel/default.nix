@@ -1,7 +1,6 @@
 { lib, ... }:
 let
   hostName = "sentinel";
-  atlasSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@atlas";
 in
 {
   imports = [ ./hardware.nix ];
@@ -46,11 +45,6 @@ in
   };
 
   local.shell.toolset = "minimal";
-
-  services.openssh.settings.PermitRootLogin = "prohibit-password";
-
-  users.users.root.openssh.authorizedKeys.keys = lib.mkAfter [ atlasSshKey ];
-  users.users.alexander.openssh.authorizedKeys.keys = lib.mkAfter [ atlasSshKey ];
 
   boot.tmp.cleanOnBoot = true;
 

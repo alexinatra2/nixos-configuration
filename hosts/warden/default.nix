@@ -55,18 +55,6 @@ in
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-    };
-  };
-
-  users.users.${adminUser}.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXXZ3nXj+cIsv0NUuxQ971Cx2haGWudOa+C3ujb0zG+ alexander@atlas"
-  ];
-
   boot.tmp.cleanOnBoot = true;
 
   system.stateVersion = "26.05";
