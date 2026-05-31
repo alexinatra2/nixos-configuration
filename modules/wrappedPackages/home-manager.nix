@@ -24,12 +24,6 @@
           homeModules = [ config.flake.modules.homeManager.tmux ];
         };
 
-        neovim = {
-          homeModules = [
-            config.flake.modules.homeManager.neovim
-          ];
-        };
-
         git = {
           mainPackage = pkgs.git;
           homeModules = [ config.flake.modules.homeManager.git ];

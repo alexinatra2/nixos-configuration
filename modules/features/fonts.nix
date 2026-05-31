@@ -43,12 +43,6 @@
         ];
       };
 
-      home.packages = with pkgs; [
-        besley
-        nerd-fonts.jetbrains-mono
-        open-sans
-      ];
-
       programs.kitty = {
         enable = true;
         settings = {

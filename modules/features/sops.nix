@@ -42,11 +42,6 @@
     {
       imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
-      home.packages = with pkgs; [
-        sops
-        age
-      ];
-
       sops = {
         age = {
           keyFile = "${homeDir}/.config/sops/age/keys.txt";

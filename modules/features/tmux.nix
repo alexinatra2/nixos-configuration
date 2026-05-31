@@ -68,9 +68,5 @@
           bind X kill-window
         '';
       };
-
-      home.packages = with pkgs; [
-        xclip
-      ];
     };
 }

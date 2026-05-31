@@ -38,11 +38,6 @@
     {
       imports = [ self.modules.homeManager.sops ];
 
-      home.packages = with pkgs; [
-        ollama
-        python313Packages.huggingface-hub
-      ];
-
       sops.secrets."llms/huggingface/token" = { };
 
       sops.templates."llms/huggingface/token-file" = {
