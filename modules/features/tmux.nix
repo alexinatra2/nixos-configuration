@@ -22,6 +22,7 @@
           set -g prefix C-Space
           bind C-Space send-prefix
           set -g mouse on
+          set -g renumber-windows on
           set -g status-keys vi
           set -s extended-keys on
           set -as terminal-features 'xterm*:extkeys'
@@ -58,6 +59,7 @@
           unbind C-b
           set -g prefix C-Space
           bind C-Space send-prefix
+          set -g renumber-windows on
           set -g status-keys vi
           set -s extended-keys on
           set -as terminal-features 'xterm*:extkeys'
