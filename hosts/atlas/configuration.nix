@@ -50,73 +50,32 @@ in
   local.yubikey.enable = true;
 
   users.users.${username}.packages = with pkgs; [
-    age
-    ardour
-    audacity
-    ausweisapp
-    bacon
     bc
     besley
     cargo
-    cargo-deny
-    cargo-edit
-    cargo-expand
-    cargo-nextest
-    cargo-outdated
-    cargo-watch
-    clippy
     disktui
     lazydocker
     lazysql
     fd
     gcc
-    jdk21
     jq
-    mold
     nerd-fonts.jetbrains-mono
     nixfmt
-    open-sans
     pnpm
-    rust-analyzer
-    rustc
-    rustfmt
     ripgrep
     sccache
     sops
-    telegram-desktop
     tree
     unzip
     yazi
-    typst
     just
     uutils-coreutils-noprefix
     spotify
     xclip
     nixvimPackage
-    ollama
     nodejs
     python313Packages.huggingface-hub
     uv
-    zrythm
-    (writeShellApplication {
-      name = "vim-temp";
-      runtimeInputs = [ neovim ];
-      text = ''
-        if [ $# -eq 0 ]; then
-          echo "Usage: vim-temp <command> [args...]" >&2
-          exit 1
-        fi
-        nvim -R <( "$@" 2>&1 )
-      '';
-    })
-    (writeShellApplication {
-      name = "ns";
-      runtimeInputs = [
-        fzf
-        nix-search-tv
-      ];
-      text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
-    })
   ];
 
   programs.nh = {
