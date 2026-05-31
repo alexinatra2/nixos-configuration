@@ -1,15 +1,12 @@
 { self, inputs, ... }:
-let
-  username = "alexander";
-in
 {
   flake.nixosModules.gaming =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
       hardware.graphics.enable32Bit = true;
 
       environment.sessionVariables = {
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${username}/.steam/root/compatibilitytools.d";
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${config.local.base.homeDirectory}/.steam/root/compatibilitytools.d";
       };
 
       programs = {

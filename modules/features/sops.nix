@@ -10,7 +10,7 @@
     {
       options.local.sops.ageKeyFile = lib.mkOption {
         type = lib.types.str;
-        default = "/home/alexander/.config/sops/age/keys.txt";
+        default = "${config.local.base.homeDirectory}/.config/sops/age/keys.txt";
         description = "Path to the system age key used by sops-nix.";
       };
 

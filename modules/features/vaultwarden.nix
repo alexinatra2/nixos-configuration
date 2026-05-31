@@ -8,9 +8,10 @@
       ...
     }:
     let
+      base = config.local.base;
       vaultwardenPort = 8222;
       vaultwardenHost = config.local.tailscale.fqdn;
-      snapshotDir = "/home/alexander/Documents/Backups/Vaultwarden";
+      snapshotDir = "${base.homeDirectory}/Documents/Backups/Vaultwarden";
       snapshotScript = pkgs.writeShellScript "vaultwarden-snapshot" ''
         set -euo pipefail
 
@@ -22,11 +23,11 @@
           ]
         }
 
-        install -d -m 0750 -o alexander -g users "${snapshotDir}"
+        install -d -m 0750 -o ${base.username} -g users "${snapshotDir}"
 
         snapshot_path="${snapshotDir}/db-$(date -u +%Y%m%dT%H%M%SZ).sqlite3"
         sqlite3 /var/lib/vaultwarden/db.sqlite3 ".backup '$snapshot_path'"
-        chown alexander:users "$snapshot_path"
+        chown ${base.username}:users "$snapshot_path"
 
         find "${snapshotDir}" -maxdepth 1 -type f -name 'db-*.sqlite3' -printf '%T@ %p\n' \
           | sort -n \
@@ -75,9 +76,9 @@
           SMTP_HOST = "smtp.purelymail.com";
           SMTP_PORT = 465;
           SMTP_SECURITY = "force_tls";
-          SMTP_FROM = "alexander@woodservant.com";
+          SMTP_FROM = base.emailAddress;
           SMTP_FROM_NAME = "Vaultwarden";
-          SMTP_USERNAME = "alexander@woodservant.com";
+          SMTP_USERNAME = base.emailAddress;
 
           ROCKET_ADDRESS = "127.0.0.1";
           ROCKET_PORT = vaultwardenPort;
@@ -105,7 +106,7 @@
       networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
 
       systemd.tmpfiles.rules = [
-        "d ${snapshotDir} 0750 alexander users -"
+        "d ${snapshotDir} 0750 ${base.username} users -"
       ];
 
       systemd.services.vaultwarden-snapshot = {

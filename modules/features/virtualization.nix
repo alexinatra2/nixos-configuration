@@ -1,10 +1,8 @@
 { self, inputs, ... }:
-let
-  username = "alexander";
-in
 {
   flake.nixosModules.virtualization =
     {
+      config,
       pkgs,
       lib,
       ...
@@ -12,12 +10,12 @@ in
     {
       programs.virt-manager.enable = true;
 
-      users.groups = {
-        docker = { };
-        podman = { };
-      };
+        users.groups = {
+          docker = { };
+          podman = { };
+        };
 
-      users.groups.libvirtd.members = [ "${username}" ];
+        users.groups.libvirtd.members = [ config.local.base.username ];
 
       environment.systemPackages = with pkgs; [
         podman-compose

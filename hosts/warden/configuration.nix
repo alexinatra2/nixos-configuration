@@ -1,12 +1,21 @@
-{ lib, ... }:
+{ config, lib, self, ... }:
 let
   hostName = "warden";
-  adminUser = "alexander";
+  homeDirectory = config.local.base.homeDirectory;
   atlasSyncthingId = "NPPGEFJ-GNQJVKL-OVEVTVE-JWJQEBD-TQ5RZSO-PW557BU-YTIYV3N-GSCBNAS";
-  vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
+  vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {
-  imports = [ ./hardware.nix ];
+  imports = with self.nixosModules; [
+    ./hardware-configuration.nix
+    base
+    sops
+    tailscale
+    prometheus
+    shell
+    syncthing
+    vaultwarden
+  ];
 
   sops.secrets."vaultwarden/env" = {
     owner = "vaultwarden";

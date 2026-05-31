@@ -67,23 +67,35 @@ in
         description = "Host shell toolset tier.";
       };
 
+      options.local.shell.editorPackage = lib.mkOption {
+        type = with lib.types; nullOr package;
+        default = null;
+        description = "Package providing the default editor executable.";
+      };
+
       config = {
         environment.shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
 
-        environment.variables = lib.mkIf isDefaultOrMaximal {
-          BAT_STYLE = "plain";
-          FZF_DEFAULT_OPTS = lib.concatStringsSep " " [
-            "--height=70%"
-            "--layout=reverse"
-            "--border"
-            "--ansi"
-            "--tiebreak=length,end,begin"
-          ];
-          FZF_CTRL_T_COMMAND = "fd --type f";
-          FZF_CTRL_T_OPTS = "--preview 'bat {}'";
-          FZF_ALT_C_COMMAND = "fd --type d";
-          FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
-        };
+        environment.variables = lib.mkMerge [
+          (lib.mkIf isDefaultOrMaximal {
+            BAT_STYLE = "plain";
+            FZF_DEFAULT_OPTS = lib.concatStringsSep " " [
+              "--height=70%"
+              "--layout=reverse"
+              "--border"
+              "--ansi"
+              "--tiebreak=length,end,begin"
+            ];
+            FZF_CTRL_T_COMMAND = "fd --type f";
+            FZF_CTRL_T_OPTS = "--preview 'bat {}'";
+            FZF_ALT_C_COMMAND = "fd --type d";
+            FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
+          })
+          (lib.mkIf (cfg.editorPackage != null) {
+            EDITOR = lib.getExe cfg.editorPackage;
+            VISUAL = lib.getExe cfg.editorPackage;
+          })
+        ];
 
         environment.systemPackages =
           minimalPackages

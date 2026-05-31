@@ -53,14 +53,33 @@
 
   outputs =
     inputs:
+    let
+      lib = inputs.nixpkgs.lib;
+      hostNames = builtins.attrNames (
+        lib.filterAttrs (name: type: type == "directory" && name != "common") (builtins.readDir ./hosts)
+      );
+    in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.wrapper-modules.flakeModules.wrappers
-        ./hosts
         ./homes
       ]
-      ++ import ./modules { lib = inputs.nixpkgs.lib; };
+      ++ import ./modules { inherit lib; };
+
+      flake.nixosConfigurations = lib.genAttrs hostNames (
+        name:
+        lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            self = inputs.self;
+          };
+          modules = [
+            ./hosts/common.nix
+            ./hosts/${name}/configuration.nix
+          ];
+        }
+      );
     };
 }

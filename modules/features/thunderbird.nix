@@ -22,10 +22,10 @@
 
       accounts.email.accounts = {
         woodservant = {
-          address = "alexander@woodservant.com";
+          address = config.local.base.emailAddress;
           primary = true;
-          realName = "Alexander Holzknecht";
-          userName = "alexander@woodservant.com";
+          realName = config.local.base.fullName;
+          userName = config.local.base.emailAddress;
 
           # Keep mailbox credentials out of the Nix store.
           passwordCommand = "${pkgs.coreutils}/bin/cat ${

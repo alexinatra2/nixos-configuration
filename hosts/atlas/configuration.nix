@@ -1,33 +1,86 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   hostName = "atlas";
+  username = config.local.base.username;
+  homeDirectory = config.local.base.homeDirectory;
+  nixvimPackage = inputs.nixvim-config.packages.x86_64-linux.default;
   wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
-  vaultwardenSnapshotPath = "/home/alexander/Documents/Backups/Vaultwarden";
+  vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {
-  imports = [ ./hardware.nix ];
+  imports = with self.nixosModules; [
+    ./hardware-configuration.nix
+    base
+    sops
+    tailscale
+    shell
+    tmuxRemote
+    niri
+    greeter
+    git
+    displaylink
+    gaming
+    virtualization
+    fonts
+    stylix
+    grub
+    syncthing
+    llms
+    index
+    tmux
+    zramCompression
+    yubikey
+  ];
 
   networking.hostName = hostName;
 
-  local.shell.toolset = "maximal";
+  local.shell = {
+    toolset = "maximal";
+    editorPackage = nixvimPackage;
+  };
   local.niri.picker = "vicinae";
-
   local.tmuxRemote.niriTerminalOverride.enable = true;
   local.yubikey.enable = true;
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_DE.UTF-8";
-    LC_IDENTIFICATION = "de_DE.UTF-8";
-    LC_MEASUREMENT = "de_DE.UTF-8";
-    LC_MONETARY = "de_DE.UTF-8";
-    LC_NAME = "de_DE.UTF-8";
-    LC_NUMERIC = "de_DE.UTF-8";
-    LC_PAPER = "de_DE.UTF-8";
-    LC_TELEPHONE = "de_DE.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
+  users.users.${username}.packages = with pkgs; [
+    lazydocker
+    fd
+    ripgrep
+    tree
+    unzip
+    yazi
+    typst
+    just
+    uutils-coreutils-noprefix
+    spotify
+    xclip
+    nixvimPackage
+    ollama
+    nodejs
+    python313Packages.huggingface-hub
+    uv
+    (writeShellApplication {
+      name = "ns";
+      runtimeInputs = [
+        fzf
+        nix-search-tv
+      ];
+      text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
+    })
+  ];
 
-  nixpkgs.config.allowUnfree = true;
+  programs.nh = {
+    enable = true;
+    flake = "${homeDirectory}/nixos-configuration";
+    clean.enable = false;
+  };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_6;
@@ -36,13 +89,9 @@ in
     '';
   };
 
-  # Ensure redistributable (non-free) firmware is available for Wi-Fi / GPU
-  # devices. Some recent generations changed kernel packaging; enabling this
-  # ensures required firmware blobs are available to the initramfs and kernel
-  # modules.
-  hardware.enableRedistributableFirmware = true;
-
   hardware = {
+    enableRedistributableFirmware = true;
+
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -126,23 +175,6 @@ in
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 
-  networking.networkmanager.enable = true;
-  networking.networkmanager.package = pkgs.networkmanager;
-
-  # Allow changing user passwords on this host at runtime so you can recover
-  # from situations where the SOPS-managed hashed password doesn't match the
-  # interactive password you know. This makes /etc/shadow mutable via passwd
-  # and other tools. It is the minimal change to let you "just change" the
-  # password on the running system without re-encrypting secrets.
-  #
-  # If you prefer an explicit hash-managed workflow (so password changes are
-  # made via the Nix configuration), add a hashedPassword string to the
-  # alexander user in the Nix config and rebuild. Example (in a host-specific
-  # module):
-  #
-  #   users.mutableUsers = false; # when you want strict immutable users
-  #   users.users.alexander.hashedPassword = "<bcrypt-or-sha-hash>";
-  #
   users.mutableUsers = true;
 
   local.syncthing = {
@@ -164,7 +196,7 @@ in
       camera = {
         id = "v283i-tw1dt";
         label = "Camera";
-        path = "/home/alexander/Pictures/Pixel7";
+        path = "${homeDirectory}/Pictures/Pixel7";
         type = "receiveonly";
         devices = [ "pixel7" ];
       };

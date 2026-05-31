@@ -1,9 +1,16 @@
-{ lib, ... }:
+{ lib, self, ... }:
 let
   hostName = "sentinel";
 in
 {
-  imports = [ ./hardware.nix ];
+  imports = with self.nixosModules; [
+    ./hardware-configuration.nix
+    base
+    sops
+    tailscale
+    shell
+    zramCompression
+  ];
 
   networking = {
     hostName = hostName;

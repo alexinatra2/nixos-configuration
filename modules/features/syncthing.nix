@@ -109,9 +109,9 @@
         services.syncthing = {
           enable = true;
           openDefaultPorts = true;
-          user = "alexander";
+          user = config.local.base.username;
           group = "users";
-          dataDir = "/home/alexander";
+          dataDir = config.local.base.homeDirectory;
           guiPasswordFile = lib.mkIf (
             config.local.syncthing.secrets.password.name != null
           ) config.sops.secrets.${config.local.syncthing.secrets.password.name}.path;
