@@ -24,7 +24,7 @@
           set -g mouse on
           set -g renumber-windows on
           set -g status-keys vi
-          set -s extended-keys on
+          set -s extended-keys always
           set -as terminal-features 'xterm*:extkeys'
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
@@ -61,7 +61,7 @@
           bind C-Space send-prefix
           set -g renumber-windows on
           set -g status-keys vi
-          set -s extended-keys on
+          set -s extended-keys always
           set -as terminal-features 'xterm*:extkeys'
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
