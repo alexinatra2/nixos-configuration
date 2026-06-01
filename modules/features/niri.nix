@@ -227,6 +227,7 @@
 
               layout = {
                 gaps = 12;
+                always-center-single-column = _: { };
 
                 focus-ring = {
                   width = 2;
@@ -251,6 +252,14 @@
                 {
                   geometry-corner-radius = 12;
                   clip-to-geometry = true;
+                }
+                {
+                  matches = [
+                    {
+                      app-id = "firefox$";
+                    }
+                  ];
+                  open-maximized = true;
                 }
               ];
 
