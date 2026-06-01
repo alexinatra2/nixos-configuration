@@ -42,6 +42,26 @@
               description = "Show 'touch YubiKey' prompt before waiting for device.";
             };
           };
+
+          services = {
+            ly = lib.mkOption {
+              type = lib.types.bool;
+              default = true;
+              description = "Enable YubiKey PAM authentication for ly.";
+            };
+
+            sudo = lib.mkOption {
+              type = lib.types.bool;
+              default = true;
+              description = "Enable YubiKey PAM authentication for sudo.";
+            };
+
+            login = lib.mkOption {
+              type = lib.types.bool;
+              default = true;
+              description = "Enable YubiKey PAM authentication for console login.";
+            };
+          };
         };
       };
 
@@ -68,9 +88,9 @@
         };
 
         security.pam.services = lib.mkIf config.local.yubikey.pamAuth.enable {
-          ly.u2fAuth = true;
-          sudo.u2fAuth = true;
-          login.u2fAuth = true;
+          ly.u2f.enable = config.local.yubikey.pamAuth.services.ly;
+          sudo.u2f.enable = config.local.yubikey.pamAuth.services.sudo;
+          login.u2f.enable = config.local.yubikey.pamAuth.services.login;
         };
       };
     };

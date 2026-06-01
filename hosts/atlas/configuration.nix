@@ -49,6 +49,7 @@ in
   local.niri.picker = "vicinae";
   local.tmuxRemote.niriTerminalOverride.enable = true;
   local.yubikey.enable = true;
+  local.yubikey.pamAuth.services.sudo = false;
 
   users.users.${username}.packages = with pkgs; [
     bc
