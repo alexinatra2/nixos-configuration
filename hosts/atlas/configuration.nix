@@ -35,6 +35,7 @@ in
     llms
     index
     tmux
+    windows
     zramCompression
     yubikey
   ];
