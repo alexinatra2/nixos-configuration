@@ -3,7 +3,10 @@ let
   shellAliases = {
     lg = "lazygit";
     open = "xdg-open";
+    o = "opencode";
     cd = "z";
+    t = "tmux-session-picker";
+    tn = "tmux new-session";
     v = "vi";
     DN = "> /dev/null";
     DE = "2> /dev/null";

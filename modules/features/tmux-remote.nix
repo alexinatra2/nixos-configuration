@@ -182,10 +182,6 @@
             inherit pkgs;
             browser = config.niri.browser;
             picker = config.local.niri.picker;
-            settings.binds."Mod+Return" = lib.mkForce {
-              spawn-sh = "${lib.getExe pkgs.kitty} -e tmux-session-picker";
-            };
-            settings.binds."Mod+Shift+Return".spawn-sh = "${lib.getExe pkgs.kitty} -e tmux";
           });
 
           services.displayManager.sessionPackages = lib.mkForce [ config.programs.niri.package ];
