@@ -91,7 +91,7 @@
               };
 
               outputs = {
-                "HDMI-A-1" = {
+                "DVI-I-2" = {
                   position = _: {
                     props = {
                       x = 0;
@@ -100,10 +100,19 @@
                   };
                 };
 
+                "DVI-I-1" = {
+                  position = _: {
+                    props = {
+                      x = 1920;
+                      y = 0;
+                    };
+                  };
+                };
+
                 "Samsung Display Corp. 0x4188 Unknown" = {
                   position = _: {
                     props = {
-                      x = 0;
+                      x = 145;
                       y = 1080;
                     };
                   };
