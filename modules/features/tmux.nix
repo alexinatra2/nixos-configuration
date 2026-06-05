@@ -29,6 +29,8 @@
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
           bind c new-window -c '#{pane_current_path}'
+          bind '"' split-window -v -c '#{pane_current_path}'
+          bind % split-window -h -c '#{pane_current_path}'
           bind x kill-pane
           bind X kill-window
           set -g @sessionx-fzf-builtin-tmux 'on'
@@ -66,6 +68,8 @@
           set -as terminal-features 'kitty:extkeys'
           setw -g pane-base-index 1
           bind c new-window -c '#{pane_current_path}'
+          bind '"' split-window -v -c '#{pane_current_path}'
+          bind % split-window -h -c '#{pane_current_path}'
           bind x kill-pane
           bind X kill-window
         '';
