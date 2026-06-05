@@ -38,6 +38,7 @@ in
     windows
     zramCompression
     yubikey
+    work
   ];
 
   networking.hostName = hostName;
