@@ -560,11 +560,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1779637256,
-        "narHash": "sha256-AUS7PpNFGWkE+Oztzty0SsdrWe2ZL+YvN65mPSOw3OY=",
+        "lastModified": 1780844530,
+        "narHash": "sha256-P0OyIKg0dzM3AT1IV8UykOkOsod6AiqWfxS1SXNqL2w=",
         "ref": "refs/heads/master",
-        "rev": "b724777ed716adf7ed0153c143dc18c7a95806d8",
-        "revCount": 5,
+        "rev": "5bb6f9d6cf79edf0366c872b6a80f74b46f32c12",
+        "revCount": 9,
         "type": "git",
         "url": "https://codeberg.org/alexinatra/nixvim.git"
       },
