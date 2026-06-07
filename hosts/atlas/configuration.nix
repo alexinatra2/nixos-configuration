@@ -91,32 +91,7 @@ in
 
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [
-      alsa-lib
-      atk
-      at-spi2-atk
-      at-spi2-core
-      cairo
-      cups
-      dbus
-      expat
-      glib
-      gtk3
-      libdrm
-      libxkbcommon
-      mesa
-      nspr
-      nss
-      pango
-      stdenv.cc.cc
-      systemd
-      libx11
-      libxcomposite
-      libxdamage
-      libxext
-      libxfixes
-      libxrandr
-      libxcb
+    libraries = [
     ];
   };
 
