@@ -87,6 +87,8 @@ in
     clean.enable = false;
   };
 
+  programs.nix-ld.enable = true;
+
   boot = {
     kernelPackages = pkgs.linuxPackages_6_6;
     extraModprobeConfig = ''
