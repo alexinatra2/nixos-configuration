@@ -10,7 +10,9 @@ let
   hostName = "atlas";
   username = config.local.base.username;
   homeDirectory = config.local.base.homeDirectory;
-  nixvimPackage = inputs.nixvim-config.packages.x86_64-linux.default;
+  nixvimPackage =
+    inputs.nixvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default.extend
+      config.stylix.targets.nixvim.exportedModule;
   wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
   vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
