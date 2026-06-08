@@ -129,42 +129,5 @@
         };
       };
 
-    modules.homeManager.base =
-      {
-        config,
-        lib,
-        pkgs,
-        ...
-      }:
-      {
-        options.local.base = {
-          username = lib.mkOption {
-            type = lib.types.str;
-            default = config.home.username;
-            description = "Primary local username.";
-          };
-
-          fullName = lib.mkOption {
-            type = lib.types.str;
-            description = "Full name for the primary local user.";
-          };
-
-          emailAddress = lib.mkOption {
-            type = lib.types.str;
-            description = "Email address associated with the primary local user.";
-          };
-        };
-
-        config = {
-          home.stateVersion = "26.05";
-
-          programs.home-manager.enable = true;
-
-          nixpkgs.config = {
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-          };
-        };
-      };
   };
 }

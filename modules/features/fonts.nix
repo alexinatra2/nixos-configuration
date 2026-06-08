@@ -32,23 +32,4 @@
       };
     };
 
-  flake.modules.homeManager.fonts =
-    { pkgs, lib, ... }:
-    {
-      fonts.fontconfig = {
-        enable = true;
-        defaultFonts.monospace = lib.mkForce [
-          "JetBrainsMono Nerd Font"
-          "DejaVu Sans Mono"
-        ];
-      };
-
-      programs.kitty = {
-        enable = true;
-        settings = {
-          font_family = lib.mkDefault "JetBrainsMono Nerd Font";
-          background_opacity = lib.mkDefault "0.95";
-        };
-      };
-    };
 }

@@ -161,20 +161,4 @@ in
 
       };
     };
-
-  flake.modules.homeManager.shell =
-    { config, lib, ... }:
-    {
-      programs.zsh = {
-        enable = true;
-        dotDir = config.home.homeDirectory;
-        enableCompletion = false;
-        autosuggestion.enable = false;
-        syntaxHighlighting.enable = false;
-        initContent = lib.mkOrder 2000 ''
-          source /etc/zshrc
-        '';
-      };
-    };
-
 }

@@ -3,10 +3,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixvim-config = {
       url = "git+https://codeberg.org/alexinatra/nixvim.git";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,12 +22,6 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
-
-    hm-wrapper-modules = {
-      url = "github:sini/hm-wrapper-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
 
     sops-nix.url = "github:Mic92/sops-nix";
 
@@ -65,7 +55,6 @@
         inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.wrapper-modules.flakeModules.wrappers
-        ./homes
       ]
       ++ import ./modules { inherit lib; };
 

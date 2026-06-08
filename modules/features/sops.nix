@@ -32,31 +32,4 @@
         };
       };
     };
-
-  flake.modules.homeManager.sops =
-    { pkgs, config, ... }:
-    let
-      homeDir = config.home.homeDirectory;
-      username = config.home.username;
-    in
-    {
-      imports = [ inputs.sops-nix.homeManagerModules.sops ];
-
-      sops = {
-        age = {
-          keyFile = "${homeDir}/.config/sops/age/keys.txt";
-          sshKeyPaths = [ "${homeDir}/.ssh/id_ed25519" ];
-          generateKey = true;
-        };
-
-        defaultSopsFile = ../../hosts/common/secrets.yaml;
-        validateSopsFiles = false;
-
-        secrets = {
-          "users/${username}/private-ssh-key" = {
-            path = "${homeDir}/.ssh/id_ed25519";
-          };
-        };
-      };
-    };
 }

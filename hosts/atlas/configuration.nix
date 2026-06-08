@@ -35,6 +35,7 @@ in
     grub
     syncthing
     llms
+    nh
     index
     tmux
     windows
@@ -83,11 +84,7 @@ in
     uv
   ];
 
-  programs.nh = {
-    enable = true;
-    flake = "${homeDirectory}/nixos-configuration";
-    clean.enable = false;
-  };
+  local.nh.osFlake = "${homeDirectory}/nixos-configuration";
 
   programs.nix-ld = {
     enable = true;

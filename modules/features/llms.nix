@@ -28,23 +28,4 @@
         interfaces."tailscale0".allowedTCPPorts = [ 11434 ];
       };
     };
-
-  flake.modules.homeManager.llms =
-    {
-      config,
-      pkgs,
-      ...
-    }:
-    {
-      imports = [ self.modules.homeManager.sops ];
-
-      sops.secrets."llms/huggingface/token" = { };
-
-      sops.templates."llms/huggingface/token-file" = {
-        content = config.sops.placeholder."llms/huggingface/token";
-        mode = "0400";
-      };
-
-      home.sessionVariables.HF_TOKEN_PATH = config.sops.templates."llms/huggingface/token-file".path;
-    };
 }

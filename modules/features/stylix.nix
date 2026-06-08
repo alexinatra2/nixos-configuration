@@ -45,50 +45,5 @@
         };
 
       };
-
-    modules.homeManager.stylix =
-      {
-        config,
-        lib,
-        pkgs,
-        ...
-      }:
-      {
-        imports = [ inputs.stylix.homeModules.stylix ];
-
-        gtk.gtk4.theme = config.gtk.theme;
-
-        stylix = {
-          enable = true;
-          autoEnable = true;
-          base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-          polarity = "dark";
-          targets.firefox.enable = false;
-          targets.nixvim.enable = true;
-          targets.neovim.enable = false;
-        };
-
-        programs.fuzzel = {
-          enable = true;
-          settings = {
-            main = {
-              prompt = ''"> "'';
-              "dpi-aware" = "yes";
-              width = 48;
-              lines = 12;
-              "horizontal-pad" = 16;
-              "vertical-pad" = 14;
-              "inner-pad" = 10;
-              "icons-enabled" = "yes";
-            };
-
-            border = {
-              width = 2;
-              radius = 12;
-              "selection-radius" = 8;
-            };
-          };
-        };
-      };
   };
 }
