@@ -121,8 +121,8 @@ ssh-keygen -lf *.pub
 
 For the current Woodservant infra, the expected SSH key fingerprints are:
 
-- main YubiKey: `SHA256:2ik03Uc+WMJL9tl/80b3S1Q94dH3Hno0kZExGyuwNz4`
-- backup YubiKey: `SHA256:jnbK+WK0yGMYXY2rkeAb4gRrL6W0EDcyPtTo206cdbA`
+- main YubiKey: `SHA256:jnbK+WK0yGMYXY2rkeAb4gRrL6W0EDcyPtTo206cdbA`
+- backup YubiKey: `SHA256:2ik03Uc+WMJL9tl/80b3S1Q94dH3Hno0kZExGyuwNz4`
 
 Match the recovered files to those fingerprints.
 
