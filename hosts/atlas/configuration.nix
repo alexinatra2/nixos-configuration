@@ -13,7 +13,7 @@ let
   nixvimPackage =
     inputs.nixvim-config.packages.${pkgs.stdenv.hostPlatform.system}.default.extend
       config.stylix.targets.nixvim.exportedModule;
-  wardenSyncthingId = "2ZRIH3H-CZ7QK7O-SVRSS43-E6YUF6U-CGNTKH5-4372Y4P-YSNMN5G-7GDIJAL";
+  wardenSyncthingId = "HH7HKXE-WI5CYZF-D7YFMEI-OKUAJXI-U4DDJP3-6RH2XDA-T3N572K-ZCMSGAF";
   vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {

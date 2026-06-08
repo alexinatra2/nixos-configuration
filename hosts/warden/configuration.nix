@@ -36,6 +36,12 @@ in
 
   local.syncthing = {
     enable = true;
+    secrets = {
+      cert.name = "syncthing/cert";
+      cert.sopsFile = ./secrets.yaml;
+      key.name = "syncthing/key";
+      key.sopsFile = ./secrets.yaml;
+    };
     devices.atlas.id = atlasSyncthingId;
     folders.vaultwardenSnapshots = {
       id = "vaultwarden-snapshots";

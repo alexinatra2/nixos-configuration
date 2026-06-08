@@ -27,6 +27,14 @@
 
         snapshot_path="${snapshotDir}/db-$(date -u +%Y%m%dT%H%M%SZ).sqlite3"
         sqlite3 /var/lib/vaultwarden/db.sqlite3 ".backup '$snapshot_path'"
+
+        # Refuse to retain or sync obviously broken snapshots.
+        if [ ! -s "$snapshot_path" ]; then
+          rm -f "$snapshot_path"
+          printf 'vaultwarden snapshot is empty: %s\n' "$snapshot_path" >&2
+          exit 1
+        fi
+
         chown ${base.username}:users "$snapshot_path"
 
         find "${snapshotDir}" -maxdepth 1 -type f -name 'db-*.sqlite3' -printf '%T@ %p\n' \
