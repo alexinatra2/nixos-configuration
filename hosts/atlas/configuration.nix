@@ -55,6 +55,19 @@ in
   local.yubikey.enable = true;
   local.yubikey.pamAuth.services.sudo = false;
 
+  sops.secrets."yubikey/main-credential" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."yubikey/backup-credential" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.templates."u2f-mappings" = {
+    path = "/etc/u2f-mappings";
+    content = ''
+      ${username}:${config.sops.placeholder."yubikey/main-credential"}:${config.sops.placeholder."yubikey/backup-credential"}
+    '';
+  };
+
   users.users.${username}.packages = with pkgs; [
     bc
     besley
