@@ -1,122 +1,201 @@
 # nixos-configuration
 
-This flake exposes two kinds of outputs:
+Personal NixOS and Home Manager configuration for owned machines.
 
-- portable wrapped packages built from selected Home Manager modules
-- full NixOS and Home Manager configurations for owned machines
+## What This Repo Does
 
-The portable packages are meant for quick reuse on another machine without switching that machine over to your full Home Manager config.
+- builds NixOS systems from `hosts/`
+- builds the main Home Manager profile from `homes/`
+- keeps shared modules in `modules/`
 
-## Portable Packages
+## Common Commands
 
-Currently exposed on Linux:
-
-- `.#tmux`
-- `.#neovim`
-- `.#git`
-- `.#opencode`
-- `.#firefox`
-
-### Run a wrapped package
-
-```bash
-nix run .#tmux
-nix run github:alexinatra/nixos-configuration#opencode
-```
-
-If you are testing local, uncommitted changes, use `path:.#<name>` so Nix evaluates the working tree instead of only tracked Git content.
-
-### Install a wrapped package into your profile
-
-```bash
-nix profile install .#neovim
-nix profile install github:alexinatra/nixos-configuration#firefox
-```
-
-### Open a shell with a wrapped package available
-
-```bash
-nix shell .#git
-```
-
-## Full Configurations
-
-### Home Manager profile
+Switch Home Manager:
 
 ```bash
 home-manager switch --flake .#alexander
 ```
 
-### NixOS host
+Switch a NixOS host:
 
 ```bash
 sudo nixos-rebuild switch --flake .#atlas
-sudo nixos-rebuild switch --flake .#warden
 ```
 
-### Development shell
+## Layout
 
-For `cuda-oxide`, use the dedicated dev shell from a project directory under `~/projects`.
+- `hosts/`: machine-specific NixOS config
+- `homes/`: user Home Manager config
+- `modules/`: reusable NixOS and Home Manager modules
 
-```bash
-mkdir -p ~/projects/cuda-oxide-playground
-cd ~/projects/cuda-oxide-playground
-nix develop /home/alexander/nixos-configuration#cuda-oxide
-```
+## YubiKey Support
 
-The shell provides CUDA, LLVM 21, clang/libclang, and `rustup`. Inside it, follow the upstream toolchain setup for the pinned nightly and `cargo-oxide`.
+The shared NixOS YubiKey module is `self.nixosModules.yubikey`.
 
-## Host Shell Toolsets
+What it enables:
 
-Hosts that import `self.nixosModules.shell` can select a shell toolset with `local.shell.toolset`.
+- `pcscd`
+- `ssh-agent`
+- YubiKey tooling like `ykman` and `opensc`
+- optional PAM U2F auth for login, sudo, and tty login
 
-- `minimal`: `git`, `tmux`
-- `default`: `minimal` plus `zsh` with the shared shell customizations, `starship`, `fzf`, `lazygit`
-- `maximal`: `default` plus `uutils-coreutils-noprefix`, `ripgrep`, `bat`, `fd`
-
-Example:
+Minimal host example:
 
 ```nix
 {
-  local.shell.toolset = "maximal";
+  local.yubikey.enable = true;
 }
 ```
 
-## Package Sources Of Truth
-
-Portable packages are intentionally generated from the same Home Manager modules used by the full profile.
-
-- `tmux` from `modules/features/tmux.nix`
-- `neovim` from `modules/features/neovim.nix`
-- `git` from `modules/features/git.nix`
-- `opencode` from `modules/features/opencode.nix`
-
-This keeps the package configuration reusable while avoiding a second hand-maintained package-specific config layer.
-
-## Notes
-
-- The Home Manager backed wrapped packages are currently exported on Linux only.
-- `firefox` requires unfree packages to be allowed by the caller's Nix configuration.
-- Host-level concerns like boot, services, hardware, users, secrets bootstrapping, and desktop/session wiring stay in `nixosModules`.
-- Direct wrapper packages that are a better fit than HM extraction, such as `firefox`, remain separate.
-
-## Tailscale And Headscale Hosts
-
-The shared NixOS module is `self.nixosModules.tailscale`. Each host selects its control plane through `local.tailscale`.
-
-Hosted Tailscale host example:
+If a machine should have the tooling but not YubiKey-backed login prompts:
 
 ```nix
 {
-  local.tailscale = {
+  local.yubikey = {
     enable = true;
-    authKeySecretName = "tailscale/authkey";
-    expectedTailnet = "taila26075.ts.net";
+    pamAuth.enable = false;
   };
 }
 ```
 
-Self-hosted Headscale host example:
+## YubiKey SSH Bootstrap
+
+This is the manual bootstrap path for a fresh machine when both YubiKeys are physically present and the SSH credentials were created as resident keys.
+
+Goal:
+
+- recover the resident SSH credentials from the YubiKeys
+- install the local key stubs into `~/.ssh/`
+- then manually add whatever `~/.ssh/config` entries you want
+
+### Assumptions
+
+- the machine already has working NixOS or Home Manager basics
+- OpenSSH on the machine supports security keys
+- `ykman` is available
+- you know the FIDO PIN for the YubiKeys
+- the server already trusts the public keys
+
+### 1. Make sure the machine sees the keys
+
+Plug in the YubiKeys and run:
+
+```bash
+ykman list
+```
+
+If nothing is shown, fix that first.
+
+### 2. Prepare `~/.ssh`
+
+```bash
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+```
+
+### 3. Recover resident SSH credentials
+
+Run this in an empty temporary directory so the recovered files are easy to inspect:
+
+```bash
+mkdir -p ~/tmp/yubikey-ssh-bootstrap
+cd ~/tmp/yubikey-ssh-bootstrap
+ssh-keygen -K
+```
+
+What to expect:
+
+- you may be asked for the FIDO PIN
+- you may need to touch the YubiKey
+- OpenSSH writes one or more recovered private key stubs and matching `.pub` files into the current directory
+
+If both YubiKeys are plugged in and only one key shows up, run `ssh-keygen -K` again and touch the other device when prompted.
+
+### 4. Identify the recovered keys
+
+List the fingerprints:
+
+```bash
+ssh-keygen -lf *.pub
+```
+
+For the current Woodservant infra, the expected SSH key fingerprints are:
+
+- main YubiKey: `SHA256:2ik03Uc+WMJL9tl/80b3S1Q94dH3Hno0kZExGyuwNz4`
+- backup YubiKey: `SHA256:jnbK+WK0yGMYXY2rkeAb4gRrL6W0EDcyPtTo206cdbA`
+
+Match the recovered files to those fingerprints.
+
+### 5. Install the key stubs into `~/.ssh`
+
+Copy the recovered files into canonical names:
+
+```bash
+cp <main-private-key-file> ~/.ssh/id_ed25519_sk
+cp <main-private-key-file>.pub ~/.ssh/id_ed25519_sk.pub
+
+cp <backup-private-key-file> ~/.ssh/id_ed25519_sk_backup
+cp <backup-private-key-file>.pub ~/.ssh/id_ed25519_sk_backup.pub
+```
+
+Then fix permissions:
+
+```bash
+chmod 600 ~/.ssh/id_ed25519_sk ~/.ssh/id_ed25519_sk_backup
+chmod 644 ~/.ssh/id_ed25519_sk.pub ~/.ssh/id_ed25519_sk_backup.pub
+```
+
+### 6. Verify the local key stubs
+
+```bash
+ssh-keygen -lf ~/.ssh/id_ed25519_sk.pub
+ssh-keygen -lf ~/.ssh/id_ed25519_sk_backup.pub
+```
+
+Make sure the fingerprints still match the expected main and backup values above.
+
+### 7. Add SSH config manually
+
+This repo does not assume a universal host layout for YubiKey SSH use. After the key stubs exist, add the SSH config you want by hand.
+
+Example pattern:
+
+```sshconfig
+Host some-host
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_ed25519_sk
+  IdentityFile ~/.ssh/id_ed25519_sk_backup
+```
+
+If different users on the same host need different keys, use `Match host ... user ...` blocks.
+
+### 8. Test each YubiKey explicitly
+
+Test the main key:
+
+```bash
+ssh -i ~/.ssh/id_ed25519_sk <user>@<host>
+```
+
+Test the backup key:
+
+```bash
+ssh -i ~/.ssh/id_ed25519_sk_backup <user>@<host>
+```
+
+Then test the final host entry without `-i`.
+
+### Notes
+
+- If `ssh-keygen -K` does not recover a key, either the credential is not resident or the wrong YubiKey was used during recovery.
+- `device not found` during SSH usually means the local stub points at a different YubiKey than the one currently plugged in.
+- Do not delete an existing working local stub until the new machine is fully tested.
+
+## Headscale
+
+This repo uses Headscale, not hosted Tailscale.
+
+Host example:
 
 ```nix
 {
@@ -129,7 +208,7 @@ Self-hosted Headscale host example:
 }
 ```
 
-Available host options:
+Useful host options:
 
 - `local.tailscale.enable`
 - `local.tailscale.authKeyFile`
@@ -139,54 +218,26 @@ Available host options:
 - `local.tailscale.expectedTailnet`
 - `local.tailscale.tags`
 
-Secret values:
-
-- Hosted Tailscale: the secret file must contain a hosted Tailscale auth key.
-- Headscale: the secret file must contain a Headscale pre-auth key created on `https://headscale.woodservant.com`.
-
-Migration caveats:
-
-- A single `tailscaled` instance can only be enrolled in one control plane at a time.
-- Changing `local.tailscale.loginServer` and rebuilding does not reliably migrate an already-enrolled machine by itself.
-- For an existing machine, rebuild with the new secret and `loginServer`, then re-register it with a manual reset path such as `sudo tailscale logout` followed by `sudo systemctl restart tailscaled-autoconnect.service`.
-- If the daemon still keeps the old control-plane state, stop `tailscaled` and clear its state before re-enrolling.
-
-Service exposure caveat:
-
-- `modules/features/vaultwarden.nix` no longer relies on `tailscale serve --https`, because that certificate path is tied to hosted Tailscale features.
-- Vaultwarden now expects a private CA certificate and a private leaf certificate for `warden.tailnet.woodservant.com`.
+If a machine was previously enrolled somewhere else, rebuilding alone may not move it cleanly. Re-enroll it manually if needed.
 
 ## Vaultwarden Private CA
 
-Vaultwarden is exposed privately on the Headscale tailnet at `https://warden.tailnet.woodservant.com`.
+Vaultwarden is exposed privately at `https://warden.tailnet.woodservant.com`.
 
-Generate a private CA and a server certificate manually. The files you need are:
+Needed files:
 
 - `root-ca.crt`
 - `root-ca.key`
 - `warden.tailnet.woodservant.com.crt`
 - `warden.tailnet.woodservant.com.key`
 
-You may also have an OpenSSL extension file such as `warden.tailnet.woodservant.com.ext`; that file is not needed at runtime.
-
-Store the server certificate and key in `hosts/warden/secrets.yaml` under these keys:
+Store these secrets:
 
 - `vaultwarden/tls/cert`
 - `vaultwarden/tls/key`
 
-Store the root CA certificate as a tracked file at:
+Tracked CA file location:
 
 - `hosts/common/certs/woodservant-tailnet-root-ca.crt`
 
-Then rebuild:
-
-```bash
-sudo nixos-rebuild switch --flake .#warden
-```
-
-Notes:
-
-- `warden` serves Vaultwarden over `nginx` on tailnet port `443` only.
-- `atlas` and `warden` trust `hosts/common/certs/woodservant-tailnet-root-ca.crt` declaratively through `security.pki.certificateFiles`.
-- Linux Firefox is configured to import enterprise roots, so fresh machines should trust the Vaultwarden certificate after rebuild.
-- Other Firefox-family browsers may still need a manual root CA import.
+Then rebuild the host.
