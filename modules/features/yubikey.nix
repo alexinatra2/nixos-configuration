@@ -20,9 +20,9 @@
 
           settings = {
             authfile = lib.mkOption {
-              type = lib.types.path;
-              default = "/etc/u2f-mappings";
-              description = "System-wide U2F key mappings file.";
+              type = lib.types.nullOr lib.types.path;
+              default = null;
+              description = "Optional system-wide U2F key mappings file. Leave unset to use ~/.config/Yubico/u2f_keys.";
             };
 
             control = lib.mkOption {

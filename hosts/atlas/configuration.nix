@@ -52,19 +52,21 @@ in
   };
   local.niri.picker = "vicinae";
   local.tmuxRemote.niriTerminalOverride.enable = true;
-  local.yubikey.enable = true;
-  local.yubikey.pamAuth.services.sudo = false;
+  local.yubikey = {
+    enable = true;
+    pamAuth.services.sudo = false;
+  };
 
   sops.secrets."yubikey/main-credential" = {
     sopsFile = ./secrets.yaml;
   };
-  sops.secrets."yubikey/backup-credential" = {
-    sopsFile = ./secrets.yaml;
-  };
-  sops.templates."u2f-mappings" = {
-    path = "/etc/u2f-mappings";
+  sops.templates."users/${username}/u2f_keys" = {
+    path = "${homeDirectory}/.config/Yubico/u2f_keys";
+    owner = username;
+    group = "users";
+    mode = "0600";
     content = ''
-      ${username}:${config.sops.placeholder."yubikey/main-credential"}:${config.sops.placeholder."yubikey/backup-credential"}
+      ${username}:${config.sops.placeholder."yubikey/main-credential"}
     '';
   };
 
