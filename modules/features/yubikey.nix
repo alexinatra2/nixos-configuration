@@ -7,6 +7,10 @@
       pkgs,
       ...
     }:
+
+    let
+      cfg = config.local.yubikey;
+    in
     {
       options.local.yubikey = {
         enable = lib.mkEnableOption "YubiKey support";
@@ -15,16 +19,16 @@
           enable = lib.mkOption {
             type = lib.types.bool;
             default = true;
-            description = "Enable YubiKey PAM authentication for login, sudo, tty login services.";
+            description = "Enable YubiKey PAM authentication.";
+          };
+
+          user = lib.mkOption {
+            type = lib.types.str;
+            default = "alexander";
+            description = "Unix user for the pam-u2f mapping file.";
           };
 
           settings = {
-            authfile = lib.mkOption {
-              type = lib.types.nullOr lib.types.path;
-              default = null;
-              description = "Optional system-wide U2F key mappings file. Leave unset to use ~/.config/Yubico/u2f_keys.";
-            };
-
             control = lib.mkOption {
               type = lib.types.enum [
                 "required"
@@ -33,13 +37,19 @@
                 "optional"
               ];
               default = "sufficient";
-              description = "PAM control flag for pam_u2f. sufficient = YubiKey OR password.";
+              description = "sufficient = YubiKey OR password.";
             };
 
             cue = lib.mkOption {
               type = lib.types.bool;
               default = true;
-              description = "Show 'touch YubiKey' prompt before waiting for device.";
+              description = "Show touch YubiKey prompt.";
+            };
+
+            interactive = lib.mkOption {
+              type = lib.types.bool;
+              default = true;
+              description = "Enable interactive pam-u2f prompts.";
             };
           };
 
@@ -65,32 +75,45 @@
         };
       };
 
-      config = lib.mkIf config.local.yubikey.enable {
+      config = lib.mkIf cfg.enable {
         services.pcscd.enable = true;
 
         services.gnome.gcr-ssh-agent.enable = false;
-
         programs.ssh.startAgent = true;
+
+        hardware.gpgSmartcards.enable = true;
 
         environment.systemPackages = with pkgs; [
           yubikey-manager
           yubikey-personalization
+          pam_u2f
           opensc
         ];
 
-        security.pam.u2f = lib.mkIf config.local.yubikey.pamAuth.enable {
+        sops.secrets."yubikey/credentials/main" = { };
+        sops.secrets."yubikey/credentials/backup" = { };
+
+        sops.templates."yubico-u2f-keys" = lib.mkIf cfg.pamAuth.enable {
+          content = "${cfg.pamAuth.user}:${config.sops.placeholder."yubikey/credentials/main"}:${
+            config.sops.placeholder."yubikey/credentials/backup"
+          }\n";
+          mode = "0400";
+        };
+
+        security.pam.u2f = lib.mkIf cfg.pamAuth.enable {
           enable = true;
-          control = config.local.yubikey.pamAuth.settings.control;
+          control = cfg.pamAuth.settings.control;
           settings = {
-            authfile = config.local.yubikey.pamAuth.settings.authfile;
-            cue = config.local.yubikey.pamAuth.settings.cue;
+            authfile = config.sops.templates."yubico-u2f-keys".path;
+            cue = cfg.pamAuth.settings.cue;
+            interactive = cfg.pamAuth.settings.interactive;
           };
         };
 
-        security.pam.services = lib.mkIf config.local.yubikey.pamAuth.enable {
-          ly.u2f.enable = config.local.yubikey.pamAuth.services.ly;
-          sudo.u2f.enable = config.local.yubikey.pamAuth.services.sudo;
-          login.u2f.enable = config.local.yubikey.pamAuth.services.login;
+        security.pam.services = lib.mkIf cfg.pamAuth.enable {
+          ly.u2f.enable = cfg.pamAuth.services.ly;
+          sudo.u2f.enable = cfg.pamAuth.services.sudo;
+          login.u2f.enable = cfg.pamAuth.services.login;
         };
       };
     };

@@ -57,18 +57,8 @@ in
     pamAuth.services.sudo = false;
   };
 
-  sops.secrets."yubikey/main-credential" = {
-    sopsFile = ./secrets.yaml;
-  };
-  sops.templates."users/${username}/u2f_keys" = {
-    path = "${homeDirectory}/.config/Yubico/u2f_keys";
-    owner = username;
-    group = "users";
-    mode = "0600";
-    content = ''
-      ${username}:${config.sops.placeholder."yubikey/main-credential"}
-    '';
-  };
+  sops.secrets."yubikey/credentials/main".sopsFile = ./secrets.yaml;
+  sops.secrets."yubikey/credentials/backup".sopsFile = ./secrets.yaml;
 
   users.users.${username}.packages = with pkgs; [
     bc
