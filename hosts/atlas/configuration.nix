@@ -38,6 +38,7 @@ in
     llms
     nh
     index
+    opencode
     tmux
     windows
     zramCompression
@@ -51,6 +52,7 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
+  local.opencode.enable = true;
   local.niri.picker = "vicinae";
   local.tmuxRemote.niriTerminalOverride.enable = true;
   local.yubikey = {
