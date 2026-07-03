@@ -53,6 +53,13 @@ in
     editorPackage = nixvimPackage;
   };
   local.opencode.enable = true;
+  local.work = {
+    fernuni = {
+      enable = true;
+      username = "t_holzknecht";
+      sopsFile = ./work-secrets.yaml;
+    };
+  };
   local.niri.picker = "vicinae";
   local.tmuxRemote.niriTerminalOverride.enable = true;
   local.yubikey = {

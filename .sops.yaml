@@ -19,6 +19,11 @@ creation_rules:
       - age:
           - *me
           - *atlas
+  - path_regex: ^hosts/atlas/work-secrets\.yaml$
+    key_groups:
+      - age:
+          - *me
+          - *atlas
   - path_regex: ^hosts/warden/secrets\.yaml$
     key_groups:
       - age:
