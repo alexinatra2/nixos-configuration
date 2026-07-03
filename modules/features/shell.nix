@@ -2,7 +2,7 @@
 let
   shellAliases = {
     lg = "lazygit";
-    open = "xdg-open";
+    open = "handlr open";
     o = "opencode";
     cd = "z";
     t = "tmux-session-picker";

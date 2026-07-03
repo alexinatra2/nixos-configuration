@@ -23,6 +23,7 @@ in
     sops
     tailscale
     shell
+    xdg
     tmuxRemote
     niri
     greeter
@@ -193,12 +194,6 @@ in
   system.activationScripts.clearBluetoothRfkill = lib.stringAfter [ "users" ] ''
     rm -f /var/lib/systemd/rfkill/*bluetooth || true
   '';
-
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-  };
 
   users.mutableUsers = true;
 
