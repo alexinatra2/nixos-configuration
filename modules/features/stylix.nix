@@ -41,7 +41,10 @@
           autoEnable = true;
           base16Scheme = activeTheme.scheme;
           polarity = activeTheme.polarity;
-          targets.grub.enable = false;
+          targets = {
+            grub.enable = false;
+            kmscon.enable = false;
+          };
         };
 
       };
