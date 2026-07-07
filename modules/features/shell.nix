@@ -1,19 +1,5 @@
 { self, inputs, ... }:
 let
-  shellAliases = {
-    lg = "lazygit";
-    open = "handlr open";
-    o = "opencode";
-    cd = "z";
-    t = "tmux-session-picker";
-    tn = "tmux new-session";
-    v = "vi";
-    DN = "> /dev/null";
-    DE = "2> /dev/null";
-    C = "tee >(xclip -selection clipboard)";
-    VT = "vim-temp";
-  };
-
   zshInit = ''
     bindkey -e
     bindkey '^[^?' backward-kill-word
@@ -35,6 +21,20 @@ in
       isDefaultOrMaximal = cfg.toolset != "minimal";
       isMaximal = cfg.toolset == "maximal";
 
+      shellAliases = {
+        lg = "${lib.getExe pkgs.lazygit}";
+        open = "${lib.getExe pkgs.handlr} open";
+        o = "${lib.getExe pkgs.opencode}";
+        s = "${lib.getExe pkgs.sysz}";
+        cd = "z";
+        t = "${lib.getExe pkgs.tmux} attach";
+        tn = "${lib.getExe pkgs.tmux} new-session";
+        v = if cfg.editorPackage != null then lib.getExe cfg.editorPackage else "${lib.getExe pkgs.vim}";
+        DN = "> /dev/null";
+        DE = "2> /dev/null";
+        C = "${pkgs.coreutils}/bin/tee >(${lib.getExe pkgs.xclip} -selection clipboard)";
+      };
+
       minimalPackages = with pkgs; [
         git
         tmux
@@ -44,6 +44,7 @@ in
         btop
         carapace
         fzf
+        handlr
         lazygit
         lsd
         starship
@@ -54,6 +55,8 @@ in
         fd
         ripgrep
         uutils-coreutils-noprefix
+        lazydocker
+        sysz
       ];
 
     in

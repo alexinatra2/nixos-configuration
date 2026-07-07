@@ -86,7 +86,6 @@ in
     besley
     cargo
     disktui
-    lazydocker
     lazysql
     fd
     gcc
