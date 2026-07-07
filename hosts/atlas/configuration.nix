@@ -48,6 +48,8 @@ in
 
   networking.hostName = hostName;
 
+  boot.blacklistedKernelModules = [ "ideapad_laptop" ];
+
   local.shell = {
     toolset = "maximal";
     editorPackage = nixvimPackage;
