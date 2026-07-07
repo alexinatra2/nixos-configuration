@@ -20,31 +20,30 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     base
-    sops
-    tailscale
-    shell
-    xdg
-    tmuxRemote
-    niri
-    greeter
-    git
     displaylink
-    gaming
-    virtualization
     fonts
-    stylix
+    gaming
+    git
+    greeter
     grub
-    syncthing
-    llms
-    nh
     index
-    opencode
-    tmux
-    windows
-    zramCompression
-    yubikey
-    work
+    llms
     music
+    nh
+    niri
+    opencode
+    shell
+    sops
+    stylix
+    syncthing
+    tailscale
+    tmux
+    virtualization
+    windows
+    work
+    xdg
+    yubikey
+    zramCompression
   ];
 
   networking.hostName = hostName;
