@@ -180,6 +180,16 @@ in
   };
 
   systemd = {
+    services.bluetooth-unblock = {
+      description = "Unblock Bluetooth on boot";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "bluetooth.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.util-linux}/bin/rfkill unblock bluetooth";
+      };
+    };
+
     services.systemd-rfkill.enable = false;
     sockets.systemd-rfkill.enable = false;
   };
