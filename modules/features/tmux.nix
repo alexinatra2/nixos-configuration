@@ -15,7 +15,6 @@
           yank
           resurrect
           continuum
-          tmux-sessionx
         ];
         extraConfig = ''
           is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+/)?g?(view|l?n?vim?x?)(diff)?$'"
@@ -47,10 +46,6 @@
 
           bind x kill-pane
           bind X kill-window
-
-          set -g @sessionx-fzf-builtin-tmux 'on'
-          set -g @sessionx-preview-location 'right'
-          set -g @sessionx-preview-ratio '55%'
         '';
       };
     };

@@ -61,7 +61,6 @@ in
     };
   };
   local.niri.picker = "vicinae";
-  local.tmuxRemote.niriTerminalOverride.enable = true;
   local.yubikey = {
     enable = true;
     pamAuth.services.sudo = false;
