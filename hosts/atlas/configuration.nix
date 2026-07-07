@@ -44,6 +44,7 @@ in
     zramCompression
     yubikey
     work
+    music
   ];
 
   networking.hostName = hostName;
