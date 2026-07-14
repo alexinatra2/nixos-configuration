@@ -175,7 +175,7 @@
       "screenOverrides": []
     },
     "general": {
-      "avatarImage": "/home/alexander/.face",
+      "avatarImage": "~/.face",
       "dimmerOpacity": 0.2,
       "showScreenCorners": false,
       "forceBlackScreenCorners": false,
@@ -287,7 +287,7 @@
     "wallpaper": {
       "enabled": true,
       "overviewEnabled": false,
-      "directory": "/home/alexander/Pictures/Wallpapers",
+      "directory": "~/Pictures/Wallpapers",
       "monitorDirectories": [],
       "enableMultiMonitorDirectories": false,
       "showHiddenFiles": false,
@@ -683,9 +683,9 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg",
-      "DVI-I-1": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg",
-      "DVI-I-2": "/home/alexander/Pictures/Wallpapers/wallhaven_g71xze.jpg"
+      "eDP-1": "~/Pictures/Wallpapers/wallhaven_g71xze.jpg",
+      "DVI-I-1": "~/Pictures/Wallpapers/wallhaven_g71xze.jpg",
+      "DVI-I-2": "~/Pictures/Wallpapers/wallhaven_g71xze.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {

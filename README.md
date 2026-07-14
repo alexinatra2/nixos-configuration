@@ -1,20 +1,13 @@
 # nixos-configuration
 
-Personal NixOS and Home Manager configuration for owned machines.
+Personal NixOS configuration for owned machines.
 
 ## What This Repo Does
 
 - builds NixOS systems from `hosts/`
-- builds the main Home Manager profile from `homes/`
-- keeps shared modules in `modules/`
+- keeps shared NixOS modules in `modules/`
 
 ## Common Commands
-
-Switch Home Manager:
-
-```bash
-home-manager switch --flake .#alexander
-```
 
 Switch a NixOS host:
 
@@ -22,11 +15,16 @@ Switch a NixOS host:
 sudo nixos-rebuild switch --flake .#atlas
 ```
 
+Export Noctalia settings:
+
+```bash
+nix run .#sync-noctalia-settings -- modules/wrappedPackages/noctalia.json
+```
+
 ## Layout
 
 - `hosts/`: machine-specific NixOS config
-- `homes/`: user Home Manager config
-- `modules/`: reusable NixOS and Home Manager modules
+- `modules/`: reusable NixOS and flake modules
 
 ## YubiKey Support
 

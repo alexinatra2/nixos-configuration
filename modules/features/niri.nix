@@ -1,7 +1,6 @@
 {
   self,
   inputs,
-  config,
   ...
 }:
 {
@@ -224,7 +223,7 @@
 
                 focus-ring = {
                   width = 2;
-                  active-color = if self ? themeNoHash then "#${self.themeNoHash.base09}" else "#ffb86c";
+                  active-color = "#ffb86c";
                 };
               };
 
@@ -258,15 +257,7 @@
 
               xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
 
-              spawn-at-startup = [
-                noctaliaExe
-              ]
-              ++ pickerStartup
-              ++ lib.optionals (self ? wallpaper) [
-                (lib.getExe (
-                  pkgs.writeShellScriptBin "wallpaper" "${lib.getExe pkgs.swaybg} -i ${self.wallpaper} -m fill"
-                ))
-              ];
+              spawn-at-startup = [ noctaliaExe ] ++ pickerStartup;
             };
         };
       };

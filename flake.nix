@@ -52,7 +52,6 @@
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.flake-parts.flakeModules.modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.wrapper-modules.flakeModules.wrappers
       ]

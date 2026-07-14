@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.nixosModules.grub =
+  flake.nixosModules.secureBoot =
     {
       pkgs,
       lib,

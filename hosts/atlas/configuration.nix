@@ -25,7 +25,7 @@ in
     gaming
     git
     greeter
-    grub
+    secureBoot
     llms
     music
     nh

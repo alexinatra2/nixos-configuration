@@ -18,7 +18,12 @@
       syncNoctaliaSettings = pkgs.writeShellApplication {
         name = "sync-noctalia-settings";
         text = ''
-          ${lib.getExe noctaliaShell} ipc call state all > ~/nixos-configuration/modules/wrappedPackages/noctalia.json
+          if [ "$#" -ne 1 ]; then
+            printf 'usage: %s TARGET\n' "$0" >&2
+            exit 2
+          fi
+
+          ${lib.getExe noctaliaShell} ipc call state all > "$1"
         '';
       };
     in
@@ -28,6 +33,7 @@
         "noctalia-shell" = noctaliaShell;
       };
       apps.sync-noctalia-settings = {
+        meta.description = "Export the current Noctalia state to a JSON file.";
         type = "app";
         program = "${syncNoctaliaSettings}/bin/sync-noctalia-settings";
       };

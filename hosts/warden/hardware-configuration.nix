@@ -1,4 +1,9 @@
-{ inputs, modulesPath, lib, ... }:
+{
+  inputs,
+  modulesPath,
+  lib,
+  ...
+}:
 {
   imports = [
     inputs.disko.nixosModules.disko
