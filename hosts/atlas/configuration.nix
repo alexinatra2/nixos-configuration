@@ -26,7 +26,6 @@ in
     git
     greeter
     grub
-    index
     llms
     music
     nh
@@ -88,20 +87,17 @@ in
     cargo
     disktui
     lazysql
-    fd
     gcc
     jq
     nerd-fonts.jetbrains-mono
     nixfmt
     pnpm
-    ripgrep
     sccache
     sops
     tree
     unzip
     yazi
     just
-    uutils-coreutils-noprefix
     spotify
     xclip
     nixvimPackage

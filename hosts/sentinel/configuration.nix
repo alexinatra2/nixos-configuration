@@ -15,7 +15,6 @@ in
   networking = {
     hostName = hostName;
     useDHCP = lib.mkDefault true;
-    networkmanager.enable = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 ];

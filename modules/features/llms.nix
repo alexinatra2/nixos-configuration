@@ -8,8 +8,6 @@
       ...
     }:
     {
-      services.tailscale.enable = true;
-
       services.ollama = {
         enable = true;
 

@@ -55,6 +55,5 @@
         spiceUSBRedirection.enable = true;
       };
 
-      security.rtkit.enable = true;
     };
 }
