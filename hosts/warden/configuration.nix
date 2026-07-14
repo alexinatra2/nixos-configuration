@@ -1,9 +1,12 @@
-{ config, lib, self, ... }:
+{
+  config,
+  lib,
+  self,
+  ...
+}:
 let
   hostName = "warden";
-  homeDirectory = config.local.base.homeDirectory;
   atlasSyncthingId = "NPPGEFJ-GNQJVKL-OVEVTVE-JWJQEBD-TQ5RZSO-PW557BU-YTIYV3N-GSCBNAS";
-  vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {
   imports = with self.nixosModules; [
@@ -17,10 +20,33 @@ in
     vaultwarden
   ];
 
-  sops.secrets."vaultwarden/env" = {
-    owner = "vaultwarden";
-    restartUnits = [ "vaultwarden.service" ];
-    sopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "vaultwarden/env" = {
+      owner = "vaultwarden";
+      restartUnits = [ "vaultwarden.service" ];
+      sopsFile = ./secrets.yaml;
+    };
+
+    "vaultwarden/tls/cert" = {
+      owner = "nginx";
+      group = "nginx";
+      mode = "0440";
+      restartUnits = [ "nginx.service" ];
+      sopsFile = ./secrets.yaml;
+    };
+
+    "vaultwarden/tls/key" = {
+      owner = "nginx";
+      group = "nginx";
+      mode = "0440";
+      restartUnits = [ "nginx.service" ];
+      sopsFile = ./secrets.yaml;
+    };
+  };
+
+  local.vaultwarden = {
+    tlsCertificate = config.sops.secrets."vaultwarden/tls/cert".path;
+    tlsCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
   };
 
   networking = {
@@ -46,7 +72,7 @@ in
     folders.vaultwardenSnapshots = {
       id = "vaultwarden-snapshots";
       label = "Vaultwarden Snapshots";
-      path = vaultwardenSnapshotPath;
+      path = config.local.vaultwarden.snapshotDirectory;
       type = "sendonly";
       devices = [ "atlas" ];
     };

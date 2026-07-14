@@ -9,9 +9,10 @@
     }:
     let
       base = config.local.base;
+      cfg = config.local.vaultwarden;
       vaultwardenPort = 8222;
       vaultwardenHost = config.local.tailscale.fqdn;
-      snapshotDir = "${base.homeDirectory}/Documents/Backups/Vaultwarden";
+      snapshotDir = cfg.snapshotDirectory;
       snapshotScript = pkgs.writeShellScript "vaultwarden-snapshot" ''
         set -euo pipefail
 
@@ -47,94 +48,96 @@
       '';
     in
     {
-      assertions = [
-        {
-          assertion = config.local.tailscale.fqdn != null;
-          message = "The vaultwarden module requires local.tailscale.expectedTailnet to compute its MagicDNS name.";
-        }
-      ];
-
-      sops.secrets = {
-        "vaultwarden/tls/cert" = {
-          owner = "nginx";
-          group = "nginx";
-          mode = "0440";
-          restartUnits = [ "nginx.service" ];
-          sopsFile = ../../hosts/warden/secrets.yaml;
+      options.local.vaultwarden = {
+        tlsCertificate = lib.mkOption {
+          type = lib.types.str;
+          description = "Path to the Vaultwarden TLS certificate.";
         };
 
-        "vaultwarden/tls/key" = {
-          owner = "nginx";
-          group = "nginx";
-          mode = "0440";
-          restartUnits = [ "nginx.service" ];
-          sopsFile = ../../hosts/warden/secrets.yaml;
+        tlsCertificateKey = lib.mkOption {
+          type = lib.types.str;
+          description = "Path to the Vaultwarden TLS private key.";
+        };
+
+        snapshotDirectory = lib.mkOption {
+          type = lib.types.str;
+          default = "${base.homeDirectory}/Documents/Backups/Vaultwarden";
+          description = "Directory for Vaultwarden database snapshots.";
         };
       };
 
-      services.vaultwarden = {
-        enable = true;
-        dbBackend = "sqlite";
-        backupDir = "/var/backup/vaultwarden";
-        environmentFile = [ config.sops.secrets."vaultwarden/env".path ];
-        config = {
-          DOMAIN = "https://${vaultwardenHost}";
-          SIGNUPS_ALLOWED = false;
+      config = {
+        assertions = [
+          {
+            assertion = config.local.tailscale.fqdn != null;
+            message = "The vaultwarden module requires local.tailscale.expectedTailnet to compute its MagicDNS name.";
+          }
+        ];
 
-          SMTP_HOST = "smtp.purelymail.com";
-          SMTP_PORT = 465;
-          SMTP_SECURITY = "force_tls";
-          SMTP_FROM = base.emailAddress;
-          SMTP_FROM_NAME = "Vaultwarden";
-          SMTP_USERNAME = base.emailAddress;
+        services.vaultwarden = {
+          enable = true;
+          dbBackend = "sqlite";
+          backupDir = "/var/backup/vaultwarden";
+          environmentFile = [ config.sops.secrets."vaultwarden/env".path ];
+          config = {
+            DOMAIN = "https://${vaultwardenHost}";
+            SIGNUPS_ALLOWED = false;
 
-          ROCKET_ADDRESS = "127.0.0.1";
-          ROCKET_PORT = vaultwardenPort;
-          ROCKET_LOG = "critical";
-        };
-      };
+            SMTP_HOST = "smtp.purelymail.com";
+            SMTP_PORT = 465;
+            SMTP_SECURITY = "force_tls";
+            SMTP_FROM = base.emailAddress;
+            SMTP_FROM_NAME = "Vaultwarden";
+            SMTP_USERNAME = base.emailAddress;
 
-      services.nginx = {
-        enable = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
-
-        virtualHosts.${vaultwardenHost} = {
-          onlySSL = true;
-          sslCertificate = config.sops.secrets."vaultwarden/tls/cert".path;
-          sslCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
-
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:${toString vaultwardenPort}";
-            proxyWebsockets = true;
+            ROCKET_ADDRESS = "127.0.0.1";
+            ROCKET_PORT = vaultwardenPort;
+            ROCKET_LOG = "critical";
           };
         };
-      };
 
-      networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
+        services.nginx = {
+          enable = true;
+          recommendedProxySettings = true;
+          recommendedTlsSettings = true;
 
-      systemd.tmpfiles.rules = [
-        "d ${snapshotDir} 0750 ${base.username} users -"
-      ];
+          virtualHosts.${vaultwardenHost} = {
+            onlySSL = true;
+            sslCertificate = cfg.tlsCertificate;
+            sslCertificateKey = cfg.tlsCertificateKey;
 
-      systemd.services.vaultwarden-snapshot = {
-        description = "Create periodic Vaultwarden database snapshots";
-        after = [ "vaultwarden.service" ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = snapshotScript;
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:${toString vaultwardenPort}";
+              proxyWebsockets = true;
+            };
+          };
         };
-      };
 
-      systemd.timers.vaultwarden-snapshot = {
-        description = "Run the Vaultwarden snapshot job";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "daily";
-          RandomizedDelaySec = "1h";
-          Persistent = true;
+        networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
+
+        systemd.tmpfiles.rules = [
+          "d ${snapshotDir} 0750 ${base.username} users -"
+        ];
+
+        systemd.services.vaultwarden-snapshot = {
+          description = "Create periodic Vaultwarden database snapshots";
+          after = [ "vaultwarden.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = snapshotScript;
+          };
         };
-      };
 
+        systemd.timers.vaultwarden-snapshot = {
+          description = "Run the Vaultwarden snapshot job";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "daily";
+            RandomizedDelaySec = "1h";
+            Persistent = true;
+          };
+        };
+
+      };
     };
 }
