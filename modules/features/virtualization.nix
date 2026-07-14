@@ -10,12 +10,17 @@
     {
       programs.virt-manager.enable = true;
 
-        users.groups = {
-          docker = { };
-          podman = { };
-        };
+      users.groups = {
+        docker = { };
+        podman = { };
+      };
 
-        users.groups.libvirtd.members = [ config.local.base.username ];
+      users.users.${config.local.base.username}.extraGroups = [
+        "docker"
+        "podman"
+      ];
+
+      users.groups.libvirtd.members = [ config.local.base.username ];
 
       environment.systemPackages = with pkgs; [
         podman-compose

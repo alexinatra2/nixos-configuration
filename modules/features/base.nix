@@ -74,11 +74,7 @@
             openssh.authorizedKeys.keys = sshKeys;
             extraGroups = [
               "wheel"
-              "adbusers"
-              "docker"
-              "podman"
               "networkmanager"
-              "realtime"
               "audio"
               "video"
             ];
