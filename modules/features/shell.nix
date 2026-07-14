@@ -20,6 +20,10 @@ in
       cfg = config.local.shell;
       isDefaultOrMaximal = cfg.toolset != "minimal";
       isMaximal = cfg.toolset == "maximal";
+      shellAliasesIfEnabled = lib.mkIf isDefaultOrMaximal shellAliases;
+      carapaceInit = shell: ''
+        source <(${pkgs.carapace}/bin/carapace _carapace ${shell})
+      '';
 
       shellAliases = {
         lg = "${lib.getExe pkgs.lazygit}";
@@ -33,6 +37,7 @@ in
         DN = "> /dev/null";
         DE = "2> /dev/null";
         C = "${pkgs.coreutils}/bin/tee >(${lib.getExe pkgs.xclip} -selection clipboard)";
+        ldo = "${lib.getExe pkgs.lazydocker}";
       };
 
       minimalPackages = with pkgs; [
@@ -50,6 +55,11 @@ in
         starship
       ];
 
+      defaultExtraPackages = with pkgs; [
+        kitty.terminfo
+        xclip
+      ];
+
       maximalPackages = with pkgs; [
         bat
         fd
@@ -58,6 +68,26 @@ in
         lazydocker
         sysz
       ];
+
+      defaultEnvironmentVariables = {
+        BAT_STYLE = "plain";
+        FZF_DEFAULT_OPTS = lib.concatStringsSep " " [
+          "--height=70%"
+          "--layout=reverse"
+          "--border"
+          "--ansi"
+          "--tiebreak=length,end,begin"
+        ];
+        FZF_CTRL_T_COMMAND = "fd --type f";
+        FZF_CTRL_T_OPTS = "--preview 'bat {}'";
+        FZF_ALT_C_COMMAND = "fd --type d";
+        FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
+      };
+
+      editorEnvironmentVariables = {
+        EDITOR = lib.getExe cfg.editorPackage;
+        VISUAL = lib.getExe cfg.editorPackage;
+      };
 
     in
     {
@@ -80,38 +110,16 @@ in
       };
 
       config = {
-        environment.shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+        environment.shellAliases = shellAliasesIfEnabled;
 
         environment.variables = lib.mkMerge [
-          (lib.mkIf isDefaultOrMaximal {
-            BAT_STYLE = "plain";
-            FZF_DEFAULT_OPTS = lib.concatStringsSep " " [
-              "--height=70%"
-              "--layout=reverse"
-              "--border"
-              "--ansi"
-              "--tiebreak=length,end,begin"
-            ];
-            FZF_CTRL_T_COMMAND = "fd --type f";
-            FZF_CTRL_T_OPTS = "--preview 'bat {}'";
-            FZF_ALT_C_COMMAND = "fd --type d";
-            FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
-          })
-          (lib.mkIf (cfg.editorPackage != null) {
-            EDITOR = lib.getExe cfg.editorPackage;
-            VISUAL = lib.getExe cfg.editorPackage;
-          })
+          (lib.mkIf isDefaultOrMaximal defaultEnvironmentVariables)
+          (lib.mkIf (cfg.editorPackage != null) editorEnvironmentVariables)
         ];
 
         environment.systemPackages =
           minimalPackages
-          ++ lib.optionals isDefaultOrMaximal (
-            defaultPackages
-            ++ [
-              pkgs.kitty.terminfo
-              pkgs.xclip
-            ]
-          )
+          ++ lib.optionals isDefaultOrMaximal (defaultPackages ++ defaultExtraPackages)
           ++ lib.optionals isMaximal maximalPackages;
 
         programs = {
@@ -126,14 +134,8 @@ in
 
           bash = {
             completion.enable = isDefaultOrMaximal;
-            interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
-              eval "$(starship init bash)"
-              eval "$(zoxide init bash)"
-              source <(${pkgs.carapace}/bin/carapace _carapace bash)
-              source ${pkgs.fzf}/share/fzf/key-bindings.bash
-              source ${pkgs.fzf}/share/fzf/completion.bash
-            '';
-            shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+            interactiveShellInit = lib.mkIf isDefaultOrMaximal (carapaceInit "bash");
+            shellAliases = shellAliasesIfEnabled;
           };
 
           fzf = lib.mkIf isDefaultOrMaximal {
@@ -151,13 +153,9 @@ in
             enableCompletion = isDefaultOrMaximal;
             interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
               ${zshInit}
-              eval "$(starship init zsh)"
-              eval "$(zoxide init zsh)"
-              source <(${pkgs.carapace}/bin/carapace _carapace zsh)
-              source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-              source ${pkgs.fzf}/share/fzf/completion.zsh
+              ${carapaceInit "zsh"}
             '';
-            shellAliases = lib.mkIf isDefaultOrMaximal shellAliases;
+            shellAliases = shellAliasesIfEnabled;
             syntaxHighlighting.enable = isDefaultOrMaximal;
           };
         };
