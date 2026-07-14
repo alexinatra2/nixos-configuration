@@ -37,6 +37,12 @@
           description = "Browser package used by Niri keybindings.";
         };
 
+        options.monitorPositions = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.attrsOf lib.types.int);
+          default = { };
+          description = "Monitor positions keyed by Niri output name.";
+        };
+
         config = {
           settings =
             let
@@ -46,21 +52,22 @@
                   settings = (builtins.fromJSON (builtins.readFile ../wrappedPackages/noctalia.json)).settings;
                 }
               );
-              vicinaeServer = lib.getExe (pkgs.writeShellScriptBin "vicinae-server" ''
-                export USE_LAYER_SHELL=1
-                exec ${lib.getExe config.pkgs.vicinae} server
-              '');
-              vicinaeToggle = lib.getExe (pkgs.writeShellScriptBin "vicinae-toggle" ''
-                export USE_LAYER_SHELL=1
-                exec ${lib.getExe config.pkgs.vicinae} toggle
-              '');
+              vicinaeServer = lib.getExe (
+                pkgs.writeShellScriptBin "vicinae-server" ''
+                  export USE_LAYER_SHELL=1
+                  exec ${lib.getExe config.pkgs.vicinae} server
+                ''
+              );
+              vicinaeToggle = lib.getExe (
+                pkgs.writeShellScriptBin "vicinae-toggle" ''
+                  export USE_LAYER_SHELL=1
+                  exec ${lib.getExe config.pkgs.vicinae} toggle
+                ''
+              );
             in
             let
               pickerBind =
-                if config.picker == "vicinae" then
-                  [ vicinaeToggle ]
-                else
-                  lib.getExe config.pkgs.fuzzel;
+                if config.picker == "vicinae" then [ vicinaeToggle ] else lib.getExe config.pkgs.fuzzel;
               pickerStartup = lib.optionals (config.picker == "vicinae") [
                 [ vicinaeServer ]
               ];
@@ -90,34 +97,11 @@
                 };
               };
 
-              outputs = {
-                "DVI-I-2" = {
-                  position = _: {
-                    props = {
-                      x = 0;
-                      y = 0;
-                    };
-                  };
+              outputs = lib.mapAttrs (_: position: {
+                position = _: {
+                  props = position;
                 };
-
-                "DVI-I-1" = {
-                  position = _: {
-                    props = {
-                      x = 1920;
-                      y = 0;
-                    };
-                  };
-                };
-
-                "Samsung Display Corp. 0x4188 Unknown" = {
-                  position = _: {
-                    props = {
-                      x = 145;
-                      y = 1080;
-                    };
-                  };
-                };
-              };
+              }) config.monitorPositions;
 
               binds = {
                 "Mod+Shift+Slash".show-hotkey-overlay = _: { };
@@ -298,17 +282,26 @@
         niriPackage = self.wrappers.niri.wrap {
           inherit pkgs;
           browser = config.niri.browser;
+          monitorPositions = config.local.niri.monitorPositions;
           picker = config.local.niri.picker;
         };
       in
       {
-        options.local.niri.picker = lib.mkOption {
-          type = lib.types.enum [
-            "fuzzel"
-            "vicinae"
-          ];
-          default = "fuzzel";
-          description = "Launcher used by the Niri Mod+Space keybinding.";
+        options.local.niri = {
+          picker = lib.mkOption {
+            type = lib.types.enum [
+              "fuzzel"
+              "vicinae"
+            ];
+            default = "fuzzel";
+            description = "Launcher used by the Niri Mod+Space keybinding.";
+          };
+
+          monitorPositions = lib.mkOption {
+            type = lib.types.attrsOf (lib.types.attrsOf lib.types.int);
+            default = { };
+            description = "Monitor positions keyed by Niri output name.";
+          };
         };
 
         options.niri.browser = lib.mkOption {

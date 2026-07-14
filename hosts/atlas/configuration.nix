@@ -62,7 +62,23 @@ in
       sopsFile = ./work-secrets.yaml;
     };
   };
-  local.niri.picker = "vicinae";
+  local.niri = {
+    picker = "vicinae";
+    monitorPositions = {
+      "DVI-I-2" = {
+        x = 0;
+        y = 0;
+      };
+      "DVI-I-1" = {
+        x = 1920;
+        y = 0;
+      };
+      "Samsung Display Corp. 0x4188 Unknown" = {
+        x = 145;
+        y = 1080;
+      };
+    };
+  };
   local.yubikey = {
     enable = true;
     pamAuth.services.sudo = false;
