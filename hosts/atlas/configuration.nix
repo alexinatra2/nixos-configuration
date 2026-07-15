@@ -21,6 +21,7 @@ in
     ./hardware-configuration.nix
     base
     displaylink
+    eduroam
     fonts
     gaming
     git
@@ -55,6 +56,10 @@ in
     editorPackage = nixvimPackage;
   };
   local.opencode.enable = true;
+  local.eduroam = {
+    enable = true;
+    sopsFile = ./work-secrets.yaml;
+  };
   local.work = {
     fernuni = {
       enable = true;
