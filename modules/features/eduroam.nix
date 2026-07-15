@@ -32,6 +32,17 @@
           "eduroam/password".sopsFile = cfg.sopsFile;
         };
 
+        # ensureProfiles only orders itself after NetworkManager; it does not
+        # pull NetworkManager into the boot transaction. The agent likewise
+        # must be started whenever NetworkManager is started manually.
+        systemd.services = {
+          NetworkManager-ensure-profiles = {
+            requires = [ "NetworkManager.service" ];
+            after = [ "NetworkManager.service" ];
+          };
+          nm-file-secret-agent.wantedBy = [ "NetworkManager.service" ];
+        };
+
         networking.networkmanager.ensureProfiles = {
           profiles.eduroam = {
             connection = {
