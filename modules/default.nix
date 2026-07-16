@@ -14,9 +14,7 @@ let
           type = entries.${name};
         in
         if type == "directory" then
-          collectModules path
-        else if type == "regular" && lib.hasSuffix ".nix" name && name != "default.nix" then
-          [ path ]
+          if builtins.pathExists (path + "/default.nix") then [ path ] else collectModules path
         else
           [ ]
       ) (builtins.attrNames entries)

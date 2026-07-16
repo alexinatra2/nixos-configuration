@@ -48,7 +48,8 @@
               noctaliaExe = lib.getExe (
                 inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
                   pkgs = config.pkgs;
-                  settings = (builtins.fromJSON (builtins.readFile ../wrappedPackages/noctalia.json)).settings;
+                  settings =
+                    (builtins.fromJSON (builtins.readFile ../../wrappedPackages/noctalia/noctalia.json)).settings;
                 }
               );
               vicinaeServer = lib.getExe (
