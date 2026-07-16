@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ ... }:
 {
   flake.nixosModules.opencode =
     {
@@ -15,27 +15,18 @@
 
       npx = lib.getExe' pkgs.nodejs "npx";
 
-      defaultMcpServers = {
-        everything = {
-          type = "local";
-          command = [
-            npx
-            "-y"
-            "@modelcontextprotocol/server-everything@2026.7.4"
-          ];
-        };
-
+      mcpServers = {
         context7 = {
           type = "remote";
           url = "https://mcp.context7.com/mcp";
-          headers = {
-            CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
-          };
+          enabled = true;
+          headers.CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
         };
 
         nixos = {
           type = "local";
           command = [ (lib.getExe pkgs.mcp-nixos) ];
+          enabled = false;
         };
 
         pdf-reader-mpc = {
@@ -45,11 +36,13 @@
             "-y"
             "@sylphx/pdf-reader-mcp@3.0.14"
           ];
+          enabled = false;
         };
 
         playwright = {
           type = "local";
           command = [ (lib.getExe pkgs.playwright-mcp) ];
+          enabled = false;
         };
 
         duckduckgo-search = {
@@ -59,6 +52,7 @@
             "-y"
             "duckduckgo-mcp-server@0.1.2"
           ];
+          enabled = true;
         };
 
         slidev-mcp = {
@@ -68,34 +62,22 @@
             "-y"
             "slidev-mcp@0.3.2"
           ];
-        };
-
-        sequential-thinking = {
-          type = "local";
-          command = [ (lib.getExe pkgs.mcp-server-sequential-thinking) ];
-        };
-
-        google-maps-platform-code-assist = {
-          type = "local";
-          command = [
-            npx
-            "-y"
-            "@googlemaps/code-assist-mcp@0.2.1"
-          ];
-        };
-
-        overpass-mcp = {
-          type = "local";
-          command = [ (lib.getExe inputs.overpass-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default) ];
+          enabled = false;
         };
       };
 
       opencodeConfig = jsonFormat.generate "opencode.json" {
         "$schema" = "https://opencode.ai/config.json";
         autoupdate = false;
+        compaction.prune = true;
         instructions = [ (toString ./system-prompt.md) ];
-        mcp = defaultMcpServers;
+        mcp = mcpServers;
+        plugin = [ "opencode-pty" ];
         skills.paths = [ (toString ./skills) ];
+        tool_output = {
+          max_lines = 200;
+          max_bytes = 8192;
+        };
       };
     in
     {
