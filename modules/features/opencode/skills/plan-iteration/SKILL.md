@@ -1,129 +1,85 @@
 ---
 name: plan-iteration
-description: Implementation-plan workflow for creating or resuming an ephemeral project plan, completing exactly one step at a time, and requesting approval before each commit. Use when the user asks to make, continue, execute, or iterate on an implementation plan.
+description: Use when creating, resuming, or executing an implementation plan one approved step at a time.
 ---
 
 # Plan Iteration
 
-Use this skill to turn a session plan into an executable, resumable
-implementation workflow, or to resume an existing workflow. Do not implement
-more than one numbered plan step in a single pass unless the user explicitly
-requests it.
+Implement one numbered step per pass unless explicitly asked otherwise.
 
-## Plan State
+## State
 
-The default ephemeral plan file for a project is
-`.opencode/plan-iteration/PLAN.md` at the Git repository root. It is local
-working state, not project source.
+Use `.opencode/plan-iteration/PLAN.md` at the repository root.
 
-When creating that file inside a Git repository:
+In a Git repository, add `.opencode/plan-iteration/` to `.git/info/exclude` when needed. Do not change tracked ignore files. Verify the plan is not untracked.
 
-1. Check whether `.opencode/plan-iteration/` is already ignored.
-2. If it is not, add that exact directory entry to the repository's
-   `.git/info/exclude` file.
-3. Do not modify tracked `.gitignore` files merely to store plan state.
-4. Verify that the plan file does not appear as an untracked change.
+Record:
 
-The plan file must contain:
+- Goal and context.
+- Numbered steps with `pending`, `in_progress`, `completed`, or `blocked`.
+- Active step.
+- Resume notes: decisions, checks, commits, and blockers.
 
-- A concise goal and relevant repository context.
-- A numbered list of implementation steps.
-- A completion state for every step: `pending`, `in_progress`, `completed`, or
-`blocked`.
-- The current active step number.
-- Resume notes, including important decisions, checks run, commit identifiers,
-and unresolved issues.
+## Start Or Resume
 
-Use a readable Markdown structure so a later session can update it without
-ambiguity.
+For a session plan:
 
-## Start A Plan
+1. Refine it into ordered, executable steps.
+2. Ask only for missing material requirements.
+3. Save and show the plan.
+4. Use `question` to request approval before implementation.
 
-When the current session contains a plan or implementation outline:
+On revision, update, show, and reapprove the plan.
 
-1. Refine it into concrete, ordered, independently executable numbered steps.
-2. If the goal or scope is missing, ask the user for the minimum clarification
-needed before writing the plan.
-3. Save the refined plan to the ephemeral plan file.
-4. Show the complete finalized plan to the user.
-5. Use the interactive `question` tool to ask for approval before implementing
-any step.
+For an existing project:
 
-Do not begin implementation until the user explicitly approves the finalized
-plan. If the user requests a revision, update the plan file, show the revised
-plan, and ask for approval again.
+1. Find the default plan, then other local plan files.
+2. Use `question` to let the user select one or provide a path.
+3. Compare it with repository state.
+4. Resume at the first incomplete or inconsistent step.
 
-## Resume A Plan
+If plan and repository disagree, explain the difference and use `question` to ask whether to reconcile the plan, revise the repository for a chosen step, or stop.
 
-When invoked in an existing project:
+## Execute
 
-1. Determine the project root when available.
-2. Search first for `.opencode/plan-iteration/PLAN.md` at that root, then for
-other clearly named local plan files in the project.
-3. Offer the user the discovered plan files through the interactive `question`
-tool, and also allow the user to provide another path.
-4. Read the selected plan, inspect its recorded completion state, and compare
-it with the actual repository state, including relevant files, Git status,
-diffs, commit history, and prior checks where possible.
-5. Resume at the first `pending`, `in_progress`, `blocked`, or
-repository-inconsistent step.
+For the active step:
 
-If the stored plan and the repository disagree, explain the specific
-discrepancy before editing anything. Use an interactive question to ask whether
-to reconcile the plan to the repository, revise the repository to match an
-explicitly chosen plan step, or stop. Do not guess which source of truth wins.
-
-## Execute One Step
-
-For each active numbered step:
-
-1. Clearly state the step number and objective.
+1. State its number and objective.
 2. Implement only that step.
-3. Run the narrowest relevant checks for that step.
-4. Summarize the files changed and check results.
-5. Update the ephemeral plan file with current progress and resume notes.
+3. Run focused checks.
+4. Briefly summarize changes and results.
+5. Update plan state and notes.
 
-If the directory is a Git repository and the step produced appropriate changes,
-apply the `git-commit` skill's inspection, grouping, and safety rules before
-proposing a commit. Do not combine unrelated changes from other plan steps. If
-the step's changes themselves need multiple independent commits, explain why
-and ask the user to revise the plan or explicitly authorize that split before
-proceeding.
+For suitable Git changes, apply `git-commit` inspection and safety rules. Do not include other plan steps. If one step needs multiple commits, explain why and request approval to split it.
 
-Then present an interactive decision with this format:
+Use `question` and present:
 
-```text Proposed commit: <commit message>
+```text
+Proposed commit:
+<message>
 
-How to verify: <short manual or automated verification> ```
+How to verify:
+<short check>
+```
 
-For a commit-appropriate step, provide exactly these primary actions:
+For a commit, provide exactly:
 
 - `Commit and start next step`
 - `Fix based on feedback`
 - `Just commit`
 
-`Fix based on feedback` must collect the user's feedback, apply only feedback
-relevant to the active step, rerun the relevant checks, update the plan file,
-and present the same decision again.
+`Fix based on feedback`: collect feedback, update only the active step, rerun checks, update state, and present the decision again.
 
-`Commit and start next step` requires explicit approval of the displayed
-commit. Create only that approved commit, update the plan file with its
-identifier and the completed state, then begin the next numbered step.
+`Commit and start next step`: commit the approved proposal, mark the step complete with its commit ID, then start the next step.
 
-`Just commit` requires explicit approval of the displayed commit. Create only
-that approved commit, update the plan file with its identifier and the
-completed state, then stop before starting another step.
+`Just commit`: commit the approved proposal, mark the step complete with its commit ID, then stop.
 
-Never commit without the user's explicit selection of one of the two commit
-actions for the exact displayed proposal.
+Never commit without selecting a displayed commit action.
 
-If no commit is appropriate, or the directory is not a Git repository, offer
-equivalent actions instead:
+Without a suitable commit or Git repository, provide:
 
 - `Accept and start next step`
 - `Fix based on feedback`
 - `Accept and stop`
 
-Update the plan file after every acceptance, commit, block, or significant
-discrepancy. Stop when requested, when the plan is complete, or when the next
-step requires missing user input.
+Update state after each acceptance, commit, block, or discrepancy.
