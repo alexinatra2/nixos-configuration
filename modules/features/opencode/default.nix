@@ -10,6 +10,7 @@
     let
       username = config.local.base.username;
       homeDirectory = config.local.base.homeDirectory;
+      memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
 
       jsonFormat = pkgs.formats.json { };
 
@@ -72,12 +73,26 @@
         compaction.prune = true;
         instructions = [ (toString ./system-prompt.md) ];
         mcp = mcpServers;
-        plugin = [ "opencode-pty" ];
+        plugin = [
+          "opencode-pty"
+          "@slkiser/opencode-quota@3.11.2"
+        ];
         skills.paths = [ (toString ./skills) ];
+        references.memory.path = memoryDirectory;
         tool_output = {
           max_lines = 200;
           max_bytes = 8192;
         };
+      };
+
+      quotaConfig = jsonFormat.generate "quota-toast.json" {
+        enabledProviders = [ "openai" ];
+        formatStyle = "allWindows";
+        percentDisplayMode = "remaining";
+        enableToast = false;
+        tuiSidebarPanel.enabled = false;
+        tuiCompactStatus.enabled = false;
+        maintainerAnnouncements.enabled = false;
       };
     in
     {
@@ -90,7 +105,12 @@
 
         systemd.tmpfiles.rules = [
           "d ${homeDirectory}/.config/opencode 0755 ${username} users -"
+          "d ${homeDirectory}/.config/opencode/opencode-quota 0755 ${username} users -"
+          "d ${memoryDirectory} 0755 ${username} users -"
+          "d ${memoryDirectory}/global 0755 ${username} users -"
+          "d ${memoryDirectory}/workspaces 0755 ${username} users -"
           "L+ ${homeDirectory}/.config/opencode/opencode.json - - - - ${opencodeConfig}"
+          "L+ ${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json - - - - ${quotaConfig}"
         ];
       };
     };

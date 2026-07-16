@@ -17,8 +17,10 @@ Enable only evidenced MCPs:
 
 Disable irrelevant inherited MCPs. Ask before removing explicit local tools.
 
-Use local `mcp.<name>.enabled` overrides. Preserve `$schema`. Do not add tools merely because they exist globally.
+Use local `mcp.<name>.enabled` overrides. Preserve `$schema`. Do not add tools
+merely because they exist globally.
 
 Keep static rules in prompts. Do not duplicate them through plugins.
 
-Use bounded tool output and compaction pruning when absent. Validate resolved config. Tell the user to restart OpenCode.
+Use bounded tool output and compaction pruning when absent. Validate resolved
+config. Tell the user to restart OpenCode.

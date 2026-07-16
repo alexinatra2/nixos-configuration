@@ -11,7 +11,9 @@ Implement one numbered step per pass unless explicitly asked otherwise.
 
 Use `.opencode/plan-iteration/PLAN.md` at the repository root.
 
-In a Git repository, add `.opencode/plan-iteration/` to `.git/info/exclude` when needed. Do not change tracked ignore files. Verify the plan is not untracked.
+In a Git repository, add `.opencode/plan-iteration/` to `.git/info/exclude`
+when needed. Do not change tracked ignore files. Verify the plan is not
+untracked.
 
 Record:
 
@@ -38,7 +40,9 @@ For an existing project:
 3. Compare it with repository state.
 4. Resume at the first incomplete or inconsistent step.
 
-If plan and repository disagree, explain the difference and use `question` to ask whether to reconcile the plan, revise the repository for a chosen step, or stop.
+If plan and repository disagree, explain the difference and use `question` to
+ask whether to reconcile the plan, revise the repository for a chosen step, or
+stop.
 
 ## Execute
 
@@ -50,17 +54,15 @@ For the active step:
 4. Briefly summarize changes and results.
 5. Update plan state and notes.
 
-For suitable Git changes, apply `git-commit` inspection and safety rules. Do not include other plan steps. If one step needs multiple commits, explain why and request approval to split it.
+For suitable Git changes, apply `git-commit` inspection and safety rules. Do
+not include other plan steps. If one step needs multiple commits, explain why
+and request approval to split it.
 
 Use `question` and present:
 
-```text
-Proposed commit:
-<message>
+```text Proposed commit: <message>
 
-How to verify:
-<short check>
-```
+How to verify: <short check> ```
 
 For a commit, provide exactly:
 
@@ -68,11 +70,14 @@ For a commit, provide exactly:
 - `Fix based on feedback`
 - `Just commit`
 
-`Fix based on feedback`: collect feedback, update only the active step, rerun checks, update state, and present the decision again.
+`Fix based on feedback`: collect feedback, update only the active step, rerun
+checks, update state, and present the decision again.
 
-`Commit and start next step`: commit the approved proposal, mark the step complete with its commit ID, then start the next step.
+`Commit and start next step`: commit the approved proposal, mark the step
+complete with its commit ID, then start the next step.
 
-`Just commit`: commit the approved proposal, mark the step complete with its commit ID, then stop.
+`Just commit`: commit the approved proposal, mark the step complete with its
+commit ID, then stop.
 
 Never commit without selecting a displayed commit action.
 
