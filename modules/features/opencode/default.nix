@@ -93,7 +93,9 @@
       opencodeConfig = jsonFormat.generate "opencode.json" {
         "$schema" = "https://opencode.ai/config.json";
         autoupdate = false;
+        instructions = [ (toString ./system-prompt.md) ];
         mcp = defaultMcpServers;
+        skills.paths = [ (toString ./skills) ];
       };
     in
     {
