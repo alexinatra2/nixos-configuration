@@ -59,9 +59,17 @@
             ];
 
             sops.secrets = {
-              "vpn/fernuni/password".sopsFile = fernuniCfg.sopsFile;
-              "vpn/fernuni/totp-seed".sopsFile = fernuniCfg.sopsFile;
+              "vpn/fernuni/password" = {
+                sopsFile = fernuniCfg.sopsFile;
+                restartUnits = [ "openconnect-fernuni.service" ];
+              };
+              "vpn/fernuni/totp-seed" = {
+                sopsFile = fernuniCfg.sopsFile;
+                restartUnits = [ "openconnect-fernuni.service" ];
+              };
             };
+
+            sops.useSystemdActivation = true;
 
             sops.templates."vpn/fernuni/token-secret" = {
               mode = "0400";
@@ -86,10 +94,12 @@
               description = "FernUni OpenConnect VPN";
               wantedBy = lib.mkForce [ ];
               restartIfChanged = false;
+              requires = [ "sops-install-secrets.service" ];
               wants = [ "network-online.target" ];
               after = [
                 "NetworkManager.service"
                 "network-online.target"
+                "sops-install-secrets.service"
               ];
               serviceConfig = {
                 Type = "simple";
