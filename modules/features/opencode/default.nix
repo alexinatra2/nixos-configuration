@@ -73,6 +73,15 @@
         autoupdate = false;
         compaction.prune = true;
         instructions = [ (toString ./system-prompt.md) ];
+        agent.plan = {
+          description = "Plan";
+          permission = {
+            edit = "deny";
+            bash = "deny";
+            plan_read = "allow";
+            plan_write = "allow";
+          };
+        };
         mcp = mcpServers;
         plugin = [
           "opencode-pty"
