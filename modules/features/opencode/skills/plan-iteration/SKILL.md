@@ -1,90 +1,53 @@
 ---
 name: plan-iteration
-description: Use when creating, resuming, or executing an implementation plan one approved step at a time.
+description: Use to create, resume, or execute a repository plan with per-step approval.
 ---
 
 # Plan Iteration
 
-Implement one numbered step per pass unless explicitly asked otherwise.
+Use `plan_read` and `plan_write` for the current repository plan. Do not
+create or manage plan paths.
 
-## State
-
-Use `.opencode/plan-iteration/PLAN.md` at the repository root.
-
-In a Git repository, add `.opencode/plan-iteration/` to `.git/info/exclude`
-when needed. Do not change tracked ignore files. Verify the plan is not
-untracked.
-
-Record:
-
-- Goal and context.
-- Numbered steps with `pending`, `in_progress`, `completed`, or `blocked`.
-- Active step.
-- Resume notes: decisions, checks, commits, and blockers.
-
-## Start Or Resume
-
-For a session plan:
-
-1. Refine it into ordered, executable steps.
-2. Ask only for missing material requirements.
-3. Save and show the plan.
-4. Use `question` to request approval before implementation.
-
-On revision, update, show, and reapprove the plan.
-
-For an existing project:
-
-1. Find the default plan, then other local plan files.
-2. Use `question` to let the user select one or provide a path.
-3. Compare it with repository state.
-4. Resume at the first incomplete or inconsistent step.
-
-If plan and repository disagree, explain the difference and use `question` to
-ask whether to reconcile the plan, revise the repository for a chosen step, or
-stop.
+During planning, create or update the plan. Record the goal, numbered steps,
+their `pending`, `in_progress`, `completed`, or `blocked` status, and brief
+notes for checks, commits, decisions, and blockers.
 
 ## Execute
 
-For the active step:
+When explicitly invoked in build mode, load the plan and execute all remaining
+steps.
 
-1. State its number and objective.
-2. Implement only that step.
-3. Run focused checks.
-4. Briefly summarize changes and results.
-5. Update plan state and notes.
+For each step:
 
-For suitable Git changes, apply `git-commit` inspection and safety rules. Do
-not include other plan steps. If one step needs multiple commits, explain why
-and request approval to split it.
+1. Give a brief implementation summary.
+2. Use `question`:
+   - `Implement this step`
+   - `Skip this step`
+   - `Stop execution`
+3. Implement only an approved step, run focused checks, report briefly, and
+   update the plan.
+4. Invoke `git-commit` with the step scope, definition of done, and manual
+   verification.
 
-Use `question` and present:
-
-```text Proposed commit: <message>
-
-How to verify: <short check> ```
-
-For a commit, provide exactly:
+For plan-iteration commits, `git-commit` lists exact changed files before its
+`question` and uses:
 
 - `Commit and start next step`
 - `Fix based on feedback`
 - `Just commit`
 
-`Fix based on feedback`: collect feedback, update only the active step, rerun
-checks, update state, and present the decision again.
+`Fix based on feedback`: update only this step, rerun checks, update the plan,
+and invoke `git-commit` again.
 
-`Commit and start next step`: commit the approved proposal, mark the step
-complete with its commit ID, then start the next step.
+`Commit and start next step`: commit, update the plan with the commit ID, and
+continue.
 
-`Just commit`: commit the approved proposal, mark the step complete with its
-commit ID, then stop.
+`Just commit`: commit, update the plan with the commit ID, and stop.
 
-Never commit without selecting a displayed commit action.
-
-Without a suitable commit or Git repository, provide:
+Without a commit, use:
 
 - `Accept and start next step`
 - `Fix based on feedback`
 - `Accept and stop`
 
-Update state after each acceptance, commit, block, or discrepancy.
+Never commit without a displayed commit action.
