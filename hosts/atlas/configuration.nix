@@ -36,7 +36,6 @@ in
     sops
     stylix
     syncthing
-    teamsMic
     tailscale
     tmux
     virtualization
