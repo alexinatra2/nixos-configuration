@@ -5,7 +5,6 @@
 
     nixvim-config = {
       url = "git+https://codeberg.org/alexinatra/nixvim.git";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:danth/stylix";
