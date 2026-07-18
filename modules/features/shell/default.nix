@@ -21,9 +21,6 @@ in
       isDefaultOrMaximal = cfg.toolset != "minimal";
       isMaximal = cfg.toolset == "maximal";
       shellAliasesIfEnabled = lib.mkIf isDefaultOrMaximal shellAliases;
-      carapaceInit = shell: ''
-        source <(${pkgs.carapace}/bin/carapace _carapace ${shell})
-      '';
 
       shellAliases = {
         lg = "${lib.getExe pkgs.lazygit}";
@@ -134,7 +131,6 @@ in
 
           bash = {
             completion.enable = isDefaultOrMaximal;
-            interactiveShellInit = lib.mkIf isDefaultOrMaximal (carapaceInit "bash");
             shellAliases = shellAliasesIfEnabled;
           };
 
@@ -151,9 +147,10 @@ in
             autosuggestions.enable = isDefaultOrMaximal;
             enable = true;
             enableCompletion = isDefaultOrMaximal;
-            interactiveShellInit = lib.mkIf isDefaultOrMaximal ''
-              ${zshInit}
-              ${carapaceInit "zsh"}
+            interactiveShellInit = ''
+              ${lib.optionalString isDefaultOrMaximal ''
+                ${zshInit}
+              ''}
             '';
             shellAliases = shellAliasesIfEnabled;
             syntaxHighlighting.enable = isDefaultOrMaximal;
