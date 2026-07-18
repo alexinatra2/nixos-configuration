@@ -1,13 +1,12 @@
-import { createHash } from "node:crypto";
-import { mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { tool, type Plugin } from "@opencode-ai/plugin";
+import { repositoryId } from "./lib/repository-id";
 
 export const PlanStorePlugin: Plugin = async ({ worktree }) => {
-  const repositoryRoot = await realpath(worktree);
-  const repositoryId = createHash("sha256").update(repositoryRoot).digest("hex");
-  const planPath = join(homedir(), ".local", "share", "opencode", "plans", repositoryId, "PLAN.md");
+  const id = await repositoryId(worktree);
+  const planPath = join(homedir(), ".local", "share", "opencode", "plans", id, "PLAN.md");
 
   await mkdir(dirname(planPath), { recursive: true });
 

@@ -40,8 +40,11 @@
         description = "Create swapfile before activation";
         before = [ "var-swapfile.swap" ];
         requiredBy = [ "var-swapfile.swap" ];
-        after = [ "local-fs.target" ];
-        unitConfig.ConditionPathExists = "!${swapFile}";
+        after = [ "systemd-remount-fs.service" ];
+        unitConfig = {
+          DefaultDependencies = false;
+          ConditionPathExists = "!${swapFile}";
+        };
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
