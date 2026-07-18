@@ -11,7 +11,7 @@
       username = config.local.base.username;
       homeDirectory = config.local.base.homeDirectory;
       memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
-      pluginDirectory = ./plugins;
+      planPlugin = pkgs.writeText "plan-store.ts" (builtins.readFile ./plugins/plan-store.ts);
 
       jsonFormat = pkgs.formats.json { };
 
@@ -116,12 +116,13 @@
         systemd.tmpfiles.rules = [
           "d ${homeDirectory}/.config/opencode 0755 ${username} users -"
           "d ${homeDirectory}/.config/opencode/opencode-quota 0755 ${username} users -"
+          "d ${homeDirectory}/.config/opencode/plugins 0755 ${username} users -"
           "d ${memoryDirectory} 0755 ${username} users -"
           "d ${memoryDirectory}/global 0755 ${username} users -"
           "d ${memoryDirectory}/workspaces 0755 ${username} users -"
           "L+ ${homeDirectory}/.config/opencode/opencode.json - - - - ${opencodeConfig}"
           "L+ ${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json - - - - ${quotaConfig}"
-          "L+ ${homeDirectory}/.config/opencode/plugins - - - - ${pluginDirectory}"
+          "C+ ${homeDirectory}/.config/opencode/plugins/plan-store.ts - - - - ${planPlugin}"
         ];
       };
     };
