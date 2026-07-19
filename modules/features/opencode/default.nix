@@ -11,6 +11,7 @@
       username = config.local.base.username;
       homeDirectory = config.local.base.homeDirectory;
       memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
+      plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
       planPlugin = pkgs.writeText "plan-store.ts" (builtins.readFile ./plugins/plan-store.ts);
 
       jsonFormat = pkgs.formats.json { };
@@ -104,6 +105,11 @@
         tuiCompactStatus.enabled = false;
         maintainerAnnouncements.enabled = false;
       };
+
+      tuiConfig = jsonFormat.generate "tui.json" {
+        "$schema" = "https://opencode.ai/tui.json";
+        theme = "stylix";
+      };
     in
     {
       options.local.opencode = {
@@ -120,7 +126,11 @@
           "d ${memoryDirectory} 0755 ${username} users -"
           "d ${memoryDirectory}/global 0755 ${username} users -"
           "d ${memoryDirectory}/workspaces 0755 ${username} users -"
+          "d ${plansDirectory} 0755 ${username} users -"
+          "r ${homeDirectory}/.config/opencode/opencode.jsonc"
+          "r ${homeDirectory}/.config/opencode/tui.json.b"
           "L+ ${homeDirectory}/.config/opencode/opencode.json - - - - ${opencodeConfig}"
+          "L+ ${homeDirectory}/.config/opencode/tui.json - - - - ${tuiConfig}"
           "L+ ${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json - - - - ${quotaConfig}"
           "C+ ${homeDirectory}/.config/opencode/plugins/plan-store.ts - - - - ${planPlugin}"
         ];
