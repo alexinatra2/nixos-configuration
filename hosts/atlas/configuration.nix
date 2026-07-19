@@ -56,7 +56,10 @@ in
   };
   local.opencode = {
     enable = true;
-    lore.sopsFile = ./secrets.yaml;
+    lore = {
+      enable = true;
+      sopsFile = ./secrets.yaml;
+    };
   };
   local.eduroam = {
     enable = true;
