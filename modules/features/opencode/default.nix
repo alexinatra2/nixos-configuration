@@ -117,7 +117,7 @@
         mcp = mcpServers;
         plugin = [
           "${planPlugin}/plan-store.js"
-          "opencode-pty"
+          "opencode-pty@0.3.6"
           "@slkiser/opencode-quota@3.11.2"
         ];
         skills.paths = [ (toString ./skills) ];
