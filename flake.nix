@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lore = {
+      url = "git+ssh://git@codeberg.org/alexinatra/lore.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =

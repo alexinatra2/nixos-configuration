@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.nixosModules.opencode =
     {
@@ -12,6 +12,8 @@
       homeDirectory = config.local.base.homeDirectory;
       memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
       plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
+      loreCfg = config.local.opencode.lore;
+      lorePackage = inputs.lore.packages.${pkgs.stdenv.hostPlatform.system}.lore-mcp;
       planPlugin = pkgs.buildNpmPackage {
         pname = "opencode-plan-store";
         version = "1.0.0";
@@ -85,6 +87,17 @@
           ];
           enabled = false;
         };
+      }
+      // lib.optionalAttrs loreCfg.enable {
+        lore = {
+          type = "local";
+          command = [ "${lorePackage}/bin/lore-mcp" ];
+          enabled = true;
+          environment = {
+            LORE_API_URL = loreCfg.endpoint;
+            LORE_API_TOKEN = "{file:${config.sops.secrets."lore/api-token".path}}";
+          };
+        };
       };
 
       opencodeConfig = jsonFormat.generate "opencode.json" {
@@ -133,10 +146,32 @@
     {
       options.local.opencode = {
         enable = lib.mkEnableOption "opencode";
+
+        lore = {
+          enable = lib.mkEnableOption "Lore-backed OpenCode memory";
+
+          endpoint = lib.mkOption {
+            type = lib.types.str;
+            default = "http://woodservant-prod.tailnet.woodservant.com";
+            description = "Private Lore API endpoint.";
+          };
+
+          sopsFile = lib.mkOption {
+            type = lib.types.path;
+            description = "SOPS file containing the Lore API token.";
+          };
+        };
       };
 
       config = lib.mkIf config.local.opencode.enable {
         users.users.${username}.packages = [ pkgs.opencode ];
+
+        sops.secrets."lore/api-token" = lib.mkIf loreCfg.enable {
+          inherit (loreCfg) sopsFile;
+          owner = username;
+          group = "users";
+          mode = "0400";
+        };
 
         systemd.tmpfiles.rules = [
           "d ${homeDirectory}/.config/opencode 0755 ${username} users -"

@@ -54,7 +54,10 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
-  local.opencode.enable = true;
+  local.opencode = {
+    enable = true;
+    lore.sopsFile = ./secrets.yaml;
+  };
   local.eduroam = {
     enable = true;
     sopsFile = ./work-secrets.yaml;
