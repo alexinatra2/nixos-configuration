@@ -1,0 +1,9 @@
+{
+  "name": "opencode-plan-store",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@opencode-ai/plugin": "1.17.20"
+  }
+}

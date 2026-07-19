@@ -12,7 +12,25 @@
       homeDirectory = config.local.base.homeDirectory;
       memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
       plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
-      planPlugin = pkgs.writeText "plan-store.ts" (builtins.readFile ./plugins/plan-store.ts);
+      planPlugin = pkgs.buildNpmPackage {
+        pname = "opencode-plan-store";
+        version = "1.0.0";
+        src = ./plugins;
+        npmDepsHash = "sha256-s1DgYzKodzwevWRx4MDqAyxGEd7Et3wGyLXcHarC0fU=";
+        nativeBuildInputs = [ pkgs.esbuild ];
+
+        buildPhase = ''
+          runHook preBuild
+          esbuild plan-store.ts --bundle --format=esm --platform=node --outfile=plan-store.js
+          runHook postBuild
+        '';
+
+        installPhase = ''
+          runHook preInstall
+          install -Dm644 plan-store.js "$out/plan-store.js"
+          runHook postInstall
+        '';
+      };
 
       jsonFormat = pkgs.formats.json { };
 
@@ -85,6 +103,7 @@
         };
         mcp = mcpServers;
         plugin = [
+          "${planPlugin}/plan-store.js"
           "opencode-pty"
           "@slkiser/opencode-quota@3.11.2"
         ];
@@ -122,17 +141,16 @@
         systemd.tmpfiles.rules = [
           "d ${homeDirectory}/.config/opencode 0755 ${username} users -"
           "d ${homeDirectory}/.config/opencode/opencode-quota 0755 ${username} users -"
-          "d ${homeDirectory}/.config/opencode/plugins 0755 ${username} users -"
           "d ${memoryDirectory} 0755 ${username} users -"
           "d ${memoryDirectory}/global 0755 ${username} users -"
           "d ${memoryDirectory}/workspaces 0755 ${username} users -"
           "d ${plansDirectory} 0755 ${username} users -"
           "r ${homeDirectory}/.config/opencode/opencode.jsonc"
+          "r ${homeDirectory}/.config/opencode/plugins/plan-store.ts"
           "r ${homeDirectory}/.config/opencode/tui.json.b"
           "L+ ${homeDirectory}/.config/opencode/opencode.json - - - - ${opencodeConfig}"
           "L+ ${homeDirectory}/.config/opencode/tui.json - - - - ${tuiConfig}"
           "L+ ${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json - - - - ${quotaConfig}"
-          "C+ ${homeDirectory}/.config/opencode/plugins/plan-store.ts - - - - ${planPlugin}"
         ];
       };
     };
