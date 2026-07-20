@@ -21,15 +21,6 @@
           default = "kitty";
         };
 
-        options.picker = lib.mkOption {
-          type = lib.types.enum [
-            "fuzzel"
-            "vicinae"
-          ];
-          default = "fuzzel";
-          description = "Launcher used by the Niri Mod+Space keybinding.";
-        };
-
         options.browser = lib.mkOption {
           type = lib.types.package;
           default = pkgs.firefox;
@@ -62,28 +53,12 @@
                 (builtins.fromJSON (builtins.readFile ../../wrappedPackages/noctalia/noctalia.json)).settings;
             }
           );
-          vicinaeServer = lib.getExe (
-            pkgs.writeShellScriptBin "vicinae-server" ''
-              export USE_LAYER_SHELL=1
-              exec ${lib.getExe config.pkgs.vicinae} server
-            ''
-          );
-          vicinaeToggle = lib.getExe (
-            pkgs.writeShellScriptBin "vicinae-toggle" ''
-              export USE_LAYER_SHELL=1
-              exec ${lib.getExe config.pkgs.vicinae} toggle
-            ''
-          );
         in
         {
-          extraStartupCommands = lib.mkBefore (
-            [ [ noctaliaExe ] ]
-            ++ lib.optionals (config.picker == "vicinae") [ [ vicinaeServer ] ]
-          );
+          extraStartupCommands = lib.mkBefore [ [ noctaliaExe ] ];
 
           settings = let
-            pickerBind =
-              if config.picker == "vicinae" then [ vicinaeToggle ] else lib.getExe config.pkgs.fuzzel;
+            pickerBind = lib.getExe config.pkgs.fuzzel;
           in
           {
             prefer-no-csd = _: { };
@@ -184,7 +159,7 @@
                 "Mod+Shift+Minus".move-column-to-workspace = "w2";
                 "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
-                "Mod+Space".spawn = pickerBind;
+                "Mod+Space".spawn = lib.mkDefault pickerBind;
                 "Mod+B".spawn = lib.getExe config.browser;
                 # Launch yazi inside the configured terminal using the actual
                 # kitty executable path to avoid relying on a bare command name.
@@ -286,22 +261,12 @@
           inherit pkgs;
           browser = config.niri.browser;
           monitorPositions = config.local.niri.monitorPositions;
-          picker = config.local.niri.picker;
           extraStartupCommands = config.local.niri.extraStartupCommands;
           bindings = config.local.niri.bindings;
         };
       in
       {
         options.local.niri = {
-          picker = lib.mkOption {
-            type = lib.types.enum [
-              "fuzzel"
-              "vicinae"
-            ];
-            default = "fuzzel";
-            description = "Launcher used by the Niri Mod+Space keybinding.";
-          };
-
           monitorPositions = lib.mkOption {
             type = lib.types.attrsOf (lib.types.attrsOf lib.types.int);
             default = { };
@@ -337,7 +302,7 @@
 
           environment.systemPackages = with pkgs; [
             brightnessctl
-            (if config.local.niri.picker == "vicinae" then vicinae else fuzzel)
+            fuzzel
             wdisplays
             xwayland-satellite
           ];

@@ -39,6 +39,7 @@ in
     syncthing
     tailscale
     tmux
+    vicinae
     virtualization
     windows
     work
@@ -74,7 +75,6 @@ in
     };
   };
   local.niri = {
-    picker = "vicinae";
     monitorPositions = {
       "DVI-I-2" = {
         x = 0;
@@ -90,6 +90,7 @@ in
       };
     };
   };
+  local.vicinae.enable = true;
   local.focusrite = {
     enable = true;
     defaultProfile = "teams";
