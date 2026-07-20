@@ -1,4 +1,4 @@
-{ ... }:
+{ self, ... }:
 {
   flake.nixosModules.work =
     {
@@ -37,14 +37,9 @@
         (lib.mkIf config.local.work.fernuni.enable (
           let
             fernuniCfg = config.local.work.fernuni;
-            vpnConnectScript = pkgs.writeShellApplication {
-              name = "fernuni-openconnect";
-              text = ''
-                set -euo pipefail
-                exec ${lib.getExe pkgs.openconnect} --config=${
-                  config.sops.templates."vpn/fernuni/openconnect.conf".path
-                } vpn.fernuni-hagen.de
-              '';
+            vpnConnectPackage = self.wrappers.fernuni-openconnect.wrap {
+              inherit pkgs;
+              configFile = config.sops.templates."vpn/fernuni/openconnect.conf".path;
             };
           in
           {
@@ -104,7 +99,7 @@
               ];
               serviceConfig = {
                 Type = "simple";
-                ExecStart = lib.getExe vpnConnectScript;
+                ExecStart = lib.getExe vpnConnectPackage;
                 StandardInput = "file:${config.sops.secrets."vpn/fernuni/password".path}";
                 ProtectHome = true;
                 Restart = "on-failure";
