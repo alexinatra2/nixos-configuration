@@ -27,7 +27,15 @@
       };
     in
     {
-      options.local.focusrite.enable = lib.mkEnableOption "Focusrite Scarlett profile management";
+      options.local.focusrite = {
+        enable = lib.mkEnableOption "Focusrite Scarlett profile management";
+
+        defaultProfile = lib.mkOption {
+          type = lib.types.enum profiles;
+          default = "direct";
+          description = "Focusrite profile to restore on login.";
+        };
+      };
 
       config = lib.mkIf cfg.enable {
         environment.systemPackages =
@@ -63,7 +71,7 @@
         };
 
         local.niri.extraStartupCommands = [
-          [ "${lib.getExe focusriteProfileBin}" "direct" ]
+          [ "${lib.getExe focusriteProfileBin}" cfg.defaultProfile ]
         ];
 
         local.niri.bindings."Mod+P".spawn = "focusrite-picker";

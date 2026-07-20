@@ -90,7 +90,10 @@ in
       };
     };
   };
-  local.focusrite.enable = true;
+  local.focusrite = {
+    enable = true;
+    defaultProfile = "teams";
+  };
 
   local.yubikey = {
     enable = true;
