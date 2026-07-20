@@ -14,8 +14,8 @@
       plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
       loreCfg = config.local.opencode.lore;
       lorePackage = inputs.lore.packages.${pkgs.stdenv.hostPlatform.system}.lore-mcp;
-      planPlugin = pkgs.buildNpmPackage {
-        pname = "opencode-plan-store";
+      opencodePlugins = pkgs.buildNpmPackage {
+        pname = "opencode-plugins";
         version = "1.0.0";
         src = ./plugins;
         npmDepsHash = "sha256-s1DgYzKodzwevWRx4MDqAyxGEd7Et3wGyLXcHarC0fU=";
@@ -23,13 +23,14 @@
 
         buildPhase = ''
           runHook preBuild
-          esbuild plan-store.ts --bundle --format=esm --platform=node --outfile=plan-store.js
+          esbuild plan-store.ts tmux-window-title.ts --bundle --format=esm --platform=node --outdir=dist
           runHook postBuild
         '';
 
         installPhase = ''
           runHook preInstall
-          install -Dm644 plan-store.js "$out/plan-store.js"
+          install -Dm644 dist/plan-store.js "$out/plan-store.js"
+          install -Dm644 dist/tmux-window-title.js "$out/tmux-window-title.js"
           runHook postInstall
         '';
       };
@@ -116,7 +117,8 @@
         };
         mcp = mcpServers;
         plugin = [
-          "${planPlugin}/plan-store.js"
+          "${opencodePlugins}/plan-store.js"
+          "${opencodePlugins}/tmux-window-title.js"
           "opencode-pty@0.3.6"
           "@slkiser/opencode-quota@3.11.2"
         ];
