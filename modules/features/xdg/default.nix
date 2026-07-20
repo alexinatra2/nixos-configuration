@@ -1,4 +1,4 @@
-{ ... }:
+{ self, ... }:
 {
   flake.nixosModules.xdg =
     {
@@ -7,12 +7,8 @@
       ...
     }:
     let
-      xdgOpen = pkgs.writeShellApplication {
-        name = "xdg-open";
-        runtimeInputs = [ pkgs.handlr ];
-        text = ''
-          exec ${lib.getExe pkgs.handlr} open "$@"
-        '';
+      xdgOpen = self.wrappers.xdg-open.wrap {
+        inherit pkgs;
       };
     in
     {
