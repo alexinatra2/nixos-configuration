@@ -29,6 +29,7 @@ in
     greeter
     secureBoot
     llms
+    monitorProfiles
     music
     nh
     niri
@@ -74,19 +75,22 @@ in
       sopsFile = ./work-secrets.yaml;
     };
   };
-  local.niri = {
-    monitorPositions = {
+  local.monitorProfiles = {
+    enable = true;
+    profiles.desk.outputs = {
       "DVI-I-2" = {
-        x = 0;
-        y = 0;
+        mode = "preferred";
+        position = {
+          x = 0;
+          y = 0;
+        };
       };
       "DVI-I-1" = {
-        x = 1920;
-        y = 0;
-      };
-      "Samsung Display Corp. 0x4188 Unknown" = {
-        x = 145;
-        y = 1080;
+        mode = "preferred";
+        position = {
+          x = 1920;
+          y = 0;
+        };
       };
     };
   };
