@@ -24,24 +24,37 @@
         '';
         dontNpmInstall = true;
       };
+      settingsFile = (pkgs.formats.json { }).generate "vicinae-settings.json" {
+        keybinding = "emacs";
+      };
+      configuredVicinae = pkgs.symlinkJoin {
+        name = "${pkgs.vicinae.name}-configured";
+        paths = [ pkgs.vicinae ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram "$out/bin/vicinae" \
+            --set VICINAE_OVERRIDES "${settingsFile}"
+        '';
+        inherit (pkgs.vicinae) meta;
+      };
     in
     {
       options.local.vicinae.enable = lib.mkEnableOption "vicinae launcher";
 
       config = lib.mkIf config.local.vicinae.enable {
-        environment.systemPackages = [ pkgs.vicinae ];
+        environment.systemPackages = [ configuredVicinae ];
 
         local.niri.bindings."Mod+Space".spawn = [
-          (lib.getExe pkgs.vicinae)
+          (lib.getExe configuredVicinae)
           "toggle"
         ];
         local.niri.bindings."Mod+S".spawn = [
-          (lib.getExe pkgs.vicinae)
+          (lib.getExe configuredVicinae)
           "vicinae://launch/@alexander/screenshot/screenshot"
         ];
         local.niri.extraStartupCommands = lib.mkAfter [
           [
-            "${lib.getExe pkgs.vicinae}"
+            "${lib.getExe configuredVicinae}"
             "server"
           ]
         ];
