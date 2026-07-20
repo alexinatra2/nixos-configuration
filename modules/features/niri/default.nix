@@ -191,15 +191,6 @@
                 "Mod+Ctrl+Minus".set-column-width = "-10%";
                 "Mod+Ctrl+Equal".set-column-width = "+10%";
 
-                "Mod+Shift+S".spawn-sh = lib.getExe (
-                  config.pkgs.writeShellApplication {
-                    name = "screenshot";
-                    text = ''
-                      ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
-                      | ${config.pkgs.wl-clipboard}/bin/wl-copy --type image/png
-                    '';
-                  }
-                );
               }
               config.bindings
             ];
