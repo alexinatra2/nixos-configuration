@@ -129,7 +129,7 @@
           [
             (lib.getExe pkgs.kanshi)
             "-c"
-            kanshiConfig
+            (toString kanshiConfig)
           ]
         ];
       };
