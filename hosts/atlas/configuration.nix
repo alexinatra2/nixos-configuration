@@ -22,6 +22,7 @@ in
     base
     displaylink
     eduroam
+    focusrite
     fonts
     gaming
     git
@@ -89,6 +90,8 @@ in
       };
     };
   };
+  local.focusrite.enable = true;
+
   local.yubikey = {
     enable = true;
     pamAuth.services.sudo = false;
