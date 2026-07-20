@@ -65,6 +65,8 @@
         local.niri.extraStartupCommands = [
           [ "${lib.getExe focusriteProfileBin}" "direct" ]
         ];
+
+        local.niri.bindings."Mod+P".spawn = "focusrite-picker";
       };
     };
 }

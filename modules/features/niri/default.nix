@@ -48,6 +48,12 @@
           description = "Extra commands to spawn at Niri startup.";
         };
 
+        options.bindings = lib.mkOption {
+          type = lib.types.attrsOf lib.types.anything;
+          default = { };
+          description = "Additional keybindings merged into niri binds.";
+        };
+
         config = let
           noctaliaExe = lib.getExe (
             inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
@@ -110,116 +116,118 @@
               };
             }) config.monitorPositions;
 
-            binds = {
-              "Mod+Shift+Slash".show-hotkey-overlay = _: { };
-              "Mod+Shift+Q".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
+            binds = lib.mkMerge [
+              {
+                "Mod+Shift+Slash".show-hotkey-overlay = _: { };
+                "Mod+Shift+Q".spawn-sh = "${noctaliaExe} ipc call lockScreen lock";
 
-              # Use the full executable path for kitty so the keybinding
-              # reliably launches the terminal in the current generation.
-              "Mod+Return".spawn = lib.getExe config.pkgs.kitty;
+                # Use the full executable path for kitty so the keybinding
+                # reliably launches the terminal in the current generation.
+                "Mod+Return".spawn = lib.getExe config.pkgs.kitty;
 
-              "Mod+Q".close-window = _: { };
-              "Mod+F".maximize-column = _: { };
-              "Mod+G".fullscreen-window = _: { };
-              "Mod+Shift+F".toggle-window-floating = _: { };
-              "Mod+H".focus-column-left = _: { };
-              "Mod+L".focus-column-right = _: { };
-              "Mod+K".focus-window-or-workspace-up = _: { };
-              "Mod+J".focus-window-or-workspace-down = _: { };
+                "Mod+Q".close-window = _: { };
+                "Mod+F".maximize-column = _: { };
+                "Mod+G".fullscreen-window = _: { };
+                "Mod+Shift+F".toggle-window-floating = _: { };
+                "Mod+H".focus-column-left = _: { };
+                "Mod+L".focus-column-right = _: { };
+                "Mod+K".focus-window-or-workspace-up = _: { };
+                "Mod+J".focus-window-or-workspace-down = _: { };
 
-              "Mod+Left".focus-column-left = _: { };
-              "Mod+Right".focus-column-right = _: { };
-              "Mod+Up".focus-window-or-workspace-up = _: { };
-              "Mod+Down".focus-window-or-workspace-down = _: { };
+                "Mod+Left".focus-column-left = _: { };
+                "Mod+Right".focus-column-right = _: { };
+                "Mod+Up".focus-window-or-workspace-up = _: { };
+                "Mod+Down".focus-window-or-workspace-down = _: { };
 
-              "Mod+Ctrl+H".focus-monitor-left = _: { };
-              "Mod+Ctrl+L".focus-monitor-right = _: { };
-              "Mod+Ctrl+K".focus-monitor-up = _: { };
-              "Mod+Ctrl+J".focus-monitor-down = _: { };
+                "Mod+Ctrl+H".focus-monitor-left = _: { };
+                "Mod+Ctrl+L".focus-monitor-right = _: { };
+                "Mod+Ctrl+K".focus-monitor-up = _: { };
+                "Mod+Ctrl+J".focus-monitor-down = _: { };
 
-              "Mod+Ctrl+Left".focus-monitor-left = _: { };
-              "Mod+Ctrl+Right".focus-monitor-right = _: { };
-              "Mod+Ctrl+Up".focus-monitor-up = _: { };
-              "Mod+Ctrl+Down".focus-monitor-down = _: { };
+                "Mod+Ctrl+Left".focus-monitor-left = _: { };
+                "Mod+Ctrl+Right".focus-monitor-right = _: { };
+                "Mod+Ctrl+Up".focus-monitor-up = _: { };
+                "Mod+Ctrl+Down".focus-monitor-down = _: { };
 
-              "Mod+Shift+H".move-column-left = _: { };
-              "Mod+Shift+L".move-column-right = _: { };
-              "Mod+Shift+K".move-window-up-or-to-workspace-up = _: { };
-              "Mod+Shift+J".move-window-down-or-to-workspace-down = _: { };
+                "Mod+Shift+H".move-column-left = _: { };
+                "Mod+Shift+L".move-column-right = _: { };
+                "Mod+Shift+K".move-window-up-or-to-workspace-up = _: { };
+                "Mod+Shift+J".move-window-down-or-to-workspace-down = _: { };
 
-              "Mod+Shift+Left".move-column-left = _: { };
-              "Mod+Shift+Right".move-column-right = _: { };
-              "Mod+Shift+Up".move-window-up-or-to-workspace-up = _: { };
-              "Mod+Shift+Down".move-window-down-or-to-workspace-down = _: { };
+                "Mod+Shift+Left".move-column-left = _: { };
+                "Mod+Shift+Right".move-column-right = _: { };
+                "Mod+Shift+Up".move-window-up-or-to-workspace-up = _: { };
+                "Mod+Shift+Down".move-window-down-or-to-workspace-down = _: { };
 
-              "Mod+Ctrl+Shift+H".move-column-to-monitor-left = _: { };
-              "Mod+Ctrl+Shift+L".move-column-to-monitor-right = _: { };
-              "Mod+Ctrl+Shift+K".move-column-to-monitor-up = _: { };
-              "Mod+Ctrl+Shift+J".move-column-to-monitor-down = _: { };
+                "Mod+Ctrl+Shift+H".move-column-to-monitor-left = _: { };
+                "Mod+Ctrl+Shift+L".move-column-to-monitor-right = _: { };
+                "Mod+Ctrl+Shift+K".move-column-to-monitor-up = _: { };
+                "Mod+Ctrl+Shift+J".move-column-to-monitor-down = _: { };
 
-              "Mod+Alt+9".focus-workspace = "w0";
-              "Mod+Alt+0".focus-workspace = "w1";
-              "Mod+Alt+Minus".focus-workspace = "w2";
-              "Mod+Alt+Equal".focus-workspace = "w3";
+                "Mod+Alt+9".focus-workspace = "w0";
+                "Mod+Alt+0".focus-workspace = "w1";
+                "Mod+Alt+Minus".focus-workspace = "w2";
+                "Mod+Alt+Equal".focus-workspace = "w3";
 
-              "Mod+Alt+J".focus-workspace-down = _: { };
-              "Mod+Alt+K".focus-workspace-up = _: { };
-              "Mod+Alt+Shift+J".move-workspace-down = _: { };
-              "Mod+Alt+Shift+K".move-workspace-up = _: { };
+                "Mod+Alt+J".focus-workspace-down = _: { };
+                "Mod+Alt+K".focus-workspace-up = _: { };
+                "Mod+Alt+Shift+J".move-workspace-down = _: { };
+                "Mod+Alt+Shift+K".move-workspace-up = _: { };
 
-              "Mod+Alt+Left".move-workspace-to-monitor-left = _: { };
-              "Mod+Alt+Right".move-workspace-to-monitor-right = _: { };
-              "Mod+Alt+Up".move-workspace-to-monitor-up = _: { };
-              "Mod+Alt+Down".move-workspace-to-monitor-down = _: { };
+                "Mod+Alt+Left".move-workspace-to-monitor-left = _: { };
+                "Mod+Alt+Right".move-workspace-to-monitor-right = _: { };
+                "Mod+Alt+Up".move-workspace-to-monitor-up = _: { };
+                "Mod+Alt+Down".move-workspace-to-monitor-down = _: { };
 
-              "Mod+Shift+9".move-column-to-workspace = "w0";
-              "Mod+Shift+0".move-column-to-workspace = "w1";
-              "Mod+Shift+Minus".move-column-to-workspace = "w2";
-              "Mod+Shift+Equal".move-column-to-workspace = "w3";
+                "Mod+Shift+9".move-column-to-workspace = "w0";
+                "Mod+Shift+0".move-column-to-workspace = "w1";
+                "Mod+Shift+Minus".move-column-to-workspace = "w2";
+                "Mod+Shift+Equal".move-column-to-workspace = "w3";
 
-              "Mod+Space".spawn = pickerBind;
-              "Mod+B".spawn = lib.getExe config.browser;
-              # Launch yazi inside the configured terminal using the actual
-              # kitty executable path to avoid relying on a bare command name.
-              "Mod+E".spawn-sh = "${lib.getExe config.pkgs.kitty} -e yazi";
-              "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
-              "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
-              "Mod+O".toggle-overview = _: { };
-              "Mod+P".spawn = "focusrite-picker";
-              "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
-              "Mod+D".spawn-sh = "wdisplays";
+                "Mod+Space".spawn = pickerBind;
+                "Mod+B".spawn = lib.getExe config.browser;
+                # Launch yazi inside the configured terminal using the actual
+                # kitty executable path to avoid relying on a bare command name.
+                "Mod+E".spawn-sh = "${lib.getExe config.pkgs.kitty} -e yazi";
+                "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
+                "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
+                "Mod+O".toggle-overview = _: { };
+                "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
+                "Mod+D".spawn-sh = "wdisplays";
 
-              "Print".screenshot = _: { };
-              "Ctrl+Print".screenshot-screen = _: { };
-              "Alt+Print".screenshot-window = _: { };
+                "Print".screenshot = _: { };
+                "Ctrl+Print".screenshot-screen = _: { };
+                "Alt+Print".screenshot-window = _: { };
 
-              "Mod+Shift+E".quit = _: { };
-              "Mod+Shift+P".power-off-monitors = _: { };
+                "Mod+Shift+E".quit = _: { };
+                "Mod+Shift+P".power-off-monitors = _: { };
 
-              "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
-              "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-              "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-              "XF86MonBrightnessUp".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%+";
-              "XF86MonBrightnessDown".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%-";
+                "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
+                "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
+                "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+                "XF86MonBrightnessUp".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%+";
+                "XF86MonBrightnessDown".spawn-sh = "${lib.getExe config.pkgs.brightnessctl} set 5%-";
 
-              "Mod+WheelScrollDown".focus-column-left = _: { };
-              "Mod+WheelScrollUp".focus-column-right = _: { };
-              "Mod+Alt+WheelScrollDown".focus-workspace-down = _: { };
-              "Mod+Alt+WheelScrollUp".focus-workspace-up = _: { };
+                "Mod+WheelScrollDown".focus-column-left = _: { };
+                "Mod+WheelScrollUp".focus-column-right = _: { };
+                "Mod+Alt+WheelScrollDown".focus-workspace-down = _: { };
+                "Mod+Alt+WheelScrollUp".focus-workspace-up = _: { };
 
-              "Mod+Ctrl+Minus".set-column-width = "-10%";
-              "Mod+Ctrl+Equal".set-column-width = "+10%";
+                "Mod+Ctrl+Minus".set-column-width = "-10%";
+                "Mod+Ctrl+Equal".set-column-width = "+10%";
 
-              "Mod+Shift+S".spawn-sh = lib.getExe (
-                config.pkgs.writeShellApplication {
-                  name = "screenshot";
-                  text = ''
-                    ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
-                    | ${config.pkgs.wl-clipboard}/bin/wl-copy --type image/png
-                  '';
-                }
-              );
-            };
+                "Mod+Shift+S".spawn-sh = lib.getExe (
+                  config.pkgs.writeShellApplication {
+                    name = "screenshot";
+                    text = ''
+                      ${lib.getExe config.pkgs.grim} -g "$(${lib.getExe config.pkgs.slurp} -w 0)" - \
+                      | ${config.pkgs.wl-clipboard}/bin/wl-copy --type image/png
+                    '';
+                  }
+                );
+              }
+              config.bindings
+            ];
 
             layout = {
               gaps = 12;
@@ -280,6 +288,7 @@
           monitorPositions = config.local.niri.monitorPositions;
           picker = config.local.niri.picker;
           extraStartupCommands = config.local.niri.extraStartupCommands;
+          bindings = config.local.niri.bindings;
         };
       in
       {
@@ -303,6 +312,12 @@
             type = lib.types.listOf (lib.types.listOf lib.types.str);
             default = [ ];
             description = "Extra commands to spawn at Niri startup.";
+          };
+
+          bindings = lib.mkOption {
+            type = lib.types.attrsOf lib.types.anything;
+            default = { };
+            description = "Additional keybindings merged into niri binds.";
           };
         };
 
