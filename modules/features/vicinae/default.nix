@@ -9,8 +9,10 @@
         runtimeInputs = [ pkgs.vicinae ];
         text = ''
           entries=${
-            lib.concatStringsSep "\n" (
-              map (app: "${lib.escapeShellArg app.name}\t${lib.escapeShellArg app.command}") cfg.applications
+            lib.escapeShellArg (
+              lib.concatStringsSep "\n" (
+                map (app: "${app.name}\t${app.command}") cfg.applications
+              )
             )
           }
           selection=$(echo "$entries" | vicinae dmenu --placeholder "Select action")
