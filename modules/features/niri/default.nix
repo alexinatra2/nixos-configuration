@@ -42,6 +42,12 @@
           description = "Monitor positions keyed by Niri output name.";
         };
 
+        options.extraStartupCommands = lib.mkOption {
+          type = lib.types.listOf (lib.types.listOf lib.types.str);
+          default = [ ];
+          description = "Extra commands to spawn at Niri startup.";
+        };
+
         config = {
           settings =
             let
@@ -258,7 +264,7 @@
 
               xwayland-satellite.path = lib.getExe config.pkgs.xwayland-satellite;
 
-              spawn-at-startup = [ noctaliaExe ] ++ pickerStartup;
+              spawn-at-startup = [ noctaliaExe ] ++ pickerStartup ++ config.extraStartupCommands;
             };
         };
       };
@@ -276,6 +282,7 @@
           browser = config.niri.browser;
           monitorPositions = config.local.niri.monitorPositions;
           picker = config.local.niri.picker;
+          extraStartupCommands = config.local.niri.extraStartupCommands;
         };
       in
       {
@@ -293,6 +300,12 @@
             type = lib.types.attrsOf (lib.types.attrsOf lib.types.int);
             default = { };
             description = "Monitor positions keyed by Niri output name.";
+          };
+
+          extraStartupCommands = lib.mkOption {
+            type = lib.types.listOf (lib.types.listOf lib.types.str);
+            default = [ ];
+            description = "Extra commands to spawn at Niri startup.";
           };
         };
 
