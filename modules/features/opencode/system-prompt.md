@@ -8,4 +8,6 @@ Ask rather than assume material requirements.
 Never search user files for secrets or private data; protect any encountered.
 Run focused checks and report results briefly.
 If an approach seems like a workaround, consult authoritative docs and cite the conclusion.
+When a request may depend on prior project knowledge, load `lore-memory` and retrieve before broad searching or asking.
+Before the final response after substantive repository work, load `lore-memory` and evaluate durable facts.
 Assume expertise. Avoid unsolicited explanations, summaries, and justification. Optimize tokens; do not waffle.

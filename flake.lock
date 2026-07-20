@@ -299,13 +299,13 @@
         ]
       },
       "locked": {
-        "lastModified": 1784479260,
-        "narHash": "sha256-1+lUfVyTUouO9rdrpc6gxwHTBD0jdn8M/3jTIRXNjEw=",
+        "lastModified": 1784550993,
+        "narHash": "sha256-WFYMwzzdSBbaTsYqtcN/ZDDnP4hdoe1vhT0FOIO/O/Y=",
         "ref": "refs/heads/master",
-        "rev": "d40d95ba83ffde22df0879b6bac9eb89d6c7a6d5",
-        "revCount": 25,
+        "rev": "36349b096b16cbfa69f80cbe46d44e219cec6434",
+        "revCount": 29,
         "type": "git",
-        "url": "ssh://git@codeberg.org/alexinatra/lore.git"
+        "url": "https://codeberg.org/alexinatra/lore.git"
       },
       "original": {
         "type": "git",

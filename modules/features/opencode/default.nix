@@ -95,7 +95,7 @@
           enabled = true;
           environment = {
             LORE_API_URL = loreCfg.endpoint;
-            LORE_API_TOKEN = "{file:${config.sops.secrets."lore/api-token".path}}";
+            LORE_API_TOKEN_FILE = config.sops.secrets."lore/api-token".path;
           };
         };
       };
