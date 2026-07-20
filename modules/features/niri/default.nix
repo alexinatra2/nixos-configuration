@@ -185,6 +185,7 @@
               "Mod+Comma".spawn-sh = "${noctaliaExe} ipc call settings open";
               "Mod+M".spawn-sh = "${config.pkgs.alsa-utils}/bin/amixer sset Capture toggle";
               "Mod+O".toggle-overview = _: { };
+              "Mod+P".spawn = "focusrite-picker";
               "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
               "Mod+D".spawn-sh = "wdisplays";
 

@@ -30,11 +30,27 @@
       options.local.focusrite.enable = lib.mkEnableOption "Focusrite Scarlett profile management";
 
       config = lib.mkIf cfg.enable {
-        environment.systemPackages = [ focusriteProfileBin ] ++ (map (profile:
-          pkgs.writeShellScriptBin "focusrite-${profile}" ''
-            exec ${lib.getExe focusriteProfileBin} ${profile}
-          ''
-        ) profiles);
+        environment.systemPackages =
+          [ focusriteProfileBin ]
+          ++ (map (profile:
+            pkgs.writeShellScriptBin "focusrite-${profile}" ''
+              exec ${lib.getExe focusriteProfileBin} ${profile}
+            ''
+          ) profiles)
+          ++ [
+            (pkgs.writeShellApplication {
+              name = "focusrite-picker";
+              runtimeInputs = [ pkgs.vicinae ];
+              text = ''
+                set -euo pipefail
+                profile=$(
+                  echo -e '${lib.concatStringsSep "\\n" profiles}' \
+                    | vicinae dmenu --placeholder "Select Focusrite profile"
+                )
+                ${lib.getExe focusriteProfileBin} "$profile"
+              '';
+            })
+          ];
 
         systemd.user.services."focusrite-profile@" = {
           description = "Apply Focusrite Scarlett profile %i";
@@ -49,8 +65,6 @@
         local.niri.extraStartupCommands = [
           [ "${lib.getExe focusriteProfileBin}" "direct" ]
         ];
-
-        hardware.alsa.enablePersistence = lib.mkDefault false;
       };
     };
 }
