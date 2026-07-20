@@ -74,10 +74,6 @@
 
         local.niri.bindings."Mod+P".spawn = lib.getExe focusritePicker;
 
-        local.vicinae.applications = [{
-          name = "Switch Focusrite profile";
-          command = lib.getExe focusritePicker;
-        }];
       };
     };
 }
