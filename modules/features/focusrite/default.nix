@@ -25,6 +25,18 @@
           esac
         '';
       };
+      focusritePicker = pkgs.writeShellApplication {
+        name = "focusrite-picker";
+        runtimeInputs = [ pkgs.vicinae ];
+        text = ''
+          set -euo pipefail
+          profile=$(
+            echo -e '${lib.concatStringsSep "\\n" profiles}' \
+              | vicinae dmenu --placeholder "Select Focusrite profile"
+          )
+          ${lib.getExe focusriteProfileBin} "$profile"
+        '';
+      };
     in
     {
       options.local.focusrite = {
@@ -39,26 +51,12 @@
 
       config = lib.mkIf cfg.enable {
         environment.systemPackages =
-          [ focusriteProfileBin ]
+          [ focusriteProfileBin focusritePicker ]
           ++ (map (profile:
             pkgs.writeShellScriptBin "focusrite-${profile}" ''
               exec ${lib.getExe focusriteProfileBin} ${profile}
             ''
-          ) profiles)
-          ++ [
-            (pkgs.writeShellApplication {
-              name = "focusrite-picker";
-              runtimeInputs = [ pkgs.vicinae ];
-              text = ''
-                set -euo pipefail
-                profile=$(
-                  echo -e '${lib.concatStringsSep "\\n" profiles}' \
-                    | vicinae dmenu --placeholder "Select Focusrite profile"
-                )
-                ${lib.getExe focusriteProfileBin} "$profile"
-              '';
-            })
-          ];
+          ) profiles);
 
         systemd.user.services."focusrite-profile@" = {
           description = "Apply Focusrite Scarlett profile %i";
@@ -74,7 +72,7 @@
           [ "${lib.getExe focusriteProfileBin}" cfg.defaultProfile ]
         ];
 
-        local.niri.bindings."Mod+P".spawn = "focusrite-picker";
+        local.niri.bindings."Mod+P".spawn = lib.getExe focusritePicker;
       };
     };
 }
