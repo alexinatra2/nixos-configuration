@@ -12,6 +12,7 @@
       homeDirectory = config.local.base.homeDirectory;
       memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
       plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
+      goeranhCfg = config.local.opencode.goeranh;
       loreCfg = config.local.opencode.lore;
       lorePackage = inputs.lore.packages.${pkgs.stdenv.hostPlatform.system}.lore-mcp;
       opencodePlugins = pkgs.buildNpmPackage {
@@ -101,34 +102,61 @@
         };
       };
 
-      opencodeConfig = jsonFormat.generate "opencode.json" {
-        "$schema" = "https://opencode.ai/config.json";
-        autoupdate = false;
-        compaction.prune = true;
-        instructions = [ (toString ./system-prompt.md) ];
-        agent.plan = {
-          description = "Plan";
-          permission = {
-            edit = "deny";
-            bash = "deny";
-            plan_read = "allow";
-            plan_write = "allow";
+      opencodeConfig = jsonFormat.generate "opencode.json" (
+        {
+          "$schema" = "https://opencode.ai/config.json";
+          autoupdate = false;
+          compaction.prune = true;
+          instructions = [ (toString ./system-prompt.md) ];
+          agent.plan = {
+            description = "Plan";
+            permission = {
+              edit = "deny";
+              bash = "deny";
+              plan_read = "allow";
+              plan_write = "allow";
+            };
           };
-        };
-        mcp = mcpServers;
-        plugin = [
-          "${opencodePlugins}/plan-store.js"
-          "${opencodePlugins}/tmux-window-title.js"
-          "opencode-pty@0.3.6"
-          "@slkiser/opencode-quota@3.11.2"
-        ];
-        skills.paths = [ (toString ./skills) ];
-        references.memory.path = memoryDirectory;
-        tool_output = {
-          max_lines = 200;
-          max_bytes = 8192;
-        };
-      };
+          mcp = mcpServers;
+          plugin = [
+            "${opencodePlugins}/plan-store.js"
+            "${opencodePlugins}/tmux-window-title.js"
+            "opencode-pty@0.3.6"
+            "@slkiser/opencode-quota@3.11.2"
+          ];
+          skills.paths = [ (toString ./skills) ];
+          references.memory.path = memoryDirectory;
+          tool_output = {
+            max_lines = 200;
+            max_bytes = 8192;
+          };
+        }
+        // lib.optionalAttrs goeranhCfg.enable {
+          provider.goeranh = {
+            name = "Goeranh";
+            npm = "@ai-sdk/openai-compatible";
+            options = {
+              baseURL = "https://ai.goeranh.de/v1";
+              apiKey = "{file:${config.sops.secrets."opencode/goeranh-token".path}}";
+            };
+            models."deepreinforce-ai/Ornith-1.0-35B-GGUF:Q4_K_M" = {
+              name = "Ornith 1.0 35B Q4_K_M";
+              attachment = false;
+              reasoning = true;
+              tool_call = true;
+              interleaved.field = "reasoning_content";
+              modalities = {
+                input = [ "text" ];
+                output = [ "text" ];
+              };
+              limit = {
+                context = 256000;
+                output = 65536;
+              };
+            };
+          };
+        }
+      );
 
       quotaConfig = jsonFormat.generate "quota-toast.json" {
         enabledProviders = [ "openai" ];
@@ -149,6 +177,15 @@
       options.local.opencode = {
         enable = lib.mkEnableOption "opencode";
 
+        goeranh = {
+          enable = lib.mkEnableOption "Goeranh OpenCode provider";
+
+          sopsFile = lib.mkOption {
+            type = lib.types.path;
+            description = "SOPS file containing the Goeranh API token.";
+          };
+        };
+
         lore = {
           enable = lib.mkEnableOption "Lore-backed OpenCode memory";
 
@@ -167,6 +204,13 @@
 
       config = lib.mkIf config.local.opencode.enable {
         users.users.${username}.packages = [ pkgs.opencode ];
+
+        sops.secrets."opencode/goeranh-token" = lib.mkIf goeranhCfg.enable {
+          inherit (goeranhCfg) sopsFile;
+          owner = username;
+          group = "users";
+          mode = "0400";
+        };
 
         sops.secrets."lore/api-token" = lib.mkIf loreCfg.enable {
           inherit (loreCfg) sopsFile;

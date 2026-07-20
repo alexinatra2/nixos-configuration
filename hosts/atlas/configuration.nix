@@ -59,6 +59,10 @@ in
   };
   local.opencode = {
     enable = true;
+    goeranh = {
+      enable = true;
+      sopsFile = ./secrets.yaml;
+    };
     lore = {
       enable = true;
       sopsFile = ./secrets.yaml;
