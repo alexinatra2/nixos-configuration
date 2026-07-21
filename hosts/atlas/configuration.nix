@@ -98,7 +98,13 @@ in
       };
     };
   };
-  local.vicinae.enable = true;
+  local.vicinae = {
+    enable = true;
+    githubTokenSopsFile = ./secrets.yaml;
+    bitwardenCredentialsSopsFile = ./secrets.yaml;
+    settings.providers."@jomifepe/bitwarden".preferences.serverUrl =
+      "https://warden.tailnet.woodservant.com";
+  };
   local.focusrite = {
     enable = true;
     defaultProfile = "teams";
@@ -190,6 +196,7 @@ in
     };
 
     upower.enable = true;
+    power-profiles-daemon.enable = true;
 
     xserver = {
       enable = true;
