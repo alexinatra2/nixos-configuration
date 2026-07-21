@@ -1,0 +1,2 @@
+{ nativeExtension, ... }:
+nativeExtension "firefox"

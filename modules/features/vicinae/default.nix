@@ -16,9 +16,11 @@
       vicinaePkg = inputs.vicinae.packages.${system}.default;
       vicinaeLib = inputs.vicinae.lib.${system};
       raycastRevision = "72a77c5c9767259911f27c7a806f3486be5f1b85";
-      extensions = import ./extensions.nix {
+      extensionsComponent = import ./extensions {
+        enabled = cfg.extensions;
         inherit
           inputs
+          lib
           pkgs
           raycastRevision
           vicinaeLib
@@ -27,20 +29,13 @@
       settingsComponent = import ./settings.nix { inherit lib pkgs; };
       credentials = import ./credentials.nix {
         inherit config lib username;
-        githubSopsFile = cfg.githubTokenSopsFile;
-        bitwardenSopsFile = cfg.bitwardenCredentialsSopsFile;
+        githubSopsFile = if cfg.extensions.github.enable then cfg.githubTokenSopsFile else null;
+        bitwardenSopsFile =
+          if cfg.extensions.bitwarden.enable then cfg.bitwardenCredentialsSopsFile else null;
       };
 
-      runtimeTools = with pkgs; [
-        bitwarden-cli
-        openssh
-        playerctl
-        podman
-        pulseaudio
-        power-profiles-daemon
-      ];
-
       settingsFile = settingsComponent.generate {
+        extensionSettings = extensionsComponent.providerSettings;
         userSettings = cfg.settings;
         secretImports = credentials.settingsImports;
       };
@@ -50,7 +45,9 @@
         nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
           wrapProgram "$out/bin/vicinae" \
-            --prefix PATH : ${lib.makeBinPath runtimeTools} \
+            ${lib.optionalString (
+              extensionsComponent.runtimeTools != [ ]
+            ) "--prefix PATH : ${lib.makeBinPath extensionsComponent.runtimeTools} \\"}
             --set VICINAE_OVERRIDES "${settingsFile}"
         '';
         inherit (vicinaePkg) meta;
@@ -71,6 +68,8 @@
           default = null;
           description = "SOPS file containing the Vicinae Bitwarden API credentials.";
         };
+
+        extensions = extensionsComponent.options;
 
         settings = lib.mkOption {
           inherit (settingsComponent.format) type;
@@ -96,15 +95,11 @@
               group = "root";
             };
 
-            environment.systemPackages = [ configuredVicinae ] ++ runtimeTools;
+            environment.systemPackages = [ configuredVicinae ] ++ extensionsComponent.runtimeTools;
 
             local.niri.bindings."Mod+Space".spawn = [
               (lib.getExe configuredVicinae)
               "toggle"
-            ];
-            local.niri.bindings."Mod+S".spawn = [
-              (lib.getExe configuredVicinae)
-              "vicinae://launch/@alexander/screenshot/screenshot"
             ];
             local.niri.extraStartupCommands = lib.mkAfter [
               [
@@ -119,8 +114,17 @@
             ++ map (
               extension:
               "L+ ${homeDirectory}/.local/share/vicinae/extensions/${extension.installName} - - - - ${extension.package}"
-            ) extensions;
+            ) extensionsComponent.extensions
+            ++ map (
+              extension: "r ${homeDirectory}/.local/share/vicinae/extensions/${extension.installName}"
+            ) extensionsComponent.disabledExtensions;
           }
+          (lib.mkIf cfg.extensions.screenshot.enable {
+            local.niri.bindings."Mod+S".spawn = [
+              (lib.getExe configuredVicinae)
+              "vicinae://launch/@alexander/screenshot/screenshot"
+            ];
+          })
           credentials.nixosConfig
         ]
       );

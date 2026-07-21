@@ -102,6 +102,25 @@ in
     enable = true;
     githubTokenSopsFile = ./secrets.yaml;
     bitwardenCredentialsSopsFile = ./secrets.yaml;
+    extensions = {
+      bitwarden.enable = true;
+      bluetooth.enable = true;
+      firefox.enable = true;
+      github.enable = true;
+      niri.enable = true;
+      nix.enable = true;
+      player-pilot.enable = true;
+      podman.enable = true;
+      port-killer.enable = true;
+      power-profile.enable = true;
+      process-manager.enable = true;
+      pulseaudio.enable = true;
+      screenshot.enable = true;
+      search-npm.enable = true;
+      spotify-player.enable = true;
+      ssh.enable = true;
+      tailscale.enable = true;
+    };
     settings.providers."@jomifepe/bitwarden".preferences.serverUrl =
       "https://warden.tailnet.woodservant.com";
   };
