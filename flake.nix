@@ -3,6 +3,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    vicinae = {
+      url = "github:vicinaehq/vicinae/630036e784de647bcf18aedab7007ec5c4f5b2d0";
+    };
+
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions/ca74eede9a778a9373c8f5fd221b0a5026dcd1ef";
+    };
+
     nixvim-config = {
       url = "git+https://codeberg.org/alexinatra/nixvim.git";
     };
