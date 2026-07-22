@@ -200,10 +200,18 @@
             description = "SOPS file containing the Lore API token.";
           };
         };
+
+        worktreeRoot = lib.mkOption {
+          type = lib.types.str;
+          default = "${homeDirectory}/.local/share/opencode/worktrees";
+          description = "Root directory for feature-development worktrees.";
+        };
       };
 
       config = lib.mkIf config.local.opencode.enable {
         users.users.${username}.packages = [ pkgs.opencode ];
+
+        environment.sessionVariables.OPENCODE_WORKTREE_ROOT = config.local.opencode.worktreeRoot;
 
         sops.secrets."opencode/goeranh-token" = lib.mkIf goeranhCfg.enable {
           inherit (goeranhCfg) sopsFile;
