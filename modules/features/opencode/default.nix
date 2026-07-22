@@ -24,7 +24,7 @@
 
         buildPhase = ''
           runHook preBuild
-          esbuild plan-store.ts tmux-window-title.ts --bundle --format=esm --platform=node --outdir=dist
+          esbuild plan-store.ts tmux-window-title.ts feature-worktree.ts --bundle --format=esm --platform=node --outdir=dist
           runHook postBuild
         '';
 
@@ -32,6 +32,7 @@
           runHook preInstall
           install -Dm644 dist/plan-store.js "$out/plan-store.js"
           install -Dm644 dist/tmux-window-title.js "$out/tmux-window-title.js"
+          install -Dm644 dist/feature-worktree.js "$out/feature-worktree.js"
           runHook postInstall
         '';
       };
@@ -121,6 +122,7 @@
           plugin = [
             "${opencodePlugins}/plan-store.js"
             "${opencodePlugins}/tmux-window-title.js"
+            "${opencodePlugins}/feature-worktree.js"
             "opencode-pty@0.3.6"
             "@slkiser/opencode-quota@3.11.2"
           ];
