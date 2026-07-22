@@ -286,6 +286,7 @@ in
   security.soteria.enable = true;
   security.rtkit.enable = true;
 
+  services.gnome.gnome-keyring.enable = true;
   services.blueman.enable = true;
 
   system.stateVersion = "24.05";
