@@ -10,20 +10,19 @@ operations before mutation.
 
 ## Start
 
-1. Inspect the repository root, branch, status, remotes, default branch, and
-   worktrees.
-2. Derive a feature name, `feature/<slug>` branch, likely base branch, and
-   absolute sibling path `<repository>-<slug>`. Check availability and disclose
-   uncommitted changes, which are not copied.
-3. Use one `question` call for all four values. Put each generated value first
-   with `(Recommended)` and allow custom answers.
-4. Show the values and exact `git worktree add -b <branch> <path> <base>`
+1. Inspect the repository, current branch/status, default branch, and
+   worktrees. Derive a recommended name, branch, base, and path.
+2. Use `question` before preview/create. Show the recommended name first and
+   let the user type a custom name. Include `Cancel feature development`.
+   Do not derive a name silently or create without an answer.
+3. Show the selected values and exact `git worktree add -b <branch> <path> <base>`
    command. Ask:
    - `Create worktree`
-   - `Revise setup`
+   - `Type your own answer` (free text; not a directly submittable revise action)
    - `Cancel`
-5. Revise by repeating steps 3-4. Cancel without changes.
-6. Before approved creation, recheck collisions. Create and verify the
+4. Repeat with the typed answer when revising. On either cancel option, stop
+   without calling preview/create or changing Git.
+5. Before approved creation, recheck collisions. Create and verify the
    worktree, then print its branch, path, and `opencode "<path>"`.
 
 Do not commit, stash, push, copy ignored files, install dependencies, or run
