@@ -15,7 +15,19 @@ notes for checks, commits, decisions, and blockers.
 ## Execute
 
 When explicitly invoked in build mode, load the plan and execute all remaining
-steps.
+steps. Before executing any step, invoke `feature-development` start from the
+current repository and complete its approved worktree creation or reuse flow.
+Keep the active session open.
+
+After the worktree is verified:
+
+- Record its absolute path as the execution worktree in the plan.
+- Use absolute paths under the execution worktree for every read, edit, and
+  file check.
+- Target every command at the execution worktree, for example with `git -C
+  <worktree>`.
+- Never edit or run mutating commands against the original workspace during
+  plan execution.
 
 For each step:
 

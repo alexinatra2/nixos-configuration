@@ -23,7 +23,8 @@ operations before mutation.
 4. Repeat with the typed answer when revising. On either cancel option, stop
    without calling preview/create or changing Git.
 5. Before approved creation, recheck collisions. Create and verify the
-   worktree, then print its branch, path, and `opencode "<path>"`.
+   worktree, then report its branch and absolute path. Continue in the current
+   session; use absolute paths and target commands at the verified worktree.
 
 Do not commit, stash, push, copy ignored files, install dependencies, or run
 hooks unless requested.

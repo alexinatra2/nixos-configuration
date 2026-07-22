@@ -109,6 +109,7 @@
           autoupdate = false;
           compaction.prune = true;
           instructions = [ (toString ./system-prompt.md) ];
+          permission.external_directory."${config.local.opencode.worktreeRoot}/**" = "allow";
           agent.plan = {
             description = "Plan";
             permission = {
