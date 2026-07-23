@@ -2,11 +2,11 @@
 {
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
-    ./agents.nix
     base
     shell
     sops
     tailscale
+    tentaflake
     zramCompression
   ];
 
