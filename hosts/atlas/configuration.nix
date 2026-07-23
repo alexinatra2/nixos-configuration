@@ -53,6 +53,12 @@ in
 
   boot.blacklistedKernelModules = [ "ideapad_laptop" ];
 
+  # Preserve the original Wi-Fi interface name if PCI bus numbering changes.
+  systemd.network.links."10-atlas-wifi" = {
+    matchConfig.MACAddress = "2c:98:11:55:23:f3";
+    linkConfig.Name = "wlo1";
+  };
+
   local.shell = {
     toolset = "maximal";
     editorPackage = nixvimPackage;
