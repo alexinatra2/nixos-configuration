@@ -32,6 +32,10 @@
             teams-for-linux
           ];
 
+          programs.zsh.interactiveShellInit = ''
+            eval "$(${lib.getExe pkgs.devenv} hook zsh)"
+          '';
+
         }
 
         (lib.mkIf config.local.work.fernuni.enable (
