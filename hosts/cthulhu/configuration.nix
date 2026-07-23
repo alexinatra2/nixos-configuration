@@ -39,10 +39,14 @@
           hashedPasswordFile = lib.mkForce null;
           initialPassword = "cthulhu";
         };
+        users.root.hashedPasswordFile = lib.mkForce null;
       };
 
       # The disposable VM must not need the future bare-metal host key.
-      sops.secrets = lib.mkForce { };
+      sops.secrets = {
+        "users/alexander/password-hash".neededForUsers = lib.mkForce false;
+        "users/root/password-hash".neededForUsers = lib.mkForce false;
+      };
       system.activationScripts.validatePasswordHashSecrets = lib.mkForce "";
 
       virtualisation = {
