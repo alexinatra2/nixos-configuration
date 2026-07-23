@@ -45,6 +45,7 @@
           set -g mouse on
           set -g renumber-windows on
           set -g status-keys vi
+          set -gp alternate-screen off
           set -s extended-keys always
           set -as terminal-features 'xterm*:extkeys'
           set -as terminal-features 'kitty:extkeys'
