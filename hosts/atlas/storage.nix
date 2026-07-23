@@ -13,10 +13,6 @@
         4
         7
       ];
-      autoCryptenroll = {
-        enable = true;
-        device = "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_231429805907-part1";
-      };
     };
   };
 
