@@ -19,6 +19,7 @@ in
 {
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
+    ./storage.nix
     base
     displaylink
     eduroam
