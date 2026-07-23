@@ -15,12 +15,8 @@
     firewall.allowedTCPPorts = [ 22 ];
   };
 
-  local = {
-    shell.toolset = "minimal";
-
-    # This host has no Headscale enrollment until its bare-metal deployment.
-    tailscale.enable = lib.mkForce false;
-  };
+  # This host has no Headscale enrollment until its bare-metal deployment.
+  local.tailscale.enable = lib.mkForce false;
 
   boot.tmp.cleanOnBoot = true;
 
