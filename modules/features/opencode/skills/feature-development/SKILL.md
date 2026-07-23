@@ -1,12 +1,14 @@
 ---
 name: feature-development
-description: Use when starting, reviewing, resuming, or finishing feature development in a managed Git worktree.
+description: Use when starting, reviewing, resuming, or finishing non-trivial feature development in a managed Git worktree.
 ---
 
 # Feature Development
 
 Delegate worktree housekeeping to `feature_worktree`. One lifecycle approval
 covers create, review handoff, resume, fast-forward merge, and cleanup.
+
+Do not use for trivial, low-risk changes that are isolated and quick to verify.
 
 ## Start
 

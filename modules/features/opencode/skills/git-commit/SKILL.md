@@ -5,23 +5,18 @@ description: Use when committing or organizing Git changes. Inspect, propose log
 
 # Git Commit
 
-Never push, amend, rebase, reset, discard changes, or rewrite history unless
-explicitly requested.
+Never push, amend, rebase, reset, discard, or rewrite history unless requested.
 
 Before proposing:
 
-1. Confirm the repository root.
-2. Inspect status, relevant diffs, stats, and recent commit style.
-3. Do not change the index.
-4. Exclude suspicious data, generated output, vendored files, unrelated
-   changes, and unrelated lockfile churn unless explicitly confirmed.
+1. Inspect the repository root, status, diff, stats, and recent commit style.
+2. Do not stage files.
+3. Exclude suspicious, generated, vendored, unrelated, or secret data.
+4. Propose the smallest coherent commit. Ask if scope is unclear.
 
-Propose the smallest coherent commit with its message, files or hunks,
-rationale, and exclusions. If scope is unclear, ask.
+## Approval
 
-## Plan Iteration
-
-When called by `plan-iteration`, commit only its active step.
+For `plan-iteration`, commit only its active step.
 
 Before `question`, give only:
 
@@ -30,34 +25,25 @@ Before `question`, give only:
 
 Changed files:
 - <exact path>
-- <exact path>
 
 Proposed commit: <message>
-Definition of done: <brief condition>
-How to verify: <brief manual check>
+Definition of done: <condition>
+How to verify: <check>
 ```
 
-Use:
+For `plan-iteration`, offer:
 
 - `Commit and start next step`
-- `Fix based on feedback`
 - `Just commit`
 
-Otherwise, use:
+Otherwise, offer:
 
 - `Approve commit`
-- `Revise scope or message`
 - `Skip commit`
 - `Stop workflow`
 
-Never commit without approval for the exact proposal.
+Treat free text as revision feedback and re-propose. Never commit without exact
+approval.
 
-After approval:
-
-1. Stage only the approved scope.
-2. Verify the staged diff.
-3. Commit.
-4. Report the commit.
-5. Reinspect remaining changes and re-propose grouping.
-
-Run relevant inexpensive checks before proposing a commit.
+After approval, stage only the approved scope, verify it, commit, report the
+commit, and inspect remaining changes.

@@ -5,35 +5,29 @@ description: Retrieve Lore for possible prior project knowledge and evaluate dur
 
 # Lore Memory
 
-Use Lore as the only active memory system.
+Use Lore as the only memory system.
 
 ## Retrieve
 
-Call `lore_retrieve` before broad searching or asking the user when a request
-may depend on a prior decision, preference, convention, deployment fact, or
-repository fact not established in context.
+Call `lore_retrieve` before broad searching or asking when work may depend on
+an unstated prior decision, preference, convention, deployment fact, or
+repository fact.
 
-Use repository scope by default. Use global scope only for cross-repository
-facts. Current repository evidence overrides conflicting memory.
+Use repository scope by default. Current repository evidence wins.
 
 ## Evaluate
 
-Before the final response after substantive work, keep a candidate only if it
-is verified, novel, durable, future-useful, atomic, and not readily
-discoverable from the repository.
+After substantive work, keep only verified, novel, durable, useful, atomic
+facts not readily discoverable from the repository.
 
-Exclude transient status, guesses, secrets, personal data, generated values,
-logs, and code-derived details. Retrieve related facts to detect duplicates and
-conflicts. If nothing qualifies, do not ask about memory.
+Exclude transient state, guesses, secrets, personal data, generated values,
+logs, and code-derived details. Check for duplicates and conflicts. If nothing
+qualifies, do not ask.
 
-Use repository scope by default. Use global scope only when the fact must be
-available across repositories in the same access group.
+## Write
 
-## Approve And Write
+Before mutation, show each exact subject, statement, scope, and action in one
+`question`. Offer approval and skip; treat free text as revision feedback.
 
-Before mutation, use one `question` call showing each exact subject, statement,
-scope, and action. Let the user approve, revise, or skip each candidate.
-
-After approval, call `lore_remember` for new knowledge or `lore_supersede` with
-the obsolete fact ID. Write only approved content. Never fall back to Markdown
-memory.
+Write only approved facts with `lore_remember` or `lore_supersede`. Never use
+Markdown memory.

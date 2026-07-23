@@ -1,46 +1,37 @@
 ---
 name: skill-creation
-description: Use when creating or revising an OpenCode SKILL.md. Inspect conventions, show one exact draft for approval, then validate the approved skill.
+description: Use when creating or revising an OpenCode SKILL.md. Draft, approve, and validate the skill.
 ---
 
 # Skill Creation
 
-Use only for OpenCode skills. Do not use for agents, commands, plugins, config,
-or MCP servers.
+Use only for OpenCode skills.
 
 ## Discover
 
-1. Inspect active skill paths, local instructions, and similar skills.
-2. Confirm the target name, path, and scope.
-3. Ask only for missing material requirements.
+Inspect active paths, instructions, and similar skills. Confirm name, path, and
+scope. Ask only about material ambiguity.
 
-## Propose
+## Approve
 
-Before editing:
+Print the exact proposed `SKILL.md` once immediately before `question`. Do not
+summarize or repeat it. Offer:
 
-1. Print the exact proposed `SKILL.md` once in the response immediately before
-   using `question`.
-2. Do not summarize or repeat the proposed file.
-3. Use `question` with:
-   - `Approve draft`
-   - `Revise draft`
-   - `Stop`
+- `Approve draft`
+- `Stop`
 
-Do not edit without approval.
+Treat free text as revision feedback. Do not edit without approval.
 
 ## Draft
 
 - Use `<skill-path>/<name>/SKILL.md`.
 - Match the folder name and lowercase hyphenated frontmatter `name`.
-- Keep the description concrete: what it does and when to trigger it.
-- Defer wording and terseness rules to the system prompt.
-- Example: write `Inspect config.` not `Carefully inspect the relevant
-configuration files.`
+- Keep the description concrete.
+- Do not add revise, fix, or custom-answer choices; free text is the sole
+  revision path.
+- Prefer terse instructions.
 
 ## Validate
 
-1. Confirm the path, frontmatter, name, and description meet OpenCode
-requirements.
-2. Check the skill does not overlap an existing skill without a clear boundary.
-3. Inspect the final diff and run focused formatting checks.
-4. Report the file and validation result.
+Check path, frontmatter, name, description, overlap, final diff, and formatting.
+Report the file and result.
