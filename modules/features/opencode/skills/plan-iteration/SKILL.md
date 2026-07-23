@@ -5,61 +5,30 @@ description: Use to create, resume, or execute a repository plan with per-step a
 
 # Plan Iteration
 
-Use `plan_read` and `plan_write` for the current repository plan. Do not
-create or manage plan paths.
+Use `plan_read` and `plan_write`. Record the goal, numbered steps, status,
+checks, commits, decisions, and blockers.
 
-During planning, create or update the plan. Record the goal, numbered steps,
-their `pending`, `in_progress`, `completed`, or `blocked` status, and brief
-notes for checks, commits, decisions, and blockers.
+## Plan
+
+Present the plan in chat and ask the user to reply `approve`, `stop`, or type
+revision feedback directly.
 
 ## Execute
 
-When explicitly invoked in build mode, load the plan and execute all remaining
-steps. Before executing any step, invoke `feature-development` start from the
-current repository and complete its approved worktree creation or reuse flow.
-Keep the active session open.
+1. Load the plan.
+2. Invoke `feature-development` start before the first remaining step.
+3. Record and use its absolute worktree path for all work.
+4. Keep the active session open.
 
-After the worktree is verified:
+For each step, summarize it and use `question` with:
 
-- Record its absolute path as the execution worktree in the plan.
-- Use absolute paths under the execution worktree for every read, edit, and
-  file check.
-- Target every command at the execution worktree, for example with `git -C
-  <worktree>`.
-- Never edit or run mutating commands against the original workspace during
-  plan execution.
+- `Implement this step`
+- `Skip this step`
+- `Stop execution`
 
-For each step:
+Implement only an approved step. Run focused checks, update the plan, and invoke
+`git-commit`. Apply feedback only to the current step and record its commit
+before continuing.
 
-1. Give a brief implementation summary.
-2. Use `question`:
-   - `Implement this step`
-   - `Skip this step`
-   - `Stop execution`
-3. Implement only an approved step, run focused checks, report briefly, and
-   update the plan.
-4. Invoke `git-commit` with the step scope, definition of done, and manual
-   verification.
-
-For plan-iteration commits, `git-commit` lists exact changed files before its
-`question` and uses:
-
-- `Commit and start next step`
-- `Fix based on feedback`
-- `Just commit`
-
-`Fix based on feedback`: update only this step, rerun checks, update the plan,
-and invoke `git-commit` again.
-
-`Commit and start next step`: commit, update the plan with the commit ID, and
-continue.
-
-`Just commit`: commit, update the plan with the commit ID, and stop.
-
-Without a commit, use:
-
-- `Accept and start next step`
-- `Fix based on feedback`
-- `Accept and stop`
-
-Never commit without a displayed commit action.
+Use `feature-development` review for user verification. Invoke
+`feature-development` finish after all steps and checks complete.

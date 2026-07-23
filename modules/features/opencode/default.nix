@@ -20,12 +20,23 @@
         version = "1.0.0";
         src = ./plugins;
         npmDepsHash = "sha256-s1DgYzKodzwevWRx4MDqAyxGEd7Et3wGyLXcHarC0fU=";
-        nativeBuildInputs = [ pkgs.esbuild ];
+        nativeBuildInputs = [
+          pkgs.esbuild
+          pkgs.git
+        ];
 
         buildPhase = ''
           runHook preBuild
           esbuild plan-store.ts tmux-window-title.ts feature-worktree.ts --bundle --format=esm --platform=node --outdir=dist
           runHook postBuild
+        '';
+
+        doCheck = true;
+        checkPhase = ''
+          runHook preCheck
+          esbuild feature-worktree.test.ts plan-store.test.ts --bundle --format=esm --platform=node --outdir=dist/tests --out-extension:.js=.mjs
+          node --test dist/tests/*.test.mjs
+          runHook postCheck
         '';
 
         installPhase = ''
