@@ -71,7 +71,7 @@ in
       sopsFile = ./secrets.yaml;
     };
     lore = {
-      enable = true;
+      enable = false;
       sopsFile = ./secrets.yaml;
     };
   };
