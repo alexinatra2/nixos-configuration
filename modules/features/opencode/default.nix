@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   flake.nixosModules.opencode =
     {
@@ -194,8 +194,6 @@
       };
     in
     {
-      imports = [ self.nixosModules.agentPreferences ];
-
       options.local.opencode = {
         enable = lib.mkEnableOption "opencode";
 

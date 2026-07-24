@@ -20,6 +20,7 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     ./storage.nix
+    agentPreferences
     base
     displaylink
     eduroam
@@ -28,6 +29,7 @@ in
     gaming
     git
     greeter
+    hermes
     secureBoot
     llms
     monitorProfiles
@@ -72,6 +74,15 @@ in
     };
     lore = {
       enable = false;
+      sopsFile = ./secrets.yaml;
+    };
+  };
+  local.hermes = {
+    enable = true;
+    dashboard.enable = true;
+    interactive.enable = true;
+    goeranh = {
+      enable = true;
       sopsFile = ./secrets.yaml;
     };
   };
@@ -153,7 +164,6 @@ in
       ${username}:${config.sops.placeholder."yubikey/main-credential"}
     '';
   };
-
   users.users.${username}.packages = with pkgs; [
     bc
     besley
