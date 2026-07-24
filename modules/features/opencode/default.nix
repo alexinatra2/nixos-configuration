@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 {
   flake.nixosModules.opencode =
     {
@@ -119,7 +119,11 @@
           "$schema" = "https://opencode.ai/config.json";
           autoupdate = false;
           compaction.prune = true;
-          instructions = [ (toString ./system-prompt.md) ];
+          instructions = [
+            config.local.agentPreferences.identity.file
+            config.local.agentPreferences.policy.file
+          ]
+          ++ lib.optional loreCfg.enable (toString ./lore-policy.md);
           permission.external_directory."${config.local.opencode.worktreeRoot}/**" = "allow";
           agent.plan = {
             description = "Plan";
@@ -138,7 +142,9 @@
             "opencode-pty@0.3.6"
             "@slkiser/opencode-quota@3.11.2"
           ];
-          skills.paths = [ (toString ./skills) ];
+          skills.paths = map toString config.local.agentPreferences.skillDirectories ++ [
+            (toString ./skills)
+          ];
           references.memory.path = memoryDirectory;
           tool_output = {
             max_lines = 200;
@@ -188,6 +194,8 @@
       };
     in
     {
+      imports = [ self.nixosModules.agentPreferences ];
+
       options.local.opencode = {
         enable = lib.mkEnableOption "opencode";
 

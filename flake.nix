@@ -37,8 +37,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent/v2026.7.20";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     tentaflake = {
       url = "github:timfewi/tentaflake";
+      inputs.hermes-agent.follows = "hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
