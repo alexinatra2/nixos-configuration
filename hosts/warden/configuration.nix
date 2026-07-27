@@ -43,15 +43,15 @@ in
       sopsFile = ./secrets.yaml;
     };
 
-    "nebula/warden.crt" = {
+    "nebula/warden" = {
       sopsFile = ./secrets.yaml;
       path = "/etc/nebula/warden.crt";
     };
-    "nebula/warden.key" = {
+    "nebula/warden" = {
       sopsFile = ./secrets.yaml;
       path = "/etc/nebula/warden.key";
     };
-    "nebula/ca.crt" = {
+    "nebula/ca" = {
       sopsFile = ../common/secrets.yaml;
       path = "/etc/nebula/ca.crt";
   	};
