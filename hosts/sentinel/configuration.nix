@@ -51,11 +51,11 @@ in
 
 
 		secrets = {
-			"nebula/sentinel" = {
+			"nebula/sentinel/cert" = {
 				sopsFile = ./secrets.yaml;
 				path = "/etc/nebula/sentinel.crt";
 			};
-			"nebula/sentinel" = {
+			"nebula/sentinel/key" = {
 				sopsFile = ./secrets.yaml;
 				path = "/etc/nebula/sentinel.key";
 			};

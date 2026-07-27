@@ -303,11 +303,11 @@ in
   services.blueman.enable = true;
 
   sops.secrets = {
-    "nebula/atlas" = {
+    "nebula/atlas/cert" = {
       sopsFile = ./secrets.yaml;
       path = "/etc/nebula/atlas.crt";
     };
-    "nebula/atlas" = {
+    "nebula/atlas/key" = {
       sopsFile = ./secrets.yaml;
       path = "/etc/nebula/atlas.key";
     };
