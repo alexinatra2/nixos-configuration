@@ -48,6 +48,22 @@ in
     keyFile = lib.mkForce null;
     generateKey = lib.mkForce false;
     sshKeyPaths = lib.mkForce [ "/etc/ssh/ssh_host_ed25519_key" ];
+
+
+		secrets = {
+			"nebula/sentinel.crt" = {
+				sopsFile = ./secrets.yaml;
+				path = "/etc/nebula/sentinel.crt";
+			};
+			"nebula/sentinel.key" = {
+				sopsFile = ./secrets.yaml;
+				path = "/etc/nebula/sentinel.key";
+			};
+			"nebula/ca.crt" = {
+				sopsFile = ../common/secrets.yaml;
+				path = "/etc/nebula/ca.crt";
+			};
+		};
   };
 
   local.shell.toolset = "minimal";

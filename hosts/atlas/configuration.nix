@@ -302,5 +302,20 @@ in
   services.gnome.gnome-keyring.enable = true;
   services.blueman.enable = true;
 
+  sops.secrets = {
+    "nebula/atlas.crt" = {
+      sopsFile = ./secrets.yaml;
+      path = "/etc/nebula/atlas.crt";
+    };
+    "nebula/atlas.key" = {
+      sopsFile = ./secrets.yaml;
+      path = "/etc/nebula/atlas.key";
+    };
+    "nebula/ca.crt" = {
+      sopsFile = ../common/secrets.yaml;
+      path = "/etc/nebula/ca.crt";
+    };
+  };
+
   system.stateVersion = "24.05";
 }

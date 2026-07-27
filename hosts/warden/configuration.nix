@@ -42,6 +42,19 @@ in
       restartUnits = [ "nginx.service" ];
       sopsFile = ./secrets.yaml;
     };
+
+    "nebula/warden.crt" = {
+      sopsFile = ./secrets.yaml;
+      path = "/etc/nebula/warden.crt";
+    };
+    "nebula/warden.key" = {
+      sopsFile = ./secrets.yaml;
+      path = "/etc/nebula/warden.key";
+    };
+    "nebula/ca.crt" = {
+      sopsFile = ../common/secrets.yaml;
+      path = "/etc/nebula/ca.crt";
+  	};
   };
 
   local.vaultwarden = {
