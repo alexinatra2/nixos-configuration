@@ -23,4 +23,4 @@ merely because they exist globally.
 Keep static rules in prompts. Do not duplicate them through plugins.
 
 Use bounded tool output and compaction pruning when absent. Validate resolved
-config. Tell the user to restart OpenCode.
+config. Tell user to restart OpenCode.

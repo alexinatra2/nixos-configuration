@@ -1,11 +1,9 @@
 ---
 name: skill-creation
-description: Use when creating or revising an OpenCode SKILL.md. Draft, approve, and validate the skill.
+description: Use when creating or revising a SKILL.md. Draft, approve, and validate the skill.
 ---
 
 # Skill Creation
-
-Use only for OpenCode skills.
 
 ## Discover
 

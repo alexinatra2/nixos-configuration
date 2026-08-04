@@ -10,7 +10,7 @@
     let
       cfg = config.local.hermes;
       goeranhCfg = cfg.goeranh;
-      preferences = config.local.agentPreferences;
+      preferences = config.local.ai.preferences;
       hermesCfg = config.services.hermes-agent;
       hermesHome = "${hermesCfg.stateDir}/.hermes";
       goeranhModel = "deepreinforce-ai/Ornith-1.0-35B-GGUF:Q4_K_M";

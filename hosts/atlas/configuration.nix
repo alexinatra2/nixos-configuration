@@ -20,7 +20,7 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     ./storage.nix
-    agentPreferences
+    ai
     base
     displaylink
     eduroam
@@ -36,7 +36,6 @@ in
     music
     nh
     niri
-    opencode
     shell
     sops
     stylix
@@ -66,13 +65,16 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
-  local.opencode = {
-    enable = true;
-    goeranh = {
+  local.ai = {
+    opencode = {
       enable = true;
-      sopsFile = ./secrets.yaml;
+      goeranh = {
+        enable = true;
+        sopsFile = ./secrets.yaml;
+      };
     };
-    lore = {
+
+    mcp.lore = {
       enable = false;
       sopsFile = ./secrets.yaml;
     };
