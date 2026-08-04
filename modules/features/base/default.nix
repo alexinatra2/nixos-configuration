@@ -12,7 +12,6 @@
         cfg = config.local.base;
 
         passwordHashSecret = "users/${cfg.username}/password-hash";
-        rootPasswordHashSecret = "users/root/password-hash";
         privateSshKeySecret = "users/${cfg.username}/private-ssh-key";
 
         fallbackKeys = [
@@ -52,7 +51,7 @@
         config = {
           sops.secrets = {
             "${passwordHashSecret}".neededForUsers = true;
-            "${rootPasswordHashSecret}".neededForUsers = true;
+            "users/root/password-hash".neededForUsers = true;
 
             "${privateSshKeySecret}" = {
               path = "${cfg.homeDirectory}/.ssh/id_ed25519";
@@ -63,7 +62,7 @@
           };
 
           users.users.root = {
-            hashedPasswordFile = config.sops.secrets.${rootPasswordHashSecret}.path;
+            hashedPasswordFile = config.sops.secrets."users/root/password-hash".path;
             openssh.authorizedKeys.keys = yubikeyKeys;
           };
 
@@ -92,36 +91,6 @@
           systemd.tmpfiles.rules = [
             "d ${cfg.homeDirectory}/.ssh 0700 ${cfg.username} users -"
           ];
-
-          system.activationScripts.validatePasswordHashSecrets = {
-            deps = [ "users" ];
-            text = ''
-              # sops-nix validates encrypted files during evaluation; this validates
-              # the decrypted password-hash payloads before we finish activation.
-              check_hash_file() {
-                name="$1"
-                hashFile="$2"
-
-                if [ ! -s "$hashFile" ]; then
-                  echo "ERROR: password hash secret for $name is missing or empty: $hashFile" >&2
-                  exit 1
-                fi
-
-                hash="$(cat "$hashFile")"
-
-                case "$hash" in
-                  \$y\$*|\$6\$*|\$5\$*|\$2a\$*|\$2b\$*) ;;
-                  *)
-                    echo "ERROR: password hash secret for $name does not look valid" >&2
-                    exit 1
-                    ;;
-                esac
-              }
-
-              check_hash_file "${cfg.username}" "${config.sops.secrets.${passwordHashSecret}.path}"
-              check_hash_file "root" "${config.sops.secrets.${rootPasswordHashSecret}.path}"
-            '';
-          };
         };
       };
 
