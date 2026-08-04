@@ -11,7 +11,7 @@
       base = config.local.base;
       cfg = config.local.vaultwarden;
       vaultwardenPort = 8222;
-      vaultwardenHost = config.local.tailscale.fqdn;
+      vaultwardenHost = cfg.hostName;
       snapshotDir = cfg.snapshotDirectory;
       snapshotScript = pkgs.writeShellScript "vaultwarden-snapshot" ''
         set -euo pipefail
@@ -49,6 +49,11 @@
     in
     {
       options.local.vaultwarden = {
+        hostName = lib.mkOption {
+          type = lib.types.str;
+          description = "Private hostname used to access Vaultwarden.";
+        };
+
         tlsCertificate = lib.mkOption {
           type = lib.types.str;
           description = "Path to the Vaultwarden TLS certificate.";
@@ -67,13 +72,6 @@
       };
 
       config = {
-        assertions = [
-          {
-            assertion = config.local.tailscale.fqdn != null;
-            message = "The vaultwarden module requires local.tailscale.expectedTailnet to compute its MagicDNS name.";
-          }
-        ];
-
         services.vaultwarden = {
           enable = true;
           dbBackend = "sqlite";
@@ -113,7 +111,10 @@
           };
         };
 
-        networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
+        networking.firewall.interfaces = {
+          tailscale0.allowedTCPPorts = [ 443 ];
+          nebula0.allowedTCPPorts = [ 443 ];
+        };
 
         systemd.tmpfiles.rules = [
           "d ${snapshotDir} 0750 ${base.username} users -"

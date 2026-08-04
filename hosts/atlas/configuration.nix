@@ -34,6 +34,7 @@ in
     llms
     monitorProfiles
     music
+    nebula
     nh
     niri
     opencode
@@ -53,6 +54,7 @@ in
   ];
 
   networking.hostName = hostName;
+  local.nebula.enable = true;
 
   boot.blacklistedKernelModules = [ "ideapad_laptop" ];
 
@@ -135,8 +137,7 @@ in
       ssh.enable = true;
       tailscale.enable = true;
     };
-    settings.providers."@jomifepe/bitwarden".preferences.serverUrl =
-      "https://warden.tailnet.woodservant.com";
+    settings.providers."@jomifepe/bitwarden".preferences.serverUrl = "https://warden.woodservant.com";
   };
   local.focusrite = {
     enable = true;

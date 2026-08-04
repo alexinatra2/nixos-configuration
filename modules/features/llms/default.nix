@@ -22,8 +22,11 @@
       networking.firewall = {
         enable = true;
 
-        # Only allow Ollama through the Tailscale interface.
-        interfaces."tailscale0".allowedTCPPorts = [ 11434 ];
+        # Keep Tailscale available while Nebula is validated.
+        interfaces = {
+          tailscale0.allowedTCPPorts = [ 11434 ];
+          nebula0.allowedTCPPorts = [ 11434 ];
+        };
       };
     };
 }

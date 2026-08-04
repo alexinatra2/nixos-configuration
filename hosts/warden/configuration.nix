@@ -12,6 +12,7 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     base
+    nebula
     sops
     tailscale
     prometheus
@@ -54,13 +55,16 @@ in
     "nebula/ca" = {
       sopsFile = ../common/secrets.yaml;
       path = "/etc/nebula/ca.crt";
-  	};
+    };
   };
 
   local.vaultwarden = {
+    hostName = "warden.woodservant.com";
     tlsCertificate = config.sops.secrets."vaultwarden/tls/cert".path;
     tlsCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
   };
+
+  local.nebula.enable = true;
 
   networking = {
     hostName = hostName;
@@ -69,7 +73,13 @@ in
       enable = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
-      interfaces.tailscale0.allowedTCPPorts = [ 22 ];
+      interfaces = {
+        tailscale0.allowedTCPPorts = [ 22 ];
+        nebula0.allowedTCPPorts = [
+          22
+          config.services.prometheus.exporters.node.port
+        ];
+      };
     };
   };
 
