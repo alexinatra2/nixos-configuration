@@ -9,18 +9,17 @@
     }:
     let
       cfg = config.local.focusrite;
-      username = config.local.base.username;
       homeDirectory = config.local.base.homeDirectory;
       profiles =
         let
-          entries = builtins.readDir ./.;
+          entries = builtins.readDir ./profiles;
           stateFiles = lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".state" name) entries;
         in
         map (lib.removeSuffix ".state") (builtins.attrNames stateFiles);
       profilePreviews = map (
         profile:
         let
-          preview = ./. + "/${profile}.jpg";
+          preview = ./profiles + "/${profile}.jpg";
         in
         assert lib.assertMsg (builtins.pathExists preview) "Missing Focusrite preview: ${toString preview}";
         {
