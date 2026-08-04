@@ -56,6 +56,9 @@ test("feature worktree lifecycle", async (suite) => {
       assert.match(await current.execute("start"), /state=agent-active/)
       assert.equal(current.approvals(), 1)
 
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
       assert.match(await current.execute("prepare-review"), /state=review-ready/)
       assert.equal(await git(current.worktree, "branch", "--show-current"), "")
 
@@ -63,10 +66,8 @@ test("feature worktree lifecycle", async (suite) => {
       assert.match(await current.execute("status"), /state=local-review/)
       await git(current.repository, "switch", "master")
 
-      assert.match(await current.execute("resume"), /state=agent-active/)
-      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
-      await git(current.worktree, "add", "feature.txt")
-      await git(current.worktree, "commit", "-m", "feature")
+      assert.match(await current.execute("accept-review"), /state=agent-active/)
+      assert.match(await current.execute("status"), /review=none/)
 
       assert.match(await current.execute("finish"), /state=complete/)
       assert.equal(await git(current.repository, "branch", "--show-current"), "master")
@@ -116,6 +117,8 @@ test("feature worktree lifecycle", async (suite) => {
       await writeFile(join(current.worktree, "feature.txt"), "feature\n")
       await git(current.worktree, "add", "feature.txt")
       await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+      await current.execute("accept-review")
       await writeFile(join(current.repository, "base.txt"), "base\n")
       await git(current.repository, "add", "base.txt")
       await git(current.repository, "commit", "-m", "base")
@@ -126,17 +129,22 @@ test("feature worktree lifecycle", async (suite) => {
     }
   })
 
-  await suite.test("preserves detached work that is not on the feature branch", async () => {
+  await suite.test("preserves detached work that changes during review", async () => {
     const current = await fixture()
     try {
       await current.execute("start")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
       await current.execute("prepare-review")
       await writeFile(join(current.worktree, "detached.txt"), "detached\n")
       await git(current.worktree, "add", "detached.txt")
       await git(current.worktree, "commit", "-m", "detached")
 
-      await assert.rejects(current.execute("resume"), /detached-work-not-on-branch/)
-      await assert.rejects(current.execute("finish"), /detached-work-not-on-branch/)
+      await assert.rejects(current.execute("prepare-review"), /review-must-be-one-commit/)
+      await assert.rejects(current.execute("accept-review"), /review-worktree-changed/)
+      await assert.rejects(current.execute("reject-review"), /review-worktree-changed/)
+      await assert.rejects(current.execute("finish"), /pending-review/)
     } finally {
       await rm(current.root, { recursive: true, force: true })
     }
@@ -149,6 +157,8 @@ test("feature worktree lifecycle", async (suite) => {
       await writeFile(join(current.worktree, "feature.txt"), "feature\n")
       await git(current.worktree, "add", "feature.txt")
       await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+      await current.execute("accept-review")
       await git(current.repository, "merge", "--ff-only", "feature/example")
       await git(current.repository, "worktree", "remove", current.worktree)
 
@@ -179,6 +189,212 @@ test("feature worktree lifecycle", async (suite) => {
         ),
         /active-worktree/,
       )
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("rejects a review and preserves its changes", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      const acceptedHead = await git(current.worktree, "rev-parse", "HEAD")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+
+      assert.match(await current.execute("reject-review"), /state=agent-active/)
+      assert.equal(await git(current.worktree, "rev-parse", "HEAD"), acceptedHead)
+      assert.equal(await git(current.worktree, "status", "--short"), "?? feature.txt")
+      assert.equal(
+        await git(current.worktree, "rev-parse", "feature/example"),
+        acceptedHead,
+      )
+      assert.match(await current.execute("status"), /review=none/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("retries rejection after review reattachment", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      const acceptedHead = await git(current.worktree, "rev-parse", "HEAD")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+      await git(current.worktree, "switch", "feature/example")
+
+      assert.match(await current.execute("reject-review"), /state=agent-active/)
+      assert.equal(await git(current.worktree, "rev-parse", "HEAD"), acceptedHead)
+      assert.equal(await git(current.worktree, "status", "--short"), "?? feature.txt")
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("requires exactly one provisional commit", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      await assert.rejects(current.execute("prepare-review"), /review-must-be-one-commit/)
+
+      await writeFile(join(current.worktree, "one.txt"), "one\n")
+      await git(current.worktree, "add", "one.txt")
+      await git(current.worktree, "commit", "-m", "one")
+      await writeFile(join(current.worktree, "two.txt"), "two\n")
+      await git(current.worktree, "add", "two.txt")
+      await git(current.worktree, "commit", "-m", "two")
+
+      await assert.rejects(current.execute("prepare-review"), /review-must-be-one-commit/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("blocks acceptance when the review branch changes", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+      await git(current.repository, "switch", "feature/example")
+      await writeFile(join(current.repository, "changed.txt"), "changed\n")
+      await git(current.repository, "add", "changed.txt")
+      await git(current.repository, "commit", "-m", "changed")
+      await git(current.repository, "switch", "master")
+
+      await assert.rejects(current.execute("accept-review"), /review-ref-changed/)
+      await assert.rejects(current.execute("reject-review"), /review-ref-changed/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("blocks finish while a review is pending", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+      await current.execute("prepare-review")
+
+      await assert.rejects(current.execute("finish"), /pending-review/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("blocks finish with an unreviewed commit", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+
+      await assert.rejects(current.execute("finish"), /unreviewed-head/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("reviews consecutive commits independently", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      for (const name of ["one", "two"]) {
+        await writeFile(join(current.worktree, `${name}.txt`), `${name}\n`)
+        await git(current.worktree, "add", `${name}.txt`)
+        await git(current.worktree, "commit", "-m", name)
+        await current.execute("prepare-review")
+        await current.execute("accept-review")
+      }
+
+      assert.match(await current.execute("finish"), /state=complete/)
+      assert.equal(await git(current.repository, "show", "HEAD:two.txt"), "two")
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("does not accept a review before detachment completes", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+      const reviewCommit = await git(current.worktree, "rev-parse", "HEAD")
+      const key = "branch.feature/example.opencode-lifecycle"
+      const lifecycle = JSON.parse(await git(current.repository, "config", "--get", key))
+      await git(
+        current.repository,
+        "config",
+        key,
+        JSON.stringify({ ...lifecycle, reviewCommit, reviewReady: false }),
+      )
+
+      await assert.rejects(current.execute("accept-review"), /no-pending-review/)
+      assert.match(await current.execute("prepare-review"), /state=review-ready/)
+      assert.match(await current.execute("accept-review"), /state=agent-active/)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("migrates version one lifecycle metadata", async () => {
+    const current = await fixture()
+    try {
+      await current.execute("start")
+      const key = "branch.feature/example.opencode-lifecycle"
+      const lifecycle = JSON.parse(await git(current.repository, "config", "--get", key))
+      const { acceptedHead: _, reviewCommit: __, reviewReady: ___, ...legacy } = lifecycle
+      await git(
+        current.repository,
+        "config",
+        key,
+        JSON.stringify({ ...legacy, version: "1" }),
+      )
+
+      const head = await git(current.worktree, "rev-parse", "HEAD")
+      assert.match(await current.execute("status"), new RegExp(`accepted=${head}`))
+      const migrated = JSON.parse(await git(current.repository, "config", "--get", key))
+      assert.equal(migrated.version, "2")
+      assert.equal(migrated.acceptedHead, head)
+      assert.equal(migrated.reviewCommit, null)
+      assert.equal(migrated.reviewReady, false)
+    } finally {
+      await rm(current.root, { recursive: true, force: true })
+    }
+  })
+
+  await suite.test("does not accept commits when adopting an unmanaged worktree", async () => {
+    const current = await fixture()
+    try {
+      const baseHead = await git(current.repository, "rev-parse", "master")
+      await git(
+        current.repository,
+        "worktree",
+        "add",
+        "-b",
+        "feature/example",
+        current.worktree,
+        "master",
+      )
+      await writeFile(join(current.worktree, "feature.txt"), "feature\n")
+      await git(current.worktree, "add", "feature.txt")
+      await git(current.worktree, "commit", "-m", "feature")
+
+      assert.match(await current.execute("start"), new RegExp(`accepted=${baseHead}`))
+      await assert.rejects(current.execute("finish"), /unreviewed-head/)
+      assert.match(await current.execute("prepare-review"), /state=review-ready/)
     } finally {
       await rm(current.root, { recursive: true, force: true })
     }

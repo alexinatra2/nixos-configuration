@@ -7,7 +7,7 @@ import { promisify } from "node:util"
 import { tool, type Plugin, type ToolContext } from "@opencode-ai/plugin"
 
 const execFileAsync = promisify(execFile)
-const lifecycleVersion = "1"
+const lifecycleVersion = "2"
 
 type Repository = {
   root: string
@@ -38,6 +38,9 @@ type Lifecycle = {
   branch: string
   base: string
   path: string
+  acceptedHead: string
+  reviewCommit: string | null
+  reviewReady: boolean
 }
 
 const git = async (args: string[], cwd: string) => {
@@ -171,13 +174,16 @@ const featureFor = async (
 
 const configKey = (branch: string) => `branch.${branch}.opencode-lifecycle`
 
-const lifecycleData = (feature: Feature, id: string) => ({
+const lifecycleData = (feature: Feature, id: string, acceptedHead: string) => ({
   version: lifecycleVersion,
   id,
   repository: feature.repository.identity,
   branch: feature.branch,
   base: feature.base,
   path: feature.path,
+  acceptedHead,
+  reviewCommit: null,
+  reviewReady: false,
 })
 
 const lifecycleFor = async (feature: Feature): Promise<Lifecycle | null> => {
@@ -193,13 +199,27 @@ const lifecycleFor = async (feature: Feature): Promise<Lifecycle | null> => {
   } catch {
     throw new Error(`blocked feature=${feature.branch} reason=lifecycle-metadata-mismatch`)
   }
+  if (lifecycle.version === "1") {
+    lifecycle = {
+      ...lifecycle,
+      version: lifecycleVersion,
+      acceptedHead: await git(["rev-parse", feature.branch], feature.repository.root),
+      reviewCommit: null,
+      reviewReady: false,
+    }
+    await writeLifecycle(feature, lifecycle)
+  }
   if (
     lifecycle.version !== lifecycleVersion ||
     !lifecycle.id ||
     lifecycle.repository !== feature.repository.identity ||
     lifecycle.branch !== feature.branch ||
     lifecycle.base !== feature.base ||
-    resolve(lifecycle.path) !== feature.path
+    resolve(lifecycle.path) !== feature.path ||
+    !lifecycle.acceptedHead ||
+    (lifecycle.reviewCommit !== null && !lifecycle.reviewCommit) ||
+    typeof lifecycle.reviewReady !== "boolean" ||
+    (lifecycle.reviewReady && !lifecycle.reviewCommit)
   ) {
     throw new Error(`blocked feature=${feature.branch} reason=lifecycle-metadata-mismatch`)
   }
@@ -207,12 +227,12 @@ const lifecycleFor = async (feature: Feature): Promise<Lifecycle | null> => {
   return { ...lifecycle, path: resolve(lifecycle.path) }
 }
 
-const writeLifecycle = async (feature: Feature, id: string) =>
+const writeLifecycle = async (feature: Feature, lifecycle: Lifecycle) =>
   git(
     [
       "config",
       configKey(feature.branch),
-      JSON.stringify(lifecycleData(feature, id)),
+      JSON.stringify(lifecycle),
     ],
     feature.repository.root,
   )
@@ -284,6 +304,10 @@ const formatState = (
     `base=${feature.base}`,
     `path=${feature.path}`,
     state.owner ? `owner=${state.owner.path}` : "owner=none",
+    state.lifecycle ? `accepted=${state.lifecycle.acceptedHead}` : "accepted=none",
+    state.lifecycle?.reviewCommit
+      ? `review=${state.lifecycle.reviewCommit}`
+      : "review=none",
   ].join(" ")
 
 const authorize = async (
@@ -300,7 +324,8 @@ const authorize = async (
       feature: feature.branch,
       base: feature.base,
       path: feature.path,
-      operations: "create, detach, reattach, fast-forward merge, remove, delete merged branch",
+      operations:
+        "create, detach, reattach, uncommit rejected review, fast-forward merge, remove, delete merged branch",
     },
   })
 }
@@ -309,9 +334,16 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
   const activeWorktree = await realpath(worktree)
   const lifecycle = tool({
     description:
-      "Manage an authorized feature worktree lifecycle: start, prepare-review, resume, finish, or status.",
+      "Manage an authorized feature worktree lifecycle: start, prepare-review, accept-review, reject-review, finish, or status.",
     args: {
-      action: tool.schema.enum(["start", "prepare-review", "resume", "finish", "status"]),
+      action: tool.schema.enum([
+        "start",
+        "prepare-review",
+        "accept-review",
+        "reject-review",
+        "finish",
+        "status",
+      ]),
       feature: tool.schema.string(),
       base: tool.schema.string().optional(),
     },
@@ -331,9 +363,8 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
           throw new Error(formatState(feature, current))
         }
 
-        const lifecycle = {
-          ...lifecycleData(feature, randomUUID()),
-        }
+        const acceptedHead = await git(["rev-parse", feature.base], feature.repository.root)
+        const lifecycle = lifecycleData(feature, randomUUID(), acceptedHead)
         await authorize(feature, lifecycle, context)
 
         if (current.state === "absent") {
@@ -346,7 +377,7 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
             feature.repository.root,
           )
         }
-        await writeLifecycle(feature, lifecycle.id)
+        await writeLifecycle(feature, lifecycle)
 
         const created = await inspectFeature(feature)
         if (created.state !== "agent-active") {
@@ -362,15 +393,59 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
       if (!current.lifecycle) throw new Error(formatState(feature, current))
 
       if (action === "prepare-review") {
-        if (current.state === "review-ready" || current.state === "local-review") {
-          return formatState(feature, current)
-        }
-        if (current.state !== "agent-active" || !current.target) {
+        if (!current.target) {
           throw new Error(formatState(feature, current))
         }
         await requireClean(feature.path, "feature-worktree")
+        const reviewCommit = current.lifecycle.reviewCommit ?? current.target.commit
+        const branchHead = await git(["rev-parse", feature.branch], feature.repository.root)
+        const parents = (
+          await git(["rev-list", "--parents", "-n", "1", reviewCommit], feature.repository.root)
+        ).split(" ")
+        if (
+          parents.length !== 2 ||
+          parents[1] !== current.lifecycle.acceptedHead ||
+          current.target.commit !== reviewCommit ||
+          branchHead !== reviewCommit
+        ) {
+          throw new Error(
+            `blocked feature=${feature.branch} reason=review-must-be-one-commit accepted=${current.lifecycle.acceptedHead} head=${current.target.commit}`,
+          )
+        }
+        if (current.state === "local-review") {
+          if (!current.lifecycle.reviewReady) {
+            throw new Error(
+              `blocked feature=${feature.branch} reason=review-not-ready state=local-review`,
+            )
+          }
+          return formatState(feature, current)
+        }
+        if (current.state === "review-ready") {
+          if (!current.lifecycle.reviewReady) {
+            await writeLifecycle(feature, {
+              ...current.lifecycle,
+              reviewReady: true,
+            })
+          }
+          return formatState(feature, await inspectFeature(feature))
+        }
+        if (current.state !== "agent-active" || current.lifecycle.reviewReady) {
+          throw new Error(formatState(feature, current))
+        }
         await authorize(feature, current.lifecycle, context)
+        if (!current.lifecycle.reviewCommit) {
+          await writeLifecycle(feature, {
+            ...current.lifecycle,
+            reviewCommit,
+            reviewReady: false,
+          })
+        }
         await git(["switch", "--detach"], feature.path)
+        await writeLifecycle(feature, {
+          ...current.lifecycle,
+          reviewCommit,
+          reviewReady: true,
+        })
 
         const prepared = await inspectFeature(feature)
         if (prepared.state !== "review-ready") {
@@ -379,35 +454,73 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
         return `${formatState(feature, prepared)} next=checkout-feature-with-lazygit-space`
       }
 
-      if (action === "resume") {
-        if (current.state === "agent-active") return formatState(feature, current)
+      if (action === "accept-review" || action === "reject-review") {
+        const reviewCommit = current.lifecycle.reviewCommit
+        if (!reviewCommit || !current.lifecycle.reviewReady) {
+          throw new Error(`blocked feature=${feature.branch} reason=no-pending-review`)
+        }
+        const branchHead = await git(["rev-parse", feature.branch], feature.repository.root)
+        if (
+          action === "reject-review" &&
+          current.state === "agent-active" &&
+          branchHead === current.lifecycle.acceptedHead
+        ) {
+          await writeLifecycle(feature, {
+            ...current.lifecycle,
+            reviewCommit: null,
+            reviewReady: false,
+          })
+          return formatState(feature, await inspectFeature(feature))
+        }
+        if (branchHead !== reviewCommit) {
+          throw new Error(
+            `blocked feature=${feature.branch} reason=review-ref-changed expected=${reviewCommit} actual=${branchHead}`,
+          )
+        }
         if (current.state === "local-review") {
           throw new Error(
             `${formatState(feature, current)} next=checkout-${feature.base}-with-lazygit-space`,
           )
         }
-        if (current.state !== "review-ready" || !current.target) {
+        if (
+          current.state !== "review-ready" &&
+          current.state !== "agent-active"
+        ) {
           throw new Error(formatState(feature, current))
         }
+        if (!current.target || current.target.commit !== reviewCommit) {
+          throw new Error(
+            `blocked feature=${feature.branch} reason=review-worktree-changed expected=${reviewCommit} actual=${current.target?.commit ?? "none"}`,
+          )
+        }
         await requireClean(feature.path, "feature-worktree")
-        if (
-          !(await succeeds(
-            ["merge-base", "--is-ancestor", current.target.commit, feature.branch],
-            feature.repository.root,
-          ))
-        ) {
-          throw new Error(`blocked feature=${feature.branch} reason=detached-work-not-on-branch`)
-        }
         await authorize(feature, current.lifecycle, context)
-        await git(["switch", feature.branch], feature.path)
-
-        const resumed = await inspectFeature(feature)
-        if (resumed.state !== "agent-active") {
-          throw new Error(`blocked feature=${feature.branch} reason=post-attach-verification`)
+        if (current.state === "review-ready") {
+          await git(["switch", feature.branch], feature.path)
         }
-        return formatState(feature, resumed)
+        if (action === "reject-review") {
+          await git(["reset", "--mixed", current.lifecycle.acceptedHead], feature.path)
+        }
+        await writeLifecycle(feature, {
+          ...current.lifecycle,
+          acceptedHead:
+            action === "accept-review" ? reviewCommit : current.lifecycle.acceptedHead,
+          reviewCommit: null,
+          reviewReady: false,
+        })
+
+        const reviewed = await inspectFeature(feature)
+        if (reviewed.state !== "agent-active") {
+          throw new Error(`blocked feature=${feature.branch} reason=post-review-verification`)
+        }
+        return formatState(feature, reviewed)
       }
 
+      if (current.lifecycle.reviewCommit) {
+        throw new Error(
+          `blocked feature=${feature.branch} reason=pending-review commit=${current.lifecycle.reviewCommit}`,
+        )
+      }
       if (current.state === "local-review") {
         throw new Error(
           `${formatState(feature, current)} next=checkout-${feature.base}-with-lazygit-space`,
@@ -438,15 +551,22 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
           throw new Error(`blocked feature=${feature.branch} reason=detached-work-not-on-branch`)
         }
       }
+      const acceptedHead = current.lifecycle.acceptedHead
+      const branchHead = await git(["rev-parse", feature.branch], feature.repository.root)
+      if (branchHead !== acceptedHead) {
+        throw new Error(
+          `blocked feature=${feature.branch} reason=unreviewed-head accepted=${acceptedHead} actual=${branchHead}`,
+        )
+      }
       await requireClean(current.baseOwner.path, "base-worktree")
       const merged = await succeeds(
-        ["merge-base", "--is-ancestor", feature.branch, feature.base],
+        ["merge-base", "--is-ancestor", acceptedHead, feature.base],
         feature.repository.root,
       )
       if (!merged) {
         if (
           !(await succeeds(
-            ["merge-base", "--is-ancestor", feature.base, feature.branch],
+            ["merge-base", "--is-ancestor", feature.base, acceptedHead],
             feature.repository.root,
           ))
         ) {
@@ -454,14 +574,20 @@ export const FeatureWorktreePlugin: Plugin = async ({ worktree }) => {
         }
       }
       await authorize(feature, current.lifecycle, context)
-      if (!merged) await git(["merge", "--ff-only", feature.branch], current.baseOwner.path)
+      if (!merged) await git(["merge", "--ff-only", acceptedHead], current.baseOwner.path)
       if (
         !(await succeeds(
-          ["merge-base", "--is-ancestor", feature.branch, feature.base],
+          ["merge-base", "--is-ancestor", acceptedHead, feature.base],
           feature.repository.root,
         ))
       ) {
         throw new Error(`blocked feature=${feature.branch} reason=post-merge-verification`)
+      }
+      const finalBranchHead = await git(["rev-parse", feature.branch], feature.repository.root)
+      if (finalBranchHead !== acceptedHead) {
+        throw new Error(
+          `blocked feature=${feature.branch} reason=review-ref-changed expected=${acceptedHead} actual=${finalBranchHead}`,
+        )
       }
       if (current.target) {
         await git(["worktree", "remove", feature.path], feature.repository.root)
