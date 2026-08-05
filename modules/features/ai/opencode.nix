@@ -135,6 +135,96 @@ let
     "$schema" = "https://opencode.ai/tui.json";
     theme = "stylix";
   };
+
+  defaultTmpfiles = {
+    "${homeDirectory}/.config/opencode" = { };
+    "${homeDirectory}/.config/opencode/opencode-quota" = { };
+    "${memoryDirectory}" = { };
+    "${memoryDirectory}/global" = { };
+    "${memoryDirectory}/workspaces" = { };
+    "${plansDirectory}" = { };
+    "${homeDirectory}/.config/opencode/opencode.jsonc" = {
+      type = "r";
+    };
+    "${homeDirectory}/.config/opencode/plugins/plan-store.ts" = {
+      type = "r";
+    };
+    "${homeDirectory}/.config/opencode/tui.json.b" = {
+      type = "r";
+    };
+    "${homeDirectory}/.config/opencode/opencode.json" = {
+      type = "L+";
+      source = opencodeConfig;
+    };
+    "${homeDirectory}/.config/opencode/tui.json" = {
+      type = "L+";
+      source = tuiConfig;
+    };
+    "${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json" = {
+      type = "L+";
+      source = quotaConfig;
+    };
+  };
+
+  tmpfilesRuleType = lib.types.enum [
+    "d"
+    "D"
+    "f"
+    "F"
+    "e"
+    "E"
+    "w"
+    "W"
+    "c"
+    "C"
+    "b"
+    "B"
+    "s"
+    "S"
+    "l"
+    "L"
+    "L+"
+    "r"
+    "x"
+    "X"
+    "a"
+    "A"
+  ];
+
+  tmpfilesRule = lib.types.submodule {
+    options = {
+      type = lib.mkOption {
+        type = tmpfilesRuleType;
+        default = "d";
+        description = "Type of tmpfiles rule (d=directory, f=file, L+=symlink, r=regular-file, etc).";
+      };
+      mode = lib.mkOption {
+        type = lib.types.str;
+        default = "0755";
+        description = "Octal permission mode.";
+      };
+      owner = lib.mkOption {
+        type = lib.types.str;
+        default = username;
+        description = "Owner of the created path.";
+      };
+      group = lib.mkOption {
+        type = lib.types.str;
+        default = "users";
+        description = "Group of the created path.";
+      };
+      age = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Age expression for periodic cleanup rules.";
+      };
+      source = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Source path for symlink (L/L+/s/S) rules.";
+      };
+    };
+  };
 in
 {
   options.local.ai.opencode = {
@@ -154,6 +244,12 @@ in
       default = "${homeDirectory}/.local/share/opencode/worktrees";
       description = "Root directory for feature-development worktrees.";
     };
+
+    tmpfiles = lib.mkOption {
+      type = lib.types.attrsOf tmpfilesRule;
+      default = defaultTmpfiles;
+      description = "systemd tmpfiles rules for opencode, keyed by absolute path.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -168,19 +264,109 @@ in
       mode = "0400";
     };
 
-    systemd.tmpfiles.rules = [
-      "d ${homeDirectory}/.config/opencode 0755 ${username} users -"
-      "d ${homeDirectory}/.config/opencode/opencode-quota 0755 ${username} users -"
-      "d ${memoryDirectory} 0755 ${username} users -"
-      "d ${memoryDirectory}/global 0755 ${username} users -"
-      "d ${memoryDirectory}/workspaces 0755 ${username} users -"
-      "d ${plansDirectory} 0755 ${username} users -"
-      "r ${homeDirectory}/.config/opencode/opencode.jsonc"
-      "r ${homeDirectory}/.config/opencode/plugins/plan-store.ts"
-      "r ${homeDirectory}/.config/opencode/tui.json.b"
-      "L+ ${homeDirectory}/.config/opencode/opencode.json - - - - ${opencodeConfig}"
-      "L+ ${homeDirectory}/.config/opencode/tui.json - - - - ${tuiConfig}"
-      "L+ ${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json - - - - ${quotaConfig}"
+    assertions = [
+      {
+        assertion = lib.all (path: lib.hasPrefix "/" path) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles keys must be absolute paths";
+      }
+      {
+        assertion = lib.all (path: builtins.match "^[0-7]{3,4}$" cfg.tmpfiles.${path}.mode != null) (
+          builtins.attrNames cfg.tmpfiles
+        );
+        message = "opencode tmpfiles modes must be valid octal permissions";
+      }
+      {
+        assertion = lib.all (
+          path:
+          if
+            cfg.tmpfiles.${path}.type == "l"
+            || cfg.tmpfiles.${path}.type == "L"
+            || cfg.tmpfiles.${path}.type == "L+"
+          then
+            cfg.tmpfiles.${path}.source != null
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles symlink rules must have a source";
+      }
+      {
+        assertion = lib.all (
+          path:
+          if
+            cfg.tmpfiles.${path}.type != "l"
+            && cfg.tmpfiles.${path}.type != "L"
+            && cfg.tmpfiles.${path}.type != "L+"
+          then
+            cfg.tmpfiles.${path}.source == null
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles non-symlink rules must not have a source";
+      }
+      {
+        assertion = lib.all (
+          path:
+          if
+            cfg.tmpfiles.${path}.type == "d"
+            || cfg.tmpfiles.${path}.type == "D"
+            || cfg.tmpfiles.${path}.type == "f"
+            || cfg.tmpfiles.${path}.type == "F"
+            || cfg.tmpfiles.${path}.type == "c"
+            || cfg.tmpfiles.${path}.type == "C"
+            || cfg.tmpfiles.${path}.type == "b"
+            || cfg.tmpfiles.${path}.type == "B"
+            || cfg.tmpfiles.${path}.type == "s"
+            || cfg.tmpfiles.${path}.type == "S"
+          then
+            cfg.tmpfiles.${path}.owner != "" && cfg.tmpfiles.${path}.group != ""
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles owning rules must specify owner and group";
+      }
     ];
+
+    systemd.tmpfiles.rules = lib.foldl' (
+      rules: path:
+      let
+        r = cfg.tmpfiles.${path};
+        t = r.type or "d";
+        isOwningType =
+          t == "d"
+          || t == "D"
+          || t == "f"
+          || t == "F"
+          || t == "c"
+          || t == "C"
+          || t == "b"
+          || t == "B"
+          || t == "s"
+          || t == "S";
+        isSymlinkType = t == "l" || t == "L" || t == "L+";
+      in
+      rules
+      ++ [
+        lib.concatStringsSep
+        " "
+        (
+          [
+            r.type or "d"
+            path
+          ]
+          ++ lib.optionals isOwningType [
+            r.owner or username
+            r.group or "users"
+          ]
+          ++ lib.optionals (r.age or null != null) [ r.age ]
+          ++ lib.optionals isSymlinkType [
+            "-"
+            "-"
+            "-"
+            "-"
+            (r.source or "")
+          ]
+        )
+      ]
+    ) [ ] (builtins.attrNames cfg.tmpfiles);
   };
 }
