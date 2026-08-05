@@ -154,15 +154,15 @@ let
     };
     "${homeDirectory}/.config/opencode/opencode.json" = {
       type = "L+";
-      source = opencodeConfig;
+      source = toString opencodeConfig;
     };
     "${homeDirectory}/.config/opencode/tui.json" = {
       type = "L+";
-      source = tuiConfig;
+      source = toString tuiConfig;
     };
     "${homeDirectory}/.config/opencode/opencode-quota/quota-toast.json" = {
       type = "L+";
-      source = quotaConfig;
+      source = toString quotaConfig;
     };
   };
 
@@ -266,107 +266,84 @@ in
 
     assertions = [
       {
-        assertion = lib.all (path: lib.hasPrefix "/" path) (builtins.attrNames cfg.tmpfiles);
+        assertion = lib.all (path: lib.hasPrefix "/" path) (lib.attrNames cfg.tmpfiles);
         message = "opencode tmpfiles keys must be absolute paths";
       }
       {
-        assertion = lib.all (path: builtins.match "^[0-7]{3,4}$" cfg.tmpfiles.${path}.mode != null) (
-          builtins.attrNames cfg.tmpfiles
-        );
+        assertion = lib.all (
+          path:
+          let
+            mode = lib.attrByPath [ "mode" ] null cfg.tmpfiles.${path};
+          in
+          mode != null && builtins.match "^[0-7]{3,4}$" mode != null
+        ) (lib.attrNames cfg.tmpfiles);
         message = "opencode tmpfiles modes must be valid octal permissions";
       }
       {
         assertion = lib.all (
           path:
-          if
-            cfg.tmpfiles.${path}.type == "l"
-            || cfg.tmpfiles.${path}.type == "L"
-            || cfg.tmpfiles.${path}.type == "L+"
-          then
-            cfg.tmpfiles.${path}.source != null
-          else
-            true
-        ) (builtins.attrNames cfg.tmpfiles);
-        message = "opencode tmpfiles symlink rules must have a source";
+          let
+            r = cfg.tmpfiles.${path};
+            t = lib.attrByPath [ "type" ] "d" r;
+            source = lib.attrByPath [ "source" ] null r;
+            isSymlink = t == "l" || t == "L" || t == "L+";
+          in
+          if isSymlink then source != null else source == null
+        ) (lib.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles symlink rules must have a source and non-symlinks must not";
       }
       {
         assertion = lib.all (
           path:
-          if
-            cfg.tmpfiles.${path}.type != "l"
-            && cfg.tmpfiles.${path}.type != "L"
-            && cfg.tmpfiles.${path}.type != "L+"
-          then
-            cfg.tmpfiles.${path}.source == null
-          else
-            true
-        ) (builtins.attrNames cfg.tmpfiles);
-        message = "opencode tmpfiles non-symlink rules must not have a source";
-      }
-      {
-        assertion = lib.all (
-          path:
-          if
-            cfg.tmpfiles.${path}.type == "d"
-            || cfg.tmpfiles.${path}.type == "D"
-            || cfg.tmpfiles.${path}.type == "f"
-            || cfg.tmpfiles.${path}.type == "F"
-            || cfg.tmpfiles.${path}.type == "c"
-            || cfg.tmpfiles.${path}.type == "C"
-            || cfg.tmpfiles.${path}.type == "b"
-            || cfg.tmpfiles.${path}.type == "B"
-            || cfg.tmpfiles.${path}.type == "s"
-            || cfg.tmpfiles.${path}.type == "S"
-          then
-            cfg.tmpfiles.${path}.owner != "" && cfg.tmpfiles.${path}.group != ""
-          else
-            true
-        ) (builtins.attrNames cfg.tmpfiles);
-        message = "opencode tmpfiles owning rules must specify owner and group";
+          let
+            r = cfg.tmpfiles.${path};
+            t = lib.attrByPath [ "type" ] "d" r;
+            isOwning =
+              t == "d"
+              || t == "D"
+              || t == "f"
+              || t == "F"
+              || t == "c"
+              || t == "C"
+              || t == "b"
+              || t == "B"
+              || t == "s"
+              || t == "S";
+            owner = lib.attrByPath [ "owner" ] null r;
+            group = lib.attrByPath [ "group" ] null r;
+          in
+          if isOwning then owner != null && owner != "" && group != null && group != "" else true
+        ) (lib.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles owning rules must specify non-empty owner and group";
       }
     ];
 
-    systemd.tmpfiles.rules = lib.foldl' (
-      rules: path:
+    systemd.tmpfiles.rules = let
+      tmpfiles = config.local.ai.opencode.tmpfiles;
+    in
+    lib.concatMap (
+      path:
       let
-        r = cfg.tmpfiles.${path};
-        t = r.type or "d";
-        isOwningType =
-          t == "d"
-          || t == "D"
-          || t == "f"
-          || t == "F"
-          || t == "c"
-          || t == "C"
-          || t == "b"
-          || t == "B"
-          || t == "s"
-          || t == "S";
-        isSymlinkType = t == "l" || t == "L" || t == "L+";
+        r = tmpfiles.${path};
+        t = lib.attrByPath [ "type" ] "d" r;
+        mode = lib.attrByPath [ "mode" ] "0755" r;
+        owner = lib.attrByPath [ "owner" ] username r;
+        group = lib.attrByPath [ "group" ] "users" r;
+        age = lib.attrByPath [ "age" ] null r;
+        source = lib.attrByPath [ "source" ] "" r;
       in
-      rules
-      ++ [
-        lib.concatStringsSep
-        " "
+      [
         (
-          [
-            r.type or "d"
-            path
-          ]
-          ++ lib.optionals isOwningType [
-            r.owner or username
-            r.group or "users"
-          ]
-          ++ lib.optionals (r.age or null != null) [ r.age ]
-          ++ lib.optionals isSymlinkType [
-            "-"
-            "-"
-            "-"
-            "-"
-            (r.source or "")
-          ]
+          if t == "r" || t == "e" || t == "E" || t == "x" || t == "X" then
+            "${t} ${path}"
+          else if t == "l" || t == "L" || t == "L+" then
+            "${t} ${path} - - - - ${source}"
+          else if age != null then
+            "${t} ${path} ${mode} ${owner} ${group} ${age}"
+          else
+            "${t} ${path} ${mode} ${owner} ${group} -"
         )
       ]
-    ) [ ] (builtins.attrNames cfg.tmpfiles);
+    ) (lib.attrNames tmpfiles);
   };
 }
