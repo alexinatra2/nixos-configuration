@@ -28,7 +28,6 @@ in
         o = "${lib.getExe pkgs.opencode}";
         s = "${lib.getExe pkgs.sysz}";
         cd = "z";
-        tmp = "cd $$(mktemp -d)";
         t = "${lib.getExe pkgs.tmux} attach";
         tn = "${lib.getExe pkgs.tmux} new-session";
         v = if cfg.editorPackage != null then lib.getExe cfg.editorPackage else "${lib.getExe pkgs.vim}";
@@ -153,6 +152,11 @@ in
                 ${zshInit}
               ''}
             '';
+            initContent = ''
+                            tmp() {
+                            	cd "$(mktemp -d)"
+                            }
+              						'';
             shellAliases = shellAliasesIfEnabled;
             syntaxHighlighting.enable = isDefaultOrMaximal;
           };
