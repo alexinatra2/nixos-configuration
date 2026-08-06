@@ -36,6 +36,7 @@ in
     music
     nh
     niri
+    opencode
     shell
     sops
     stylix
@@ -65,13 +66,11 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
-  local.ai = {
-    opencode = {
+  local.opencode = {
+    enable = true;
+    goeranh = {
       enable = true;
-      goeranh = {
-        enable = true;
-        sopsFile = ./secrets.yaml;
-      };
+      sopsFile = ./secrets.yaml;
     };
   };
   local.hermes = {

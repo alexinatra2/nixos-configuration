@@ -4,7 +4,7 @@
     imports = [
       ./preferences.nix
       ./mcp.nix
-      ./opencode.nix
+      ./glue.nix
     ];
   };
 }
