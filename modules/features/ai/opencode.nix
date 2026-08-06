@@ -12,7 +12,6 @@ let
   memoryDirectory = "${homeDirectory}/.local/share/opencode/memory";
   plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
   goeranhCfg = cfg.goeranh;
-  openvikingCfg = cfg.openviking;
   opencodePlugins = pkgs.buildNpmPackage {
     pname = "opencode-plugins";
     version = "1.0.0";
@@ -89,8 +88,7 @@ let
         "${opencodePlugins}/repository-clone.js"
         "opencode-pty@0.3.6"
         "@slkiser/opencode-quota@3.11.2"
-      ]
-      ++ lib.optionals openvikingCfg.enable [ "@openviking/opencode-plugin" ];
+      ];
       skills.paths = map toString preferences.skillDirectories;
       tool_output = {
         max_lines = 200;
@@ -121,19 +119,6 @@ let
             output = 65536;
           };
         };
-      };
-    }
-    // lib.optionalAttrs openvikingCfg.enable {
-      openviking = {
-        serverUrl = openvikingCfg.serverUrl;
-        apiKey = "{file:${config.sops.secrets."opencode/openviking/root-api-key".path}}";
-        autoRecall = {
-          enabled = openvikingCfg.autoRecall.enabled;
-          limit = openvikingCfg.autoRecall.limit;
-          scoreThreshold = openvikingCfg.autoRecall.scoreThreshold;
-          tokenBudget = openvikingCfg.autoRecall.tokenBudget;
-        };
-        commitTokenThreshold = openvikingCfg.commitTokenThreshold;
       };
     }
   );
@@ -259,46 +244,6 @@ in
       };
     };
 
-    openviking = {
-      enable = lib.mkEnableOption "OpenViking memory plugin and MCP server";
-
-      sopsFile = lib.mkOption {
-        type = lib.types.path;
-        description = "SOPS file containing the OpenViking root API key.";
-      };
-
-      serverUrl = lib.mkOption {
-        type = lib.types.str;
-        default = "https://viking.tailnet.woodservant.com";
-        description = "OpenViking server URL.";
-      };
-
-      autoRecall = {
-        enabled = lib.mkEnableOption "auto recall of relevant memories before each turn";
-        limit = lib.mkOption {
-          type = lib.types.ints.positive;
-          default = 6;
-          description = "Maximum number of memories to recall.";
-        };
-        scoreThreshold = lib.mkOption {
-          type = lib.types.float;
-          default = 0.35;
-          description = "Minimum relevance score for a memory to be recalled.";
-        };
-        tokenBudget = lib.mkOption {
-          type = lib.types.ints.positive;
-          default = 2000;
-          description = "Token budget for recalled memories.";
-        };
-      };
-
-      commitTokenThreshold = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 20000;
-        description = "Token threshold for committing session memory.";
-      };
-    };
-
     worktreeRoot = lib.mkOption {
       type = lib.types.str;
       default = "${homeDirectory}/.local/share/opencode/worktrees";
@@ -319,13 +264,6 @@ in
 
     sops.secrets."opencode/goeranh-token" = lib.mkIf goeranhCfg.enable {
       inherit (goeranhCfg) sopsFile;
-      owner = username;
-      group = "users";
-      mode = "0400";
-    };
-
-    sops.secrets."opencode/openviking/root-api-key" = lib.mkIf openvikingCfg.enable {
-      inherit (openvikingCfg) sopsFile;
       owner = username;
       group = "users";
       mode = "0400";

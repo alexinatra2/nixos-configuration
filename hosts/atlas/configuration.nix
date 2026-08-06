@@ -72,17 +72,6 @@ in
         enable = true;
         sopsFile = ./secrets.yaml;
       };
-      openviking = {
-        enable = true;
-        sopsFile = ./secrets.yaml;
-        serverUrl = "https://viking.tailnet.woodservant.com";
-        autoRecall.enabled = true;
-        commitTokenThreshold = 20000;
-      };
-    };
-
-    mcp.openviking = {
-      enable = true;
     };
   };
   local.hermes = {

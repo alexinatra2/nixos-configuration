@@ -9,7 +9,6 @@ let
   cfg = config.local.ai.mcp;
   username = config.local.base.username;
   npx = lib.getExe' pkgs.nodejs "npx";
-  openvikingPackage = inputs.openviking-nix.packages.${pkgs.stdenv.hostPlatform.system}.ov-cli;
 
   serverType = lib.types.submodule {
     options = {
@@ -104,39 +103,19 @@ in
             "slidev-mcp@0.3.2"
           ];
         };
-
-        openviking = {
-          transport = "local";
-          enable = true;
-          command = [ "${openvikingPackage}/bin/ov" "mcp" ];
-          environment = {
-            OV_API_KEY = "{file:${config.sops.secrets."opencode/openviking/root-api-key".path}}";
-            OV_SERVER_URL = "https://viking.tailnet.woodservant.com";
-          };
-        };
       };
       description = "Harness-neutral MCP server catalog.";
     };
-
-    openviking = {
-      enable = lib.mkEnableOption "OpenViking MCP server";
-    };
   };
 
-  config = lib.mkMerge [
-    {
-      assertions = lib.mapAttrsToList (name: server: {
-        assertion =
-          if server.transport == "local" then
-            server.command != null && server.url == null && server.headers == { }
-          else
-            server.url != null && server.command == null && server.environment == { };
-        message = "local.ai.mcp.servers.${name} has fields incompatible with its transport.";
-      }) cfg.servers;
-    }
-
-    (lib.mkIf cfg.openviking.enable {
-      local.ai.mcp.servers.openviking.enable = true;
-    })
-  ];
+  config = {
+    assertions = lib.mapAttrsToList (name: server: {
+      assertion =
+        if server.transport == "local" then
+          server.command != null && server.url == null && server.headers == { }
+        else
+          server.url != null && server.command == null && server.environment == { };
+      message = "local.ai.mcp.servers.${name} has fields incompatible with its transport.";
+    }) cfg.servers;
+  };
 }
