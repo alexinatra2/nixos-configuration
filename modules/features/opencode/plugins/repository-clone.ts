@@ -10,16 +10,15 @@ export const RepositoryClonePlugin: Plugin = async ({ $ }) => ({
         url: tool.schema.string(),
       },
       async execute({ url }) {
-        const lsResult = await $.quiet().nothrow()`git ls-remote ${url}`
+        const lsResult = await $`git ls-remote ${url}`.nothrow().quiet()
         if (lsResult.exitCode !== 0) {
           return `Invalid repository URL: ${url}`
         }
 
-        const { stdout } = await $`mktemp -d`
-        const dir = stdout.trim()
+        const dir = (await $`mktemp -d`.text()).trim()
         await mkdir(dir, { recursive: true })
 
-        const result = await $.quiet()`git clone --quiet --depth=1 --single-branch ${url} ${dir}`
+        const result = await $`git clone --quiet --depth=1 --single-branch ${url} ${dir}`.nothrow().quiet()
         if (result.exitCode !== 0) {
           await rm(dir, { recursive: true, force: true })
           return `Clone failed: ${url}`

@@ -223,6 +223,7 @@ in
     };
 
     local.opencode.settings.permission.external_directory."${cfg.worktreeRoot}/**" = "allow";
+    local.opencode.settings.permission.external_directory."/tmp/tmp.*/**" = "allow";
 
     assertions = [
       {
