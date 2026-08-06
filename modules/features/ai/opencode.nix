@@ -101,6 +101,7 @@ let
         options = {
           baseURL = "https://ai.goeranh.de/v1";
           apiKey = "{file:${config.sops.secrets."opencode/goeranh-token".path}}";
+          temperature = goeranhCfg.temperature;
         };
         models."deepreinforce-ai/Ornith-1.0-35B-GGUF:Q4_K_M" = {
           name = "Ornith 1.0 35B Q4_K_M";
@@ -237,6 +238,12 @@ in
         type = lib.types.path;
         description = "SOPS file containing the Goeranh API token.";
       };
+
+      temperature = lib.mkOption {
+        type = lib.types.nullOr (lib.types.float);
+        default = null;
+        description = "Temperature for Goeranh provider models (0.0-1.0).";
+      };
     };
 
     worktreeRoot = lib.mkOption {
@@ -266,55 +273,67 @@ in
 
     assertions = [
       {
+        assertion = !goeranhCfg.enable || goeranhCfg.temperature == null || (goeranhCfg.temperature >= 0.0 && goeranhCfg.temperature <= 1.0);
+        message = "opencode goeranh temperature must be between 0.0 and 1.0";
+      }
+      {
         assertion = lib.all (path: lib.hasPrefix "/" path) (lib.attrNames cfg.tmpfiles);
         message = "opencode tmpfiles keys must be absolute paths";
       }
       {
-        assertion = lib.all (
-          path:
-          let
-            mode = lib.attrByPath [ "mode" ] null cfg.tmpfiles.${path};
-          in
-          mode != null && builtins.match "^[0-7]{3,4}$" mode != null
-        ) (lib.attrNames cfg.tmpfiles);
+        assertion = lib.all (path: builtins.match "^[0-7]{3,4}$" cfg.tmpfiles.${path}.mode != null) (
+          builtins.attrNames cfg.tmpfiles
+        );
         message = "opencode tmpfiles modes must be valid octal permissions";
       }
       {
         assertion = lib.all (
           path:
-          let
-            r = cfg.tmpfiles.${path};
-            t = lib.attrByPath [ "type" ] "d" r;
-            source = lib.attrByPath [ "source" ] null r;
-            isSymlink = t == "l" || t == "L" || t == "L+";
-          in
-          if isSymlink then source != null else source == null
-        ) (lib.attrNames cfg.tmpfiles);
-        message = "opencode tmpfiles symlink rules must have a source and non-symlinks must not";
+          if
+            cfg.tmpfiles.${path}.type == "l"
+            || cfg.tmpfiles.${path}.type == "L"
+            || cfg.tmpfiles.${path}.type == "L+"
+          then
+            cfg.tmpfiles.${path}.source != null
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles symlink rules must have a source";
       }
       {
         assertion = lib.all (
           path:
-          let
-            r = cfg.tmpfiles.${path};
-            t = lib.attrByPath [ "type" ] "d" r;
-            isOwning =
-              t == "d"
-              || t == "D"
-              || t == "f"
-              || t == "F"
-              || t == "c"
-              || t == "C"
-              || t == "b"
-              || t == "B"
-              || t == "s"
-              || t == "S";
-            owner = lib.attrByPath [ "owner" ] null r;
-            group = lib.attrByPath [ "group" ] null r;
-          in
-          if isOwning then owner != null && owner != "" && group != null && group != "" else true
-        ) (lib.attrNames cfg.tmpfiles);
-        message = "opencode tmpfiles owning rules must specify non-empty owner and group";
+          if
+            cfg.tmpfiles.${path}.type != "l"
+            && cfg.tmpfiles.${path}.type != "L"
+            && cfg.tmpfiles.${path}.type != "L+"
+          then
+            cfg.tmpfiles.${path}.source == null
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles non-symlink rules must not have a source";
+      }
+      {
+        assertion = lib.all (
+          path:
+          if
+            cfg.tmpfiles.${path}.type == "d"
+            || cfg.tmpfiles.${path}.type == "D"
+            || cfg.tmpfiles.${path}.type == "f"
+            || cfg.tmpfiles.${path}.type == "F"
+            || cfg.tmpfiles.${path}.type == "c"
+            || cfg.tmpfiles.${path}.type == "C"
+            || cfg.tmpfiles.${path}.type == "b"
+            || cfg.tmpfiles.${path}.type == "B"
+            || cfg.tmpfiles.${path}.type == "s"
+            || cfg.tmpfiles.${path}.type == "S"
+          then
+            cfg.tmpfiles.${path}.owner != "" && cfg.tmpfiles.${path}.group != ""
+          else
+            true
+        ) (builtins.attrNames cfg.tmpfiles);
+        message = "opencode tmpfiles owning rules must specify owner and group";
       }
     ];
 
@@ -344,6 +363,6 @@ in
             "${t} ${path} ${mode} ${owner} ${group} -"
         )
       ]
-    ) (lib.attrNames tmpfiles);
+    ) (builtins.attrNames tmpfiles);
   };
 }
