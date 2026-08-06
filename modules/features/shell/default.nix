@@ -100,11 +100,25 @@ in
         description = "Host shell toolset tier.";
       };
 
-      options.local.shell.editorPackage = lib.mkOption {
-        type = with lib.types; nullOr package;
-        default = null;
-        description = "Package providing the default editor executable.";
-      };
+  options.local.shell.editorPackage = lib.mkOption {
+    type = with lib.types; nullOr package;
+    default = null;
+    description = "Package providing the default editor executable.";
+  };
+
+  options.local.shell.shellFunctions = lib.mkOption {
+    type = lib.types.attrsOf lib.types.str;
+    default = {
+      tmp = ''cd "$(mktemp -d)"'';
+    };
+    description = "Shell function definitions to include in zsh initContent.";
+  };
+
+  options.local.shell.shellInitExtra = lib.mkOption {
+    type = lib.types.str;
+    default = "";
+    description = "Additional content to append to zsh initContent.";
+  };
 
       config = {
         environment.shellAliases = shellAliasesIfEnabled;
@@ -152,11 +166,12 @@ in
                 ${zshInit}
               ''}
             '';
-            initContent = ''
-                            tmp() {
-                            	cd "$(mktemp -d)"
-                            }
-              						'';
+            initContent = let
+              renderShellFunctions = lib.concatStringsSep "\n" (
+                lib.mapAttrsToList (name: body: "${name}() { ${body}; }") cfg.shellFunctions
+              );
+            in
+            renderShellFunctions + cfg.shellInitExtra;
             shellAliases = shellAliasesIfEnabled;
             syntaxHighlighting.enable = isDefaultOrMaximal;
           };
