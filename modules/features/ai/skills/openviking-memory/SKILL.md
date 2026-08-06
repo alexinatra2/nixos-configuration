@@ -1,15 +1,15 @@
 ---
-name: lore-memory
-description: Retrieve Lore for possible prior project knowledge and evaluate durable facts after substantive repository work.
+name: openviking-memory
+description: Retrieve OpenViking for possible prior project knowledge and evaluate durable facts after substantive repository work.
 ---
 
-# Lore Memory
+# OpenViking Memory
 
-Use Lore as the only memory system.
+Use OpenViking as the only memory system.
 
 ## Retrieve
 
-Call `lore_retrieve` before broad searching or asking when work may depend on
+Call `openviking_recall` before broad searching or asking when work may depend on
 an unstated prior decision, preference, convention, deployment fact, or
 repository fact.
 
@@ -29,5 +29,5 @@ qualifies, do not ask.
 Before mutation, show each exact subject, statement, scope, and action in one
 `question`. Offer approval and skip; treat free text as revision feedback.
 
-Write only approved facts with `lore_remember` or `lore_supersede`. Never use
+Write only approved facts with `openviking_remember` or `openviking_forget`. Never use
 Markdown memory.

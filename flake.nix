@@ -53,8 +53,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    lore = {
-      url = "git+ssh://git@codeberg.org/alexinatra/lore.git";
+    openviking-nix = {
+      url = "github:Daaboulex/openviking-nix/1d7cfbe55efb7974990e4c66caa3e403a1e7d278";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

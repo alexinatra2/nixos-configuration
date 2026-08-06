@@ -9,7 +9,7 @@ let
   cfg = config.local.ai.mcp;
   username = config.local.base.username;
   npx = lib.getExe' pkgs.nodejs "npx";
-  lorePackage = inputs.lore.packages.${pkgs.stdenv.hostPlatform.system}.lore-mcp;
+  openvikingPackage = inputs.openviking-nix.packages.${pkgs.stdenv.hostPlatform.system}.ov-cli;
 
   serverType = lib.types.submodule {
     options = {
@@ -104,23 +104,22 @@ in
             "slidev-mcp@0.3.2"
           ];
         };
+
+        openviking = {
+          transport = "local";
+          enable = true;
+          command = [ "${openvikingPackage}/bin/ov" "mcp" ];
+          environment = {
+            OV_API_KEY = "{file:${config.sops.secrets."opencode/openviking/root-api-key".path}}";
+            OV_SERVER_URL = "https://viking.tailnet.woodservant.com";
+          };
+        };
       };
       description = "Harness-neutral MCP server catalog.";
     };
 
-    lore = {
-      enable = lib.mkEnableOption "Lore MCP server";
-
-      endpoint = lib.mkOption {
-        type = lib.types.str;
-        default = "http://woodservant-prod.tailnet.woodservant.com";
-        description = "Private Lore API endpoint.";
-      };
-
-      sopsFile = lib.mkOption {
-        type = lib.types.path;
-        description = "SOPS file containing the Lore API token.";
-      };
+    openviking = {
+      enable = lib.mkEnableOption "OpenViking MCP server";
     };
   };
 
@@ -136,23 +135,8 @@ in
       }) cfg.servers;
     }
 
-    (lib.mkIf cfg.lore.enable {
-      local.ai.mcp.servers.lore = {
-        transport = "local";
-        enable = true;
-        command = [ "${lorePackage}/bin/lore-mcp" ];
-        environment = {
-          LORE_API_URL = cfg.lore.endpoint;
-          LORE_API_TOKEN_FILE = config.sops.secrets."lore/api-token".path;
-        };
-      };
-
-      sops.secrets."lore/api-token" = {
-        inherit (cfg.lore) sopsFile;
-        owner = username;
-        group = "users";
-        mode = "0400";
-      };
+    (lib.mkIf cfg.openviking.enable {
+      local.ai.mcp.servers.openviking.enable = true;
     })
   ];
 }
