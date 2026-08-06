@@ -161,19 +161,16 @@ in
             autosuggestions.enable = isDefaultOrMaximal;
             enable = true;
             enableCompletion = isDefaultOrMaximal;
-            interactiveShellInit = {
-              default = ''
-                ${lib.optionalString isDefaultOrMaximal ''
-                  ${zshInit}
-                ''}
-              '';
-              shellFunctions = let
-                renderShellFunctions = lib.concatStringsSep "\n" (
-                  lib.mapAttrsToList (name: body: "${name}() { ${body}; }") cfg.shellFunctions
-                );
-              in
-              renderShellFunctions + cfg.shellInitExtra;
-            };
+            interactiveShellInit = let
+              renderShellFunctions = lib.concatStringsSep "\n" (
+                lib.mapAttrsToList (name: body: "${name}() { ${body}; }") cfg.shellFunctions
+              );
+            in
+            ''
+              ${lib.optionalString isDefaultOrMaximal zshInit}
+              ${renderShellFunctions}
+              ${cfg.shellInitExtra}
+            '';
             shellAliases = shellAliasesIfEnabled;
             syntaxHighlighting.enable = isDefaultOrMaximal;
           };
