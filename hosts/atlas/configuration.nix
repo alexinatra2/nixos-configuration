@@ -68,13 +68,14 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
-  local.opencode = {
-    enable = true;
-    goeranh = {
+    local.opencode = {
       enable = true;
-      sopsFile = ./secrets.yaml;
+      goeranh = {
+        enable = true;
+        sopsFile = ./secrets.yaml;
+        temperature = 0.7;
+      };
     };
-  };
   local.hermes = {
     enable = true;
     dashboard.enable = true;
