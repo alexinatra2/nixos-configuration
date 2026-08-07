@@ -10,6 +10,9 @@ description: Use when creating or revising a SKILL.md. Draft, approve, and valid
 Inspect active paths, instructions, and similar skills. Confirm name, path, and
 scope. Ask only about material ambiguity.
 
+Clone relevant repos into a temporary directory with `clone_repository` to
+familiarize with structure, docs, and conventions. Rely on native `/tmp` cleanup.
+
 ## Approve
 
 Print the exact proposed `SKILL.md` once immediately before `question`. Do not
