@@ -3,6 +3,7 @@
   flake.nixosModules.git =
     {
       pkgs,
+      lib,
       ...
     }:
     {
@@ -22,6 +23,14 @@
             ca = "commit -a";
             hist = "log --oneline --graph --decorate --all";
             undo = "reset --soft HEAD~1";
+            tmp = lib.trim ''
+              !f() {
+                dir="$(mktemp -d)"
+                git clone "$1" "$dir" &&
+                  cd "$dir" &&
+                  exec "$SHELL"
+              }; f
+            '';
           };
 
           core.pager = "delta";
