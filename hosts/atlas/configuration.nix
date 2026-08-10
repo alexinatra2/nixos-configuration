@@ -17,7 +17,7 @@ let
   vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {
-  imports = with self.nixosModules; [
+  imports = (with self.nixosModules; [
     ./hardware-configuration.nix
     ./storage.nix
     ai
@@ -34,7 +34,6 @@ in
     llms
     monitorProfiles
     music
-    nebula
     nh
     niri
     opencode
@@ -51,10 +50,9 @@ in
     xdg
     yubikey
     zramCompression
-  ];
+  ]);
 
   networking.hostName = hostName;
-  local.nebula.enable = true;
 
   boot.blacklistedKernelModules = [ "ideapad_laptop" ];
 
@@ -68,14 +66,14 @@ in
     toolset = "maximal";
     editorPackage = nixvimPackage;
   };
-    local.opencode = {
+  local.opencode = {
+    enable = true;
+    goeranh = {
       enable = true;
-      goeranh = {
-        enable = true;
-        sopsFile = ./secrets.yaml;
-        temperature = 0.7;
-      };
+      sopsFile = ./secrets.yaml;
+      temperature = 0.7;
     };
+  };
   local.hermes = {
     enable = true;
     dashboard.enable = true;
@@ -188,6 +186,8 @@ in
   ];
 
   local.nh.osFlake = "${homeDirectory}/nixos-configuration";
+
+  nebula.identity = "atlas";
 
   programs.nix-ld = {
     enable = true;
@@ -303,21 +303,6 @@ in
 
   services.gnome.gnome-keyring.enable = true;
   services.blueman.enable = true;
-
-  sops.secrets = {
-    "nebula/atlas/cert" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/atlas.crt";
-    };
-    "nebula/atlas/key" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/atlas.key";
-    };
-    "nebula/ca" = {
-      sopsFile = ../common/secrets.yaml;
-      path = "/etc/nebula/ca.crt";
-    };
-  };
 
   system.stateVersion = "24.05";
 }

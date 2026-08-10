@@ -12,7 +12,6 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     base
-    nebula
     sops
     tailscale
     prometheus
@@ -43,19 +42,6 @@ in
       restartUnits = [ "nginx.service" ];
       sopsFile = ./secrets.yaml;
     };
-
-    "nebula/warden/cert" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/warden.crt";
-    };
-    "nebula/warden/key" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/warden.key";
-    };
-    "nebula/ca" = {
-      sopsFile = ../common/secrets.yaml;
-      path = "/etc/nebula/ca.crt";
-    };
   };
 
   local.vaultwarden = {
@@ -64,7 +50,7 @@ in
     tlsCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
   };
 
-  local.nebula.enable = true;
+  nebula.identity = "warden";
 
   networking = {
     hostName = hostName;

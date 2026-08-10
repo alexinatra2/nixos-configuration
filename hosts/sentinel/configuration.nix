@@ -6,7 +6,6 @@ in
   imports = with self.nixosModules; [
     ./hardware-configuration.nix
     base
-    nebula
     sops
     tailscale
     shell
@@ -54,22 +53,7 @@ in
     sshKeyPaths = lib.mkForce [ "/etc/ssh/ssh_host_ed25519_key" ];
   };
 
-  sops.secrets = {
-    "nebula/sentinel/cert" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/sentinel.crt";
-    };
-    "nebula/sentinel/key" = {
-      sopsFile = ./secrets.yaml;
-      path = "/etc/nebula/sentinel.key";
-    };
-    "nebula/ca" = {
-      sopsFile = ../common/secrets.yaml;
-      path = "/etc/nebula/ca.crt";
-    };
-  };
-
-  local.nebula.enable = true;
+  nebula.identity = "sentinel";
 
   local.shell.toolset = "minimal";
 

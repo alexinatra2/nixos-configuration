@@ -1,5 +1,20 @@
 { config, inputs, ... }:
 {
+  imports = [
+    inputs.nebula-pki.nixosModules.default
+  ];
+
+  networking.hosts = {
+    "10.0.0.1" = [ "atlas.woodservant.com" ];
+    "10.0.0.2" = [ "warden.woodservant.com" ];
+    "10.0.0.3" = [ "sentinel.woodservant.com" ];
+    "10.0.0.4" = [
+      "woodservant-prod.woodservant.com"
+      "hermes.woodservant.com"
+      "viking.woodservant.com"
+    ];
+    "10.0.0.5" = [ "pixel.woodservant.com" ];
+  };
   local.base = {
     username = "alexander";
     fullName = "Alexander Holzknecht";
