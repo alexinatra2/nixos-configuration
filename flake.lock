@@ -485,15 +485,14 @@
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "sops-nix": "sops-nix"
+        ]
       },
       "locked": {
-        "lastModified": 1786381523,
-        "narHash": "sha256-HzgH+ZQBP/XKbfyP6yFygh4uLOP60aAlMHO8GtZ6Q88=",
+        "lastModified": 1786446926,
+        "narHash": "sha256-MjRCy1OBD3L/L7TloOwsbt7eMX/vqAKSEeM3gRD/zFs=",
         "ref": "refs/heads/main",
-        "rev": "66c82811178dc87558af39f6a007f9c422fbe0d5",
-        "revCount": 18,
+        "rev": "187dd39631c877cc00eac625514bafc1b2e07696",
+        "revCount": 25,
         "type": "git",
         "url": "ssh://git@codeberg.org/alexinatra/nebula-pki.git"
       },
@@ -948,7 +947,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim-config": "nixvim-config",
         "openviking-nix": "openviking-nix",
-        "sops-nix": "sops-nix_2",
+        "sops-nix": "sops-nix",
         "stylix": "stylix",
         "tentaflake": "tentaflake",
         "vicinae": "vicinae",
@@ -999,27 +998,6 @@
       }
     },
     "sops-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nebula-pki",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1783174389,
-        "narHash": "sha256-aCWC8ngycU7OdJrU2+Je3qf+1a2ykuBvpPhZT/9tXMc=",
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "rev": "f1406619a3884cd5c47992a70b8b35c9c0fcb4c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "type": "github"
-      }
-    },
-    "sops-nix_2": {
       "inputs": {
         "nixpkgs": "nixpkgs_3"
       },
