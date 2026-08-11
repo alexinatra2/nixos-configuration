@@ -488,11 +488,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786446926,
-        "narHash": "sha256-MjRCy1OBD3L/L7TloOwsbt7eMX/vqAKSEeM3gRD/zFs=",
+        "lastModified": 1786453978,
+        "narHash": "sha256-H4kqNlfg+HZw2qv3EVVxjjhXFTPSOIkpg63VYQFKydg=",
         "ref": "refs/heads/main",
-        "rev": "187dd39631c877cc00eac625514bafc1b2e07696",
-        "revCount": 25,
+        "rev": "aa043ea18ae068a5b74145c7a5c5fdf530e23e8e",
+        "revCount": 27,
         "type": "git",
         "url": "ssh://git@codeberg.org/alexinatra/nebula-pki.git"
       },
