@@ -73,6 +73,10 @@ in
       sopsFile = ./secrets.yaml;
       temperature = 0.7;
     };
+    hetzner = {
+      enable = true;
+      sopsFile = ./secrets.yaml;
+    };
   };
   local.hermes = {
     enable = true;

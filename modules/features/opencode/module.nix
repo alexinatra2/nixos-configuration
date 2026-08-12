@@ -10,6 +10,7 @@ let
   homeDirectory = config.local.base.homeDirectory;
   plansDirectory = "${homeDirectory}/.local/share/opencode/plans";
   goeranhCfg = cfg.goeranh;
+  hetznerCfg = cfg.hetzner;
 
   schema = import ./schema.nix { inherit lib pkgs; };
   render = import ./render.nix { inherit lib; };
@@ -144,6 +145,15 @@ in
       };
     };
 
+    hetzner = {
+      enable = lib.mkEnableOption "Hetzner Inference provider";
+
+      sopsFile = lib.mkOption {
+        type = lib.types.path;
+        description = "SOPS file containing the Hetzner API key.";
+      };
+    };
+
     worktreeRoot = lib.mkOption {
       type = lib.types.str;
       default = "${homeDirectory}/.local/share/opencode/worktrees";
@@ -195,6 +205,26 @@ in
       owner = username;
       group = "users";
       mode = "0400";
+    };
+
+    sops.secrets."opencode/hetzner-token" = lib.mkIf hetznerCfg.enable {
+      inherit (hetznerCfg) sopsFile;
+      owner = username;
+      group = "users";
+      mode = "0400";
+    };
+
+    local.opencode.settings.provider.hetzner = lib.mkIf hetznerCfg.enable {
+      name = "Hetzner Inference";
+      npm = "@ai-sdk/openai-compatible";
+      options = {
+        baseURL = "https://inference.hetzner.com/api/v1";
+        apiKey = "{file:${config.sops.secrets."opencode/hetzner-token".path}}";
+      };
+      models."DeepSeek-V4-Flash-0731" = { name = "DeepSeek V4 Flash"; };
+      models."GLM-5.2-NVFP4" = { name = "GLM 5.2"; };
+      models."Kimi-K2.7-Code" = { name = "Kimi K2.7 Code"; };
+      models."Qwen/Qwen3.6-35B-A3B-FP8" = { name = "Qwen 3.6 35B A3B"; };
     };
 
     local.opencode.settings.provider.goeranh = lib.mkIf goeranhCfg.enable {
