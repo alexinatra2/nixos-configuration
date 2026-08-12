@@ -18,11 +18,9 @@
           };
 
           alias = {
-            s = "status";
-            c = "commit";
-            ca = "commit -a";
             hist = "log --oneline --graph --decorate --all";
             undo = "reset --soft HEAD~1";
+            zip = "!git archive HEAD -o \${PWD##*/}.zip";
             tmp = lib.trim ''
               !f() {
                 dir="$(mktemp -d)"
