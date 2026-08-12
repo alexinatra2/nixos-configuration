@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 {
   imports = [
-    inputs.nebula-pki.nixosModules.default
+    inputs.woodservant-pki.nixosModules.default
   ];
 
   local.base = {

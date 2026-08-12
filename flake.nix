@@ -58,8 +58,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nebula-pki = {
-      url = "git+ssh://git@codeberg.org/alexinatra/nebula-pki.git";
+    woodservant-pki = {
+      url = "git+ssh://git@codeberg.org/alexinatra/woodservant-pki.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

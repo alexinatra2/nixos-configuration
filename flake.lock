@@ -343,7 +343,7 @@
     },
     "flake-utils": {
       "inputs": {
-        "systems": "systems"
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -478,27 +478,6 @@
         "owner": "Gerg-L",
         "repo": "mnw",
         "type": "github"
-      }
-    },
-    "nebula-pki": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786453978,
-        "narHash": "sha256-H4kqNlfg+HZw2qv3EVVxjjhXFTPSOIkpg63VYQFKydg=",
-        "ref": "refs/heads/main",
-        "rev": "aa043ea18ae068a5b74145c7a5c5fdf530e23e8e",
-        "revCount": 27,
-        "type": "git",
-        "url": "ssh://git@codeberg.org/alexinatra/nebula-pki.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@codeberg.org/alexinatra/nebula-pki.git"
       }
     },
     "nix-index-database": {
@@ -732,7 +711,7 @@
           "nixvim-config",
           "nixpkgs"
         ],
-        "systems": "systems_2"
+        "systems": "systems"
       },
       "locked": {
         "lastModified": 1783085963,
@@ -941,7 +920,6 @@
         "flake-parts": "flake-parts",
         "hermes-agent": "hermes-agent",
         "lanzaboote": "lanzaboote",
-        "nebula-pki": "nebula-pki",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
@@ -952,6 +930,7 @@
         "tentaflake": "tentaflake",
         "vicinae": "vicinae",
         "vicinae-extensions": "vicinae-extensions",
+        "woodservant-pki": "woodservant-pki",
         "wrapper-modules": "wrapper-modules"
       }
     },
@@ -1074,7 +1053,7 @@
           "nixpkgs"
         ],
         "nur": "nur",
-        "systems": "systems_3",
+        "systems": "systems_2",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
         "tinted-tmux": "tinted-tmux",
@@ -1096,15 +1075,16 @@
     },
     "systems": {
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "lastModified": 1774449309,
+        "narHash": "sha256-brhZ8DmuGtzkCYHJg4HEd602amKm89Y9ytsFZ5uWD1w=",
         "owner": "nix-systems",
         "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "rev": "c29398b59d2048c4ab79345812849c9bd15e9150",
         "type": "github"
       },
       "original": {
         "owner": "nix-systems",
+        "ref": "future-26.11",
         "repo": "default",
         "type": "github"
       }
@@ -1127,16 +1107,15 @@
     },
     "systems_3": {
       "locked": {
-        "lastModified": 1774449309,
-        "narHash": "sha256-brhZ8DmuGtzkCYHJg4HEd602amKm89Y9ytsFZ5uWD1w=",
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
         "owner": "nix-systems",
         "repo": "default",
-        "rev": "c29398b59d2048c4ab79345812849c9bd15e9150",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
         "type": "github"
       },
       "original": {
         "owner": "nix-systems",
-        "ref": "future-26.11",
         "repo": "default",
         "type": "github"
       }
@@ -1288,7 +1267,7 @@
       "inputs": {
         "nixpkgs": "nixpkgs_4",
         "soulver-cpp": "soulver-cpp",
-        "systems": "systems_4"
+        "systems": "systems_3"
       },
       "locked": {
         "lastModified": 1784575271,
@@ -1309,7 +1288,7 @@
       "inputs": {
         "flake-compat": "flake-compat_4",
         "nixpkgs": "nixpkgs_6",
-        "systems": "systems_5",
+        "systems": "systems_4",
         "vicinae": "vicinae_2"
       },
       "locked": {
@@ -1350,6 +1329,27 @@
         "owner": "vicinaehq",
         "repo": "vicinae",
         "type": "github"
+      }
+    },
+    "woodservant-pki": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786549395,
+        "narHash": "sha256-JHG/fdxQ+T877QphxiEH37dDBeBDZWmzPpjFq27TV2M=",
+        "ref": "refs/heads/main",
+        "rev": "a8583e43600a4b03122ad87b1e96bef57f3c21f8",
+        "revCount": 29,
+        "type": "git",
+        "url": "ssh://git@codeberg.org/alexinatra/woodservant-pki.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@codeberg.org/alexinatra/woodservant-pki.git"
       }
     },
     "wrapper-modules": {
