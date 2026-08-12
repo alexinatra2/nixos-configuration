@@ -41,7 +41,6 @@ in
     sops
     stylix
     syncthing
-    tailscale
     tmux
     vicinae
     virtualization
@@ -138,7 +137,6 @@ in
       search-npm.enable = true;
       spotify-player.enable = true;
       ssh.enable = true;
-      tailscale.enable = true;
     };
     settings.providers."@jomifepe/bitwarden".preferences.serverUrl = "https://warden.woodservant.com";
   };

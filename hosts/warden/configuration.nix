@@ -13,7 +13,6 @@ in
     ./hardware-configuration.nix
     base
     sops
-    tailscale
     prometheus
     shell
     syncthing
@@ -60,7 +59,6 @@ in
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
       interfaces = {
-        tailscale0.allowedTCPPorts = [ 22 ];
         nebula0.allowedTCPPorts = [
           22
           config.services.prometheus.exporters.node.port
@@ -90,7 +88,6 @@ in
   local.prometheus = {
     enable = true;
     listenAddress = "0.0.0.0";
-    tailscaleScrape.enable = true;
   };
 
   local.shell.toolset = "minimal";

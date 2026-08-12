@@ -27,7 +27,6 @@
         nixSettings.enable = false;
         packages.enable = false;
         shell.enable = false;
-        tailscale.enable = false;
         users.enable = false;
       };
     };

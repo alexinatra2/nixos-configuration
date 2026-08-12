@@ -28,15 +28,6 @@
           description = "Extra command line flags for the node exporter.";
         };
 
-        tailscaleScrape = {
-          enable = lib.mkEnableOption "Tailscale-restricted node exporter scraping";
-
-          interface = lib.mkOption {
-            type = lib.types.str;
-            default = "tailscale0";
-            description = "Network interface allowed to scrape the node exporter.";
-          };
-        };
       };
 
       config = lib.mkIf config.local.prometheus.enable {
@@ -49,11 +40,6 @@
             ;
         };
 
-        networking.firewall.interfaces = lib.mkIf config.local.prometheus.tailscaleScrape.enable {
-          ${config.local.prometheus.tailscaleScrape.interface}.allowedTCPPorts = [
-            config.services.prometheus.exporters.node.port
-          ];
-        };
       };
     };
 }

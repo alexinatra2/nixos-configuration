@@ -112,7 +112,6 @@
         };
 
         networking.firewall.interfaces = {
-          tailscale0.allowedTCPPorts = [ 443 ];
           nebula0.allowedTCPPorts = [ 443 ];
         };
 

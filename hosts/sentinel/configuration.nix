@@ -7,7 +7,6 @@ in
     ./hardware-configuration.nix
     base
     sops
-    tailscale
     shell
     zramCompression
   ];
@@ -19,7 +18,6 @@ in
       enable = true;
       allowedTCPPorts = [ 22 ];
       interfaces = {
-        tailscale0.allowedTCPPorts = [ 22 ];
         nebula0.allowedTCPPorts = [ 22 ];
       };
     };

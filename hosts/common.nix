@@ -29,19 +29,7 @@
 
   sops.defaultSopsFile = ./common/secrets.yaml;
 
-  security.pki.certificateFiles = [
-    ./common/certs/woodservant-tailnet-root-ca.crt
-  ];
-
   networking.networkmanager.enable = true;
-
-  local.tailscale = {
-    enable = true;
-    authKeySecretName = "headscale/authkey";
-    loginServer = "https://headscale.woodservant.com";
-    expectedTailnet = "tailnet.woodservant.com";
-    tags = [ ];
-  };
 
   i18n = {
     defaultLocale = "en_GB.UTF-8";

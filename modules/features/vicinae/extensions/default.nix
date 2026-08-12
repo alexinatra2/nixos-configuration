@@ -38,7 +38,6 @@ let
     search-npm = import ./search-npm.nix args;
     spotify-player = import ./spotify-player.nix args;
     ssh = import ./ssh.nix args;
-    tailscale = import ./tailscale.nix args;
   };
   extensions = lib.attrValues (lib.filterAttrs (name: _: enabled.${name}.enable) definitions);
   disabledExtensions = lib.attrValues (
