@@ -17,39 +17,42 @@ let
   vaultwardenSnapshotPath = "${homeDirectory}/Documents/Backups/Vaultwarden";
 in
 {
-  imports = (with self.nixosModules; [
-    ./hardware-configuration.nix
-    ./storage.nix
-    ai
-    base
-    displaylink
-    eduroam
-    focusrite
-    fonts
-    gaming
-    git
-    greeter
-    hermes
-    secureBoot
-    llms
-    monitorProfiles
-    music
-    nh
-    niri
-    opencode
-    shell
-    sops
-    stylix
-    syncthing
-    tmux
-    vicinae
-    virtualization
-    windows
-    work
-    xdg
-    yubikey
-    zramCompression
-  ]);
+  imports = (
+    with self.nixosModules;
+    [
+      ./hardware-configuration.nix
+      ./storage.nix
+      ai
+      base
+      displaylink
+      eduroam
+      focusrite
+      fonts
+      gaming
+      git
+      greeter
+      hermes
+      secureBoot
+      llms
+      monitorProfiles
+      music
+      nh
+      niri
+      opencode
+      shell
+      sops
+      stylix
+      syncthing
+      tmux
+      vicinae
+      virtualization
+      windows
+      work
+      xdg
+      yubikey
+      zramCompression
+    ]
+  );
 
   networking.hostName = hostName;
 
@@ -148,6 +151,12 @@ in
   local.yubikey = {
     enable = true;
     pamAuth.services.sudo = false;
+    age.enable = true;
+  };
+
+  sops.age = {
+    generateKey = lib.mkForce false;
+    sshKeyPaths = lib.mkForce [ ];
   };
 
   sops.secrets."yubikey/main-credential" = {

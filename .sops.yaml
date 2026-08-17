@@ -1,8 +1,9 @@
 keys:
   - &users
-    - &me age1r8vj8khzcvkz98y9zfep0srwwcmyc34xr2f000fefw4llwm6jsdsx08e2p
+    - &software-failsafe age1r8vj8khzcvkz98y9zfep0srwwcmyc34xr2f000fefw4llwm6jsdsx08e2p
+    - &yubikey-primary age1yubikey1q0wqhhny7yp0cpgedwctvshjswul4ztg29g9gef4aswgmenm05trc58yjxv
+    - &yubikey-backup age1yubikey1q2ajt89urxrq2lj2nga29u3zh07w5j8yty3lnx4j78vru42dyydewcxa054
   - &hosts
-    - &atlas age19zyawmvsqqdgqjpjsden72zyv8pm0z6g7q0mp2rwwlrfx6pvmqhqhtd79q
     - &sentinel age1pc9y09smqek88lwqy6kfmz5axy9awj523nlgdv6p48ymvu8xdq2qvmfjft
     - &warden age1hsumcd4kudmx8x9q3wzvjkyfx03djp9kpp9z6pamuyvlpjc329nsmq3qjx
 
@@ -10,25 +11,31 @@ creation_rules:
   - path_regex: ^hosts/common/.*\.ya?ml$
     key_groups:
       - age:
-          - *me
-          - *atlas
+          - *software-failsafe
+          - *yubikey-primary
+          - *yubikey-backup
           - *sentinel
           - *warden
 
   - path_regex: ^hosts/atlas/.*\.ya?ml$
     key_groups:
       - age:
-          - *me
-          - *atlas
+          - *software-failsafe
+          - *yubikey-primary
+          - *yubikey-backup
 
   - path_regex: ^hosts/warden/.*\.ya?ml$
     key_groups:
       - age:
-          - *me
+          - *software-failsafe
+          - *yubikey-primary
+          - *yubikey-backup
           - *warden
 
   - path_regex: ^hosts/sentinel/.*\.ya?ml$
     key_groups:
       - age:
-          - *me
+          - *software-failsafe
+          - *yubikey-primary
+          - *yubikey-backup
           - *sentinel

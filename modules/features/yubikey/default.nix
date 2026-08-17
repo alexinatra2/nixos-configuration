@@ -1,4 +1,3 @@
-{ self, inputs, ... }:
 {
   flake.nixosModules.yubikey =
     {
@@ -63,6 +62,8 @@
             };
           };
         };
+
+        age.enable = lib.mkEnableOption "hardware-backed age identities";
       };
 
       config = lib.mkIf config.local.yubikey.enable {
@@ -72,11 +73,15 @@
 
         programs.ssh.startAgent = true;
 
-        environment.systemPackages = with pkgs; [
-          yubikey-manager
-          yubikey-personalization
-          opensc
-        ];
+        environment.systemPackages =
+          (with pkgs; [
+            yubikey-manager
+            yubikey-personalization
+            opensc
+          ])
+          ++ lib.optionals config.local.yubikey.age.enable [ pkgs.age-plugin-yubikey ];
+
+        sops.age.plugins = lib.mkIf config.local.yubikey.age.enable [ pkgs.age-plugin-yubikey ];
 
         security.pam.u2f = lib.mkIf config.local.yubikey.pamAuth.enable {
           enable = true;
