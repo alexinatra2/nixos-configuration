@@ -54,14 +54,14 @@
           description = "Private hostname used to access Vaultwarden.";
         };
 
-        tlsCertificate = lib.mkOption {
+        dnsProvider = lib.mkOption {
           type = lib.types.str;
-          description = "Path to the Vaultwarden TLS certificate.";
+          description = "ACME DNS-01 lego provider code.";
         };
 
-        tlsCertificateKey = lib.mkOption {
-          type = lib.types.str;
-          description = "Path to the Vaultwarden TLS private key.";
+        dnsCredentialFiles = lib.mkOption {
+          type = lib.types.attrsOf lib.types.path;
+          description = "Credential files passed to the ACME DNS provider.";
         };
 
         snapshotDirectory = lib.mkOption {
@@ -72,6 +72,17 @@
       };
 
       config = {
+        security.acme = {
+          acceptTerms = true;
+          defaults.email = base.emailAddress;
+
+          certs.${vaultwardenHost} = {
+            dnsProvider = cfg.dnsProvider;
+            credentialFiles = cfg.dnsCredentialFiles;
+            group = "nginx";
+          };
+        };
+
         services.vaultwarden = {
           enable = true;
           dbBackend = "sqlite";
@@ -101,8 +112,7 @@
 
           virtualHosts.${vaultwardenHost} = {
             onlySSL = true;
-            sslCertificate = cfg.tlsCertificate;
-            sslCertificateKey = cfg.tlsCertificateKey;
+            useACMEHost = vaultwardenHost;
 
             locations."/" = {
               proxyPass = "http://127.0.0.1:${toString vaultwardenPort}";

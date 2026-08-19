@@ -26,27 +26,20 @@ in
       sopsFile = ./secrets.yaml;
     };
 
-    "vaultwarden/tls/cert" = {
-      owner = "nginx";
-      group = "nginx";
-      mode = "0440";
-      restartUnits = [ "nginx.service" ];
-      sopsFile = ./secrets.yaml;
-    };
-
-    "vaultwarden/tls/key" = {
-      owner = "nginx";
-      group = "nginx";
-      mode = "0440";
-      restartUnits = [ "nginx.service" ];
+    "hetzner-token" = {
+      owner = "root";
+      group = "root";
+      mode = "0400";
       sopsFile = ./secrets.yaml;
     };
   };
 
   local.vaultwarden = {
     hostName = "warden.woodservant.com";
-    tlsCertificate = config.sops.secrets."vaultwarden/tls/cert".path;
-    tlsCertificateKey = config.sops.secrets."vaultwarden/tls/key".path;
+    dnsProvider = "hetzner";
+    dnsCredentialFiles = {
+      HETZNER_API_TOKEN_FILE = config.sops.secrets."hetzner-token".path;
+    };
   };
 
   nebula.identity = "warden";
