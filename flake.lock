@@ -1339,11 +1339,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786556985,
-        "narHash": "sha256-QOaZfeY2RXKNMhdJZl2L/BdzCrGEMTPfLIVgZR4dh4w=",
+        "lastModified": 1786980439,
+        "narHash": "sha256-Col7VoIulkCbIk/1a30Bde5skQ18PKrKkZh6dLVzy+o=",
         "ref": "refs/heads/main",
-        "rev": "ffd097afad7c4c423db59467c2d0385a40f743d0",
-        "revCount": 32,
+        "rev": "6a72c628b2402430486176d0a75c8116d5a46f8f",
+        "revCount": 59,
         "type": "git",
         "url": "ssh://git@codeberg.org/alexinatra/woodservant-pki.git"
       },
